@@ -1,0 +1,9 @@
+{
+type: FlappyBird
+WIDTH: 240
+HEIGHT: 400
+data: {
+	background_0: screens/flappyBird/bg.png
+	backgroundTime_0: 60.0
+}
+}

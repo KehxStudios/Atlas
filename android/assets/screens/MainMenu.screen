@@ -1,0 +1,9 @@
+{
+type: MainMenu
+WIDTH: 1440
+HEIGHT: 2560
+data: {
+	background_0: screens/mainMenu/background.png
+	backgroundTime_0: 60.0
+}
+}
