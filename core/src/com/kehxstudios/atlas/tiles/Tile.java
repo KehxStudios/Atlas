@@ -1,7 +1,7 @@
 package com.kehxstudios.atlas.tiles;
 
 /**
- * Created by ReidC on 2017-04-06.
+ * To be used later
  */
 
 public class Tile {

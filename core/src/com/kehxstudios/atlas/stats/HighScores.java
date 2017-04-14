@@ -9,30 +9,40 @@ import com.kehxstudios.atlas.tools.DebugTool;
 import java.util.Date;
 
 /**
- * Created by ReidC on 2017-04-13.
+ * Holds all high-score data for a screen
  */
 
 public class HighScores {
 
+    // Type of screen the high-scores are for
     private ScreenType type;
+    // Size of the high-scores list
     private final int size;
 
+    // Arrays of the highscore data
     private String[] names;
     private int[] scores;
     private String[] dates;
 
+    // Default constructor only requires ScreenType
     public HighScores(ScreenType type) {
         this.type = type;
+        // For now set size to 5
         size = 5;
+        // Populate score data
         loadScores();
     }
 
     private void loadScores() {
+        // Initalize arrays
         names = new String[size];
         scores = new int[size];
         dates = new String[size];
+        // Get preferences of type id
         Preferences preferences = Gdx.app.getPreferences(type.getId()+"_HighScores");
+        // Cycle though each high-score rank
         for (int i = 0; i < size; i++) {
+            // Set high-score data from preferences
             names[i] = preferences.getString(i+"_Name", "-");
             scores[i] = preferences.getInteger(i+"_Score",0);
             dates[i] = preferences.getString(i+"_Date","-");
@@ -41,12 +51,17 @@ public class HighScores {
     }
 
     private void saveScores() {
+        // Get preferences of type id
         Preferences preferences = Gdx.app.getPreferences(type.getId()+"_HighScores");
+        // Cycle through each high-score rank
         for (int i = 0; i < size; i++) {
+            // Save high-score data to preferences
             preferences.putString(i+"_Name",names[i]);
             preferences.putInteger(i+"_Score",scores[i]);
             preferences.putString(i+"_Date",dates[i]);
+            // Flush to save data
             preferences.flush();
+            // Print off saved high-scores
             DebugTool.log(i +"__"+ preferences.getString(i+"_Name", "-") +"__"+ preferences.getInteger(i+"_Score", 0) +"__"+ preferences.getString(i+"_Date", "-"));
         }
         DebugTool.log("High Scores Saved");
