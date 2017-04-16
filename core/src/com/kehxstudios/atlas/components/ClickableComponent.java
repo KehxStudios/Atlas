@@ -2,6 +2,7 @@ package com.kehxstudios.atlas.components;
 
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.InputManager;
+import com.kehxstudios.atlas.other.ActionType;
 import com.kehxstudios.atlas.tools.DebugTool;
 
 /**
@@ -12,6 +13,7 @@ public class ClickableComponent extends Component {
 
     private int width;
     private int height;
+    private ActionType actionType;
     private PhysicsComponent physics;
 
     public ClickableComponent(Entity entity, PhysicsComponent physics, int width, int height) {
@@ -19,7 +21,21 @@ public class ClickableComponent extends Component {
         this.physics = physics;
         this.width = width;
         this.height = height;
+        init();
+    }
+
+    public ClickableComponent(Entity entity, int width, int height, ActionType actionType) {
+        super(entity);
+        this.width = width;
+        this.height = height;
+        this.actionType = actionType;
+        init();
+    }
+
+    @Override
+    protected void init() {
         type = ComponentType.CLICKABLE;
+        super.init();
         InputManager.getInstance().addClickable(this);
     }
 

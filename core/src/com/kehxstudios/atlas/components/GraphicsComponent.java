@@ -14,7 +14,7 @@ import com.kehxstudios.atlas.tools.DebugTool;
 
 public class GraphicsComponent extends Component {
 
-    private String path;
+    private String textureName;
     private Texture texture;
     private int layer;
 
@@ -28,28 +28,34 @@ public class GraphicsComponent extends Component {
         this.texture = texture;
     }
 
-    public GraphicsComponent(Entity entity){
+    public GraphicsComponent(Entity entity, String textureName, int layer){
         super(entity);
-        layer = 1;
+        this.textureName = textureName;
+        this.layer = layer;
         init();
     }
 
-    public GraphicsComponent(Entity entity, float x, float y) {
-        super(entity);
-        position = new Vector2(x,y);
-        layer = 1;
+    public GraphicsComponent(Entity entity, ComponentData componentData) {
+        super(entity, componentData);
+        textureName = componentData.getString("textureName","-");
+        layer = componentData.getInt("layer",0);
         init();
     }
 
     protected void init() {
         type = ComponentType.GRAPHICS;
         super.init();
+        loadTexture();
         GraphicsManager.getInstance().add(this);
+    }
+
+    private void loadTexture() {
+        texture = GraphicsManager.getInstance().getTexture(textureName);
     }
 
     public ComponentData getComponentData() {
         ComponentData componentData = super.getComponentData();
-        componentData.putString("path", path);
+        componentData.putString("textureName", textureName);
         componentData.putInt("layer", layer);
         return componentData;
     }

@@ -17,14 +17,27 @@ public class PhysicsComponent extends Component {
     public Vector2 speeds;
     public Rectangle bounds;
     public boolean collidable;
+    public boolean hasCollided;
 
     public PhysicsComponent(Entity entity, int width, int height, float xSpeed, float ySpeed, boolean collidable) {
         super(entity);
         this.collidable = collidable;
-        type = ComponentType.PHYSICS;
         velocity = new Vector2(0,0);
         speeds = new Vector2(xSpeed, ySpeed);
         bounds = new Rectangle(entity.getX() - width/2, entity.getY() - height/2, width, height);
+        init();
+    }
+
+    public PhysicsComponent(Entity entity, ComponentData componentData) {
+        super(entity, componentData);
+
+        init();
+    }
+
+    protected void init() {
+        type = ComponentType.PHYSICS;
+        super.init();
+        hasCollided = false;
         PhysicsManager.getInstance().add(this);
     }
 

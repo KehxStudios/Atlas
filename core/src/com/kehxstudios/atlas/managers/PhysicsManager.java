@@ -28,7 +28,7 @@ public class PhysicsManager extends Manager {
                 physics.velocity.add(0, physics.speeds.y);
             }
             physics.velocity.scl(delta);
-            physics.move(physics.speeds.x * delta, physics.velocity.y);
+            physics.moveLocation(physics.speeds.x * delta, physics.velocity.y);
             if (physics.getY() < 0) {
                 physics.setY(0);
             }
@@ -41,11 +41,7 @@ public class PhysicsManager extends Manager {
         }
         for (PhysicsComponent physic : physicsComponents) {
             if (physic.collidable && physic != player) {
-                boolean collision = player.bounds.overlaps(physic.bounds);
-                if (collision) {
-                    screen.resetScreen();
-                    return;
-                }
+                physic.hasCollided = player.bounds.overlaps(physic.bounds);
             }
         }
 

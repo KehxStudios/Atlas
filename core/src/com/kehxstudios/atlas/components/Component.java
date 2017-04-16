@@ -31,7 +31,6 @@ public class Component {
     public Component(Entity entity, ComponentData componentData) {
         this.entity = entity;
         id = componentData.getId();
-        type = ComponentType.getType(componentData.getType());
         useComponentPosition = componentData.getUseComponentPosition();
         usePositionAsOffset = componentData.getUsePositionAsOffset();
         if (componentData.getX() != 0 && componentData.getY() != 0) {

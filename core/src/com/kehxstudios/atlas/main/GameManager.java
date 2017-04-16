@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -32,6 +33,8 @@ public class GameManager extends Game {
 	InputManager inputManager;
 	PhysicsManager physicsManager;
 
+	AssetManager assetManager;
+
 	SpriteBatch batch;
 	OrthographicCamera camera;
 
@@ -47,6 +50,8 @@ public class GameManager extends Game {
 		graphicsManager = GraphicsManager.getInstance();
 		inputManager = InputManager.getInstance();
 		physicsManager = PhysicsManager.getInstance();
+
+		assetManager = new AssetManager();
 
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
@@ -88,6 +93,7 @@ public class GameManager extends Game {
 		batch.dispose();
 		screen.dispose();
 		graphicsManager.dispose();
+		assetManager.dispose();
 		Gdx.app.error("Disposal", "COMPLETED");
 	}
 
@@ -117,4 +123,6 @@ public class GameManager extends Game {
 	public OrthographicCamera getCamera() {
 		return camera;
 	}
+
+	public AssetManager getAssetManager() { return assetManager; }
 }

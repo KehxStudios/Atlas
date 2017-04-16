@@ -88,11 +88,6 @@ public class IntroScreen extends AScreen {
 
     }
 
-    @Override
-    public void resetScreen() {
-
-    }
-
     private void nextBackground() {
         backgroundIndex++;
         if (backgroundIndex < backgroundPaths.length) {

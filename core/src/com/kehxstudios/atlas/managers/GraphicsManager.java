@@ -1,9 +1,12 @@
 package com.kehxstudios.atlas.managers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.tools.DebugTool;
 
@@ -26,6 +29,8 @@ public class GraphicsManager extends Manager {
     private int MAX_LAYERS = 5;
 
     private ArrayList<ArrayList<GraphicsComponent>> graphicComponents;
+
+    private TextureAtlas textureAtlas;
 
     public void tick(float delta) {
 
@@ -79,6 +84,7 @@ public class GraphicsManager extends Manager {
         for (int i = 0; i < MAX_LAYERS; i++) {
             graphicComponents.add(new ArrayList<GraphicsComponent>());
         }
+        textureAtlas = new TextureAtlas();
     }
 
     @Override
@@ -89,5 +95,13 @@ public class GraphicsManager extends Manager {
     @Override
     protected void removeScreenTypeSettings() {
 
+    }
+
+    public Texture getTexture(String textureName) {
+        Texture texture = textureAtlas.findRegion(textureName).getTexture();
+        if (texture == null) {
+            // textureAtlas.addRegion(textureName, )
+        }
+        return texture;
     }
 }

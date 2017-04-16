@@ -45,4 +45,10 @@ public class DataTool {
     public static ComponentData getComponentDataFromString(String jsonString) {
         return json.fromJson(ComponentData.class, jsonString);
     }
+
+    public static String getTexturePathFromName(String textureName) {
+
+
+        return null;
+    }
 }

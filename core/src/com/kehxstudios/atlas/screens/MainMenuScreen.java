@@ -133,11 +133,6 @@ public class MainMenuScreen extends AScreen {
     }
 
     @Override
-    public void resetScreen() {
-
-    }
-
-    @Override
     public void dispose() {
         flappyBirdEntity.destroy();
         introEntity.destroy();

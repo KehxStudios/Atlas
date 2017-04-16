@@ -36,34 +36,22 @@ public class InputManager extends Manager {
             return;
         }
         if (Gdx.input.justTouched() && clickableComponents.size() != 0) {
-            DebugTool.log("Attempt to check clickables");
-            DebugTool.log(screen.getType()+"");
-
-            ClickableComponent component = checkClickable(Gdx.input.getX()/screen.getScaleWidth(), Gdx.input.getY()/screen.getScaleHeight());
-
-            DebugTool.log("Clickables checked");
-            if (component != null) {
-                DebugTool.log("location trigger");
-                component.trigger();
-            }
-        }
-        for (ButtonComponent button : buttonComponents) {
-            if (Gdx.input.isKeyJustPressed(button.getKey())) {
-                DebugTool.log("button trigger");
-                button.trigger();
-            }
+            checkClickable(Gdx.input.getX()/screen.getScaleWidth(), Gdx.input.getY()/screen.getScaleHeight());
         }
     }
 
-    private ClickableComponent checkClickable(float x, float y) {
-        DebugTool.log(x+"", y+"");
+    private void checkClickable(float x, float y) {
+        x += gm.getCamera().position.x - gm.getCamera().viewportWidth/2;
+        y += gm.getCamera().position.y - gm.getCamera().viewportHeight/2;
+
         for (ClickableComponent component : clickableComponents) {
-            if (x > component.getX() - component.getWidth()/2 && x < component.getX() + component.getWidth()/2 &&
-                    y > component.getY() - component.getHeight()/2 && y < component.getY() + component.getHeight()/2) {
-                return component;
+            if (x > component.getX() - component.getWidth()/2 &&
+                    x < component.getX() + component.getWidth()/2 &&
+                    y > component.getY() - component.getHeight()/2 &&
+                    y < component.getY() + component.getHeight()/2) {
+                component.trigger();
             }
         }
-        return null;
     }
 
     public void addClickable(ClickableComponent component) {

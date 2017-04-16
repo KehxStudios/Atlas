@@ -1,8 +1,6 @@
 package com.kehxstudios.atlas.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -10,7 +8,6 @@ import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.components.ButtonComponent;
 import com.kehxstudios.atlas.components.ClickableComponent;
@@ -18,10 +15,7 @@ import com.kehxstudios.atlas.components.ComponentType;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.main.GameManager;
 import com.kehxstudios.atlas.managers.PhysicsManager;
-import com.kehxstudios.atlas.other.ActionType;
-import com.kehxstudios.atlas.tools.DataLoader;
 import com.kehxstudios.atlas.tools.DataTool;
 import com.kehxstudios.atlas.tools.DebugTool;
 
@@ -52,7 +46,7 @@ public class FlappyBirdScreen extends AScreen {
     Random random = new Random();
 
     private float birdStartX, birdCurrentX;
-    private int score = 0, lowScore, highScore;
+    private int lowScore, highScore;
 
     private BitmapFont font;
     private GlyphLayout scoreLayout;
@@ -73,7 +67,7 @@ public class FlappyBirdScreen extends AScreen {
     @Override
     public void init() {
         super.init();
-        screenEntity.setY(HEIGHT/5*3);
+        //screenEntity.setY(HEIGHT/5*3);
 
         lowScore =  highScores.getLowScore();
         highScore = highScores.getHighScore();
@@ -91,9 +85,7 @@ public class FlappyBirdScreen extends AScreen {
         graphics.setTexture(new Texture("screens/flappyBird/bird.png"));
         birdPhysics = new PhysicsComponent(bird, graphics.getTexture().getWidth(), graphics.getTexture().getHeight(), 100, -15, true);
         PhysicsManager.getInstance().setPlayer(birdPhysics);
-        ButtonComponent button = new ButtonComponent(bird, birdPhysics, Input.Keys.SPACE);
-        ClickableComponent clickable = new ClickableComponent(bird, birdPhysics, WIDTH,HEIGHT);
-        clickable.setUniqueLocation(WIDTH/2,HEIGHT/2);
+        ClickableComponent clickable = new ClickableComponent(screenEntity, birdPhysics, WIDTH,HEIGHT);
         birdStartX = bird.getX();
 
         gm.getCamera().position.x = bird.getX() + 80;
@@ -125,9 +117,36 @@ public class FlappyBirdScreen extends AScreen {
             GraphicsComponent bottomGraphic = new GraphicsComponent(bottomTube);
             bottomGraphic.setTexture(new Texture("screens/flappyBird/bottomtube.png"));
             PhysicsComponent tubeBottom = new PhysicsComponent(bottomTube, bottomGraphic.getWidth(), bottomGraphic.getHeight(), 0, 0, true);
+        }
+    }
 
-            DebugTool.log("t_x:"+topGraphic.getX(),"y:"+topGraphic.getY());
-            DebugTool.log("b_x:"+bottomGraphic.getX(),"y:"+bottomGraphic.getY());
+    protected void reset() {
+        if (score > lowScore) {
+            highScores.addToHighScores("Test",score);
+        }
+
+        super.reset();
+        screenEntity.setY(HEIGHT/5*3);
+
+        lowScore =  highScores.getLowScore();
+        highScore = highScores.getHighScore();
+
+        scoreLayout.setText(font, scoreText+score, Color.BLACK,WIDTH/2, Align.center, true);
+        lowScoreLayout.setText(font, lowScoreText+lowScore, Color.BLACK,WIDTH/2, Align.center, true);
+        highScoreLayout.setText(font, highScoreText+highScore, Color.BLACK,WIDTH/2, Align.center, true);
+
+        bird.setLocation(WIDTH/4,HEIGHT/2);
+        birdStartX = bird.getX();
+
+        gm.getCamera().position.x = bird.getX() + 80;
+        gm.getCamera().update();
+
+        ground1.setLocation((gm.getCamera().position.x - gm.getCamera().viewportWidth/2),GROUND_Y_OFFSET);
+        ground2.setLocation((ground1.getX() + GROUND_WIDTH),GROUND_Y_OFFSET);
+
+        for(int i = 1; i <= TUBE_COUNT; i += 2) {
+            tubes.get(i - 1).setLocation(i * (TUBE_SPACING + TUBE_WIDTH) + 50, random.nextInt(TUBE_FLUCTUATION) + TUBE_LOWEST_OPENING + TUBE_GAP + TUBE_HEIGHT/2);
+            tubes.get(i).setLocation(tubes.get(i - 1).getX(), tubes.get(i - 1).getY() - TUBE_GAP - TUBE_HEIGHT);
         }
     }
 
@@ -157,6 +176,9 @@ public class FlappyBirdScreen extends AScreen {
 
     @Override
     public void render(float delta) {
+        if (birdPhysics.hasCollided) {
+            reset();
+        }
         super.render(delta);
         updateGround();
         gm.getCamera().position.x = bird.getX() + 80;
@@ -182,28 +204,6 @@ public class FlappyBirdScreen extends AScreen {
     @Override
     public void resize(int width, int height) {
 
-    }
-
-    @Override
-    public void resetScreen() {
-        if (score > lowScore) {
-            highScores.addToHighScores("Test",score);
-            highScore = highScores.getHighScore();
-            lowScore = highScores.getLowScore();
-            DebugTool.log("Score added to HighScores!");
-            lowScoreLayout.setText(font, lowScoreText+lowScore, Color.BLACK,WIDTH/2, Align.left, true);
-            highScoreLayout.setText(font, highScoreText+highScore, Color.BLACK,WIDTH/2, Align.left, true);
-        }
-        DebugTool.log("Destructing...");
-        bird.destroy();
-        ground1.destroy();
-        ground2.destroy();
-        for (Entity entity : tubes) {
-            entity.destroy();
-        }
-        DebugTool.log("Destruction Completed. Reconstructing...");
-        init();
-        DebugTool.log("Reconstruction Completed.");
     }
 
     public void dispose() {

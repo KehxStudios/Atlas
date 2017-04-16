@@ -40,6 +40,7 @@ public abstract class AScreen implements Screen {
     protected float[] backgroundTimes;
 
     protected HighScores highScores;
+    protected int score;
 
     public AScreen() {
         DebugTool.log("AScreen");
@@ -47,7 +48,17 @@ public abstract class AScreen implements Screen {
         mouse = new Vector2(0,0);
         screenTime = 0;
         backgroundIndex = 0;
+        score = 0;
         screenData = null;
+    }
+
+    protected void reset() {
+        screenEntity.setLocation(WIDTH/2, HEIGHT/2);
+        mouse = new Vector2(0,0);
+        screenTime = 0;
+        backgroundIndex = 0;
+        score = 0;
+        backgroundGraphics.setTexture(new Texture(backgroundPaths[backgroundIndex]));
     }
 
     protected void init() {
@@ -88,7 +99,7 @@ public abstract class AScreen implements Screen {
         highScores = new HighScores(type);
     }
 
-    private AScreenData getScreenData() {
+    protected AScreenData getScreenData() {
         screenData = new AScreenData(type.getId(), WIDTH, HEIGHT);
         for (int i = 0; i < backgroundPaths.length; i++) {
             screenData.putString("background_" + i, backgroundPaths[i]);
@@ -107,8 +118,6 @@ public abstract class AScreen implements Screen {
             mouse.set(Gdx.input.getX() / getScaleWidth(), Gdx.input.getY() / getScaleHeight());
         }
     }
-
-    public abstract void resetScreen();
 
     protected void launchNextScreen(ScreenType type) {
         gm.launchNewScreen(type);

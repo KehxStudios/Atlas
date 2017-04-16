@@ -1,0 +1,9 @@
+{
+type: FlappyBat
+WIDTH: 240
+HEIGHT: 400
+data: {
+	background_0: screens/flappyBat/background.png
+	backgroundTime_0: 60.0
+}
+}
