@@ -91,10 +91,14 @@ public class GameManager extends Game {
 		Gdx.app.error("Disposal", "COMPLETED");
 	}
 
-	private void setNewScreen(Screen newScreen) {
-		if (screen != null)
-			screen.dispose();
-		setScreen(newScreen);
+	private void setNewScreen(AScreen screen) {
+		if (this.screen != null)
+			this.screen.dispose();
+		setScreen(screen);
+		EntityManager.getInstance().setScreen(screen);
+		GraphicsManager.getInstance().setScreen(screen);
+		InputManager.getInstance().setScreen(screen);
+		PhysicsManager.getInstance().setScreen(screen);
 	}
 
 	public void launchNewScreen(ScreenType type) {

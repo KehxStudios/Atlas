@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.main.GameManager;
+import com.kehxstudios.atlas.managers.EntityManager;
+import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.managers.InputManager;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.stats.HighScores;
@@ -82,9 +84,6 @@ public abstract class AScreen implements Screen {
         }
 
         backgroundGraphics.setTexture(new Texture(backgroundPaths[backgroundIndex]));
-
-        InputManager.getInstance().setScreen(this);
-        PhysicsManager.getInstance().setScreen(this);
 
         highScores = new HighScores(type);
     }
