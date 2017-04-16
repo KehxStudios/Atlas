@@ -1,5 +1,6 @@
 package com.kehxstudios.atlas.managers;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.kehxstudios.atlas.components.ButtonComponent;
@@ -37,7 +38,9 @@ public class InputManager extends Manager {
         if (Gdx.input.justTouched() && clickableComponents.size() != 0) {
             DebugTool.log("Attempt to check clickables");
             DebugTool.log(screen.getType()+"");
+
             ClickableComponent component = checkClickable(Gdx.input.getX()/screen.getScaleWidth(), Gdx.input.getY()/screen.getScaleHeight());
+
             DebugTool.log("Clickables checked");
             if (component != null) {
                 DebugTool.log("location trigger");
@@ -49,10 +52,6 @@ public class InputManager extends Manager {
                 DebugTool.log("button trigger");
                 button.trigger();
             }
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
-            DebugTool.log("Attempt to restart");
-            //screen.launchNextScreen(ScreenType.INTRO);
         }
     }
 

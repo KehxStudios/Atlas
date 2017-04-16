@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.Align;
+import com.kehxstudios.atlas.other.ActionType;
+import com.kehxstudios.atlas.tools.DataLoader;
+import com.kehxstudios.atlas.tools.DebugTool;
 
 /**
  * Created by ReidC on 2017-04-06.
@@ -18,7 +21,16 @@ public class IntroScreen extends AScreen {
     private GlyphLayout layout;
     private String continueText = "Click to Continue";
 
-    public void init() {
+    public IntroScreen() {
+        super();
+        DebugTool.log("IntroScreen");
+        screenData = DataLoader.load(ScreenType.INTRO);
+        init();
+    }
+
+    protected void init() {
+        super.init();
+        DebugTool.log("IntroScreen.init");
         font = new BitmapFont();
         font.getData().setScale(2f);
         layout = new GlyphLayout(font, continueText);
@@ -57,14 +69,6 @@ public class IntroScreen extends AScreen {
         }
     }
 
-    private void nextBackground() {
-        backgroundIndex++;
-        if (backgroundIndex < backgroundPaths.length) {
-            backgroundGraphics.setTexture(new Texture(backgroundPaths[backgroundIndex]));
-            screenTime = 0f;
-        }
-    }
-
     @Override
     public void resize(int width, int height) {
 
@@ -90,9 +94,22 @@ public class IntroScreen extends AScreen {
 
     }
 
+    private void nextBackground() {
+        backgroundIndex++;
+        if (backgroundIndex < backgroundPaths.length) {
+            backgroundGraphics.setTexture(new Texture(backgroundPaths[backgroundIndex]));
+            screenTime = 0f;
+        }
+    }
+
     @Override
     public void dispose() {
         font.dispose();
         super.dispose();
+    }
+
+    @Override
+    public void trigger(ActionType type) {
+
     }
 }

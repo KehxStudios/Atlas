@@ -52,9 +52,6 @@ public class GraphicsManager {
     }
 
     private boolean contained(GraphicsComponent graphics) {
-        DebugTool.log("size"+graphicComponents.size());
-        DebugTool.log("layer"+graphics.getLayer());
-        DebugTool.log("sizeOfLayer"+graphicComponents.get(graphics.getLayer()).size());
         if (graphicComponents.get(graphics.getLayer()).contains(graphics))
             return true;
         else

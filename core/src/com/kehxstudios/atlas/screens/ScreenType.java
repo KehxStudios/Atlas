@@ -27,21 +27,6 @@ public enum ScreenType {
         this.loaderClass = loaderClass;
     }
 
-    public static AScreen createScreenUsingSnapShot(ScreenSnapShot snapShot, GameManager gm) {
-        ScreenType type = screenTypes.get(snapShot.getType());
-        try {
-            DebugTool.log("Creating snapshot of " + type.loaderClass);
-            AScreen screen = (AScreen) ClassReflection.newInstance(type.loaderClass);
-            DebugTool.log("Instanced " + type.loaderClass);
-            screen.create(snapShot, type, gm);
-            DebugTool.log("Created " + screen.type);
-            return screen;
-        } catch (ReflectionException e) {
-            DebugTool.log("Could not load AScreen of type");
-            return null;
-        }
-    }
-
     static {
         screenTypes = new HashMap<String, ScreenType>();
         for (ScreenType type : ScreenType.values()) {
@@ -50,4 +35,8 @@ public enum ScreenType {
     }
 
     public String getId() { return id; }
+
+    public static ScreenType getType(String id) {
+        return screenTypes.get(id);
+    }
 }

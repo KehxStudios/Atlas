@@ -15,6 +15,9 @@ import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.HighScoreResetComponent;
 import com.kehxstudios.atlas.components.ScreenLaunchComponent;
 import com.kehxstudios.atlas.entities.Entity;
+import com.kehxstudios.atlas.other.ActionType;
+import com.kehxstudios.atlas.tools.DataLoader;
+import com.kehxstudios.atlas.tools.DebugTool;
 
 import java.util.ArrayList;
 
@@ -42,7 +45,14 @@ public class MainMenuScreen extends AScreen {
     private GlyphLayout resetLayout;
     private String resetText = "Reset Scores";
 
+    public MainMenuScreen() {
+        super();
+        screenData = DataLoader.load(ScreenType.MAIN_MENU);
+        init();
+    }
+
     public void init() {
+        super.init();
         screenLaunchComponents = new ArrayList<ScreenLaunchComponent>();
 
         font = new BitmapFont();
@@ -52,9 +62,7 @@ public class MainMenuScreen extends AScreen {
         GraphicsComponent flappyBirdGraphics = new GraphicsComponent(flappyBirdEntity);
         flappyBirdGraphics.setTexture(new Texture("screens/flappyBird/flappyBird.png"));
         screenLaunchComponents.add(new ScreenLaunchComponent(flappyBirdEntity,
-                new Rectangle(flappyBirdEntity.getX() - flappyBirdGraphics.getWidth()/2,
-                        flappyBirdEntity.getY() - flappyBirdGraphics.getHeight()/2,
-                        flappyBirdGraphics.getWidth(), flappyBirdGraphics.getHeight()),
+                flappyBirdGraphics.getWidth(), flappyBirdGraphics.getHeight(),
                 ScreenType.FLAPPY_BIRD));
         flappyBirdLayout = new GlyphLayout(font, flappyBirdText);
         flappyBirdLayout.setText(font, flappyBirdText, Color.WHITE,WIDTH/2, Align.left, true);
@@ -63,9 +71,7 @@ public class MainMenuScreen extends AScreen {
         GraphicsComponent introGraphics = new GraphicsComponent(introEntity);
         introGraphics.setTexture(new Texture("screens/flappyBird/flappyBird.png"));
         screenLaunchComponents.add(new ScreenLaunchComponent(introEntity,
-                new Rectangle(introEntity.getX() - introGraphics.getWidth()/2,
-                        introEntity.getY() - introGraphics.getHeight()/2,
-                        introGraphics.getWidth(), introGraphics.getHeight()),
+                        introGraphics.getWidth(), introGraphics.getHeight(),
                 ScreenType.INTRO));
         introLayout = new GlyphLayout(font, introText);
         introLayout.setText(font, introText, Color.WHITE,WIDTH/2, Align.left, true);
@@ -74,9 +80,7 @@ public class MainMenuScreen extends AScreen {
         GraphicsComponent resetScoreGraphics = new GraphicsComponent(resetScoresEntity);
         resetScoreGraphics.setTexture(new Texture("screens/flappyBird/flappyBird.png"));
         highScoreResetComponent = new HighScoreResetComponent(resetScoresEntity,
-                new Rectangle(resetScoresEntity.getX() - resetScoreGraphics.getWidth()/2,
-                        resetScoresEntity.getY() - resetScoreGraphics.getHeight()/2,
-                        resetScoreGraphics.getWidth(), resetScoreGraphics.getHeight()),
+                        resetScoreGraphics.getWidth(), resetScoreGraphics.getHeight(),
                 ScreenType.FLAPPY_BIRD);
         resetLayout = new GlyphLayout(font, resetText);
         resetLayout.setText(font, resetText, Color.WHITE,WIDTH/2, Align.left, true);
@@ -91,6 +95,7 @@ public class MainMenuScreen extends AScreen {
     public void render(float delta) {
         super.render(delta);
         if (screenTime >= 0.2f && Gdx.input.justTouched()) {
+            DebugTool.log("x: "+mouse.x, "y: "+mouse.y);
             for (ScreenLaunchComponent component : screenLaunchComponents) {
                 component.hits(mouse.x, mouse.y);
             }
@@ -139,5 +144,10 @@ public class MainMenuScreen extends AScreen {
         resetScoresEntity.destroy();
         font.dispose();
         super.dispose();
+    }
+
+    @Override
+    public void trigger(ActionType type) {
+
     }
 }

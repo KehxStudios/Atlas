@@ -20,6 +20,8 @@ import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.main.GameManager;
 import com.kehxstudios.atlas.managers.PhysicsManager;
+import com.kehxstudios.atlas.other.ActionType;
+import com.kehxstudios.atlas.tools.DataLoader;
 import com.kehxstudios.atlas.tools.DebugTool;
 
 import java.util.ArrayList;
@@ -60,9 +62,16 @@ public class FlappyBirdScreen extends AScreen {
     private GlyphLayout highScoreLayout;
     private String highScoreText = "High-Score: ";
 
+    public FlappyBirdScreen() {
+        super();
+        screenData = DataLoader.load(ScreenType.FLAPPY_BIRD);
+        init();
+    }
+
 
     @Override
     public void init() {
+        super.init();
         screenEntity.setY(HEIGHT/5*3);
 
         lowScore =  highScores.getLowScore();
@@ -121,10 +130,6 @@ public class FlappyBirdScreen extends AScreen {
         }
     }
 
-    public void create(ScreenSnapShot snapShot, ScreenType type, GameManager gm) {
-        super.create(snapShot, type, gm);
-    }
-
     public void birdJump() {
         birdPhysics.velocity.y = 250;
     }
@@ -144,11 +149,10 @@ public class FlappyBirdScreen extends AScreen {
         }
     }
 
-    public ScreenSnapShot getSaveSnapShot() {
-        ScreenSnapShot snapShot = super.getSaveSnapShot();
-        return snapShot;
-    }
+    @Override
+    public void show() {
 
+    }
 
     @Override
     public void render(float delta) {
@@ -172,6 +176,11 @@ public class FlappyBirdScreen extends AScreen {
         font.draw(gm.getBatch(), lowScoreLayout, gm.getCamera().position.x - lowScoreLayout.width/2, 40);
         font.draw(gm.getBatch(), highScoreLayout, gm.getCamera().position.x - highScoreLayout.width/2, 25);
         gm.getBatch().end();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
     }
 
     @Override
@@ -224,5 +233,15 @@ public class FlappyBirdScreen extends AScreen {
     @Override
     public void resume() {
         DebugTool.log("RESUMED");
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void trigger(ActionType type) {
+
     }
 }
