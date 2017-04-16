@@ -18,15 +18,28 @@ public class Component {
 
     protected ComponentData componentData;
 
+    protected boolean useComponentPosition;
+    protected boolean usePositionAsOffset;
     protected Vector2 position;
 
     public Component(Entity entity) {
         this.entity = entity;
-        EntityManager.getInstance().addComponent(entity, this);
+        useComponentPosition = false;
+        usePositionAsOffset = false;
     }
 
     public Component(Entity entity, ComponentData componentData) {
         this.entity = entity;
+        id = componentData.getId();
+        type = ComponentType.getType(componentData.getType());
+        useComponentPosition = componentData.getUseComponentPosition();
+        usePositionAsOffset = componentData.getUsePositionAsOffset();
+        if (componentData.getX() != 0 && componentData.getY() != 0) {
+            position = new Vector2(componentData.getX(), componentData.getY());
+        }
+    }
+
+    protected void init() {
         EntityManager.getInstance().addComponent(entity, this);
     }
 
@@ -38,9 +51,9 @@ public class Component {
 
     public ComponentData getComponentData() {
         if (position == null) {
-            componentData = new ComponentData(id, type.getId(), entity.getId(), 0,0);
+            componentData = new ComponentData(id, type.getId(), entity.getId(), 0,0, useComponentPosition, usePositionAsOffset);
         } else {
-            componentData = new ComponentData(id, type.getId(), entity.getId(), position.x, position.y);
+            componentData = new ComponentData(id, type.getId(), entity.getId(), position.x, position.y, useComponentPosition, usePositionAsOffset);
         }
         return componentData;
     }
@@ -58,59 +71,97 @@ public class Component {
         return id;
     }
 
-    public void move(float x, float y) {
-        if (position == null) {
-            entity.move(x,y);
+    public void moveLocation(float x, float y) {
+        if (!useComponentPosition) {
+            entity.moveLocation(x,y);
         } else {
             position.add(x,y);
         }
     }
 
     public void setLocation(float x, float y) {
-        if (position == null) {
+        if (!useComponentPosition) {
             entity.setLocation(x,y);
         } else {
             position.set(x,y);
         }
     }
 
-    public void setUniqueLocation(float x, float y) {
-        if (position == null) {
-            position = new Vector2(x,y);
+    public Vector2 getLocation() {
+        if (!useComponentPosition) {
+            return entity.getLocation();
         } else {
-            position.set(x,y);
+            if (usePositionAsOffset) {
+                return position.add(entity.getLocation());
+            } else {
+                return position;
+            }
         }
     }
 
+    public void setUsePositionAsOffset(boolean value) {
+        if (value && !useComponentPosition) {
+            setUseComponentPosition(value);
+        }
+        usePositionAsOffset = value;
+    }
+
+    public boolean getUsePositionAsOffset() { return usePositionAsOffset; }
+
+    public void setUseComponentPosition(boolean value) {
+        if (value && position == null) {
+            position = new Vector2(0,0);
+        }
+        useComponentPosition = value;
+    }
+
+    public boolean getUseComponentPosition() { return useComponentPosition; }
+
     public float getX() {
-        if (position == null){
+        if (!useComponentPosition){
             return entity.getX();
         } else {
-            return position.x;
+            if (usePositionAsOffset) {
+                return entity.getX() + position.x;
+            } else {
+                return position.x;
+            }
         }
     }
 
     public void setX(float value) {
-        if (position == null) {
+        if (!useComponentPosition) {
             entity.setX(value);
         } else {
-            position.x = value;
+            if (position == null) {
+                position = new Vector2(value, 0);
+            } else {
+                position.x = value;
+            }
         }
     }
 
     public float getY() {
-        if (position == null){
+        if (!useComponentPosition){
             return entity.getY();
         } else {
-            return position.y;
+            if (usePositionAsOffset) {
+                return entity.getY() + position.y;
+            } else {
+                return position.x;
+            }
         }
     }
 
     public void setY(float value) {
-        if (position == null) {
+        if (!useComponentPosition) {
             entity.setY(value);
         } else {
-            position.y = value;
+            if (position == null) {
+                position = new Vector2(0, value);
+            } else {
+                position.y = value;
+            }
         }
     }
 }

@@ -30,16 +30,20 @@ public class GraphicsComponent extends Component {
 
     public GraphicsComponent(Entity entity){
         super(entity);
-        type = ComponentType.GRAPHICS;
         layer = 1;
-        GraphicsManager.getInstance().add(this);
+        init();
     }
 
     public GraphicsComponent(Entity entity, float x, float y) {
         super(entity);
         position = new Vector2(x,y);
-        type = ComponentType.GRAPHICS;
         layer = 1;
+        init();
+    }
+
+    protected void init() {
+        type = ComponentType.GRAPHICS;
+        super.init();
         GraphicsManager.getInstance().add(this);
     }
 
@@ -59,6 +63,8 @@ public class GraphicsComponent extends Component {
     }
 
     public int getLayer() { return layer; }
+
+    public void setLayer(int value) { layer = value; }
 
     @Override
     public void dispose() {

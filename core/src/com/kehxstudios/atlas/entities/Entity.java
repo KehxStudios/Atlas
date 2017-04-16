@@ -15,12 +15,12 @@ import java.util.ArrayList;
 public class Entity {
 
     protected  String id;
-    protected Vector2 pos;
+    protected Vector2 position;
     protected ArrayList<Component> components;
     protected EntityData entityData;
 
     public Entity() {
-        pos = new Vector2(0,0);
+        position = new Vector2(0,0);
         components = new ArrayList<Component>();
         entityData = null;
         id = "ENTITY_" + EntityManager.getInstance().getUniqueId();
@@ -28,7 +28,7 @@ public class Entity {
     }
 
     public Entity(float x, float y) {
-        pos = new Vector2(x,y);
+        position = new Vector2(x,y);
         components = new ArrayList<Component>();
         entityData = null;
         id = "ENTITY_" + EntityManager.getInstance().getUniqueId();
@@ -37,7 +37,7 @@ public class Entity {
 
     public Entity(EntityData entityData) {
         this.entityData = entityData;
-        pos = new Vector2(entityData.getX(),entityData.getY());
+        position = new Vector2(entityData.getX(),entityData.getY());
         components = new ArrayList<Component>();
         id = "ENTITY_" + EntityManager.getInstance().getUniqueId();
         for (String componentString : entityData.data.values()) {
@@ -46,7 +46,7 @@ public class Entity {
     }
 
     public EntityData getEntityData() {
-        entityData = new EntityData(id, pos.x, pos.y);
+        entityData = new EntityData(id, position.x, position.y);
         for (Component component : components) {
             entityData.putString(component.getType().getId(), DataTool.dataClassToJsonString(component.getComponentData()));
         }
@@ -68,29 +68,33 @@ public class Entity {
 
     public String getId() { return id; }
 
+    public void moveLocation(float x, float y) { position.add(x,y); }
+
     public void setLocation(float x, float y) {
-        pos.set(x,y);
+        position.set(x,y);
     }
 
+    public Vector2 getLocation() { return position; }
+
     public float getX() {
-        return pos.x;
+        return position.x;
     }
 
     public void setX(float value) {
-        pos.x = value;
+        position.x = value;
     }
 
     public float getY() {
-        return pos.y;
+        return position.y;
     }
 
     public void setY(float value) {
-        pos.y = value;
+        position.y = value;
     }
 
     public void move(float x, float y) {
-        pos.x += x;
-        pos.y += y;
+        position.x += x;
+        position.y += y;
     }
 
     public Component getComponentWithId(String id) {

@@ -12,24 +12,37 @@ public class ComponentData {
     public String type;
     public String entityId;
     public float x, y;
+    public boolean useComponentPosition;
+    public boolean usePositionAsOffset;
     public HashMap<String, String> data;
 
     public ComponentData() {
         data = new HashMap<String, String>();
     }
 
-    public ComponentData(String id, String type, String entityId, float x, float y) {
+    public ComponentData(String id, String type, String entityId, float x, float y,
+                         boolean useComponentPosition, boolean usePositionAsOffset) {
         this.id = id;
         this.type = type;
         this.entityId = entityId;
         this.x = x;
         this.y = y;
+        this.useComponentPosition = useComponentPosition;
+        this.usePositionAsOffset = usePositionAsOffset;
         data = new HashMap<String, String>();
     }
 
     public String getId() { return id; }
 
     public void setId(String id) { this.id = id; }
+
+    public boolean getUseComponentPosition() { return useComponentPosition; }
+
+    public void setUseComponentPosition(boolean value) { useComponentPosition = value; }
+
+    public boolean getUsePositionAsOffset() { return usePositionAsOffset; }
+
+    public void setSsePositionAsOffset(boolean value) { usePositionAsOffset = value; }
 
     public String getType() {
         return type;

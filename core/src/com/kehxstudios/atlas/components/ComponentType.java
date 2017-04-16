@@ -1,5 +1,7 @@
 package com.kehxstudios.atlas.components;
 
+import com.kehxstudios.atlas.screens.ScreenType;
+
 import java.util.HashMap;
 
 /**
@@ -34,6 +36,10 @@ public enum ComponentType {
         for (ComponentType type : ComponentType.values()) {
             componentTypes.put(type.id, type);
         }
+    }
+
+    public static ComponentType getType(String id) {
+        return componentTypes.get(id);
     }
 
     public String getId() {
