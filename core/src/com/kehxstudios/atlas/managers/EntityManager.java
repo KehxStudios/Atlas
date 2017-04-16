@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Created by ReidC on 2017-04-06.
  */
 
-public class EntityManager {
+public class EntityManager extends Manager {
 
     private static EntityManager instance;
     public static EntityManager getInstance() {
@@ -20,10 +20,12 @@ public class EntityManager {
         }
         return instance;
     }
+    private EntityManager() {
+        entities = new ArrayList<Entity>();
+    }
 
 
     private ArrayList<Entity> entities;
-    private int uniqueIdMax;
 
     public void addEntity(Entity entity) {
         if (!entities.contains(entity)) {
@@ -70,11 +72,18 @@ public class EntityManager {
         }
     }
 
-    public String getUniqueId() {
-        return ("Id_" + ++uniqueIdMax);
+    @Override
+    public void tick(float delta) {
+
     }
 
-    private EntityManager() {
-        entities = new ArrayList<Entity>();
+    @Override
+    protected void loadScreenTypeSettings() {
+
+    }
+
+    @Override
+    protected void removeScreenTypeSettings() {
+
     }
 }

@@ -7,8 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.Align;
-import com.kehxstudios.atlas.other.ActionType;
-import com.kehxstudios.atlas.tools.DataLoader;
+import com.kehxstudios.atlas.tools.DataTool;
 import com.kehxstudios.atlas.tools.DebugTool;
 
 /**
@@ -24,7 +23,7 @@ public class IntroScreen extends AScreen {
     public IntroScreen() {
         super();
         DebugTool.log("IntroScreen");
-        screenData = DataLoader.load(ScreenType.INTRO);
+        screenData = DataTool.load(ScreenType.INTRO);
         init();
     }
 
@@ -106,10 +105,5 @@ public class IntroScreen extends AScreen {
     public void dispose() {
         font.dispose();
         super.dispose();
-    }
-
-    @Override
-    public void trigger(ActionType type) {
-
     }
 }

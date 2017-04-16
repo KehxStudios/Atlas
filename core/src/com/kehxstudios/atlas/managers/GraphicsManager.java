@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Created by ReidC on 2017-04-06.
  */
 
-public class GraphicsManager {
+public class GraphicsManager extends Manager {
 
     private static GraphicsManager instance;
     public static GraphicsManager getInstance() {
@@ -79,5 +79,15 @@ public class GraphicsManager {
         for (int i = 0; i < MAX_LAYERS; i++) {
             graphicComponents.add(new ArrayList<GraphicsComponent>());
         }
+    }
+
+    @Override
+    protected void loadScreenTypeSettings() {
+
+    }
+
+    @Override
+    protected void removeScreenTypeSettings() {
+
     }
 }

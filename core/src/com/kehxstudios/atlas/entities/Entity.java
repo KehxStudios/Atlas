@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.ComponentType;
 import com.kehxstudios.atlas.managers.EntityManager;
+import com.kehxstudios.atlas.tools.DataTool;
 
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 public class Entity {
 
-    protected  String id = "temp";
+    protected  String id;
     protected Vector2 pos;
     protected ArrayList<Component> components;
     protected EntityData entityData;
@@ -22,6 +23,7 @@ public class Entity {
         pos = new Vector2(0,0);
         components = new ArrayList<Component>();
         entityData = null;
+        id = "ENTITY_" + EntityManager.getInstance().getUniqueId();
         EntityManager.getInstance().addEntity(this);
     }
 
@@ -29,13 +31,24 @@ public class Entity {
         pos = new Vector2(x,y);
         components = new ArrayList<Component>();
         entityData = null;
+        id = "ENTITY_" + EntityManager.getInstance().getUniqueId();
         EntityManager.getInstance().addEntity(this);
+    }
+
+    public Entity(EntityData entityData) {
+        this.entityData = entityData;
+        pos = new Vector2(entityData.getX(),entityData.getY());
+        components = new ArrayList<Component>();
+        id = "ENTITY_" + EntityManager.getInstance().getUniqueId();
+        for (String componentString : entityData.data.values()) {
+            components.add(new Component(this, DataTool.getComponentDataFromString(componentString)));
+        }
     }
 
     public EntityData getEntityData() {
         entityData = new EntityData(id, pos.x, pos.y);
         for (Component component : components) {
-
+            entityData.putString(component.getType().getId(), DataTool.dataClassToJsonString(component.getComponentData()));
         }
         return entityData;
     }

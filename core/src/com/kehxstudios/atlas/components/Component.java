@@ -12,15 +12,21 @@ import com.kehxstudios.atlas.tools.DebugTool;
 
 public class Component {
 
-    protected Entity entity;
-    protected ComponentType type;
     protected String id;
+    protected ComponentType type;
+    protected Entity entity;
+
+    protected ComponentData componentData;
 
     protected Vector2 position;
 
     public Component(Entity entity) {
         this.entity = entity;
-        id = EntityManager.getInstance().getUniqueId();
+        EntityManager.getInstance().addComponent(entity, this);
+    }
+
+    public Component(Entity entity, ComponentData componentData) {
+        this.entity = entity;
         EntityManager.getInstance().addComponent(entity, this);
     }
 
@@ -32,10 +38,11 @@ public class Component {
 
     public ComponentData getComponentData() {
         if (position == null) {
-            return new ComponentData(id, type.getId(), entity.getId(), 0,0);
+            componentData = new ComponentData(id, type.getId(), entity.getId(), 0,0);
         } else {
-            return new ComponentData(id, type.getId(), entity.getId(), position.x, position.y);
+            componentData = new ComponentData(id, type.getId(), entity.getId(), position.x, position.y);
         }
+        return componentData;
     }
 
     public void dispose() {

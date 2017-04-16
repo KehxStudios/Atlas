@@ -3,24 +3,22 @@ package com.kehxstudios.atlas.entities;
 import java.util.HashMap;
 
 /**
- * Created by ReidC on 2017-04-06.
+ * Could be removed in the future
  */
 
 public enum EntityType {
 
-    PLAYER("Player", Entity.class, 32, 32, 40);
+    PLAYER("Player", Entity.class, 32, 32);
 
     private String name;
     private Class loaderClass;
     private int width, height;
-    private float weight;
 
-    private EntityType(String name, Class loaderClass, int width, int height, float weight) {
+    private EntityType(String name, Class loaderClass, int width, int height) {
         this.name = name;
         this.loaderClass = loaderClass;
         this.width = width;
         this.height = height;
-        this.weight = weight;
     }
 
     public String getName() {
@@ -33,10 +31,6 @@ public enum EntityType {
 
     public int getHeight() {
         return height;
-    }
-
-    public float getWeight() {
-        return weight;
     }
 
     private static HashMap<String, EntityType> entityTypes;

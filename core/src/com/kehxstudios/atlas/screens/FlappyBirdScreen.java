@@ -22,6 +22,7 @@ import com.kehxstudios.atlas.main.GameManager;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.other.ActionType;
 import com.kehxstudios.atlas.tools.DataLoader;
+import com.kehxstudios.atlas.tools.DataTool;
 import com.kehxstudios.atlas.tools.DebugTool;
 
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class FlappyBirdScreen extends AScreen {
 
     public FlappyBirdScreen() {
         super();
-        screenData = DataLoader.load(ScreenType.FLAPPY_BIRD);
+        screenData = DataTool.load(ScreenType.FLAPPY_BIRD);
         init();
     }
 
@@ -237,11 +238,6 @@ public class FlappyBirdScreen extends AScreen {
 
     @Override
     public void hide() {
-
-    }
-
-    @Override
-    public void trigger(ActionType type) {
 
     }
 }

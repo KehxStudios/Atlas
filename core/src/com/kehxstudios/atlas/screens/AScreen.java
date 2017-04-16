@@ -5,15 +5,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Json;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.interfaces.IAction;
 import com.kehxstudios.atlas.main.GameManager;
 import com.kehxstudios.atlas.managers.InputManager;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.stats.HighScores;
-import com.kehxstudios.atlas.tools.DataLoader;
 import com.kehxstudios.atlas.tools.DebugTool;
 
 import java.util.ArrayList;
@@ -22,7 +19,7 @@ import java.util.ArrayList;
  * Created by ReidC on 2017-04-07.
  */
 
-public abstract class AScreen implements Screen, IAction {
+public abstract class AScreen implements Screen {
 
     protected GameManager gm;
     protected ScreenType type;

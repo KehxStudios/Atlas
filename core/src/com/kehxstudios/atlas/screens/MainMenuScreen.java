@@ -16,7 +16,7 @@ import com.kehxstudios.atlas.components.HighScoreResetComponent;
 import com.kehxstudios.atlas.components.ScreenLaunchComponent;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.other.ActionType;
-import com.kehxstudios.atlas.tools.DataLoader;
+import com.kehxstudios.atlas.tools.DataTool;
 import com.kehxstudios.atlas.tools.DebugTool;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class MainMenuScreen extends AScreen {
 
     public MainMenuScreen() {
         super();
-        screenData = DataLoader.load(ScreenType.MAIN_MENU);
+        screenData = DataTool.load(ScreenType.MAIN_MENU);
         init();
     }
 
@@ -144,10 +144,5 @@ public class MainMenuScreen extends AScreen {
         resetScoresEntity.destroy();
         font.dispose();
         super.dispose();
-    }
-
-    @Override
-    public void trigger(ActionType type) {
-
     }
 }
