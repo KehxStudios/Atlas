@@ -13,20 +13,31 @@ import java.util.ArrayList;
 
 public class Entity {
 
-    private Vector2 pos;
-    private ArrayList<Component> components;
+    protected  String id = "temp";
+    protected Vector2 pos;
+    protected ArrayList<Component> components;
+    protected EntityData entityData;
 
     public Entity() {
-        components = new ArrayList<Component>();
         pos = new Vector2(0,0);
+        components = new ArrayList<Component>();
+        entityData = null;
         EntityManager.getInstance().addEntity(this);
     }
-
 
     public Entity(float x, float y) {
         pos = new Vector2(x,y);
         components = new ArrayList<Component>();
+        entityData = null;
         EntityManager.getInstance().addEntity(this);
+    }
+
+    public EntityData getEntityData() {
+        entityData = new EntityData(id, pos.x, pos.y);
+        for (Component component : components) {
+
+        }
+        return entityData;
     }
 
     public ArrayList<Component> getComponents() {
@@ -41,6 +52,8 @@ public class Entity {
         }
         return false;
     }
+
+    public String getId() { return id; }
 
     public void setLocation(float x, float y) {
         pos.set(x,y);

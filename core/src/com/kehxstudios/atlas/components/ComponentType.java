@@ -13,7 +13,10 @@ public enum ComponentType {
     CLICKABLE("Clickable", ClickableComponent.class),
     GRAPHICS("Graphics", GraphicsComponent.class),
     INPUT("Input", InputComponent.class),
-    PHYSICS("Physics", PhysicsComponent.class);
+    PHYSICS("Physics", PhysicsComponent.class),
+    FLOATING_TEXT("Floating_Text", FloatingTextComponent.class),
+    HIGH_SCORE_RESET("High_Score_Reset", HighScoreResetComponent.class),
+    SCREEN_LAUNCH("Screen_Launch", ScreenLaunchComponent.class);
 
     private String id;
     private Class loaderClass;

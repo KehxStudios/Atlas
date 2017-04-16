@@ -14,6 +14,7 @@ import com.kehxstudios.atlas.tools.DebugTool;
 
 public class GraphicsComponent extends Component {
 
+    private String path;
     private Texture texture;
     private int layer;
 
@@ -40,6 +41,13 @@ public class GraphicsComponent extends Component {
         type = ComponentType.GRAPHICS;
         layer = 1;
         GraphicsManager.getInstance().add(this);
+    }
+
+    public ComponentData getComponentData() {
+        ComponentData componentData = super.getComponentData();
+        componentData.putString("path", path);
+        componentData.putInt("layer", layer);
+        return componentData;
     }
 
     public int getWidth() {

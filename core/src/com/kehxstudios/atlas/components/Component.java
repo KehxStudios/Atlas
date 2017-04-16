@@ -30,6 +30,14 @@ public class Component {
 
     public ComponentType getType() { return type; }
 
+    public ComponentData getComponentData() {
+        if (position == null) {
+            return new ComponentData(id, type.getId(), entity.getId(), 0,0);
+        } else {
+            return new ComponentData(id, type.getId(), entity.getId(), position.x, position.y);
+        }
+    }
+
     public void dispose() {
         DebugTool.log("Component disposal");
         EntityManager.getInstance().removeComponent(entity, this);
