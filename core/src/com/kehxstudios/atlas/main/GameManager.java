@@ -1,20 +1,22 @@
 package com.kehxstudios.atlas.main;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Method;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.kehxstudios.atlas.managers.EntityManager;
 import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.managers.InputManager;
 import com.badlogic.gdx.utils.Json;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.screens.AScreen;
-import com.kehxstudios.atlas.screens.ScreenLoader;
-import com.kehxstudios.atlas.screens.ScreenSnapShot;
 import com.kehxstudios.atlas.screens.ScreenType;
 import com.kehxstudios.atlas.tools.DebugTool;
 
@@ -32,6 +34,8 @@ public class GameManager extends Game {
 
 	SpriteBatch batch;
 	OrthographicCamera camera;
+
+	public static final float D_WIDTH = 480, D_HEIGHT = 800;
 
 	private static Json json = new Json();
 
@@ -51,7 +55,17 @@ public class GameManager extends Game {
 
 		Gdx.app.getGraphics().setTitle("Atlas");
 
-		setNewScreen(ScreenLoader.loadScreen(ScreenType.INTRO));
+		if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+			Gdx.graphics.setWindowedMode((int)D_WIDTH, (int)D_HEIGHT);
+			Gdx.graphics.setResizable(false);
+		}
+		launchNewScreen(ScreenType.INTRO);
+
+
+	}
+
+	private void print() {
+		DebugTool.log("Print Complete");
 	}
 
 	@Override
@@ -77,10 +91,19 @@ public class GameManager extends Game {
 		Gdx.app.error("Disposal", "COMPLETED");
 	}
 
-	public void setNewScreen(Screen newScreen) {
+	private void setNewScreen(Screen newScreen) {
 		if (screen != null)
 			screen.dispose();
 		setScreen(newScreen);
+	}
+
+	public void launchNewScreen(ScreenType type) {
+		try {
+			setNewScreen((AScreen) ClassReflection.newInstance(type.loaderClass));
+		} catch (ReflectionException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public SpriteBatch getBatch() {

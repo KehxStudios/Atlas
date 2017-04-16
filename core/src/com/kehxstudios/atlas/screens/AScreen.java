@@ -5,12 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.entities.Entity;
+import com.kehxstudios.atlas.interfaces.IAction;
 import com.kehxstudios.atlas.main.GameManager;
 import com.kehxstudios.atlas.managers.InputManager;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.stats.HighScores;
+import com.kehxstudios.atlas.tools.DataLoader;
 import com.kehxstudios.atlas.tools.DebugTool;
 
 import java.util.ArrayList;
@@ -19,11 +22,11 @@ import java.util.ArrayList;
  * Created by ReidC on 2017-04-07.
  */
 
-public abstract class AScreen implements Screen {
+public abstract class AScreen implements Screen, IAction {
 
     protected GameManager gm;
     protected ScreenType type;
-    protected ScreenSnapShot snapShot;
+    protected AScreenData screenData;
 
     protected int WIDTH, HEIGHT;
 
@@ -39,37 +42,42 @@ public abstract class AScreen implements Screen {
 
     protected HighScores highScores;
 
-    public void create(ScreenSnapShot snapShot, ScreenType type, GameManager gm) {
-        DebugTool.log("Starting the creation from snapshot");
-        this.gm = gm;
-        this.type = type;
-        this.snapShot = snapShot;
-        WIDTH = snapShot.WIDTH;
-        HEIGHT = snapShot.HEIGHT;
+    public AScreen() {
+        DebugTool.log("AScreen");
+        gm = GameManager.getInstance();
+        mouse = new Vector2(0,0);
+        screenTime = 0;
+        backgroundIndex = 0;
+        screenData = null;
+    }
+
+    protected void init() {
+        DebugTool.log("AScreen.init");
+        if (screenData == null) {
+            DebugTool.log("screenData is null");
+            return;
+        }
+
+        type = ScreenType.getType(screenData.getType());
+        WIDTH = screenData.WIDTH;
+        HEIGHT = screenData.HEIGHT;
 
         Gdx.graphics.setTitle(type.getId());
         gm.getCamera().setToOrtho(false, WIDTH, HEIGHT);
-        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
-            Gdx.graphics.setWindowedMode(WIDTH, HEIGHT);
-        }
         gm.getCamera().update();
 
-        mouse = new Vector2(0,0);
-        screenEntity = new Entity(WIDTH/2, HEIGHT/2);
+        screenEntity = new Entity(WIDTH / 2, HEIGHT / 2);
         backgroundGraphics = new GraphicsComponent(screenEntity);
 
         ArrayList<String> paths = new ArrayList<String>();
         ArrayList<Float> times = new ArrayList<Float>();
 
-        for(int i = 0; snapShot.hasKey("background_" + i); i++) {
-            if (snapShot.hasKey("backgroundTime_" + i)) {
-                paths.add(snapShot.getString("background_" + i, ""));
-                times.add(snapShot.getFloat("backgroundTime_" + i, 0f));
+        for (int i = 0; screenData.hasKey("background_" + i); i++) {
+            if (screenData.hasKey("backgroundTime_" + i)) {
+                paths.add(screenData.getString("background_" + i, ""));
+                times.add(screenData.getFloat("backgroundTime_" + i, 0f));
             }
         }
-        screenTime = 0;
-
-        backgroundIndex = 0;
         backgroundPaths = paths.toArray(new String[paths.size()]);
         backgroundTimes = new float[times.size()];
         for (int i = 0; i < times.size(); i++) {
@@ -82,58 +90,33 @@ public abstract class AScreen implements Screen {
         PhysicsManager.getInstance().setScreen(this);
 
         highScores = new HighScores(type);
-
-        init();
     }
 
-    public ScreenSnapShot getSaveSnapShot() {
-        DebugTool.log("AScreen.getSaveSnapShot()");
-        snapShot = new ScreenSnapShot(type.getId(), WIDTH, HEIGHT);
+    private AScreenData getScreenData() {
+        screenData = new AScreenData(type.getId(), WIDTH, HEIGHT);
         for (int i = 0; i < backgroundPaths.length; i++) {
-            snapShot.putString("background_" + i, backgroundPaths[i]);
-            snapShot.putFloat("backgroundTime_" + i, backgroundTimes[i]);
+            screenData.putString("background_" + i, backgroundPaths[i]);
+            screenData.putFloat("backgroundTime_" + i, backgroundTimes[i]);
         }
-        return snapShot;
-    }
-
-    public void launchNextScreen(ScreenType newType) {
-        gm.setNewScreen(ScreenLoader.loadScreen(newType));
-    }
-
-    public abstract void init();
-
-    @Override
-    public void show() {
-
+        return screenData;
     }
 
     @Override
     public void render(float delta) {
         screenTime += delta;
-        mouse.set(Gdx.input.getX(), Gdx.input.getY());
-    }
 
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
+        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+            mouse.set(Gdx.input.getX(), Gdx.input.getY());
+        } else {
+            mouse.set(Gdx.input.getX() / getScaleWidth(), Gdx.input.getY() / getScaleHeight());
+        }
     }
 
     public abstract void resetScreen();
+
+    protected void launchNextScreen(ScreenType type) {
+        gm.launchNewScreen(type);
+    }
 
     @Override
     public void dispose() {
@@ -145,11 +128,15 @@ public abstract class AScreen implements Screen {
         return type;
     }
 
-    public int getScaleWidth() {
+    public float getScaleWidth() {
         return Gdx.graphics.getWidth()/WIDTH;
     }
 
-    public int getScaleHeight() {
+    public float getScaleHeight() {
         return Gdx.graphics.getHeight()/HEIGHT;
     }
+
+    public int getScreenWidth() { return WIDTH; }
+
+    public int getScreenHeight() { return HEIGHT; }
 }

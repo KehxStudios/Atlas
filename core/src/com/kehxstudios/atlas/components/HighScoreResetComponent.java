@@ -2,8 +2,6 @@ package com.kehxstudios.atlas.components;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.main.GameManager;
-import com.kehxstudios.atlas.screens.ScreenLoader;
 import com.kehxstudios.atlas.screens.ScreenType;
 import com.kehxstudios.atlas.stats.HighScores;
 
@@ -16,9 +14,9 @@ public class HighScoreResetComponent extends Component {
     private ScreenType type;
     private Rectangle bounds;
 
-    public HighScoreResetComponent(Entity entity, Rectangle bounds, ScreenType type) {
+    public HighScoreResetComponent(Entity entity, int width, int height, ScreenType type) {
         super(entity);
-        this.bounds = bounds;
+        this.bounds = new Rectangle(entity.getX() - width/2, entity.getY() - height/2, width, height);
         this.type = type;
     }
 
