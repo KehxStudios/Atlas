@@ -45,6 +45,9 @@ public class InputManager extends Manager {
         y += gm.getCamera().position.y - gm.getCamera().viewportHeight/2;
 
         for (ClickableComponent component : clickableComponents) {
+            if (!component.isEnabled()) {
+                continue;
+            }
             if (x > component.getX() - component.getWidth()/2 &&
                     x < component.getX() + component.getWidth()/2 &&
                     y > component.getY() - component.getHeight()/2 &&

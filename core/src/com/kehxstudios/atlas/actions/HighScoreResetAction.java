@@ -1,5 +1,6 @@
 package com.kehxstudios.atlas.actions;
 
+import com.kehxstudios.atlas.screens.ScreenType;
 import com.kehxstudios.atlas.stats.HighScores;
 
 /**
@@ -8,18 +9,34 @@ import com.kehxstudios.atlas.stats.HighScores;
 
 public class HighScoreResetAction extends Action {
 
-    private HighScores highScores;
+    private ScreenType screenType;
 
-    public HighScoreResetAction(HighScores highScores) {
-        this.highScores = highScores;
+    public HighScoreResetAction(ScreenType screenType) {
+        this.screenType = screenType;
     }
 
-    public void changeHighScores(HighScores highScores) {
-        this.highScores = highScores;
+    public HighScoreResetAction(ActionData actionData) {
+        super(actionData);
+        screenType = ScreenType.getType(actionData.getString("screenType", "-"));
+    }
+
+    public void changeScreenType(ScreenType screenType) {
+        this.screenType = screenType;
+    }
+
+    @Override
+    protected void init() {
+        type = ActionType.HIGH_SCORE_RESET;
     }
 
     @Override
     public void trigger() {
-        highScores.reset();
+        HighScores.resetScores(screenType);
+    }
+
+    public ActionData getActionData() {
+        ActionData actionData = super.getActionData();
+        actionData.putString("screenType",screenType.getId());
+        return actionData;
     }
 }

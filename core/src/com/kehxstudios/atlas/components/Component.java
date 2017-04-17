@@ -22,6 +22,8 @@ public class Component {
     protected boolean usePositionAsOffset;
     protected Vector2 position;
 
+    protected boolean enabled;
+
     public Component(Entity entity) {
         this.entity = entity;
         useComponentPosition = false;
@@ -39,6 +41,7 @@ public class Component {
     }
 
     protected void init() {
+        enabled = true;
         EntityManager.getInstance().addComponent(entity, this);
     }
 
@@ -50,9 +53,9 @@ public class Component {
 
     public ComponentData getComponentData() {
         if (position == null) {
-            componentData = new ComponentData(id, type.getId(), entity.getId(), 0,0, useComponentPosition, usePositionAsOffset);
+            componentData = new ComponentData(id, type.getId(), entity.getId(), enabled, 0,0, useComponentPosition, usePositionAsOffset);
         } else {
-            componentData = new ComponentData(id, type.getId(), entity.getId(), position.x, position.y, useComponentPosition, usePositionAsOffset);
+            componentData = new ComponentData(id, type.getId(), entity.getId(), enabled, position.x, position.y, useComponentPosition, usePositionAsOffset);
         }
         return componentData;
     }
@@ -115,6 +118,12 @@ public class Component {
     }
 
     public boolean getUseComponentPosition() { return useComponentPosition; }
+
+    public boolean isEnabled() { return enabled; }
+
+    public void enable() { enabled = true; }
+
+    public void disable() { enabled = false; }
 
     public float getX() {
         if (!useComponentPosition){

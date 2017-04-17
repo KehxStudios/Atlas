@@ -24,6 +24,9 @@ public class PhysicsManager extends Manager {
 
     public void tick(float delta) {
         for (PhysicsComponent physics : physicsComponents) {
+            if (!physics.isEnabled()) {
+                continue;
+            }
             if (physics.getY() > 0) {
                 physics.velocity.add(0, physics.speeds.y);
             }
@@ -40,7 +43,7 @@ public class PhysicsManager extends Manager {
             return;
         }
         for (PhysicsComponent physic : physicsComponents) {
-            if (physic.collidable && physic != player) {
+            if (physic.isEnabled() && physic.collidable && physic != player) {
                 physic.hasCollided = player.bounds.overlaps(physic.bounds);
             }
         }

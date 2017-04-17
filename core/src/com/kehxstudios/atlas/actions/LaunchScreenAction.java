@@ -18,8 +18,24 @@ public class LaunchScreenAction extends Action {
         this.screenType = screenType;
     }
 
+    public LaunchScreenAction(ActionData actionData) {
+        super(actionData);
+        init();
+    }
+
+    @Override
+    protected void init() {
+        type = ActionType.LAUNCH_SCREEN;
+    }
+
     public void changeScreenType(ScreenType screenType) {
         this.screenType = screenType;
+    }
+
+    public ActionData getActionData() {
+        ActionData actionData = super.getActionData();
+        actionData.putString("screenType", screenType.getId());
+        return actionData;
     }
 
     @Override

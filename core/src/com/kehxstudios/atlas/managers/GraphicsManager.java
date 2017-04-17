@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.kehxstudios.atlas.components.AnimationComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.tools.DataTool;
@@ -29,19 +30,30 @@ public class GraphicsManager extends Manager {
     private int MAX_LAYERS = 5;
 
     private ArrayList<ArrayList<GraphicsComponent>> graphicComponents;
+    private ArrayList<AnimationComponent> animationComponents;
 
     private TextureAtlas textureAtlas;
     private TextureType textureTypes;
 
     public void tick(float delta) {
-
+        if (animationComponents.size() == 0) {
+            return;
+        }
+        for (AnimationComponent animation : animationComponents) {
+            if (animation.isEnabled()) {
+                animation.update(delta);
+            }
+        }
     }
 
     public void render(SpriteBatch batch, OrthographicCamera camera) {
         batch.begin();
         for (ArrayList<GraphicsComponent> layerList : graphicComponents) {
+            if (layerList.size() == 0) {
+                continue;
+            }
             for (GraphicsComponent graphics : layerList) {
-                if (graphics.getTexture() == null) {
+                if (graphics.getTexture() == null || !graphics.isEnabled()) {
                     continue;
                 }
                 batch.draw(graphics.getTexture(),
@@ -80,11 +92,28 @@ public class GraphicsManager extends Manager {
         }
     }
 
+    public void add(AnimationComponent animation) {
+        if (!animationComponents.contains(animation)) {
+            animationComponents.add(animation);
+        } else {
+            DebugTool.log("Failed to add animation to animationComponents");
+        }
+    }
+
+    public void remove(AnimationComponent animation) {
+        if (animationComponents.contains(animation)) {
+            animationComponents.remove(animation);
+        } else {
+            DebugTool.log("Failed to find animation in animationComponents");
+        }
+    }
+
     private GraphicsManager() {
         graphicComponents = new ArrayList<ArrayList<GraphicsComponent>>();
         for (int i = 0; i < MAX_LAYERS; i++) {
             graphicComponents.add(new ArrayList<GraphicsComponent>());
         }
+        animationComponents = new ArrayList<AnimationComponent>();
         textureAtlas = new TextureAtlas();
         textureTypes = DataTool.getTexturePaths();
     }

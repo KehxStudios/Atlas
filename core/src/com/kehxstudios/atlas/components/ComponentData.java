@@ -11,6 +11,7 @@ public class ComponentData {
     public String id;
     public String type;
     public String entityId;
+    public boolean enabled;
     public float x, y;
     public boolean useComponentPosition;
     public boolean usePositionAsOffset;
@@ -20,11 +21,12 @@ public class ComponentData {
         data = new HashMap<String, String>();
     }
 
-    public ComponentData(String id, String type, String entityId, float x, float y,
+    public ComponentData(String id, String type, String entityId, boolean enabled, float x, float y,
                          boolean useComponentPosition, boolean usePositionAsOffset) {
         this.id = id;
         this.type = type;
         this.entityId = entityId;
+        this.enabled = enabled;
         this.x = x;
         this.y = y;
         this.useComponentPosition = useComponentPosition;
@@ -55,6 +57,10 @@ public class ComponentData {
     public String getEntityId() { return entityId; }
 
     public void setEntityId(String entityId) { this.entityId = entityId; }
+
+    public boolean isEnabled() { return enabled; }
+
+    public void setEnabled(boolean value) { enabled = value; }
 
     public float getX() { return x; }
 

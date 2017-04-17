@@ -15,14 +15,30 @@ public class PhysicsAction extends Action {
     public PhysicsAction(PhysicsComponent physicsComponent, Vector2 triggerValue) {
         this.physicsComponent = physicsComponent;
         this.triggerValue = triggerValue;
+        init();
+    }
+
+    public PhysicsAction(PhysicsComponent physicsComponent, ActionData actionData) {
+        this.physicsComponent = physicsComponent;
+        triggerValue = new Vector2(actionData.getFloat("triggerValue_x", 0f),
+                actionData.getFloat("triggerValue_y", 0f));
+        init();
+    }
+
+    @Override
+    protected void init() {
+        type = ActionType.PHYSICS;
     }
 
     public void changeTriggerValue(Vector2 triggerValue) {
         this.triggerValue = triggerValue;
     }
 
-    public void changePhysicsComponent(PhysicsComponent physicsComponent) {
-        this.physicsComponent = physicsComponent;
+    public ActionData getActionData() {
+        ActionData actionData = super.getActionData();
+        actionData.putFloat("triggerValue_x", triggerValue.x);
+        actionData.putFloat("triggerValue_y", triggerValue.y);
+        return actionData;
     }
 
     @Override
