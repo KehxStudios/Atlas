@@ -1,13 +1,13 @@
 package com.kehxstudios.atlas.managers;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.kehxstudios.atlas.components.GraphicsComponent;
+import com.kehxstudios.atlas.data.TextureType;
+import com.kehxstudios.atlas.tools.DataTool;
 import com.kehxstudios.atlas.tools.DebugTool;
 
 import java.util.ArrayList;
@@ -31,6 +31,7 @@ public class GraphicsManager extends Manager {
     private ArrayList<ArrayList<GraphicsComponent>> graphicComponents;
 
     private TextureAtlas textureAtlas;
+    private TextureType textureTypes;
 
     public void tick(float delta) {
 
@@ -85,6 +86,7 @@ public class GraphicsManager extends Manager {
             graphicComponents.add(new ArrayList<GraphicsComponent>());
         }
         textureAtlas = new TextureAtlas();
+        textureTypes = DataTool.getTexturePaths();
     }
 
     @Override
@@ -100,7 +102,8 @@ public class GraphicsManager extends Manager {
     public Texture getTexture(String textureName) {
         Texture texture = textureAtlas.findRegion(textureName).getTexture();
         if (texture == null) {
-            // textureAtlas.addRegion(textureName, )
+            textureAtlas.addRegion(textureName, new TextureRegion(new Texture(TextureType.getPath(textureName))));
+            texture = textureAtlas.findRegion(textureName).getTexture();
         }
         return texture;
     }

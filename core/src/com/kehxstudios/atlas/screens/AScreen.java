@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.components.GraphicsComponent;
+import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.main.GameManager;
 import com.kehxstudios.atlas.managers.EntityManager;
@@ -30,7 +31,6 @@ public abstract class AScreen implements Screen {
     protected int WIDTH, HEIGHT;
 
     protected float screenTime;
-    protected Vector2 mouse;
 
     protected Entity screenEntity;
     protected GraphicsComponent backgroundGraphics;
@@ -45,20 +45,21 @@ public abstract class AScreen implements Screen {
     public AScreen() {
         DebugTool.log("AScreen");
         gm = GameManager.getInstance();
-        mouse = new Vector2(0,0);
         screenTime = 0;
         backgroundIndex = 0;
         score = 0;
         screenData = null;
     }
 
+    public void updateScore(int value) {
+        score += value;
+    }
+
     protected void reset() {
         screenEntity.setLocation(WIDTH/2, HEIGHT/2);
-        mouse = new Vector2(0,0);
         screenTime = 0;
         backgroundIndex = 0;
         score = 0;
-        backgroundGraphics.setTexture(new Texture(backgroundPaths[backgroundIndex]));
     }
 
     protected void init() {
@@ -77,7 +78,6 @@ public abstract class AScreen implements Screen {
         gm.getCamera().update();
 
         screenEntity = new Entity(WIDTH / 2, HEIGHT / 2);
-        backgroundGraphics = new GraphicsComponent(screenEntity);
 
         ArrayList<String> paths = new ArrayList<String>();
         ArrayList<Float> times = new ArrayList<Float>();
@@ -94,7 +94,7 @@ public abstract class AScreen implements Screen {
             backgroundTimes[i] = times.get(i);
         }
 
-        backgroundGraphics.setTexture(new Texture(backgroundPaths[backgroundIndex]));
+        backgroundGraphics = new GraphicsComponent(screenEntity, TextureType.INTRO_DEV_LOGO, 1);
 
         highScores = new HighScores(type);
     }
@@ -111,12 +111,6 @@ public abstract class AScreen implements Screen {
     @Override
     public void render(float delta) {
         screenTime += delta;
-
-        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
-            mouse.set(Gdx.input.getX(), Gdx.input.getY());
-        } else {
-            mouse.set(Gdx.input.getX() / getScaleWidth(), Gdx.input.getY() / getScaleHeight());
-        }
     }
 
     protected void launchNextScreen(ScreenType type) {

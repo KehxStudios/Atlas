@@ -8,12 +8,15 @@ import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
+import com.kehxstudios.atlas.actions.PhysicsAction;
 import com.kehxstudios.atlas.components.ButtonComponent;
 import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.components.ComponentType;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
+import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.tools.DataTool;
@@ -81,42 +84,39 @@ public class FlappyBirdScreen extends AScreen {
         highScoreLayout.setText(font, highScoreText+highScore, Color.BLACK,WIDTH/2, Align.center, true);
 
         bird = new Entity(WIDTH/4,HEIGHT/2);
-        GraphicsComponent graphics = new GraphicsComponent(bird);
-        graphics.setTexture(new Texture("screens/flappyBird/bird.png"));
+        GraphicsComponent graphics = new GraphicsComponent(bird, TextureType.FLAPPYBIRD_BIRD, 3);
         birdPhysics = new PhysicsComponent(bird, graphics.getTexture().getWidth(), graphics.getTexture().getHeight(), 100, -15, true);
         PhysicsManager.getInstance().setPlayer(birdPhysics);
-        ClickableComponent clickable = new ClickableComponent(screenEntity, birdPhysics, WIDTH,HEIGHT);
+        ClickableComponent clickable = new ClickableComponent(screenEntity, WIDTH, HEIGHT,
+                new PhysicsAction(birdPhysics, new Vector2(0,250)));
         birdStartX = bird.getX();
 
         gm.getCamera().position.x = bird.getX() + 80;
         gm.getCamera().update();
 
         ground1 = new Entity((int)(gm.getCamera().position.x - gm.getCamera().viewportWidth/2),GROUND_Y_OFFSET);
-        GraphicsComponent graphics1 = new GraphicsComponent(ground1);
-        graphics1.setTexture(new Texture("screens/flappyBird/ground.png"));
-        GROUND_WIDTH = (int)graphics1.getWidth();
+        GraphicsComponent ground1Graphics = new GraphicsComponent(ground1, TextureType.FLAPPYBIRD_GROUND, 2);
+        GROUND_WIDTH = ground1Graphics.getWidth();
 
         ground2 = new Entity((int)(ground1.getX() + GROUND_WIDTH), GROUND_Y_OFFSET);
-        GraphicsComponent graphics2 = new GraphicsComponent(ground2);
-        graphics2.setTexture(new Texture("screens/flappyBird/ground.png"));
+        GraphicsComponent ground2Graphics = new GraphicsComponent(ground2, TextureType.FLAPPYBIRD_GROUND, 2);
 
         tubes = new ArrayList<Entity>();
 
-        for(int i = 1; i <= TUBE_COUNT; i++) {
-            Entity topTube = new Entity(i * (TUBE_SPACING + TUBE_WIDTH) + 50, random.nextInt(TUBE_FLUCTUATION) + TUBE_LOWEST_OPENING + TUBE_GAP + TUBE_HEIGHT/2);
-            tubes.add(topTube);
+        for(int i = 0; i < TUBE_COUNT; i++) {
+            Entity tube = new Entity(i * (TUBE_SPACING + TUBE_WIDTH) + 250, random.nextInt(TUBE_FLUCTUATION) + TUBE_LOWEST_OPENING + TUBE_GAP + TUBE_HEIGHT/2);
 
-            GraphicsComponent topGraphic = new GraphicsComponent(topTube);
-            topGraphic.setTexture(new Texture("screens/flappyBird/toptube.png"));
-            PhysicsComponent tubeTop = new PhysicsComponent(topTube, topGraphic.getWidth(), topGraphic.getHeight(), 0, 0, true);
+            GraphicsComponent topGraphic = new GraphicsComponent(tube, TextureType.FLAPPYBIRD_TOPTUBE, 1);
+            PhysicsComponent topPhysics = new PhysicsComponent(tube, topGraphic.getWidth(), topGraphic.getHeight(), 0, 0, true);
 
+            GraphicsComponent bottomGraphic = new GraphicsComponent(tube, TextureType.FLAPPYBIRD_BOTTOMTUBE, 1);
+            bottomGraphic.setUsePositionAsOffset(true);
+            bottomGraphic.setLocation(0, -TUBE_GAP - TUBE_HEIGHT);
+            PhysicsComponent bottomPhysics = new PhysicsComponent(tube, bottomGraphic.getWidth(), bottomGraphic.getHeight(), 0, 0, true);
+            bottomPhysics.setUsePositionAsOffset(true);
+            bottomPhysics.setLocation(0, -TUBE_GAP - TUBE_HEIGHT);
 
-            Entity bottomTube = new Entity(topTube.getX(), topTube.getY() - TUBE_GAP - TUBE_HEIGHT);
-            tubes.add(bottomTube);
-
-            GraphicsComponent bottomGraphic = new GraphicsComponent(bottomTube);
-            bottomGraphic.setTexture(new Texture("screens/flappyBird/bottomtube.png"));
-            PhysicsComponent tubeBottom = new PhysicsComponent(bottomTube, bottomGraphic.getWidth(), bottomGraphic.getHeight(), 0, 0, true);
+            tubes.add(tube);
         }
     }
 
@@ -124,9 +124,7 @@ public class FlappyBirdScreen extends AScreen {
         if (score > lowScore) {
             highScores.addToHighScores("Test",score);
         }
-
         super.reset();
-        screenEntity.setY(HEIGHT/5*3);
 
         lowScore =  highScores.getLowScore();
         highScore = highScores.getHighScore();
@@ -144,9 +142,8 @@ public class FlappyBirdScreen extends AScreen {
         ground1.setLocation((gm.getCamera().position.x - gm.getCamera().viewportWidth/2),GROUND_Y_OFFSET);
         ground2.setLocation((ground1.getX() + GROUND_WIDTH),GROUND_Y_OFFSET);
 
-        for(int i = 1; i <= TUBE_COUNT; i += 2) {
-            tubes.get(i - 1).setLocation(i * (TUBE_SPACING + TUBE_WIDTH) + 50, random.nextInt(TUBE_FLUCTUATION) + TUBE_LOWEST_OPENING + TUBE_GAP + TUBE_HEIGHT/2);
-            tubes.get(i).setLocation(tubes.get(i - 1).getX(), tubes.get(i - 1).getY() - TUBE_GAP - TUBE_HEIGHT);
+        for(int i = 0; i < TUBE_COUNT; i++) {
+            tubes.get(i).setLocation(i * (TUBE_SPACING + TUBE_WIDTH) + 250, random.nextInt(TUBE_FLUCTUATION) + TUBE_LOWEST_OPENING + TUBE_GAP + TUBE_HEIGHT/2);
         }
     }
 

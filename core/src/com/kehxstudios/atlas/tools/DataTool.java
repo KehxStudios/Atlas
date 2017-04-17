@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.kehxstudios.atlas.components.ComponentData;
+import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.entities.EntityData;
 import com.kehxstudios.atlas.screens.AScreenData;
 import com.kehxstudios.atlas.screens.ScreenType;
@@ -50,5 +51,14 @@ public class DataTool {
 
 
         return null;
+    }
+
+    public static TextureType getTexturePaths() {
+        FileHandle file = Gdx.files.internal("screens/TextureType.pd");
+        if (file.exists()) {
+            return json.fromJson(TextureType.class, file.readString());
+        } else {
+            return null;
+        }
     }
 }

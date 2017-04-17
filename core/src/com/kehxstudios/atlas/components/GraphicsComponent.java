@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.tools.DebugTool;
@@ -22,15 +23,16 @@ public class GraphicsComponent extends Component {
         return texture;
     }
 
-    public void setTexture(Texture texture) {
-        if (this.texture != null)
-            this.texture.dispose();
-        this.texture = texture;
+    public void setTexture(TextureType textureType) {
+        if (texture != null)
+            texture.dispose();
+        textureName = textureType.getId();
+        loadTexture();
     }
 
-    public GraphicsComponent(Entity entity, String textureName, int layer){
+    public GraphicsComponent(Entity entity, TextureType textureType, int layer){
         super(entity);
-        this.textureName = textureName;
+        this.textureName = textureType.getId();
         this.layer = layer;
         init();
     }

@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.Align;
+import com.kehxstudios.atlas.actions.LaunchScreenAction;
+import com.kehxstudios.atlas.components.ClickableComponent;
+import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.tools.DataTool;
 import com.kehxstudios.atlas.tools.DebugTool;
 
@@ -19,6 +22,8 @@ public class IntroScreen extends AScreen {
     private BitmapFont font;
     private GlyphLayout layout;
     private String continueText = "Click to Continue";
+    boolean finalLogo = false;
+    boolean clickToContinue = false;
 
     public IntroScreen() {
         super();
@@ -45,26 +50,21 @@ public class IntroScreen extends AScreen {
     public void render(float delta) {
         // increase screenTime in super method
         super.render(delta);
-        if (Gdx.input.justTouched()) {
-            screenTime++;
-        }
-        // If index is not on last path
-        if (backgroundIndex < backgroundPaths.length - 1) {
-            // Check if past background screen time
-            if (screenTime >= backgroundTimes[backgroundIndex]) {
-                // Cycle to next background
-                nextBackground();
+        if (!clickToContinue) {
+            // If index is not on last path
+            if (screenTime >= 2f && !finalLogo) {
+                setGameLogo();
+                screenTime = 0f;
+                finalLogo = true;
+            } else {
+                ClickableComponent clickableComponent = new ClickableComponent(screenEntity, WIDTH, HEIGHT,
+                        new LaunchScreenAction(ScreenType.MAIN_MENU));
+                clickToContinue = true;
             }
         } else {
-            // Draw continue text to screen
             gm.getBatch().begin();
-            font.draw(gm.getBatch(), layout, WIDTH/2 - layout.width/2, HEIGHT/5);
+            font.draw(gm.getBatch(), layout, WIDTH / 2 - layout.width / 2, HEIGHT / 5);
             gm.getBatch().end();
-            // Check if user clicked to continue after minimum 2 seconds
-            if (screenTime >= 2f && Gdx.input.justTouched() || Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                // Start main menu
-                launchNextScreen(ScreenType.MAIN_MENU);
-            }
         }
     }
 
@@ -88,12 +88,12 @@ public class IntroScreen extends AScreen {
 
     }
 
-    private void nextBackground() {
-        backgroundIndex++;
-        if (backgroundIndex < backgroundPaths.length) {
-            backgroundGraphics.setTexture(new Texture(backgroundPaths[backgroundIndex]));
-            screenTime = 0f;
-        }
+    private void setDevLogo() {
+        backgroundGraphics.setTexture(TextureType.INTRO_DEV_LOGO);
+    }
+
+    private void setGameLogo() {
+        backgroundGraphics.setTexture(TextureType.INTRO_GAME_LOGO);
     }
 
     @Override

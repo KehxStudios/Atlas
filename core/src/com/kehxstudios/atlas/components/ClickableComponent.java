@@ -1,9 +1,8 @@
 package com.kehxstudios.atlas.components;
 
+import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.InputManager;
-import com.kehxstudios.atlas.other.ActionType;
-import com.kehxstudios.atlas.tools.DebugTool;
 
 /**
  * Created by ReidC on 2017-04-07.
@@ -13,22 +12,13 @@ public class ClickableComponent extends Component {
 
     private int width;
     private int height;
-    private ActionType actionType;
-    private PhysicsComponent physics;
+    private Action action;
 
-    public ClickableComponent(Entity entity, PhysicsComponent physics, int width, int height) {
-        super(entity);
-        this.physics = physics;
-        this.width = width;
-        this.height = height;
-        init();
-    }
-
-    public ClickableComponent(Entity entity, int width, int height, ActionType actionType) {
+    public ClickableComponent(Entity entity, int width, int height, Action action) {
         super(entity);
         this.width = width;
         this.height = height;
-        this.actionType = actionType;
+        this.action = action;
         init();
     }
 
@@ -40,9 +30,7 @@ public class ClickableComponent extends Component {
     }
 
     public void trigger() {
-        if (physics != null) {
-            physics.velocity.y = 250;
-        }
+        action.trigger();
     }
 
     public int getWidth() {
@@ -53,11 +41,9 @@ public class ClickableComponent extends Component {
         return height;
     }
 
-
     @Override
     public void dispose() {
         super.dispose();
-        DebugTool.log("ClickableComponent disposal");
         InputManager.getInstance().removeClickable(this);
     }
 }

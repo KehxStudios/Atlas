@@ -11,20 +11,18 @@ import java.util.HashMap;
 public enum ComponentType {
 
     ANIMATION("Animation", AnimationComponent.class),
-    CLICKABLE("Clickable", ClickableComponent.class),
-    GRAPHICS("Graphics", GraphicsComponent.class),
-    INPUT("Input", InputComponent.class),
-    PHYSICS("Physics", PhysicsComponent.class),
-    // to be removed
     BUTTON("Button", ButtonComponent.class),
+    CLICKABLE("Clickable", ClickableComponent.class),
     FLOATING_TEXT("Floating_Text", FloatingTextComponent.class),
-    HIGH_SCORE_RESET("High_Score_Reset", HighScoreResetComponent.class),
-    SCREEN_LAUNCH("Screen_Launch", ScreenLaunchComponent.class);
+    GRAPHICS("Graphics", GraphicsComponent.class),
+    IN_VIEW("In_View", InViewComponent.class),
+    PHYSICS("Physics", PhysicsComponent.class),
+    POINTER_DIRECTION("Pointer_Direction", PointerDirectionComponent.class);
+
+    private static HashMap<String, ComponentType> componentTypes;
 
     private String id;
     private Class loaderClass;
-
-    private static HashMap<String, ComponentType> componentTypes;
 
     private ComponentType(String id, Class loaderClass) {
         this.id = id;
