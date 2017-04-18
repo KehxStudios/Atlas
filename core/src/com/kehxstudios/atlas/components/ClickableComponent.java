@@ -10,11 +10,11 @@ import com.kehxstudios.atlas.managers.InputManager;
 
 public class ClickableComponent extends Component {
 
-    private int width;
-    private int height;
+    private float width;
+    private float height;
     private Action action;
 
-    public ClickableComponent(Entity entity, int width, int height, Action action) {
+    public ClickableComponent(Entity entity, float width, float height, Action action) {
         super(entity);
         this.width = width;
         this.height = height;
@@ -33,11 +33,11 @@ public class ClickableComponent extends Component {
         action.trigger();
     }
 
-    public int getWidth() {
+    public float getWidth() {
         return width;
     }
 
-    public int getHeight() {
+    public float getHeight() {
         return height;
     }
 

@@ -2,12 +2,13 @@ package com.kehxstudios.atlas.managers;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.kehxstudios.atlas.components.AnimationComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.data.TextureType;
+import com.kehxstudios.atlas.data.SpriteType;
 import com.kehxstudios.atlas.tools.DataTool;
 import com.kehxstudios.atlas.tools.DebugTool;
 
@@ -33,7 +34,7 @@ public class GraphicsManager extends Manager {
     private ArrayList<AnimationComponent> animationComponents;
 
     private TextureAtlas textureAtlas;
-    private TextureType textureTypes;
+    private SpriteType spriteTypes;
 
     public void tick(float delta) {
         if (animationComponents.size() == 0) {
@@ -53,10 +54,10 @@ public class GraphicsManager extends Manager {
                 continue;
             }
             for (GraphicsComponent graphics : layerList) {
-                if (graphics.getTexture() == null || !graphics.isEnabled()) {
+                if (graphics.getSprite() == null || !graphics.isEnabled()) {
                     continue;
                 }
-                batch.draw(graphics.getTexture(),
+                batch.draw(graphics.getSprite().getTexture(),
                         graphics.getX() - graphics.getWidth() / 2,
                         graphics.getY() - graphics.getHeight() / 2,
                         graphics.getWidth(), graphics.getHeight());
@@ -115,7 +116,7 @@ public class GraphicsManager extends Manager {
         }
         animationComponents = new ArrayList<AnimationComponent>();
         textureAtlas = new TextureAtlas();
-        textureTypes = DataTool.getTexturePaths();
+        spriteTypes = DataTool.getTexturePaths();
     }
 
     @Override
@@ -125,15 +126,16 @@ public class GraphicsManager extends Manager {
 
     @Override
     protected void removeScreenTypeSettings() {
-
+        textureAtlas.dispose();
     }
 
-    public Texture getTexture(String textureName) {
-        Texture texture = textureAtlas.findRegion(textureName).getTexture();
-        if (texture == null) {
-            textureAtlas.addRegion(textureName, new TextureRegion(new Texture(TextureType.getPath(textureName))));
-            texture = textureAtlas.findRegion(textureName).getTexture();
+    public Sprite getSprite(String spriteName) {
+        Sprite sprite = textureAtlas.createSprite(spriteName);
+        if (sprite == null) {
+            SpriteType type = SpriteType.getTypeByString(spriteName);
+            textureAtlas.addRegion(spriteName, new TextureRegion(new Texture(SpriteType.getPath(spriteName))));
+            sprite = textureAtlas.createSprite(spriteName);
         }
-        return texture;
+        return sprite;
     }
 }

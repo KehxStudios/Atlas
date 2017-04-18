@@ -1,8 +1,7 @@
 package com.kehxstudios.atlas.components;
 
-import com.kehxstudios.atlas.data.TextureType;
+import com.kehxstudios.atlas.data.SpriteType;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.managers.EntityManager;
 import com.kehxstudios.atlas.managers.GraphicsManager;
 
 /**
@@ -12,13 +11,13 @@ import com.kehxstudios.atlas.managers.GraphicsManager;
 public class AnimationComponent extends Component {
 
     private GraphicsComponent graphicsComponent;
-    private TextureType[] graphics;
+    private SpriteType[] graphics;
     private int graphicIndex;
     private float timePerGraphic;
     private float currentTime;
     private boolean looped, finished;
 
-    public AnimationComponent(Entity entity, GraphicsComponent graphicsComponent, TextureType[] graphics, float timePerGraphic, boolean looped) {
+    public AnimationComponent(Entity entity, GraphicsComponent graphicsComponent, SpriteType[] graphics, float timePerGraphic, boolean looped) {
         super(entity);
         this.graphicsComponent = graphicsComponent;
         this.graphics = graphics;

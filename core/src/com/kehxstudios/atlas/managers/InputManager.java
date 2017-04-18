@@ -36,25 +36,30 @@ public class InputManager extends Manager {
             return;
         }
         if (Gdx.input.justTouched() && clickableComponents.size() != 0) {
-            checkClickable(Gdx.input.getX()/screen.getScaleWidth(), Gdx.input.getY()/screen.getScaleHeight());
+            DebugTool.log("Checking Input", Gdx.input.getX()+"_" + Gdx.input.getY());
+            checkClickable(Gdx.input.getX(), Gdx.input.getY());
         }
     }
 
     private void checkClickable(float x, float y) {
-        x += gm.getCamera().position.x - gm.getCamera().viewportWidth/2;
-        y += gm.getCamera().position.y - gm.getCamera().viewportHeight/2;
+        DebugTool.log("Checking Clickable", x+"_" + y);
+        x = x + gm.getCamera().position.x - gm.getCamera().viewportWidth/2;
+        y = y + gm.getCamera().position.y - gm.getCamera().viewportHeight/2;
 
-        for (ClickableComponent component : clickableComponents) {
-            if (!component.isEnabled()) {
+        for (int i = 0; i < clickableComponents.size(); i++) {
+            if (!clickableComponents.get(i).isEnabled()) {
                 continue;
             }
-            if (x > component.getX() - component.getWidth()/2 &&
-                    x < component.getX() + component.getWidth()/2 &&
-                    y > component.getY() - component.getHeight()/2 &&
-                    y < component.getY() + component.getHeight()/2) {
-                component.trigger();
+            if (x > clickableComponents.get(i).getX() - clickableComponents.get(i).getWidth()/2 &&
+                    x < clickableComponents.get(i).getX() + clickableComponents.get(i).getWidth()/2 &&
+                    y > clickableComponents.get(i).getY() - clickableComponents.get(i).getHeight()/2 &&
+                    y < clickableComponents.get(i).getY() + clickableComponents.get(i).getHeight()/2) {
+                clickableComponents.get(i).trigger();
+                clickableComponents.remove(i);
+                i--;
             }
         }
+
     }
 
     public void addClickable(ClickableComponent component) {

@@ -19,7 +19,7 @@ public class PhysicsComponent extends Component {
     public boolean collidable;
     public boolean hasCollided;
 
-    public PhysicsComponent(Entity entity, int width, int height, float xSpeed, float ySpeed, boolean collidable) {
+    public PhysicsComponent(Entity entity, float width, float height, float xSpeed, float ySpeed, boolean collidable) {
         super(entity);
         this.collidable = collidable;
         velocity = new Vector2(0,0);

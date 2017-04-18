@@ -1,17 +1,14 @@
 package com.kehxstudios.atlas.screens;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.data.TextureType;
+import com.kehxstudios.atlas.data.SpriteType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.main.GameManager;
-import com.kehxstudios.atlas.managers.EntityManager;
 import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.managers.InputManager;
+import com.kehxstudios.atlas.managers.Manager;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.stats.HighScores;
 import com.kehxstudios.atlas.tools.DebugTool;
@@ -94,9 +91,13 @@ public abstract class AScreen implements Screen {
             backgroundTimes[i] = times.get(i);
         }
 
-        backgroundGraphics = new GraphicsComponent(screenEntity, TextureType.INTRO_DEV_LOGO, 1);
+        backgroundGraphics = new GraphicsComponent(screenEntity, SpriteType.INTRO_DEV_LOGO, 1);
 
         highScores = new HighScores(type);
+
+        GraphicsManager.getInstance().setScreen(this);
+        InputManager.getInstance().setScreen(this);
+        PhysicsManager.getInstance().setScreen(this);
     }
 
     protected AScreenData getScreenData() {

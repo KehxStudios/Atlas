@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Created by ReidC on 2017-04-16.
  */
 
-public enum TextureType {
+public enum SpriteType {
 
     INTRO_DEV_LOGO("DevLogo", "screens/intro/devLogo.png"),
     INTRO_GAME_LOGO("GameLogo", "screens/intro/gameLogo.png"),
@@ -20,19 +20,19 @@ public enum TextureType {
     FLAPPYBIRD_BOTTOMTUBE("FlappyBirdBottomTube", "screens/flappyBird/bottomtube.png"),
     FLAPPYBIRD_GROUND("FlappyBirdGround", "screens/flappyBird/ground.png");
 
-    private static HashMap<String, TextureType> textureTypes;
+    private static HashMap<String, SpriteType> textureTypes;
 
     private String id;
     private String path;
 
-    private TextureType(String id, String path) {
+    private SpriteType(String id, String path) {
         this.id = id;
         this.path = path;
     }
 
     static {
-        textureTypes = new HashMap<String, TextureType>();
-        for (TextureType type : TextureType.values()) {
+        textureTypes = new HashMap<String, SpriteType>();
+        for (SpriteType type : SpriteType.values()) {
             textureTypes.put(type.id, type);
         }
     }
@@ -41,8 +41,8 @@ public enum TextureType {
         return textureTypes.get(id).getPath();
     }
 
-    public static TextureType getTypeByString(String id) {
-        for (TextureType type : textureTypes.values()) {
+    public static SpriteType getTypeByString(String id) {
+        for (SpriteType type : textureTypes.values()) {
             if (type.getId() == id) {
                 return type;
             }
