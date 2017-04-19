@@ -43,6 +43,10 @@ public class GraphicsComponent extends Component {
         GraphicsManager.getInstance().add(this);
     }
 
+    public void updateLocation() {
+        sprite.setPosition(getX(), getY());
+    }
+
     private void loadTexture() {
         sprite = GraphicsManager.getInstance().getSprite(spriteName);
     }
@@ -71,6 +75,7 @@ public class GraphicsComponent extends Component {
     @Override
     public void dispose() {
         super.dispose();
+        sprite = null;
         DebugTool.log("GraphicComponent disposal");
         GraphicsManager.getInstance().remove(this);
     }

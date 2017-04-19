@@ -54,13 +54,18 @@ public class GraphicsManager extends Manager {
                 continue;
             }
             for (GraphicsComponent graphics : layerList) {
-                if (graphics.getSprite() == null || !graphics.isEnabled()) {
+                if (!graphics.isEnabled() || graphics.getSprite() == null) {
                     continue;
                 }
+                graphics.updateLocation();
+                graphics.getSprite().draw(batch);
+
+                /*
                 batch.draw(graphics.getSprite().getTexture(),
                         graphics.getX() - graphics.getWidth() / 2,
                         graphics.getY() - graphics.getHeight() / 2,
                         graphics.getWidth(), graphics.getHeight());
+                        */
             }
         }
         batch.end();
@@ -127,6 +132,10 @@ public class GraphicsManager extends Manager {
     @Override
     protected void removeScreenTypeSettings() {
         textureAtlas.dispose();
+        for (Texture texture : textureAtlas.getTextures()) {
+            texture.dispose();
+            DebugTool.log("Removing Texture from TextureAtlas");
+        }
     }
 
     public Sprite getSprite(String spriteName) {
