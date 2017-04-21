@@ -11,6 +11,7 @@ public enum ActionType {
     DESTROY_ENTITY("Destroy Entity", DestroyEntityAction.class),
     HIGH_SCORE_RESET("High-Score Reset", HighScoreResetAction.class),
     LAUNCH_SCREEN("Launch Screen", LaunchScreenAction.class),
+    MULTI("Multi", MultiAction.class),
     PHYSICS("Physics", PhysicsAction.class),
     REPOSITION("Reposition", RepositionAction.class),
     SCORE("Score", ScoreAction.class),
