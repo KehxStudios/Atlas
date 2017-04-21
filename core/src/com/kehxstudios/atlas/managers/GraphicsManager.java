@@ -32,17 +32,25 @@ public class GraphicsManager extends Manager {
 
     private ArrayList<ArrayList<GraphicsComponent>> graphicComponents;
     private ArrayList<AnimationComponent> animationComponents;
+    private ArrayList<String> loadingStrings;
 
     private TextureAtlas textureAtlas;
     private SpriteType spriteTypes;
 
     public void tick(float delta) {
-        if (animationComponents.size() == 0) {
-            return;
+        if (loadingStrings.size() > 0) {
+            for (String name : loadingStrings) {
+                if (gm.getAssetManager().isLoaded(name)) {
+                    //textureAtlas.addRegion(name, gm.getAssetManager().get(name, Texture.class), 0, 0);
+                }
+            }
         }
-        for (AnimationComponent animation : animationComponents) {
-            if (animation.isEnabled()) {
-                animation.update(delta);
+
+        if (animationComponents.size() > 0) {
+            for (AnimationComponent animation : animationComponents) {
+                if (animation.isEnabled()) {
+                    animation.update(delta);
+                }
             }
         }
     }
@@ -115,6 +123,7 @@ public class GraphicsManager extends Manager {
             graphicComponents.add(new ArrayList<GraphicsComponent>());
         }
         animationComponents = new ArrayList<AnimationComponent>();
+        loadingStrings = new ArrayList<String>();
         textureAtlas = new TextureAtlas();
         spriteTypes = DataTool.getTexturePaths();
     }
@@ -129,13 +138,24 @@ public class GraphicsManager extends Manager {
         textureAtlas.dispose();
     }
 
-    public Sprite getSprite(String spriteName) {
-        Sprite sprite = textureAtlas.createSprite(spriteName);
+    public Sprite getSprite(String spriteId) {
+        Sprite sprite = textureAtlas.createSprite(spriteId);
         if (sprite == null) {
-            SpriteType type = SpriteType.getTypeByString(spriteName);
-            textureAtlas.addRegion(spriteName, new TextureRegion(new Texture(SpriteType.getPath(spriteName))));
-            sprite = textureAtlas.createSprite(spriteName);
+            SpriteType type = SpriteType.getTypeByString(spriteId);
+            gm.getAssetManager().load(SpriteType.getPath(type.getId()), TextureAtlas.class);
+            textureAtlas.addRegion(spriteId, new TextureRegion(new Texture(SpriteType.getPath(spriteId))));
+            sprite = textureAtlas.createSprite(spriteId);
         }
         return sprite;
+    }
+
+    private void loadTexture(String textureId) {
+        String path = SpriteType.getPath(textureId);
+        gm.getAssetManager().load(path, Texture.class);
+        gm.getAssetManager().finishLoading();
+        loadingStrings.add(path);
+    }
+
+    private void textureSetup(GraphicsComponent graphicsComponent) {
     }
 }
