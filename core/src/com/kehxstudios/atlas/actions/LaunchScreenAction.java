@@ -3,6 +3,7 @@ package com.kehxstudios.atlas.actions;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.kehxstudios.atlas.main.GameManager;
+import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.screens.AScreen;
 import com.kehxstudios.atlas.screens.ScreenType;
 
@@ -40,10 +41,6 @@ public class LaunchScreenAction extends Action {
 
     @Override
     public void trigger() {
-        try {
-            GameManager.getInstance().setScreen((AScreen)ClassReflection.newInstance(screenType.loaderClass));
-        } catch (ReflectionException e) {
-            e.printStackTrace();
-        }
+        ScreenManager.getInstance().changeScreen(screenType);
     }
 }

@@ -3,6 +3,7 @@ package com.kehxstudios.atlas.managers;
 import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.main.GameManager;
 import com.kehxstudios.atlas.screens.AScreen;
+import com.kehxstudios.atlas.screens.ScreenType;
 
 /**
  * Created by ReidC on 2017-04-07.
@@ -12,14 +13,15 @@ public abstract class Manager {
 
     protected GameManager gm;
     protected AScreen screen;
+    protected ScreenType screenType;
     protected int MAX_ID;
 
     public abstract void tick(float delta);
 
-    public void setScreen(AScreen newScreen) {
-        if (screen != null)
+    public void setScreenType(ScreenType type) {
+        if (screenType != null)
             removeScreenTypeSettings();
-        screen = newScreen;
+        screenType = type;
         loadScreenTypeSettings();
     }
 

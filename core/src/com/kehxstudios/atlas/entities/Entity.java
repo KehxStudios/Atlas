@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.ComponentType;
 import com.kehxstudios.atlas.managers.EntityManager;
-import com.kehxstudios.atlas.tools.DataTool;
+import com.kehxstudios.atlas.tools.UtilityTool;
 
 import java.util.ArrayList;
 
@@ -41,14 +41,14 @@ public class Entity {
         components = new ArrayList<Component>();
         id = "ENTITY_" + EntityManager.getInstance().getUniqueId();
         for (String componentString : entityData.data.values()) {
-            components.add(new Component(this, DataTool.getComponentDataFromString(componentString)));
+            components.add(new Component(this, UtilityTool.getComponentDataFromString(componentString)));
         }
     }
 
     public EntityData getEntityData() {
         entityData = new EntityData(id, position.x, position.y);
         for (Component component : components) {
-            entityData.putString(component.getType().getId(), DataTool.dataClassToJsonString(component.getComponentData()));
+            entityData.putString(component.getType().getId(), UtilityTool.getStringFromDataClass(component.getComponentData()));
         }
         return entityData;
     }

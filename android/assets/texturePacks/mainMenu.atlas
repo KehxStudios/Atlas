@@ -1,0 +1,20 @@
+
+mainMenu.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background
+  rotate: false
+  xy: 0, 0
+  size: 1152, 2048
+  orig: 1152, 2048
+  offset: 0, 0
+  index: -1
+menuBorder
+  rotate: false
+  xy: 1152, 1613
+  size: 625, 435
+  orig: 625, 435
+  offset: 0, 0
+  index: -1

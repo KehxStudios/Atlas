@@ -8,6 +8,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
@@ -17,6 +18,7 @@ import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.managers.InputManager;
 import com.badlogic.gdx.utils.Json;
 import com.kehxstudios.atlas.managers.PhysicsManager;
+import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.screens.AScreen;
 import com.kehxstudios.atlas.screens.ScreenType;
 import com.kehxstudios.atlas.tools.DebugTool;
@@ -28,6 +30,7 @@ public class GameManager extends Game {
 		return instance;
 	}
 
+	ScreenManager screenManager;
 	EntityManager entityManager;
 	GraphicsManager graphicsManager;
 	InputManager inputManager;
@@ -46,12 +49,16 @@ public class GameManager extends Game {
 	public void create () {
 		instance = this;
 
+		screenManager = ScreenManager.getInstance();
 		entityManager = EntityManager.getInstance();
 		graphicsManager = GraphicsManager.getInstance();
 		inputManager = InputManager.getInstance();
 		physicsManager = PhysicsManager.getInstance();
 
 		assetManager = new AssetManager();
+		assetManager.load("texturePacks/intro.atlas", TextureAtlas.class);
+		assetManager.finishLoading();
+		graphicsManager.setAtlas((TextureAtlas)assetManager.get("texturePacks/intro.atlas"));
 
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
@@ -64,9 +71,8 @@ public class GameManager extends Game {
 			Gdx.graphics.setWindowedMode((int)D_WIDTH, (int)D_HEIGHT);
 			Gdx.graphics.setResizable(false);
 		}
-		launchNewScreen(ScreenType.INTRO);
 
-
+		screenManager.changeScreen(ScreenType.INTRO);
 	}
 
 	private void print() {
@@ -95,25 +101,6 @@ public class GameManager extends Game {
 		graphicsManager.dispose();
 		assetManager.dispose();
 		Gdx.app.error("Disposal", "COMPLETED");
-	}
-
-	private void setNewScreen(AScreen screen) {
-		if (this.screen != null)
-			this.screen.dispose();
-		setScreen(screen);
-		EntityManager.getInstance().setScreen(screen);
-		GraphicsManager.getInstance().setScreen(screen);
-		InputManager.getInstance().setScreen(screen);
-		PhysicsManager.getInstance().setScreen(screen);
-	}
-
-	public void launchNewScreen(ScreenType type) {
-		try {
-			setNewScreen((AScreen) ClassReflection.newInstance(type.loaderClass));
-		} catch (ReflectionException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	public SpriteBatch getBatch() {

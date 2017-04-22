@@ -55,8 +55,10 @@ public class InputManager extends Manager {
                     y > clickableComponents.get(i).getY() - clickableComponents.get(i).getHeight()/2 &&
                     y < clickableComponents.get(i).getY() + clickableComponents.get(i).getHeight()/2) {
                 clickableComponents.get(i).trigger();
-                clickableComponents.remove(i);
-                i--;
+                if (clickableComponents.get(i).isSingleTrigger()) {
+                    clickableComponents.remove(i);
+                    i--;
+                }
             }
         }
 

@@ -3,6 +3,7 @@ package com.kehxstudios.atlas.components;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.kehxstudios.atlas.data.SpriteType;
+import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.tools.DebugTool;
@@ -13,25 +14,26 @@ import com.kehxstudios.atlas.tools.DebugTool;
 
 public class GraphicsComponent extends Component {
 
-    private String spriteName;
-    private Sprite sprite;
+    private TextureType textureType;
+    private Texture texture;
+    private int width, height;
     private int layer;
 
-    public void setTexture(SpriteType spriteType) {
-        spriteName = spriteType.getId();
+    public void setTexture(TextureType textureType) {
+        this.textureType = textureType;
         loadTexture();
     }
 
-    public GraphicsComponent(Entity entity, SpriteType spriteType, int layer){
+    public GraphicsComponent(Entity entity, TextureType textureType, int layer){
         super(entity);
-        this.spriteName = spriteType.getId();
+        this.textureType = textureType;
         this.layer = layer;
         init();
     }
 
     public GraphicsComponent(Entity entity, ComponentData componentData) {
         super(entity, componentData);
-        spriteName = componentData.getString("textureName","-");
+        textureType = TextureType.getTypeFromId(componentData.getString("textureId","-"));
         layer = componentData.getInt("layer",0);
         init();
     }
@@ -43,29 +45,31 @@ public class GraphicsComponent extends Component {
         GraphicsManager.getInstance().add(this);
     }
 
-    public void updateLocation() {
-        sprite.setPosition(getX(), getY());
-    }
-
     private void loadTexture() {
-        sprite = GraphicsManager.getInstance().getSprite(spriteName);
+        texture = GraphicsManager.getInstance().getTexture(textureType);
     }
 
     public ComponentData getComponentData() {
         ComponentData componentData = super.getComponentData();
-        componentData.putString("textureName", spriteName);
+        componentData.putString("textureId", textureType.getId());
         componentData.putInt("layer", layer);
         return componentData;
     }
 
-    public Sprite getSprite() { return sprite; }
+    public boolean hasTexture() {
+        return texture != null;
+    }
 
-    public float getWidth() {
-        return sprite.getWidth();
+    public Texture getTexture() {
+        return texture;
     }
 
     public float getHeight() {
-        return sprite.getHeight();
+        return texture.getHeight();
+    }
+
+    public float getWidth() {
+        return texture.getWidth();
     }
 
     public int getLayer() { return layer; }
@@ -75,7 +79,6 @@ public class GraphicsComponent extends Component {
     @Override
     public void dispose() {
         super.dispose();
-        sprite = null;
         DebugTool.log("GraphicComponent disposal");
         GraphicsManager.getInstance().remove(this);
     }

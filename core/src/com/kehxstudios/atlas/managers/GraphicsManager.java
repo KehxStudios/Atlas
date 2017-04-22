@@ -2,14 +2,11 @@ package com.kehxstudios.atlas.managers;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.kehxstudios.atlas.components.AnimationComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.data.SpriteType;
-import com.kehxstudios.atlas.tools.DataTool;
+import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.tools.DebugTool;
 
 import java.util.ArrayList;
@@ -32,20 +29,10 @@ public class GraphicsManager extends Manager {
 
     private ArrayList<ArrayList<GraphicsComponent>> graphicComponents;
     private ArrayList<AnimationComponent> animationComponents;
-    private ArrayList<String> loadingStrings;
 
     private TextureAtlas textureAtlas;
-    private SpriteType spriteTypes;
 
     public void tick(float delta) {
-        if (loadingStrings.size() > 0) {
-            for (String name : loadingStrings) {
-                if (gm.getAssetManager().isLoaded(name)) {
-                    //textureAtlas.addRegion(name, gm.getAssetManager().get(name, Texture.class), 0, 0);
-                }
-            }
-        }
-
         if (animationComponents.size() > 0) {
             for (AnimationComponent animation : animationComponents) {
                 if (animation.isEnabled()) {
@@ -62,18 +49,13 @@ public class GraphicsManager extends Manager {
                 continue;
             }
             for (GraphicsComponent graphics : layerList) {
-                if (!graphics.isEnabled() || graphics.getSprite() == null) {
-                    continue;
-                }
-                graphics.updateLocation();
-                graphics.getSprite().draw(batch);
-
-                /*
-                batch.draw(graphics.getSprite().getTexture(),
+                if (graphics.isEnabled() && graphics.hasTexture()) {
+                    batch.draw(graphics.getTexture(),
                         graphics.getX() - graphics.getWidth() / 2,
                         graphics.getY() - graphics.getHeight() / 2,
                         graphics.getWidth(), graphics.getHeight());
-                        */
+                }
+
             }
         }
         batch.end();
@@ -128,14 +110,11 @@ public class GraphicsManager extends Manager {
             graphicComponents.add(new ArrayList<GraphicsComponent>());
         }
         animationComponents = new ArrayList<AnimationComponent>();
-        loadingStrings = new ArrayList<String>();
         textureAtlas = new TextureAtlas();
-        spriteTypes = DataTool.getTexturePaths();
     }
 
     @Override
     protected void loadScreenTypeSettings() {
-
     }
 
     @Override
@@ -147,24 +126,11 @@ public class GraphicsManager extends Manager {
         }
     }
 
-    public Sprite getSprite(String spriteId) {
-        Sprite sprite = textureAtlas.createSprite(spriteId);
-        if (sprite == null) {
-            SpriteType type = SpriteType.getTypeByString(spriteId);
-            gm.getAssetManager().load(SpriteType.getPath(type.getId()), TextureAtlas.class);
-            textureAtlas.addRegion(spriteId, new TextureRegion(new Texture(SpriteType.getPath(spriteId))));
-            sprite = textureAtlas.createSprite(spriteId);
-        }
-        return sprite;
+    public Texture getTexture(TextureType textureType) {
+        return textureAtlas.findRegion(textureType.getFileName()).getTexture();
     }
 
-    private void loadTexture(String textureId) {
-        String path = SpriteType.getPath(textureId);
-        gm.getAssetManager().load(path, Texture.class);
-        gm.getAssetManager().finishLoading();
-        loadingStrings.add(path);
-    }
-
-    private void textureSetup(GraphicsComponent graphicsComponent) {
+    public void setAtlas(TextureAtlas atlas) {
+        textureAtlas = atlas;
     }
 }

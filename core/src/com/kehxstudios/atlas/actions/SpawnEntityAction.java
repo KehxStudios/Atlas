@@ -2,7 +2,7 @@ package com.kehxstudios.atlas.actions;
 
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.entities.EntityData;
-import com.kehxstudios.atlas.tools.DataTool;
+import com.kehxstudios.atlas.tools.UtilityTool;
 
 /**
  * Created by ReidC on 2017-04-16.
@@ -18,7 +18,7 @@ public class SpawnEntityAction extends Action {
     }
 
     public SpawnEntityAction(ActionData actionData) {
-        entityData = DataTool.getEntityDatFromString(actionData.getString("entity", "-"));
+        entityData = UtilityTool.getEntityDataFromString(actionData.getString("entity", "-"));
         init();
     }
 
@@ -30,7 +30,7 @@ public class SpawnEntityAction extends Action {
     @Override
     public ActionData getActionData() {
         ActionData actionData = super.getActionData();
-        actionData.putString("entity", DataTool.dataClassToJsonString(entityData));
+        actionData.putString("entity", UtilityTool.getStringFromDataClass(entityData));
         return actionData;
     }
 

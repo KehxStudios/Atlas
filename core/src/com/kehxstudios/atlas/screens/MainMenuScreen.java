@@ -8,9 +8,9 @@ import com.kehxstudios.atlas.actions.HighScoreResetAction;
 import com.kehxstudios.atlas.actions.LaunchScreenAction;
 import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.data.SpriteType;
+import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.tools.DataTool;
+import com.kehxstudios.atlas.tools.UtilityTool;
 
 
 /**
@@ -35,7 +35,7 @@ public class MainMenuScreen extends AScreen {
 
     public MainMenuScreen() {
         super();
-        screenData = DataTool.load(ScreenType.MAIN_MENU);
+        screenData = UtilityTool.load(ScreenType.MAIN_MENU);
         init();
     }
 
@@ -45,24 +45,27 @@ public class MainMenuScreen extends AScreen {
         font = new BitmapFont();
         font.getData().setScale(5f);
 
+        backgroundGraphics = new GraphicsComponent(screenEntity, TextureType.MAINMENU_BACKGROUND, 1);
+
+
         flappyBirdEntity = new Entity(screenEntity.getX(), screenEntity.getY() - 500);
-        GraphicsComponent flappyBirdGraphics = new GraphicsComponent(flappyBirdEntity, SpriteType.MAINMENU_BORDERS,2);
+        GraphicsComponent flappyBirdGraphics = new GraphicsComponent(flappyBirdEntity, TextureType.MAINMENU_BORDERS,2);
         ClickableComponent flappyBirdClickable = new ClickableComponent(flappyBirdEntity, flappyBirdGraphics.getWidth(),
-                flappyBirdGraphics.getHeight(), new LaunchScreenAction(ScreenType.FLAPPY_BIRD));
+                flappyBirdGraphics.getHeight(), true, new LaunchScreenAction(ScreenType.FLAPPY_BIRD));
         flappyBirdLayout = new GlyphLayout(font, flappyBirdText);
         flappyBirdLayout.setText(font, flappyBirdText, Color.WHITE,WIDTH/2, Align.left, true);
 
         introEntity = new Entity(screenEntity.getX(), screenEntity.getY());
-        GraphicsComponent introGraphics = new GraphicsComponent(introEntity, SpriteType.MAINMENU_BORDERS,2);
+        GraphicsComponent introGraphics = new GraphicsComponent(introEntity, TextureType.MAINMENU_BORDERS,2);
         ClickableComponent introClickable = new ClickableComponent(introEntity, introGraphics.getWidth(),
-                introGraphics.getHeight(), new LaunchScreenAction(ScreenType.INTRO));
+                introGraphics.getHeight(), true, new LaunchScreenAction(ScreenType.INTRO));
         introLayout = new GlyphLayout(font, introText);
         introLayout.setText(font, introText, Color.WHITE,WIDTH/2, Align.left, true);
 
         resetScoresEntity = new Entity(screenEntity.getX(), screenEntity.getY() + 500);
-        GraphicsComponent resetScoreGraphics = new GraphicsComponent(resetScoresEntity, SpriteType.MAINMENU_BORDERS,2);
+        GraphicsComponent resetScoreGraphics = new GraphicsComponent(resetScoresEntity, TextureType.MAINMENU_BORDERS,2);
         ClickableComponent ressetScoreClickable = new ClickableComponent(resetScoresEntity, resetScoreGraphics.getWidth(),
-                resetScoreGraphics.getHeight(), new HighScoreResetAction(type));
+                resetScoreGraphics.getHeight(), true, new HighScoreResetAction(type));
         resetLayout = new GlyphLayout(font, resetText);
         resetLayout.setText(font, resetText, Color.WHITE,WIDTH/2, Align.left, true);
     }

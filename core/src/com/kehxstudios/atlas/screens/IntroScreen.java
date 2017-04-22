@@ -3,13 +3,12 @@ package com.kehxstudios.atlas.screens;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.actions.LaunchScreenAction;
 import com.kehxstudios.atlas.components.ClickableComponent;
-import com.kehxstudios.atlas.data.SpriteType;
-import com.kehxstudios.atlas.tools.DataTool;
+import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.tools.DebugTool;
+import com.kehxstudios.atlas.tools.UtilityTool;
 
 /**
  * Created by ReidC on 2017-04-06.
@@ -25,14 +24,12 @@ public class IntroScreen extends AScreen {
 
     public IntroScreen() {
         super();
-        DebugTool.log("IntroScreen");
-        screenData = DataTool.load(ScreenType.INTRO);
+        screenData = UtilityTool.load(ScreenType.INTRO);
         init();
     }
 
     protected void init() {
         super.init();
-        DebugTool.log("IntroScreen.init");
         clickToContinue = false;
         finalLogo = false;
         font = new BitmapFont();
@@ -59,7 +56,7 @@ public class IntroScreen extends AScreen {
                     finalLogo = true;
                 } else if (finalLogo) {
                     ClickableComponent clickableComponent = new ClickableComponent(screenEntity, WIDTH, HEIGHT,
-                            new LaunchScreenAction(ScreenType.MAIN_MENU));
+                            true, new LaunchScreenAction(ScreenType.MAIN_MENU));
                     clickToContinue = true;
                     DebugTool.log(clickableComponent+"");
                 }
@@ -92,11 +89,11 @@ public class IntroScreen extends AScreen {
     }
 
     private void setDevLogo() {
-        backgroundGraphics.setTexture(SpriteType.INTRO_DEV_LOGO);
+        backgroundGraphics.setTexture(TextureType.DEV_LOGO);
     }
 
     private void setGameLogo() {
-        backgroundGraphics.setTexture(SpriteType.INTRO_GAME_LOGO);
+        backgroundGraphics.setTexture(TextureType.GAME_LOGO);
     }
 
     @Override
