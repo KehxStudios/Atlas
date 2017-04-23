@@ -21,6 +21,7 @@ public class LaunchScreenAction extends Action {
 
     public LaunchScreenAction(ActionData actionData) {
         super(actionData);
+        screenType = ScreenType.getTypeById(actionData.getString("screenType", "intro"));
         init();
     }
 

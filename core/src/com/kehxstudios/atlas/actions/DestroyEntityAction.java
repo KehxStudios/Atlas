@@ -1,6 +1,7 @@
 package com.kehxstudios.atlas.actions;
 
 import com.kehxstudios.atlas.entities.Entity;
+import com.kehxstudios.atlas.entities.EntityType;
 
 /**
  * Created by ReidC on 2017-04-16.
@@ -36,7 +37,6 @@ public class DestroyEntityAction extends Action {
 
     public ActionData getActionData() {
         ActionData actionData = super.getActionData();
-        actionData.putString("entityId", entity.getId());
         actionData.putFloat("delay", delay);
         return actionData;
     }

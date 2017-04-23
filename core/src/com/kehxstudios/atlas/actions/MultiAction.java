@@ -1,5 +1,7 @@
 package com.kehxstudios.atlas.actions;
 
+import com.kehxstudios.atlas.entities.Entity;
+
 import java.util.ArrayList;
 
 /**
@@ -15,6 +17,11 @@ public class MultiAction extends Action {
         init();
     }
 
+    public MultiAction(Entity entity, ActionData actionData) {
+
+        init();
+    }
+
     public void addAction(Action action, int position) {
         if (position < 0)
             position = 0;
@@ -27,12 +34,17 @@ public class MultiAction extends Action {
         actions.remove(action);
     }
 
-    public void removeActionOfType(ActionType type) {
+    public void removeAllActionsOfType(ActionType type) {
         for (int i = 0; i < actions.size(); i++) {
             if (actions.get(i).type == type) {
                 actions.remove(i--);
             }
         }
+    }
+
+    public ActionData getActionData() {
+        ActionData actionData = super.getActionData();
+        return actionData;
     }
 
     @Override

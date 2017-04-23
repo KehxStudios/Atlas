@@ -32,9 +32,6 @@ public class InputManager extends Manager {
     }
 
     public void tick(float delta) {
-        if (screen == null) {
-            return;
-        }
         if (Gdx.input.justTouched() && clickableComponents.size() != 0) {
             DebugTool.log("Checking Input", Gdx.input.getX()+"_" + Gdx.input.getY());
             checkClickable(Gdx.input.getX(), Gdx.input.getY());
@@ -55,13 +52,15 @@ public class InputManager extends Manager {
                     y > clickableComponents.get(i).getY() - clickableComponents.get(i).getHeight()/2 &&
                     y < clickableComponents.get(i).getY() + clickableComponents.get(i).getHeight()/2) {
                 clickableComponents.get(i).trigger();
+                return;
+                /*DebugTool.log("Trigger");
                 if (clickableComponents.get(i).isSingleTrigger()) {
                     clickableComponents.remove(i);
                     i--;
                 }
+                */
             }
         }
-
     }
 
     public void addClickable(ClickableComponent component) {
