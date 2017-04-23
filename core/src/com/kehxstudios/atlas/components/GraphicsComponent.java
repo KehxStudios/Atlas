@@ -16,7 +16,7 @@ public class GraphicsComponent extends Component {
 
     private TextureType textureType;
     private Texture texture;
-    private int width, height;
+    private float width, height;
     private int layer;
 
     public void setTexture(TextureType textureType) {
@@ -24,9 +24,12 @@ public class GraphicsComponent extends Component {
         loadTexture();
     }
 
-    public GraphicsComponent(Entity entity, TextureType textureType, int layer){
+    public GraphicsComponent(Entity entity, TextureType textureType,
+                             float width, float height, int layer){
         super(entity);
         this.textureType = textureType;
+        this.width = width;
+        this.height = height;
         this.layer = layer;
         init();
     }
@@ -34,6 +37,8 @@ public class GraphicsComponent extends Component {
     public GraphicsComponent(Entity entity, ComponentData componentData) {
         super(entity, componentData);
         textureType = TextureType.getTypeFromId(componentData.getString("textureId","-"));
+        width = componentData.getFloat("width", 0);
+        height = componentData.getFloat("height", 0);
         layer = componentData.getInt("layer",0);
         init();
     }
@@ -52,6 +57,8 @@ public class GraphicsComponent extends Component {
     public ComponentData getComponentData() {
         ComponentData componentData = super.getComponentData();
         componentData.putString("textureId", textureType.getId());
+        componentData.putFloat("width", width);
+        componentData.putFloat("height", height);
         componentData.putInt("layer", layer);
         return componentData;
     }
@@ -65,12 +72,16 @@ public class GraphicsComponent extends Component {
     }
 
     public float getHeight() {
-        return texture.getHeight();
+        return height;
     }
 
+    public void setHeight(float value) { height = value; }
+
     public float getWidth() {
-        return texture.getWidth();
+        return width;
     }
+
+    public float setWidth(float value) { width = value; }
 
     public int getLayer() { return layer; }
 
