@@ -12,7 +12,7 @@ public enum TextureType {
     GAME_LOGO("GameLogo","gameLogo"),
 
     MAINMENU_BACKGROUND("MainMenuBackground", "background"),
-    MAINMENU_BORDERS("MainMenuBorders", "borders"),
+    MAINMENU_BORDERS("MainMenuBorders", "menuBorder"),
 
     FLAPPYBIRD_BACKGROUND("FlappyBirdBackground", "background"),
     FLAPPYBIRD_BIRD("FlappyBirdBird", "bird"),

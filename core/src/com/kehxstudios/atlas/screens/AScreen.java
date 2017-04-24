@@ -69,7 +69,7 @@ public abstract class AScreen implements Screen {
             return;
         }
 
-        type = ScreenType.getType(screenData.getType());
+        type = ScreenType.getTypeById(screenData.getType());
         WIDTH = screenData.WIDTH;
         HEIGHT = screenData.HEIGHT;
 
@@ -94,7 +94,7 @@ public abstract class AScreen implements Screen {
             backgroundTimes[i] = times.get(i);
         }
 
-        backgroundGraphics = new GraphicsComponent(screenEntity, TextureType.DEV_LOGO, 1);
+        backgroundGraphics = new GraphicsComponent(screenEntity);
 
         highScores = new HighScores(type);
     }

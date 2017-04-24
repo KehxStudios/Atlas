@@ -30,6 +30,7 @@ public class IntroScreen extends AScreen {
 
     protected void init() {
         super.init();
+        setDevLogo();
         clickToContinue = false;
         finalLogo = false;
         font = new BitmapFont();
@@ -57,8 +58,8 @@ public class IntroScreen extends AScreen {
                 } else if (finalLogo) {
                     ClickableComponent clickableComponent = new ClickableComponent(screenEntity, WIDTH, HEIGHT,
                             true, new LaunchScreenAction(ScreenType.MAIN_MENU));
+                    DebugTool.log("Clickable "+clickableComponent);
                     clickToContinue = true;
-                    DebugTool.log(clickableComponent+"");
                 }
             }
         } else {
@@ -90,6 +91,7 @@ public class IntroScreen extends AScreen {
 
     private void setDevLogo() {
         backgroundGraphics.setTexture(TextureType.DEV_LOGO);
+        backgroundGraphics.setLayer(2);
     }
 
     private void setGameLogo() {

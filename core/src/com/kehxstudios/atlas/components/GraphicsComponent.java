@@ -43,6 +43,12 @@ public class GraphicsComponent extends Component {
         init();
     }
 
+    public GraphicsComponent(Entity entity) {
+        super(entity);
+        type = ComponentType.GRAPHICS;
+        GraphicsManager.getInstance().add(this);
+    }
+
     protected void init() {
         type = ComponentType.GRAPHICS;
         super.init();

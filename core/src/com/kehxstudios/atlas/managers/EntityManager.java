@@ -84,6 +84,8 @@ public class EntityManager extends Manager {
 
     @Override
     protected void removeScreenTypeSettings() {
-
+        for (; entities.size() > 0;) {
+            removeEntity(entities.get(0));
+        }
     }
 }

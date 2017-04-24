@@ -54,11 +54,7 @@ public class GameManager extends Game {
 		graphicsManager = GraphicsManager.getInstance();
 		inputManager = InputManager.getInstance();
 		physicsManager = PhysicsManager.getInstance();
-
 		assetManager = new AssetManager();
-		assetManager.load("texturePacks/intro.atlas", TextureAtlas.class);
-		assetManager.finishLoading();
-		graphicsManager.setAtlas((TextureAtlas)assetManager.get("texturePacks/intro.atlas"));
 
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();

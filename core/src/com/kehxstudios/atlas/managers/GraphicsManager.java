@@ -115,6 +115,9 @@ public class GraphicsManager extends Manager {
 
     @Override
     protected void loadScreenTypeSettings() {
+        gm.getAssetManager().load(screenType.getPath(), TextureAtlas.class);
+        gm.getAssetManager().finishLoading();
+        textureAtlas = gm.getAssetManager().get(screenType.getPath());
     }
 
     @Override

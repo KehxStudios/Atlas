@@ -8,21 +8,22 @@ import java.util.HashMap;
 
 public enum EntityType {
 
+    VOID("void", Entity.class, 0, 0),
     PLAYER("Player", Entity.class, 32, 32);
 
-    private String name;
+    private String id;
     private Class loaderClass;
     private int width, height;
 
     private EntityType(String name, Class loaderClass, int width, int height) {
-        this.name = name;
+        this.id = name;
         this.loaderClass = loaderClass;
         this.width = width;
         this.height = height;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
     public int getWidth() {
@@ -33,12 +34,16 @@ public enum EntityType {
         return height;
     }
 
+    public static EntityType getTypeById(String id) {
+        return entityTypes.get(id);
+    }
+
     private static HashMap<String, EntityType> entityTypes;
 
     static {
         entityTypes = new HashMap<String, EntityType>();
         for (EntityType type : EntityType.values()) {
-            entityTypes.put(type.name, type);
+            entityTypes.put(type.id, type);
         }
     }
 }

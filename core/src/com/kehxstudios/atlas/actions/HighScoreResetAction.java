@@ -17,7 +17,7 @@ public class HighScoreResetAction extends Action {
 
     public HighScoreResetAction(ActionData actionData) {
         super(actionData);
-        screenType = ScreenType.getType(actionData.getString("screenType", "-"));
+        screenType = ScreenType.getTypeById(actionData.getString("screenType", "intro"));
     }
 
     public void changeScreenType(ScreenType screenType) {
@@ -36,7 +36,7 @@ public class HighScoreResetAction extends Action {
 
     public ActionData getActionData() {
         ActionData actionData = super.getActionData();
-        actionData.putString("screenType",screenType.getId());
+        actionData.putString("screenType", screenType.getId());
         return actionData;
     }
 }
