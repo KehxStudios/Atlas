@@ -11,6 +11,7 @@ import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.ComponentData;
 import com.kehxstudios.atlas.components.ComponentType;
 import com.kehxstudios.atlas.components.GraphicsComponent;
+import com.kehxstudios.atlas.components.InViewComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.entities.EntityData;
@@ -116,7 +117,9 @@ public class Factory {
         entityData.setX(entity.getX());
         entityData.setY(entity.getY());
         for (Component component : entity.getComponents()) {
-            // entityData.putFloat(component.getId(), );
+            ComponentData componentData = createComponentData(component);
+            String stringData = UtilityTool.getStringFromDataClass(componentData);
+            entityData.putString(componentData.getType(), stringData);
         }
         return entityData;
     }
@@ -133,8 +136,26 @@ public class Factory {
 
         } else if (component.getType() == ComponentType.BUTTON) {
             componentData.putInt("key", ((ButtonComponent)component).getKey());
-
+            componentData.putString("action", UtilityTool.getStringFromDataClass(createActionData(((ButtonComponent)component).getAction())));
         } else if (component.getType() == ComponentType.CLICKABLE) {
+            componentData.putFloat("width", (((ClickableComponent)component).getWidth()));
+            componentData.putFloat("height", (((ClickableComponent)component).getHeight()));
+            componentData.putBoolean("singleTarget", (((ClickableComponent)component).isSingleTrigger()));
+            componentData.putString("action", UtilityTool.getStringFromDataClass(createActionData(((ClickableComponent)component).getAction())));
+        } else if (component.getType() == ComponentType.FLOATING_TEXT) {
+
+        } else if (component.getType() == ComponentType.GRAPHICS) {
+            componentData.putFloat("width", ((GraphicsComponent)component).getWidth());
+            componentData.putFloat("height", ((GraphicsComponent)component).getHeight());
+            componentData.putInt("layer", ((GraphicsComponent)component).getLayer());
+            componentData.putString("textureType", ((GraphicsComponent)component).getTextureType().getId());
+        } else if (component.getType() == ComponentType.IN_VIEW) {
+            componentData.putFloat("width", ((InViewComponent)component).getWidth());
+            componentData.putFloat("height", ((InViewComponent)component).getHeight());
+            componentData.putString("action", UtilityTool.getStringFromDataClass(createActionData(((InViewComponent)component).getAction())));
+        } else if (component.getType() == ComponentType.PHYSICS) {
+
+        } else if (component.getType() == ComponentType.POINTER_DIRECTION) {
 
         }
         return componentData;
@@ -150,6 +171,16 @@ public class Factory {
         } else if (action.getActionType() == ActionType.LAUNCH_SCREEN) {
 
         } else if (action.getActionType() == ActionType.MULTI) {
+
+        } else if (action.getActionType() == ActionType.PHYSICS) {
+
+        } else if (action.getActionType() == ActionType.REPOSITION) {
+
+        } else if (action.getActionType() == ActionType.SCORE) {
+
+        } else if (action.getActionType() == ActionType.SPAWN_ENTITY) {
+
+        } else if (action.getActionType() == ActionType.TELEPORT) {
 
         }
         return actionData;

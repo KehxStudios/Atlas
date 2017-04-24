@@ -10,10 +10,10 @@ import com.kehxstudios.atlas.main.GameManager;
 
 public class InViewComponent extends Component {
 
-    private int width, height;
+    private float width, height;
     private Action action;
 
-    public InViewComponent(Entity entity, int width, int height, Action action) {
+    public InViewComponent(Entity entity, float width, float height, Action action) {
         super(entity);
         this.width = width;
         this.height = height;
@@ -30,4 +30,10 @@ public class InViewComponent extends Component {
             action.trigger();
         }
     }
+
+    public float getWidth() { return width; }
+
+    public float getHeight() { return height; }
+
+    public Action getAction() { return action; }
 }

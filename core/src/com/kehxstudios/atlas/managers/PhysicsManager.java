@@ -27,14 +27,9 @@ public class PhysicsManager extends Manager {
             if (!physics.isEnabled()) {
                 continue;
             }
-            if (physics.getY() > 0) {
-                physics.velocity.add(0, physics.speeds.y);
-            }
+            physics.velocity.add(physics.speeds.x, physics.speeds.y);
             physics.velocity.scl(delta);
-            physics.moveLocation(physics.speeds.x * delta, physics.velocity.y);
-            if (physics.getY() < 0) {
-                physics.setY(0);
-            }
+            physics.moveLocation(physics.velocity.x * delta, physics.velocity.y * delta);
             physics.velocity.scl(1/delta);
             physics.updateBounds();
         }

@@ -1,6 +1,8 @@
 package com.kehxstudios.atlas.components;
 
 import com.badlogic.gdx.Input.Keys;
+import com.kehxstudios.atlas.actions.Action;
+import com.kehxstudios.atlas.actions.PhysicsAction;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.managers.InputManager;
@@ -13,6 +15,7 @@ import com.kehxstudios.atlas.tools.DebugTool;
 public class ButtonComponent extends Component {
 
     private PhysicsComponent physics;
+    private Action action;
     private int key;
 
     public ButtonComponent(Entity entity) {
@@ -40,6 +43,8 @@ public class ButtonComponent extends Component {
     }
 
     public void setKey(int value) { key = value; }
+
+    public Action getAction() { return action; }
 
     @Override
     public void dispose() {

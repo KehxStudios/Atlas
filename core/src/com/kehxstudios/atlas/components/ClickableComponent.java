@@ -57,6 +57,8 @@ public class ClickableComponent extends Component {
 
     public void setHeight(float value) { height = value; }
 
+    public Action getAction() { return action; }
+
     @Override
     public void dispose() {
         super.dispose();

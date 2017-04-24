@@ -17,7 +17,7 @@ public class PhysicsComponent extends Component {
     public Vector2 speeds;
     public Rectangle bounds;
     public boolean collidable;
-    public boolean hasCollided;
+    public boolean hasCollided; // Reset to false on creation
 
     public PhysicsComponent(Entity entity, float width, float height, float xSpeed, float ySpeed, boolean collidable) {
         super(entity);

@@ -93,6 +93,8 @@ public class GraphicsComponent extends Component {
 
     public void setLayer(int value) { layer = value; }
 
+    public TextureType getTextureType() { return textureType; }
+
     @Override
     public void dispose() {
         super.dispose();
