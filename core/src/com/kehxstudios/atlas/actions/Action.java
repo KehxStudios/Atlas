@@ -18,4 +18,6 @@ public abstract class Action {
     public ActionData getActionData() {
         return new ActionData(type.getId());
     }
+
+    public ActionType getActionType() { return type; }
 }

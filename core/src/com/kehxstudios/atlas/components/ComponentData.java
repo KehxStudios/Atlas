@@ -44,7 +44,7 @@ public class ComponentData {
 
     public boolean getUsePositionAsOffset() { return usePositionAsOffset; }
 
-    public void setSsePositionAsOffset(boolean value) { usePositionAsOffset = value; }
+    public void setUsePositionAsOffset(boolean value) { usePositionAsOffset = value; }
 
     public String getType() {
         return type;

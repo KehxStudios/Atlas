@@ -18,6 +18,10 @@ public class AnimationComponent extends Component {
     private float currentTime;
     private boolean looped, finished;
 
+    public AnimationComponent(Entity entity) {
+        super(entity);
+    }
+
     public AnimationComponent(Entity entity, GraphicsComponent graphicsComponent, TextureType[] graphics, float timePerGraphic, boolean looped) {
         super(entity);
         this.graphicsComponent = graphicsComponent;

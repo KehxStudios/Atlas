@@ -15,6 +15,10 @@ public class ClickableComponent extends Component {
     private boolean singleTrigger;
     private Action action;
 
+    public ClickableComponent(Entity entity) {
+        super(entity);
+    }
+
     public ClickableComponent(Entity entity, float width, float height, boolean singleTrigger, Action action) {
         super(entity);
         this.width = width;
@@ -39,13 +43,19 @@ public class ClickableComponent extends Component {
         return singleTrigger;
     }
 
+    public void setSingleTrigger(boolean value) { singleTrigger = value; }
+
     public float getWidth() {
         return width;
     }
 
+    public void setWidth(float value) { width = value; }
+
     public float getHeight() {
         return height;
     }
+
+    public void setHeight(float value) { height = value; }
 
     @Override
     public void dispose() {

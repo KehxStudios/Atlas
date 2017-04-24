@@ -68,6 +68,8 @@ public class Entity {
 
     public String getId() { return id; }
 
+    public void setId(String id) { this.id = id;}
+
     public void moveLocation(float x, float y) { position.add(x,y); }
 
     public void setLocation(float x, float y) {

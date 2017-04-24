@@ -81,7 +81,7 @@ public class GraphicsComponent extends Component {
         return width;
     }
 
-    public float setWidth(float value) { width = value; }
+    public void setWidth(float value) { width = value; }
 
     public int getLayer() { return layer; }
 

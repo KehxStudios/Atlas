@@ -15,6 +15,10 @@ public class ButtonComponent extends Component {
     private PhysicsComponent physics;
     private int key;
 
+    public ButtonComponent(Entity entity) {
+        super(entity);
+    }
+
     public ButtonComponent(Entity entity, PhysicsComponent physics, int key) {
         super(entity);
         this.physics = physics;
@@ -29,9 +33,13 @@ public class ButtonComponent extends Component {
         }
     }
 
+    public void setPhysics(PhysicsComponent physics) { this.physics = physics; }
+
     public int getKey() {
         return key;
     }
+
+    public void setKey(int value) { key = value; }
 
     @Override
     public void dispose() {

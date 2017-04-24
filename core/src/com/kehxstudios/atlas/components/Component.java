@@ -51,6 +51,8 @@ public class Component {
 
     public ComponentType getType() { return type; }
 
+    public void setType(ComponentType type) { this.type = type; }
+
     public ComponentData getComponentData() {
         if (position == null) {
             componentData = new ComponentData(id, type.getId(), entity.getId(), enabled, 0,0, useComponentPosition, usePositionAsOffset);
