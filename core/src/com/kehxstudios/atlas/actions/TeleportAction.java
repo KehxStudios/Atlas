@@ -9,38 +9,16 @@ import com.badlogic.gdx.math.Vector2;
 public class TeleportAction extends Action {
 
     private Vector2 position;
-    private Vector2 actionValue;
+    private Vector2 teleportPosition;
 
-    public TeleportAction(Vector2 position, Vector2 actionValue) {
-        this.position = position;
-        this.actionValue = actionValue;
-    }
+    public Vector2 getPosition() { return position; }
+    public void setPosition(Vector2 position) { this.position = position; }
 
-    public TeleportAction(Vector2 position, ActionData actionData) {
-        this.position = position;
-        actionValue = new Vector2(actionData.getFloat("actionValue_x", 0f),
-                actionData.getFloat("actionValue_y", 0f));
-    }
-
-    @Override
-    protected void init() {
-        type = ActionType.TELEPORT;
-    }
-
-    @Override
-    public ActionData getActionData() {
-        ActionData actionData = super.getActionData();
-        actionData.putFloat("actionValue_x", 0f);
-        actionData.putFloat("actionValue_y", 0f);
-        return actionData;
-    }
-
-    public void setActionValue(Vector2 actionValue) {
-        this.actionValue = actionValue;
-    }
+    public Vector2 getTeleportPosition() { return teleportPosition; }
+    public void setTeleportPosition(Vector2 teleportPosition) { this.teleportPosition = teleportPosition; }
 
     @Override
     public void trigger() {
-        position.set(actionValue);
+        position.set(teleportPosition);
     }
 }

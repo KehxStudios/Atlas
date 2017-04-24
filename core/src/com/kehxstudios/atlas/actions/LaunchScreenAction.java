@@ -15,30 +15,8 @@ public class LaunchScreenAction extends Action {
 
     private ScreenType screenType;
 
-    public LaunchScreenAction(ScreenType screenType) {
-        this.screenType = screenType;
-    }
-
-    public LaunchScreenAction(ActionData actionData) {
-        super(actionData);
-        screenType = ScreenType.getTypeById(actionData.getString("screenType", "intro"));
-        init();
-    }
-
-    @Override
-    protected void init() {
-        type = ActionType.LAUNCH_SCREEN;
-    }
-
-    public void changeScreenType(ScreenType screenType) {
-        this.screenType = screenType;
-    }
-
-    public ActionData getActionData() {
-        ActionData actionData = super.getActionData();
-        actionData.putString("screenType", screenType.getId());
-        return actionData;
-    }
+    public ScreenType getScreenType() { return screenType; }
+    public void setScreenType(ScreenType screenType) { this.screenType = screenType; }
 
     @Override
     public void trigger() {

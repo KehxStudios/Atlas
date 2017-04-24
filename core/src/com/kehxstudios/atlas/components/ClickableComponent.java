@@ -15,53 +15,17 @@ public class ClickableComponent extends Component {
     private boolean singleTrigger;
     private Action action;
 
-    public ClickableComponent(Entity entity) {
-        super(entity);
-    }
+    public float getWidth() { return width; }
+    public void setWidth(float width) { this.width = width; }
 
-    public ClickableComponent(Entity entity, float width, float height, boolean singleTrigger, Action action) {
-        super(entity);
-        this.width = width;
-        this.height = height;
-        this.singleTrigger = singleTrigger;
-        this.action = action;
-        init();
-    }
-
-    @Override
-    protected void init() {
-        type = ComponentType.CLICKABLE;
-        super.init();
-        InputManager.getInstance().addClickable(this);
-    }
-
-    public void trigger() {
-        action.trigger();
-    }
+    public float getHeight() { return height; }
+    public void setHeight(float height) { this.height = height; }
 
     public boolean isSingleTrigger() {
         return singleTrigger;
     }
-
-    public void setSingleTrigger(boolean value) { singleTrigger = value; }
-
-    public float getWidth() {
-        return width;
-    }
-
-    public void setWidth(float value) { width = value; }
-
-    public float getHeight() {
-        return height;
-    }
-
-    public void setHeight(float value) { height = value; }
+    public void setSingleTrigger(boolean singleTrigger) { this.singleTrigger = singleTrigger; }
 
     public Action getAction() { return action; }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        InputManager.getInstance().removeClickable(this);
-    }
+    public void setAction(Action action) { this.action = action;}
 }

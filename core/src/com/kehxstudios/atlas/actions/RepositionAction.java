@@ -11,34 +11,12 @@ public class RepositionAction extends Action {
     private Vector2 position;
     private Vector2 actionValue;
 
-    public RepositionAction(Vector2 position, Vector2 actionValue) {
-        this.position = position;
-        this.actionValue = actionValue;
-        init();
-    }
+    public Vector2 getPosition() { return position; }
+    public void setPosition(Vector2 position) { this.position = position; }
 
-    public RepositionAction(Vector2 position, ActionData actionData) {
-        this.position = position;
-        actionValue = new Vector2(actionData.getFloat("actionValue_x", 0f),
-                actionData.getFloat("actionValue_y", 0f));
-        init();
-    }
-
-    @Override
-    protected void init() {
-        type = ActionType.REPOSITION;
-    }
-
-    public void setActionValue(Vector2 actionValue) {
-        this.actionValue = actionValue;
-    }
-
-    public ActionData getActionData() {
-        ActionData actionData = super.getActionData();
-        actionData.putFloat("actionValue_x", actionValue.x);
-        actionData.putFloat("actionValue_y", actionValue.y);
-        return actionData;
-    }
+    public Vector2 getActionValue() { return actionValue; }
+    public void setActionValue(float x, float y) { actionValue.set(x,y); }
+    public void addActionValue(float x, float y) { actionValue.add(x,y); }
 
     @Override
     public void trigger() {

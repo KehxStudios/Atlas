@@ -14,42 +14,18 @@ import com.kehxstudios.atlas.tools.DebugTool;
 
 public class ButtonComponent extends Component {
 
-    private PhysicsComponent physics;
+    private PhysicsComponent physicsComponent;
     private Action action;
     private int key;
 
-    public ButtonComponent(Entity entity) {
-        super(entity);
-    }
-
-    public ButtonComponent(Entity entity, PhysicsComponent physics, int key) {
-        super(entity);
-        this.physics = physics;
-        this.key = key;
-        type = ComponentType.BUTTON;
-        InputManager.getInstance().addButton(this);
-    }
-
-    public void trigger() {
-        if (physics != null) {
-            physics.velocity.y = 250;
-        }
-    }
-
-    public void setPhysics(PhysicsComponent physics) { this.physics = physics; }
+    public PhysicsComponent getPhysicsComponent() { return physicsComponent; }
+    public void setPhysicsComponent(PhysicsComponent physicsComponent) { this.physicsComponent = physicsComponent; }
 
     public int getKey() {
         return key;
     }
-
-    public void setKey(int value) { key = value; }
+    public void setKey(int key) { this.key = key; }
 
     public Action getAction() { return action; }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        DebugTool.log("ButtonComponent disposal");
-        InputManager.getInstance().removeButton(this);
-    }
+    public void setAction(Action action) { this.action = action; }
 }

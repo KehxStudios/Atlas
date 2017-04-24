@@ -11,32 +11,11 @@ public class HighScoreResetAction extends Action {
 
     private ScreenType screenType;
 
-    public HighScoreResetAction(ScreenType screenType) {
-        this.screenType = screenType;
-    }
-
-    public HighScoreResetAction(ActionData actionData) {
-        super(actionData);
-        screenType = ScreenType.getTypeById(actionData.getString("screenType", "intro"));
-    }
-
-    public void changeScreenType(ScreenType screenType) {
-        this.screenType = screenType;
-    }
-
-    @Override
-    protected void init() {
-        type = ActionType.HIGH_SCORE_RESET;
-    }
+    public ScreenType getScreenType() { return screenType; }
+    public void setScreenType(ScreenType screenType) { this.screenType = screenType; }
 
     @Override
     public void trigger() {
         HighScores.resetScores(screenType);
-    }
-
-    public ActionData getActionData() {
-        ActionData actionData = super.getActionData();
-        actionData.putString("screenType", screenType.getId());
-        return actionData;
     }
 }

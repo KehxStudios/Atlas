@@ -3,16 +3,8 @@ package com.kehxstudios.atlas.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.data.SpriteType;
-import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.main.GameManager;
-import com.kehxstudios.atlas.managers.EntityManager;
-import com.kehxstudios.atlas.managers.GraphicsManager;
-import com.kehxstudios.atlas.managers.InputManager;
-import com.kehxstudios.atlas.managers.Manager;
-import com.kehxstudios.atlas.managers.PhysicsManager;
-import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.stats.HighScores;
 import com.kehxstudios.atlas.tools.DebugTool;
 

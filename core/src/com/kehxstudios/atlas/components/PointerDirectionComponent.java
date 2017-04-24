@@ -12,18 +12,14 @@ import com.kehxstudios.atlas.entities.Entity;
 
 public class PointerDirectionComponent extends Component {
 
-    private PhysicsAction physicsAction;
     private Vector2 direction;
+    private Action action;
 
-    public PointerDirectionComponent(Entity entity, PhysicsAction physicsAction) {
-        super(entity);
-        this.physicsAction = physicsAction;
-        direction = new Vector2(0,0);
-    }
+    public Vector2 getDirection() { return direction; }
+    public void setDirection() { direction = new Vector2(0,0); }
+    public void setDirection(float x, float y) { direction.set(x,y); }
+    public void moveDirection(float x, float y) { direction.add(x,y); }
 
-    public void trigger() {
-        direction = new Vector2(Gdx.input.getX(), Gdx.input.getY()).sub(entity.getLocation());
-        physicsAction.changeTriggerValue(direction);
-        physicsAction.trigger();
-    }
+    public Action getAction() { return action; }
+    public void setAction(Action action) { this.action = action; }
 }

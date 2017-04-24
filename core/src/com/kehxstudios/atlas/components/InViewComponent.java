@@ -13,27 +13,12 @@ public class InViewComponent extends Component {
     private float width, height;
     private Action action;
 
-    public InViewComponent(Entity entity, float width, float height, Action action) {
-        super(entity);
-        this.width = width;
-        this.height = height;
-        this.action = action;
-    }
-
-    public void check() {
-        float camX = GameManager.getInstance().getCamera().position.x;
-        float camY = GameManager.getInstance().getCamera().position.y;
-        float camWidth = GameManager.getInstance().getCamera().viewportWidth;
-        float camHeight = GameManager.getInstance().getCamera().viewportHeight;
-        if ((getX() - width/2 > camX - camWidth/2 || getX() + width/2 < camX + camWidth/2) &&
-                (getY() - height/2 > camY - camHeight/2 || getY() + height/2 < camY + camHeight/2)) {
-            action.trigger();
-        }
-    }
-
     public float getWidth() { return width; }
+    public void setWidth(float width) { this.width = width; }
 
     public float getHeight() { return height; }
+    public void setHeight(float height) { this.height = height; }
 
     public Action getAction() { return action; }
+    public void setAction(Action action) { this.action = action; }
 }

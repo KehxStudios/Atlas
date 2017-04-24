@@ -2,6 +2,7 @@ package com.kehxstudios.atlas.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.kehxstudios.atlas.components.Component;
+import com.kehxstudios.atlas.data.GrimReaper;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.tools.DebugTool;
 
@@ -24,7 +25,6 @@ public class EntityManager extends Manager {
         entities = new ArrayList<Entity>();
     }
 
-
     private ArrayList<Entity> entities;
 
     public void addEntity(Entity entity) {
@@ -40,9 +40,10 @@ public class EntityManager extends Manager {
             if (entity.getComponents().size() > 0) {
                 ArrayList<Component> components = entity.getComponents();
                 for (;components.size() > 0;) {
-                    components.get(0).dispose();
+                    removeComponent(entity, components.get(0));
                 }
             }
+            GrimReaper.getInstance().destroyEntity(entity);
             entities.remove(entity);
         } else {
             DebugTool.log("Failed to find entity in entities");
@@ -63,6 +64,7 @@ public class EntityManager extends Manager {
     public void removeComponent(Entity entity, Component component) {
         if (entities.contains(entity)) {
             if (entity.hasComponent(component)) {
+                GrimReaper.getInstance().destroyComponent(component);
                 entity.getComponents().remove(component);
             } else {
 

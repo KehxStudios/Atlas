@@ -50,6 +50,8 @@ public class MainMenuScreen extends AScreen {
         backgroundGraphics.setTexture(TextureType.MAINMENU_BACKGROUND);
         backgroundGraphics.setLayer(2);
 
+        /*
+
         flappyBirdEntity = new Entity(screenEntity.getX(), screenEntity.getY() - 500);
         GraphicsComponent flappyBirdGraphics = new GraphicsComponent(flappyBirdEntity, TextureType.MAINMENU_BORDERS,2);
         ClickableComponent flappyBirdClickable = new ClickableComponent(flappyBirdEntity, flappyBirdGraphics.getWidth(),
@@ -70,6 +72,7 @@ public class MainMenuScreen extends AScreen {
                 resetScoreGraphics.getHeight(), true, new HighScoreResetAction(type));
         resetLayout = new GlyphLayout(font, resetText);
         resetLayout.setText(font, resetText, Color.WHITE,WIDTH/2, Align.left, true);
+        */
     }
 
     @Override

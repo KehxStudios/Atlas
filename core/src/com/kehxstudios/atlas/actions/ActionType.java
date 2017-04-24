@@ -38,4 +38,6 @@ public enum ActionType {
     public static ActionType getType(String id) { return actionTypes.get(id); }
 
     public String getId() { return id; }
+
+    public Class getLoaderClass() { return loaderClass; }
 }

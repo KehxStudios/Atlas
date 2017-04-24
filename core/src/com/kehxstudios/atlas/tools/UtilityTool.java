@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.kehxstudios.atlas.components.ComponentData;
-import com.kehxstudios.atlas.data.SpriteType;
 import com.kehxstudios.atlas.entities.EntityData;
 import com.kehxstudios.atlas.screens.AScreenData;
 import com.kehxstudios.atlas.screens.ScreenType;

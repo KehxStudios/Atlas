@@ -43,4 +43,6 @@ public enum ComponentType {
     public String getId() {
         return id;
     }
+
+    public Class getLoaderClass() { return loaderClass; }
 }

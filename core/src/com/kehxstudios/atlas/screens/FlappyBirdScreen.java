@@ -78,7 +78,7 @@ public class FlappyBirdScreen extends AScreen {
         lowScoreLayout.setText(font, lowScoreText+lowScore, Color.BLACK,WIDTH/2, Align.center, true);
         highScoreLayout = new GlyphLayout(font, highScoreText+highScore);
         highScoreLayout.setText(font, highScoreText+highScore, Color.BLACK,WIDTH/2, Align.center, true);
-
+/*
         bird = new Entity(WIDTH/4,HEIGHT/2);
         GraphicsComponent graphics = new GraphicsComponent(bird, TextureType.FLAPPYBIRD_BIRD, 3);
         birdPhysics = new PhysicsComponent(bird, graphics.getWidth(), graphics.getHeight(), 100, -15, true);
@@ -114,6 +114,7 @@ public class FlappyBirdScreen extends AScreen {
 
             tubes.add(tube);
         }
+        */
     }
 
     protected void reset() {

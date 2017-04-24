@@ -13,32 +13,24 @@ import com.kehxstudios.atlas.entities.Entity;
 public class FloatingTextComponent extends Component{
 
     private BitmapFont font;
-    private GlyphLayout layout;
+    private GlyphLayout glyphLayout;
     private String label;
     private String text;
 
-    public FloatingTextComponent(Entity entity, String label, String text, float scale, Color color) {
-        super(entity);
-        font = new BitmapFont();
-        font.getData().setScale(scale);
-        layout = new GlyphLayout(font, label+text);
-        layout.setText(font, label+text, color, 0, Align.center, false);
-    }
+    public BitmapFont getFont() { return font; }
+    public void setFont(BitmapFont font) { this.font = font;}
 
     public GlyphLayout getLayout() {
-        return layout;
+        return glyphLayout;
     }
+    public void setLayout(GlyphLayout glyphLayout) { this.glyphLayout = glyphLayout; }
 
-    public BitmapFont getFont() {
-        return font;
-    }
+    public String getLabel() { return label; }
+    public void setLabel(String label) { this.label = label; }
 
+    public String getText() { return text; }
     public void setText(String text) {
         this.text = text;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
     }
 
     public void setScale(float scale) {

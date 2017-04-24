@@ -1,6 +1,9 @@
 package com.kehxstudios.atlas.data;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.google.gwt.user.server.Util;
 import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.actions.ActionData;
 import com.kehxstudios.atlas.actions.ActionType;
@@ -16,6 +19,7 @@ import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.entities.EntityData;
 import com.kehxstudios.atlas.managers.EntityManager;
+import com.kehxstudios.atlas.managers.InputManager;
 import com.kehxstudios.atlas.tools.UtilityTool;
 
 import java.util.ArrayList;
@@ -37,6 +41,8 @@ public class Factory {
     private ArrayList<EntityData> entitiesQueue;
     private ArrayList<ComponentData> componentQueue;
 
+    private int unqiueId;
+
     public Factory() {
         entitiesQueue = new ArrayList<EntityData>();
         componentQueue = new ArrayList<ComponentData>();
@@ -53,69 +59,105 @@ public class Factory {
         entitiesQueue.add(entityData);
     }
 
-    private void createEntity(EntityData entityData) {
+    public Entity createEntity(EntityData entityData) {
         Entity entity = new Entity();
-        entity.setId("Entity_" + EntityManager.getInstance().getUniqueId());
-        entity.setLocation(entityData.getX(), entityData.getY());
+        entity.setId("Entity_" + ++unqiueId);
+        entity.setPosition(entityData.getX(), entityData.getY());
+
+        entity.setComponents();
+        for (String componentString : entityData.data.values()) {
+            entity.addComponent(createComponent(entity, UtilityTool.getComponentDataFromString(componentString)));
+        }
+
         EntityManager.getInstance().addEntity(entity);
 
-        for (String componentString : entityData.data.values()) {
-            //components.add(new Component(this, UtilityTool.getComponentDataFromString(componentString)));
+        return entity;
+    }
+
+    public Component createComponent(Entity entity, ComponentData componentData) {
+        try {
+            Component component = (Component) ClassReflection.newInstance(ComponentType.getType(componentData.getType()).getLoaderClass());
+            component.setEntity(entity);
+            component.setType(ComponentType.getType(componentData.getType()));
+            component.setUseComponentPosition(componentData.getUseComponentPosition());
+            component.setUsePositionAsOffset(componentData.getUsePositionAsOffset());
+            component.setPosition(componentData.getX(), componentData.getY());
+            component.setEnabled(componentData.isEnabled());
+
+            if (component.getType() == ComponentType.ANIMATION) {
+
+            } else if (component.getType() == ComponentType.BUTTON) {
+                ((ButtonComponent) component).setKey(componentData.getInt("key", 0));
+                // ((ButtonComponent)component).setAction(
+                InputManager.getInstance().addButton((ButtonComponent)component);
+            } else if (component.getType() == ComponentType.CLICKABLE) {
+                ((ClickableComponent) component).setWidth(componentData.getFloat("width", 0));
+                ((ClickableComponent) component).setHeight(componentData.getFloat("height", 0));
+                ((ClickableComponent) component).setSingleTrigger(componentData.getBoolean("singleTrigger", false));
+                // ((ClickableComponent)component).setAction(
+                InputManager.getInstance().addClickable((ClickableComponent)component);
+            } else if (component.getType() == ComponentType.FLOATING_TEXT) {
+
+            } else if (component.getType() == ComponentType.GRAPHICS) {
+                componentData.putFloat("width", ((GraphicsComponent) component).getWidth());
+                componentData.putFloat("height", ((GraphicsComponent) component).getHeight());
+                componentData.putInt("layer", ((GraphicsComponent) component).getLayer());
+                componentData.putString("textureType", ((GraphicsComponent) component).getTextureType().getId());
+            } else if (component.getType() == ComponentType.IN_VIEW) {
+                componentData.putFloat("width", ((InViewComponent) component).getWidth());
+                componentData.putFloat("height", ((InViewComponent) component).getHeight());
+                componentData.putString("action", UtilityTool.getStringFromDataClass(createActionData(((InViewComponent) component).getAction())));
+            } else if (component.getType() == ComponentType.PHYSICS) {
+
+            } else if (component.getType() == ComponentType.POINTER_DIRECTION) {
+
+            }
+
+            EntityManager.getInstance().addComponent(entity, component);
+
+            return component;
+        } catch (ReflectionException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
-    private void createAnimationComponent(Entity entity, ComponentData componentData) {
-        AnimationComponent animation = new AnimationComponent(entity);
-        animation.setType(ComponentType.ANIMATION);
-        // FINISH ANIMATION DATA
+    public Action createAction(ActionData actionData) {
+        try {
+            Action action = (Action) ClassReflection.newInstance(ActionType.getType(actionData.getType()).getLoaderClass());
+
+            if (action.getActionType() == ActionType.DESTROY_ENTITY) {
+
+            } else if (action.getActionType() == ActionType.HIGH_SCORE_RESET) {
+
+            } else if (action.getActionType() == ActionType.LAUNCH_SCREEN) {
+
+            } else if (action.getActionType() == ActionType.MULTI) {
+
+            } else if (action.getActionType() == ActionType.PHYSICS) {
+
+            } else if (action.getActionType() == ActionType.REPOSITION) {
+
+            } else if (action.getActionType() == ActionType.SCORE) {
+
+            } else if (action.getActionType() == ActionType.SPAWN_ENTITY) {
+
+            } else if (action.getActionType() == ActionType.TELEPORT) {
+
+            }
+
+            return action;
+        } catch (ReflectionException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    private void createButtonComponent(Entity entity, ComponentData componentData) {
-        ButtonComponent button = new ButtonComponent(entity);
-        button.setType(ComponentType.BUTTON);
-        button.setKey(componentData.getInt("key", 0));
-        // CHANGE TO ACTION
-        button.setPhysics((PhysicsComponent)entity.getComponentByType(ComponentType.PHYSICS));
-    }
-
-    private void createClickableComponent(Entity entity, ComponentData componentData) {
-        ClickableComponent clickable = new ClickableComponent(entity);
-        clickable.setType(ComponentType.CLICKABLE);
-        clickable.setWidth(componentData.getFloat("width", 0));
-        clickable.setHeight(componentData.getFloat("height", 0));
-        clickable.setSingleTrigger(componentData.getBoolean("singleTrigger", false));
-        // SET ACTION
-    }
-
-
-    private ComponentData createAnimationComponentData(AnimationComponent animation) {
-        ComponentData componentData = createComponentData(animation);
-        // FINISH ANIMATION DATA
-        return componentData;
-    }
-
-    private ComponentData createButtonComponentData(ButtonComponent button) {
-        ComponentData componentData = createComponentData(button);
-        componentData.putInt("key", button.getKey());
-        // SAVE ACTION
-        componentData.putString("action", "");
-        return componentData;
-    }
-
-    private ComponentData createClickableComponentData(ClickableComponent clickable) {
-        ComponentData componentData = createComponentData(clickable);
-        componentData.putFloat("width", clickable.getWidth());
-        componentData.putFloat("height", clickable.getHeight());
-        componentData.putBoolean("singleTrigger", clickable.isSingleTrigger());
-        // SAVE ACTION
-        componentData.putString("action", "");
-        return componentData;
-    }
 
     private EntityData createEntityData(Entity entity) {
         EntityData entityData = new EntityData();
-        entityData.setX(entity.getX());
-        entityData.setY(entity.getY());
+        entityData.setX(entity.getPosition().x);
+        entityData.setY(entity.getPosition().y);
         for (Component component : entity.getComponents()) {
             ComponentData componentData = createComponentData(component);
             String stringData = UtilityTool.getStringFromDataClass(componentData);
@@ -126,8 +168,8 @@ public class Factory {
 
     private ComponentData createComponentData(Component component) {
         ComponentData componentData = new ComponentData();
-        componentData.setX(component.getX());
-        componentData.setY(component.getY());
+        componentData.setX(component.getPosition().x);
+        componentData.setY(component.getPosition().y);
         componentData.setType(component.getType().getId());
         componentData.setEnabled(component.isEnabled());
         componentData.setUsePositionAsOffset(component.getUsePositionAsOffset());
