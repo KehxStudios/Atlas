@@ -4,8 +4,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.Align;
+import com.kehxstudios.atlas.actions.ActionData;
+import com.kehxstudios.atlas.actions.ActionType;
 import com.kehxstudios.atlas.actions.LaunchScreenAction;
 import com.kehxstudios.atlas.components.ClickableComponent;
+import com.kehxstudios.atlas.components.ComponentData;
+import com.kehxstudios.atlas.components.ComponentType;
+import com.kehxstudios.atlas.components.GraphicsComponent;
+import com.kehxstudios.atlas.data.Factory;
 import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.UtilityTool;
@@ -16,11 +22,11 @@ import com.kehxstudios.atlas.tools.UtilityTool;
 
 public class IntroScreen extends AScreen {
 
-    private BitmapFont font;
-    private GlyphLayout layout;
-    private String continueText = "Click to Continue";
     boolean finalLogo;
     boolean clickToContinue;
+
+    ComponentData floatingTextData;
+    ComponentData clickableData;
 
     public IntroScreen() {
         super();
@@ -30,13 +36,25 @@ public class IntroScreen extends AScreen {
 
     protected void init() {
         super.init();
-        setDevLogo();
+        ((GraphicsComponent)screenEntity.getComponentOfType(ComponentType.GRAPHICS)).setTextureType(TextureType.DEV_LOGO);
+
         clickToContinue = false;
         finalLogo = false;
-        font = new BitmapFont();
-        font.getData().setScale(2f);
-        layout = new GlyphLayout(font, continueText);
-        layout.setText(font, continueText,Color.BLACK,WIDTH/2, Align.left, true);
+
+        // ClickableData
+        clickableData = new ComponentData();
+        clickableData.putFloat("width", WIDTH);
+        clickableData.putFloat("height", HEIGHT);
+        clickableData.putBoolean("singleTrigger", true);
+        ActionData actionData = new ActionData();
+        actionData.type = ActionType.LAUNCH_SCREEN.getId();
+        actionData.putString("screenType", ScreenType.MAIN_MENU.getId());
+        clickableData.putString("action", UtilityTool.getStringFromDataClass(actionData));
+
+        // FloatingTextData
+        floatingTextData = new ComponentData();
+        floatingTextData.putString("label", "");
+        floatingTextData.putString("text", "Click to Continue");
     }
 
     @Override
@@ -52,20 +70,15 @@ public class IntroScreen extends AScreen {
             // If index is not on last path
             if (screenTime >= 2f) {
                 if (!finalLogo) {
-                    setGameLogo();
+                    ((GraphicsComponent)screenEntity.getComponentOfType(ComponentType.GRAPHICS)).setTextureType(TextureType.GAME_LOGO);
                     screenTime = 0f;
                     finalLogo = true;
                 } else if (finalLogo) {
-                    ClickableComponent clickableComponent = new ClickableComponent(screenEntity, WIDTH, HEIGHT,
-                            true, new LaunchScreenAction(ScreenType.MAIN_MENU));
-                    DebugTool.log("Clickable "+clickableComponent);
+                    Factory.getInstance().createComponent(screenEntity, clickableData);
+                    Factory.getInstance().createComponent(screenEntity, floatingTextData);
                     clickToContinue = true;
                 }
             }
-        } else {
-            gm.getBatch().begin();
-            font.draw(gm.getBatch(), layout, WIDTH / 2 - layout.width / 2, HEIGHT / 5);
-            gm.getBatch().end();
         }
     }
 
@@ -89,18 +102,8 @@ public class IntroScreen extends AScreen {
 
     }
 
-    private void setDevLogo() {
-        backgroundGraphics.setTextureType(TextureType.DEV_LOGO);
-        backgroundGraphics.setLayer(2);
-    }
-
-    private void setGameLogo() {
-        backgroundGraphics.setTextureType(TextureType.GAME_LOGO);
-    }
-
     @Override
     public void dispose() {
-        font.dispose();
         super.dispose();
     }
 }

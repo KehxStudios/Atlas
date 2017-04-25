@@ -11,13 +11,13 @@ import java.util.HashMap;
 public enum ComponentType {
 
     ANIMATION("Animation", AnimationComponent.class),
-    BUTTON("Button", ButtonComponent.class),
     CLICKABLE("Clickable", ClickableComponent.class),
     FLOATING_TEXT("Floating_Text", FloatingTextComponent.class),
     GRAPHICS("Graphics", GraphicsComponent.class),
     IN_VIEW("In_View", InViewComponent.class),
     PHYSICS("Physics", PhysicsComponent.class),
-    POINTER_DIRECTION("Pointer_Direction", PointerDirectionComponent.class);
+    POINTER_DIRECTION("Pointer_Direction", PointerDirectionComponent.class),
+    VOID("void", Component.class);
 
     private static HashMap<String, ComponentType> componentTypes;
 

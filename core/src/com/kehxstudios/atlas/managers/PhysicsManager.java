@@ -37,7 +37,7 @@ public class PhysicsManager extends Manager {
         }
         for (PhysicsComponent physic : physicsComponents) {
             if (physic.isEnabled() && physic.collidable && physic != player) {
-                physic.hasCollided = player.bounds.overlaps(physic.bounds);
+                physic.collided = player.bounds.overlaps(physic.bounds);
             }
         }
 

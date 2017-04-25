@@ -16,6 +16,7 @@ public class FloatingTextComponent extends Component{
     private GlyphLayout glyphLayout;
     private String label;
     private String text;
+    private Color color;
 
     public BitmapFont getFont() { return font; }
     public void setFont(BitmapFont font) { this.font = font;}
@@ -32,6 +33,9 @@ public class FloatingTextComponent extends Component{
     public void setText(String text) {
         this.text = text;
     }
+
+    public Color getColor() { return color; }
+    public void setColor(Color color) { this.color = color; }
 
     public void setScale(float scale) {
         font.getData().setScale(scale);

@@ -43,7 +43,6 @@ public class EntityManager extends Manager {
                     removeComponent(entity, components.get(0));
                 }
             }
-            GrimReaper.getInstance().destroyEntity(entity);
             entities.remove(entity);
         } else {
             DebugTool.log("Failed to find entity in entities");
@@ -64,7 +63,6 @@ public class EntityManager extends Manager {
     public void removeComponent(Entity entity, Component component) {
         if (entities.contains(entity)) {
             if (entity.hasComponent(component)) {
-                GrimReaper.getInstance().destroyComponent(component);
                 entity.getComponents().remove(component);
             } else {
 

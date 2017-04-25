@@ -21,16 +21,12 @@ public abstract class AScreen implements Screen {
     protected ScreenType type;
     protected AScreenData screenData;
 
-    protected int WIDTH, HEIGHT;
+    protected float WIDTH, HEIGHT;
 
     protected float screenTime;
 
     protected Entity screenEntity;
-    protected GraphicsComponent backgroundGraphics;
 
-    protected int backgroundIndex;
-    protected String[] backgroundPaths;
-    protected float[] backgroundTimes;
 
     protected HighScores highScores;
     protected int score;
@@ -38,7 +34,6 @@ public abstract class AScreen implements Screen {
     public AScreen() {
         gm = GameManager.getInstance();
         screenTime = 0;
-        backgroundIndex = 0;
         score = 0;
         screenData = null;
     }
@@ -50,7 +45,6 @@ public abstract class AScreen implements Screen {
     protected void reset() {
         screenEntity.setPosition(WIDTH/2, HEIGHT/2);
         screenTime = 0;
-        backgroundIndex = 0;
         score = 0;
     }
 
@@ -72,33 +66,7 @@ public abstract class AScreen implements Screen {
         screenEntity = new Entity();
         screenEntity.setPosition(WIDTH/2, HEIGHT/2);
 
-        ArrayList<String> paths = new ArrayList<String>();
-        ArrayList<Float> times = new ArrayList<Float>();
-
-        for (int i = 0; screenData.hasKey("background_" + i); i++) {
-            if (screenData.hasKey("backgroundTime_" + i)) {
-                paths.add(screenData.getString("background_" + i, ""));
-                times.add(screenData.getFloat("backgroundTime_" + i, 0f));
-            }
-        }
-        backgroundPaths = paths.toArray(new String[paths.size()]);
-        backgroundTimes = new float[times.size()];
-        for (int i = 0; i < times.size(); i++) {
-            backgroundTimes[i] = times.get(i);
-        }
-
-        backgroundGraphics = new GraphicsComponent();
-
         highScores = new HighScores(type);
-    }
-
-    protected AScreenData getScreenData() {
-        screenData = new AScreenData(type.getId(), WIDTH, HEIGHT);
-        for (int i = 0; i < backgroundPaths.length; i++) {
-            screenData.putString("background_" + i, backgroundPaths[i]);
-            screenData.putFloat("backgroundTime_" + i, backgroundTimes[i]);
-        }
-        return screenData;
     }
 
     @Override
@@ -109,7 +77,6 @@ public abstract class AScreen implements Screen {
     @Override
     public void dispose() {
         highScores.dispose();
-        GrimReaper.destroyEntity(screenEntity);
     }
 
     public ScreenType getType() {
@@ -124,7 +91,7 @@ public abstract class AScreen implements Screen {
         return Gdx.graphics.getHeight()/HEIGHT;
     }
 
-    public int getScreenWidth() { return WIDTH; }
+    public float getScreenWidth() { return WIDTH; }
 
-    public int getScreenHeight() { return HEIGHT; }
+    public float getScreenHeight() { return HEIGHT; }
 }

@@ -16,7 +16,8 @@ public enum ActionType {
     REPOSITION("Reposition", RepositionAction.class),
     SCORE("Score", ScoreAction.class),
     SPAWN_ENTITY("Spawn Entity", SpawnEntityAction.class),
-    TELEPORT("Teleport", TeleportAction.class);
+    TELEPORT("Teleport", TeleportAction.class),
+    VOID("Void", Action.class);
 
     private static HashMap<String, ActionType> actionTypes;
 

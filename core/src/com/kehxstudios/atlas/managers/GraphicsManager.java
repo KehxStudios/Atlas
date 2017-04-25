@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.kehxstudios.atlas.components.AnimationComponent;
+import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.tools.DebugTool;
@@ -27,8 +28,9 @@ public class GraphicsManager extends Manager {
 
     private int MAX_LAYERS = 5;
 
-    private ArrayList<ArrayList<GraphicsComponent>> graphicComponents;
     private ArrayList<AnimationComponent> animationComponents;
+    private ArrayList<ArrayList<GraphicsComponent>> graphicComponents;
+    private ArrayList<FloatingTextComponent> floatingTextComponents;
 
     private TextureAtlas textureAtlas;
 
@@ -55,7 +57,13 @@ public class GraphicsManager extends Manager {
                         graphics.getPosition().y - graphics.getHeight() / 2,
                         graphics.getWidth(), graphics.getHeight());
                 }
-
+            }
+        }
+        for (FloatingTextComponent floatingText : floatingTextComponents) {
+            if (floatingText.isEnabled()) {
+                floatingText.getFont().draw(gm.getBatch(), floatingText.getLayout(),
+                        floatingText.getPosition().x - floatingText.getLayout().width / 2,
+                        floatingText.getPosition().y - floatingText.getLayout().height / 2);
             }
         }
         batch.end();
@@ -104,12 +112,29 @@ public class GraphicsManager extends Manager {
         }
     }
 
+    public void add(FloatingTextComponent floatingText) {
+        if (!floatingTextComponents.contains(floatingText)) {
+            floatingTextComponents.add(floatingText);
+        } else {
+            DebugTool.log("Failed to add floatingText to floatingTextComponents");
+        }
+    }
+
+    public void remove(FloatingTextComponent floatingText) {
+        if (floatingTextComponents.contains(floatingText)) {
+            floatingTextComponents.remove(floatingText);
+        } else {
+            DebugTool.log("Failed to find floatingText in floatingTextComponents");
+        }
+    }
+
     private GraphicsManager() {
+        animationComponents = new ArrayList<AnimationComponent>();
         graphicComponents = new ArrayList<ArrayList<GraphicsComponent>>();
         for (int i = 0; i < MAX_LAYERS; i++) {
             graphicComponents.add(new ArrayList<GraphicsComponent>());
         }
-        animationComponents = new ArrayList<AnimationComponent>();
+        floatingTextComponents = new ArrayList<FloatingTextComponent>();
         textureAtlas = new TextureAtlas();
     }
 

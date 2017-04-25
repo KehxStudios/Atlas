@@ -8,30 +8,20 @@ import java.util.HashMap;
 
 public enum EntityType {
 
-    VOID("void", Entity.class, 0, 0),
-    PLAYER("Player", Entity.class, 32, 32);
+    SCREEN("Screen", Entity.class),
+    PLAYER("Player", Entity.class),
+    VOID("void", Entity.class);
 
     private String id;
     private Class loaderClass;
-    private int width, height;
 
-    private EntityType(String name, Class loaderClass, int width, int height) {
+    private EntityType(String name, Class loaderClass) {
         this.id = name;
         this.loaderClass = loaderClass;
-        this.width = width;
-        this.height = height;
     }
 
     public String getId() {
         return id;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     public static EntityType getTypeById(String id) {

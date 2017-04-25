@@ -18,7 +18,9 @@ public enum TextureType {
     FLAPPYBIRD_BIRD("FlappyBirdBird", "bird"),
     FLAPPYBIRD_TOPTUBE("FlappyBirdTopTube",  "toptube"),
     FLAPPYBIRD_BOTTOMTUBE("FlappyBirdBottomTube", "bottomtube"),
-    FLAPPYBIRD_GROUND("FlappyBirdGround", "ground");
+    FLAPPYBIRD_GROUND("FlappyBirdGround", "ground"),
+
+    VOID("Void", "void");
 
     private String id, fileName;
 

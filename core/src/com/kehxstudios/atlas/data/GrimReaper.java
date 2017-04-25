@@ -2,7 +2,6 @@ package com.kehxstudios.atlas.data;
 
 import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.components.AnimationComponent;
-import com.kehxstudios.atlas.components.ButtonComponent;
 import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.ComponentType;

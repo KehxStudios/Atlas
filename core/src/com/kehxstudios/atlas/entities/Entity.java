@@ -26,6 +26,14 @@ public class Entity {
     public void movePosition(float x, float y) { position.add(x,y); }
 
     public ArrayList<Component> getComponents() { return components; }
+    public Component getComponentOfType(ComponentType componentType) {
+        for (Component component : components) {
+            if (component.getType() == componentType) {
+                return component;
+            }
+        }
+        return null;
+    }
     public boolean hasComponent(Component component) { return components.contains(component); }
     public boolean hasComponentOfType(ComponentType componentType) {
         for (Component component : components) {

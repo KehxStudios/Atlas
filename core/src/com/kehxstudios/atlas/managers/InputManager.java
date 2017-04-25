@@ -1,11 +1,7 @@
 package com.kehxstudios.atlas.managers;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.kehxstudios.atlas.components.ButtonComponent;
 import com.kehxstudios.atlas.components.ClickableComponent;
-import com.kehxstudios.atlas.data.GrimReaper;
 import com.kehxstudios.atlas.tools.DebugTool;
 
 import java.util.ArrayList;
