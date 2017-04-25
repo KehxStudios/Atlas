@@ -17,6 +17,6 @@ public class DestroyEntityAction extends Action {
 
     @Override
     public void trigger() {
-        GrimReaper.getInstance().destroyEntity(entity);
+        GrimReaper.destroyEntity(entity);
     }
 }

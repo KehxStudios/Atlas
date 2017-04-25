@@ -12,26 +12,20 @@ import com.kehxstudios.atlas.screens.ScreenType;
 public abstract class Manager {
 
     protected GameManager gm;
-    protected AScreen screen;
     protected ScreenType screenType;
-    protected int MAX_ID;
 
     public abstract void tick(float delta);
 
-    public void setScreenType(ScreenType type) {
+    public void setScreenType(ScreenType screenType) {
         if (screenType != null)
             removeScreenTypeSettings();
-        screenType = type;
+        this.screenType = screenType;
         loadScreenTypeSettings();
-    }
-
-    public int getUniqueId() {
-        return ++MAX_ID;
     }
 
     public Manager() {
         gm = GameManager.getInstance();
-        MAX_ID = 0;
+        screenType = null;
     }
 
     protected abstract void loadScreenTypeSettings();

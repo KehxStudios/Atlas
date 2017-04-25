@@ -36,7 +36,7 @@ public class GraphicsManager extends Manager {
         if (animationComponents.size() > 0) {
             for (AnimationComponent animation : animationComponents) {
                 if (animation.isEnabled()) {
-                    animation.update(delta);
+
                 }
             }
         }
@@ -49,10 +49,10 @@ public class GraphicsManager extends Manager {
                 continue;
             }
             for (GraphicsComponent graphics : layerList) {
-                if (graphics.isEnabled() && graphics.hasTexture()) {
-                    batch.draw(graphics.getTexture(),
-                        graphics.getX() - graphics.getWidth() / 2,
-                        graphics.getY() - graphics.getHeight() / 2,
+                if (graphics.isEnabled()) {
+                    batch.draw(textureAtlas.findRegion(graphics.getTextureType().getId()),
+                        graphics.getPosition().x - graphics.getWidth() / 2,
+                        graphics.getPosition().y - graphics.getHeight() / 2,
                         graphics.getWidth(), graphics.getHeight());
                 }
 

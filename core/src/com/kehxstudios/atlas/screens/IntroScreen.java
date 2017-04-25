@@ -90,12 +90,12 @@ public class IntroScreen extends AScreen {
     }
 
     private void setDevLogo() {
-        backgroundGraphics.setTexture(TextureType.DEV_LOGO);
+        backgroundGraphics.setTextureType(TextureType.DEV_LOGO);
         backgroundGraphics.setLayer(2);
     }
 
     private void setGameLogo() {
-        backgroundGraphics.setTexture(TextureType.GAME_LOGO);
+        backgroundGraphics.setTextureType(TextureType.GAME_LOGO);
     }
 
     @Override

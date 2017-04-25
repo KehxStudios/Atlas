@@ -3,6 +3,7 @@ package com.kehxstudios.atlas.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.kehxstudios.atlas.components.GraphicsComponent;
+import com.kehxstudios.atlas.data.GrimReaper;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.main.GameManager;
 import com.kehxstudios.atlas.stats.HighScores;
@@ -48,7 +49,7 @@ public abstract class AScreen implements Screen {
     }
 
     protected void reset() {
-        screenEntity.setLocation(WIDTH/2, HEIGHT/2);
+        screenEntity.setPosition(WIDTH/2, HEIGHT/2);
         screenTime = 0;
         backgroundIndex = 0;
         score = 0;
@@ -69,7 +70,8 @@ public abstract class AScreen implements Screen {
         gm.getCamera().setToOrtho(false, WIDTH, HEIGHT);
         gm.getCamera().update();
 
-        screenEntity = new Entity(WIDTH / 2, HEIGHT / 2);
+        screenEntity = new Entity();
+        screenEntity.setPosition(WIDTH/2, HEIGHT/2);
 
         ArrayList<String> paths = new ArrayList<String>();
         ArrayList<Float> times = new ArrayList<Float>();
@@ -86,7 +88,7 @@ public abstract class AScreen implements Screen {
             backgroundTimes[i] = times.get(i);
         }
 
-        backgroundGraphics = new GraphicsComponent(screenEntity);
+        backgroundGraphics = new GraphicsComponent();
 
         highScores = new HighScores(type);
     }
@@ -108,7 +110,7 @@ public abstract class AScreen implements Screen {
     @Override
     public void dispose() {
         highScores.dispose();
-        screenEntity.destroy();
+        GrimReaper.destroyEntity(screenEntity);
     }
 
     public ScreenType getType() {

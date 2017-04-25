@@ -24,14 +24,12 @@ public class PhysicsManager extends Manager {
 
     public void tick(float delta) {
         for (PhysicsComponent physics : physicsComponents) {
-            if (!physics.isEnabled()) {
-                continue;
+            if (physics.isEnabled()) {
+                physics.getVelocity().add(physics.getAcceleration());
+                physics.getVelocity().scl(delta);
+                physics.movePosition(physics.getVelocity().x * delta, physics.getVelocity().y * delta);
+                physics.getVelocity().scl(1 / delta);
             }
-            physics.velocity.add(physics.speeds.x, physics.speeds.y);
-            physics.velocity.scl(delta);
-            physics.moveLocation(physics.velocity.x * delta, physics.velocity.y * delta);
-            physics.velocity.scl(1/delta);
-            physics.updateBounds();
         }
 
         if (player == null) {
@@ -79,8 +77,4 @@ public class PhysicsManager extends Manager {
     private PhysicsManager() {
         physicsComponents = new ArrayList<PhysicsComponent>();
     }
-
-
-
-
 }

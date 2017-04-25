@@ -44,22 +44,14 @@ public class InputManager extends Manager {
         x = x + gm.getCamera().position.x - gm.getCamera().viewportWidth/2;
         y = y + gm.getCamera().position.y - gm.getCamera().viewportHeight/2;
 
-        for (int i = 0; i < clickableComponents.size(); i++) {
-            if (!clickableComponents.get(i).isEnabled()) {
-                continue;
-            }
-            if (x > clickableComponents.get(i).getX() - clickableComponents.get(i).getWidth()/2 &&
-                    x < clickableComponents.get(i).getX() + clickableComponents.get(i).getWidth()/2 &&
-                    y > clickableComponents.get(i).getY() - clickableComponents.get(i).getHeight()/2 &&
-                    y < clickableComponents.get(i).getY() + clickableComponents.get(i).getHeight()/2) {
-                clickableComponents.get(i).trigger();
-                return;
-                /*DebugTool.log("Trigger");
-                if (clickableComponents.get(i).isSingleTrigger()) {
-                    clickableComponents.remove(i);
-                    i--;
+        for (ClickableComponent clickable : clickableComponents) {
+            if (clickable.isEnabled()) {
+                if (x > clickable.getPosition().x - clickable.getWidth() / 2 &&
+                        x < clickable.getPosition().x + clickable.getWidth() / 2 &&
+                        y > clickable.getPosition().y - clickable.getHeight() / 2 &&
+                        y < clickable.getPosition().y + clickable.getHeight() / 2) {
+                    clickable.getAction().trigger();
                 }
-                */
             }
         }
     }

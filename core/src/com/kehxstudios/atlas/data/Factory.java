@@ -126,23 +126,23 @@ public class Factory {
         try {
             Action action = (Action) ClassReflection.newInstance(ActionType.getType(actionData.getType()).getLoaderClass());
 
-            if (action.getActionType() == ActionType.DESTROY_ENTITY) {
+            if (action.getType() == ActionType.DESTROY_ENTITY) {
 
-            } else if (action.getActionType() == ActionType.HIGH_SCORE_RESET) {
+            } else if (action.getType() == ActionType.HIGH_SCORE_RESET) {
 
-            } else if (action.getActionType() == ActionType.LAUNCH_SCREEN) {
+            } else if (action.getType() == ActionType.LAUNCH_SCREEN) {
 
-            } else if (action.getActionType() == ActionType.MULTI) {
+            } else if (action.getType() == ActionType.MULTI) {
 
-            } else if (action.getActionType() == ActionType.PHYSICS) {
+            } else if (action.getType() == ActionType.PHYSICS) {
 
-            } else if (action.getActionType() == ActionType.REPOSITION) {
+            } else if (action.getType() == ActionType.REPOSITION) {
 
-            } else if (action.getActionType() == ActionType.SCORE) {
+            } else if (action.getType() == ActionType.SCORE) {
 
-            } else if (action.getActionType() == ActionType.SPAWN_ENTITY) {
+            } else if (action.getType() == ActionType.SPAWN_ENTITY) {
 
-            } else if (action.getActionType() == ActionType.TELEPORT) {
+            } else if (action.getType() == ActionType.TELEPORT) {
 
             }
 
@@ -205,24 +205,24 @@ public class Factory {
 
     private ActionData createActionData(Action action) {
         ActionData actionData = new ActionData();
-        actionData.setType(action.getActionType().getId());
-        if (action.getActionType() == ActionType.DESTROY_ENTITY) {
+        actionData.setType(action.getType().getId());
+        if (action.getType() == ActionType.DESTROY_ENTITY) {
 
-        } else if (action.getActionType() == ActionType.HIGH_SCORE_RESET) {
+        } else if (action.getType() == ActionType.HIGH_SCORE_RESET) {
 
-        } else if (action.getActionType() == ActionType.LAUNCH_SCREEN) {
+        } else if (action.getType() == ActionType.LAUNCH_SCREEN) {
 
-        } else if (action.getActionType() == ActionType.MULTI) {
+        } else if (action.getType() == ActionType.MULTI) {
 
-        } else if (action.getActionType() == ActionType.PHYSICS) {
+        } else if (action.getType() == ActionType.PHYSICS) {
 
-        } else if (action.getActionType() == ActionType.REPOSITION) {
+        } else if (action.getType() == ActionType.REPOSITION) {
 
-        } else if (action.getActionType() == ActionType.SCORE) {
+        } else if (action.getType() == ActionType.SCORE) {
 
-        } else if (action.getActionType() == ActionType.SPAWN_ENTITY) {
+        } else if (action.getType() == ActionType.SPAWN_ENTITY) {
 
-        } else if (action.getActionType() == ActionType.TELEPORT) {
+        } else if (action.getType() == ActionType.TELEPORT) {
 
         }
         return actionData;
