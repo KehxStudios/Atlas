@@ -1,5 +1,6 @@
 package com.kehxstudios.atlas.data;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -19,7 +20,9 @@ import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.entities.EntityData;
 import com.kehxstudios.atlas.managers.EntityManager;
+import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.managers.InputManager;
+import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.tools.UtilityTool;
 
 import java.util.ArrayList;
@@ -88,27 +91,41 @@ public class Factory {
 
             } else if (component.getType() == ComponentType.BUTTON) {
                 ((ButtonComponent) component).setKey(componentData.getInt("key", 0));
-                // ((ButtonComponent)component).setAction(
+                ((ButtonComponent)component).setAction(createAction(UtilityTool.getActionDataFromString(componentData.getString("action", "-"))));
                 InputManager.getInstance().addButton((ButtonComponent)component);
             } else if (component.getType() == ComponentType.CLICKABLE) {
                 ((ClickableComponent) component).setWidth(componentData.getFloat("width", 0));
                 ((ClickableComponent) component).setHeight(componentData.getFloat("height", 0));
                 ((ClickableComponent) component).setSingleTrigger(componentData.getBoolean("singleTrigger", false));
-                // ((ClickableComponent)component).setAction(
+                ((ClickableComponent)component).setAction(createAction(UtilityTool.getActionDataFromString(componentData.getString("action", "-"))));
                 InputManager.getInstance().addClickable((ClickableComponent)component);
             } else if (component.getType() == ComponentType.FLOATING_TEXT) {
 
             } else if (component.getType() == ComponentType.GRAPHICS) {
-                componentData.putFloat("width", ((GraphicsComponent) component).getWidth());
-                componentData.putFloat("height", ((GraphicsComponent) component).getHeight());
-                componentData.putInt("layer", ((GraphicsComponent) component).getLayer());
-                componentData.putString("textureType", ((GraphicsComponent) component).getTextureType().getId());
+                ((GraphicsComponent) component).setWidth(componentData.getFloat("width", 0));
+                ((GraphicsComponent) component).setHeight(componentData.getFloat("height", 0));
+                ((GraphicsComponent) component).setLayer(componentData.getInt("layer", 0));
+                ((GraphicsComponent) component).setTextureType(TextureType.getTypeFromId(componentData.getString("textureType", "-")));
+                GraphicsManager.getInstance().add((GraphicsComponent)component);
             } else if (component.getType() == ComponentType.IN_VIEW) {
-                componentData.putFloat("width", ((InViewComponent) component).getWidth());
-                componentData.putFloat("height", ((InViewComponent) component).getHeight());
-                componentData.putString("action", UtilityTool.getStringFromDataClass(createActionData(((InViewComponent) component).getAction())));
+                ((InViewComponent) component).setWidth(componentData.getFloat("width", 0));
+                ((InViewComponent) component).setHeight(componentData.getFloat("height", 0));
+                ((InViewComponent) component).setAction(createAction(UtilityTool.getActionDataFromString(componentData.getString("action", "-"))));
             } else if (component.getType() == ComponentType.PHYSICS) {
-
+                ((PhysicsComponent) component).setAcceleration(componentData.getFloat("acceleraton_x", 0),
+                        componentData.getFloat("acceleration_y", 0));
+                ((PhysicsComponent) component).setMaxAcceleration(componentData.getFloat("maxAcceleration_x", 0),
+                        componentData.getFloat("maxAcceleration_y", 0));
+                ((PhysicsComponent) component).setVelocity(componentData.getFloat("velocity_x", 0),
+                        componentData.getFloat("velocity_y", 0));
+                ((PhysicsComponent) component).setMaxVelocity(componentData.getFloat("maxVelocity_x", 0),
+                        componentData.getFloat("maxVelocity_y", 0));
+                ((PhysicsComponent) component).setBounds( new Rectangle(componentData.getFloat("bounds_x", 0),
+                        componentData.getFloat("bounds_y", 0), componentData.getFloat("bounds_width", 0),
+                        componentData.getFloat("bounds_height", 0)));
+                ((PhysicsComponent) component).setCollidable(componentData.getBoolean("collidable", false));
+                ((PhysicsComponent) component).setCollided(componentData.getBoolean("collided", false));
+                PhysicsManager.getInstance().add((PhysicsComponent)component);
             } else if (component.getType() == ComponentType.POINTER_DIRECTION) {
 
             }

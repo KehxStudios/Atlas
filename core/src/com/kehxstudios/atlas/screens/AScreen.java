@@ -36,7 +36,6 @@ public abstract class AScreen implements Screen {
     protected int score;
 
     public AScreen() {
-        DebugTool.log("AScreen");
         gm = GameManager.getInstance();
         screenTime = 0;
         backgroundIndex = 0;

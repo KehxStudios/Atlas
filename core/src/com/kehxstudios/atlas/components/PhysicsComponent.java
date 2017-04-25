@@ -19,7 +19,7 @@ public class PhysicsComponent extends Component {
     public Vector2 maxVelocity;
     public Rectangle bounds;
     public boolean collidable;
-    public boolean hasCollided; // Reset to false on creation
+    public boolean collided; // Reset to false on creation
 
     public Vector2 getAcceleration() { return acceleration; }
     public void setAcceleration(float x, float y) { acceleration.set(x,y); }
@@ -41,4 +41,10 @@ public class PhysicsComponent extends Component {
         bounds.setX(bounds.x + x);
         bounds.setY(bounds.y + y);
     }
+
+    public boolean isCollidable() { return collidable; }
+    public void setCollidable(boolean collidable) { this.collidable = collidable; }
+
+    public boolean hasCollided() { return collided; }
+    public void setCollided(boolean collided) { this.collided = collided; }
 }

@@ -3,6 +3,7 @@ package com.kehxstudios.atlas.tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
+import com.kehxstudios.atlas.actions.ActionData;
 import com.kehxstudios.atlas.components.ComponentData;
 import com.kehxstudios.atlas.entities.EntityData;
 import com.kehxstudios.atlas.screens.AScreenData;
@@ -35,10 +36,6 @@ public class UtilityTool {
         return json.prettyPrint(data);
     }
 
-    public static String getDataClassFromString(String jsonString, Class dataClass) {
-        return json.fromJson(dataClass, jsonString).toString();
-    }
-
     public static AScreenData getAScreenDataFromString(String jsonString) {
         return json.fromJson(AScreenData.class, jsonString);
     }
@@ -51,4 +48,7 @@ public class UtilityTool {
         return json.fromJson(ComponentData.class, jsonString);
     }
 
+    public static ActionData getActionDataFromString(String jsonString) {
+        return json.fromJson(ActionData.class, jsonString);
+    }
 }
