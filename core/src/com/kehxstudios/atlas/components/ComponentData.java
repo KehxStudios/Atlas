@@ -18,19 +18,11 @@ public class ComponentData {
     public HashMap<String, String> data;
 
     public ComponentData() {
-        data = new HashMap<String, String>();
-    }
-
-    public ComponentData(String id, String type, String entityId, boolean enabled, float x, float y,
-                         boolean useComponentPosition, boolean usePositionAsOffset) {
-        this.id = id;
-        this.type = type;
-        this.entityId = entityId;
-        this.enabled = enabled;
-        this.x = x;
-        this.y = y;
-        this.useComponentPosition = useComponentPosition;
-        this.usePositionAsOffset = usePositionAsOffset;
+        x = 0;
+        y = 0;
+        usePositionAsOffset = false;
+        useComponentPosition = false;
+        enabled = true;
         data = new HashMap<String, String>();
     }
 

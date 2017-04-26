@@ -9,17 +9,17 @@ import java.util.HashMap;
 public class AScreenData {
 
     public String type;
-    public int WIDTH, HEIGHT;
+    public float width, height;
     public HashMap<String, String> data;
 
     public AScreenData() {
         data = new HashMap<String, String>();
     }
 
-    public AScreenData(String type, int WIDTH, int HEIGHT) {
+    public AScreenData(String type, float width, float height) {
         this.type = type;
-        this.WIDTH = WIDTH;
-        this.HEIGHT = HEIGHT;
+        this.width = width;
+        this.height = height;
         data = new HashMap<String, String>();
     }
 
@@ -30,6 +30,14 @@ public class AScreenData {
     public void setType(String type) {
         this.type = type;
     }
+
+    public float getWidth() { return width; }
+
+    public void setWidth(float width) { this.width = width; }
+
+    public float getHeight() { return height; }
+
+    public void setHeight(float height) { this.height = height; }
 
     public void putFloat(String key, float value) {
         data.put(key, "" + value);

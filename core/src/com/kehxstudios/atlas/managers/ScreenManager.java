@@ -27,10 +27,10 @@ public class ScreenManager extends Manager {
 
     @Override
     protected void loadScreenTypeSettings() {
-        EntityManager.getInstance().setScreenType(screenType);
-        GraphicsManager.getInstance().setScreenType(screenType);
-        InputManager.getInstance().setScreenType(screenType);
-        PhysicsManager.getInstance().setScreenType(screenType);
+        EntityManager.getInstance().setScreenType(screen);
+        GraphicsManager.getInstance().setScreenType(screen);
+        InputManager.getInstance().setScreenType(screen);
+        PhysicsManager.getInstance().setScreenType(screen);
     }
 
     @Override
@@ -38,15 +38,11 @@ public class ScreenManager extends Manager {
 
     }
 
-    public void changeScreen(ScreenType type) {
-        if (screenType != null)
+    public void changeScreen(AScreen screen) {
+        if (screen != null)
             removeScreenTypeSettings();
-        screenType = type;
+        this.screen = screen;
+        screenType = screen.getType();
         loadScreenTypeSettings();
-        try {
-            gm.setScreen((AScreen) ClassReflection.newInstance(type.loaderClass));
-        } catch (ReflectionException e) {
-            e.printStackTrace();
-        }
     }
 }

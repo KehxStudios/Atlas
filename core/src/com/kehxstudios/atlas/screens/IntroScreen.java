@@ -22,39 +22,21 @@ import com.kehxstudios.atlas.tools.UtilityTool;
 
 public class IntroScreen extends AScreen {
 
-    boolean finalLogo;
-    boolean clickToContinue;
+    private boolean finalLogo;
+    private boolean clickToContinue;
 
-    ComponentData floatingTextData;
-    ComponentData clickableData;
+    private ComponentData floatingTextData;
+    private ComponentData clickableData;
 
     public IntroScreen() {
         super();
-        screenData = UtilityTool.load(ScreenType.INTRO);
-        init();
+        finalLogo = false;
+        clickToContinue = false;
     }
 
     protected void init() {
-        super.init();
         ((GraphicsComponent)screenEntity.getComponentOfType(ComponentType.GRAPHICS)).setTextureType(TextureType.DEV_LOGO);
 
-        clickToContinue = false;
-        finalLogo = false;
-
-        // ClickableData
-        clickableData = new ComponentData();
-        clickableData.putFloat("width", WIDTH);
-        clickableData.putFloat("height", HEIGHT);
-        clickableData.putBoolean("singleTrigger", true);
-        ActionData actionData = new ActionData();
-        actionData.type = ActionType.LAUNCH_SCREEN.getId();
-        actionData.putString("screenType", ScreenType.MAIN_MENU.getId());
-        clickableData.putString("action", UtilityTool.getStringFromDataClass(actionData));
-
-        // FloatingTextData
-        floatingTextData = new ComponentData();
-        floatingTextData.putString("label", "");
-        floatingTextData.putString("text", "Click to Continue");
     }
 
     @Override
@@ -106,4 +88,20 @@ public class IntroScreen extends AScreen {
     public void dispose() {
         super.dispose();
     }
+
+    public boolean isFinalLogo() { return finalLogo; }
+
+    public void setFinalLogo(boolean finalLogo) { this.finalLogo = finalLogo; }
+
+    public boolean isClickToContinue() { return clickToContinue; }
+
+    public void setClickToContinue(boolean clickToContinue) { this.clickToContinue = clickToContinue; }
+
+    public ComponentData getClickableData() { return clickableData; }
+
+    public void setClickableData(ComponentData clickableData) { this.clickableData = clickableData; }
+
+    public ComponentData getFloatingTextData() { return floatingTextData; }
+
+    public void setFloatingTextData(ComponentData floatingTextData) { this.floatingTextData = floatingTextData; }
 }

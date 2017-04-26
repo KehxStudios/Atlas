@@ -28,13 +28,9 @@ public class MainMenuScreen extends AScreen {
 
     public MainMenuScreen() {
         super();
-        DebugTool.log("Starting Main Menu");
-        screenData = UtilityTool.load(ScreenType.MAIN_MENU);
-        init();
     }
 
     public void init() {
-        super.init();
 
         ((GraphicsComponent)screenEntity.getComponentOfType(ComponentType.GRAPHICS)).setTextureType(TextureType.MAINMENU_BACKGROUND);
 

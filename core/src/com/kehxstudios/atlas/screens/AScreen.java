@@ -1,5 +1,6 @@
 package com.kehxstudios.atlas.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.kehxstudios.atlas.components.GraphicsComponent;
@@ -17,54 +18,19 @@ import java.util.ArrayList;
 
 public abstract class AScreen implements Screen {
 
-    protected GameManager gm;
     protected ScreenType type;
-    protected AScreenData screenData;
-
     protected float width, height;
 
-    protected float screenTime;
-
     protected Entity screenEntity;
+    protected GraphicsComponent screenGraphics;
 
-
+    protected float screenTime;
     protected HighScores highScores;
     protected int score;
 
     public AScreen() {
-        gm = GameManager.getInstance();
         screenTime = 0;
         score = 0;
-        screenData = null;
-    }
-
-    public void updateScore(int value) {
-        score += value;
-    }
-
-    protected void reset() {
-        screenEntity.setPosition(width/2, height/2);
-        screenTime = 0;
-        score = 0;
-    }
-
-    protected void init() {
-        if (screenData == null) {
-            return;
-        }
-
-        type = ScreenType.getTypeById(screenData.getType());
-        width = screenData.WIDTH;
-        height = screenData.HEIGHT;
-
-        Gdx.graphics.setTitle(type.getId());
-        gm.getCamera().setToOrtho(false, width, height);
-        gm.getCamera().update();
-
-        screenEntity = new Entity();
-        screenEntity.setPosition(width/2, height/2);
-
-        highScores = new HighScores(type);
     }
 
     @Override
@@ -93,9 +59,31 @@ public abstract class AScreen implements Screen {
 
     public float getWidth() { return width; }
 
+    public void setWidth(float width) { this.width = width; }
+
     public float getHeight() { return height; }
+
+    public void setHeight(float height) { this.height = height; }
+
+    public Entity getScreenEntity() { return screenEntity; }
+
+    public void setScreenEntity(Entity screenEntity) { this.screenEntity = screenEntity; }
+
+    public GraphicsComponent getScreenGraphics() { return screenGraphics; }
+
+    public void setScreenGraphics(GraphicsComponent screenGraphics) { this.screenGraphics = screenGraphics; }
 
     public float getScreenTime() { return screenTime; }
 
     public void setScreenTime(float screenTime) { this.screenTime = screenTime; }
+
+    public HighScores getHighScores() { return highScores; }
+
+    public void setHighScores(HighScores highScores) { this.highScores = highScores; }
+
+    public int getScore() { return score; }
+
+    public void addScore(int value) { score += value; }
+
+    public void setScore(int score) { this.score = score; }
 }

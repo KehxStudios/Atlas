@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.kehxstudios.atlas.data.Factory;
 import com.kehxstudios.atlas.managers.EntityManager;
 import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.managers.InputManager;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.utils.Json;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.screens.AScreen;
+import com.kehxstudios.atlas.screens.AScreenData;
 import com.kehxstudios.atlas.screens.ScreenType;
 import com.kehxstudios.atlas.tools.DebugTool;
 
@@ -68,7 +70,12 @@ public class GameManager extends Game {
 			Gdx.graphics.setResizable(false);
 		}
 
-		screenManager.changeScreen(ScreenType.INTRO);
+		AScreenData screenData = new AScreenData();
+		screenData.setType(ScreenType.INTRO.getId());
+		screenData.setWidth(512);
+		screenData.setHeight(910);
+
+		Factory.getInstance().createScreen(screenData);
 	}
 
 	private void print() {

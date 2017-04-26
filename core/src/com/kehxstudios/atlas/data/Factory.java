@@ -1,5 +1,6 @@
 package com.kehxstudios.atlas.data;
 
+import com.badlogic.gdx.ai.pfa.Graph;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -37,9 +38,14 @@ import com.kehxstudios.atlas.managers.EntityManager;
 import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.managers.InputManager;
 import com.kehxstudios.atlas.managers.PhysicsManager;
+import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.screens.AScreen;
 import com.kehxstudios.atlas.screens.AScreenData;
+import com.kehxstudios.atlas.screens.FlappyBirdScreen;
+import com.kehxstudios.atlas.screens.IntroScreen;
+import com.kehxstudios.atlas.screens.MainMenuScreen;
 import com.kehxstudios.atlas.screens.ScreenType;
+import com.kehxstudios.atlas.stats.HighScores;
 import com.kehxstudios.atlas.tools.UtilityTool;
 
 import java.util.ArrayList;
@@ -63,14 +69,67 @@ public class Factory {
     public AScreen createScreen(AScreenData screenData) {
         try {
             AScreen screen = (AScreen) ClassReflection.newInstance(ScreenType.getTypeById(screenData.getType()).getLoaderClass());
+            screen.setType(ScreenType.getTypeById(screenData.getType()));
+            screen.setWidth(screenData.getWidth());
+            screen.setHeight(screenData.getHeight());
+            screen.setHighScores(new HighScores(screen.getType()));
 
+            EntityData entityData = new EntityData();
+            entityData.setX(screen.getWidth()/2);
+            entityData.setY(screen.getHeight()/2);
+            screen.setScreenEntity(createEntity(entityData));
 
+            ComponentData graphicsData = new ComponentData();
+            graphicsData.setType(ComponentType.GRAPHICS.getId());
+            graphicsData.putFloat("width", screen.getWidth());
+            graphicsData.putFloat("height", screen.getHeight());
+            graphicsData.putInt("layer", 0);
+            screen.setScreenGraphics((GraphicsComponent)createComponent(screen.getScreenEntity(), graphicsData));
 
+            if (screen.getType() == ScreenType.INTRO) {
+                IntroScreen intro = (IntroScreen)screen;
+
+                intro.getScreenGraphics().setTextureType(TextureType.DEV_LOGO);
+                intro.getScreenGraphics().setEnabled(true);
+
+                // ClickableData
+                ComponentData clickableData = new ComponentData();
+                clickableData.setType(ComponentType.CLICKABLE.getId());
+                clickableData.putFloat("width", screen.getWidth());
+                clickableData.putFloat("height", screen.getHeight());
+                clickableData.putBoolean("singleTrigger", true);
+                ActionData actionData = new ActionData();
+                actionData.type = ActionType.LAUNCH_SCREEN.getId();
+                actionData.putString("screenType", ScreenType.MAIN_MENU.getId());
+                clickableData.putString("action", UtilityTool.getStringFromDataClass(actionData));
+                intro.setClickableData(clickableData);
+
+                // FloatingTextData
+                ComponentData floatingTextData = new ComponentData();
+                floatingTextData.setType(ComponentType.FLOATING_TEXT.getId());
+                floatingTextData.putString("label", ": ");
+                floatingTextData.putString("text", "Click to Continue :");
+                intro.setFloatingTextData(floatingTextData);
+
+                ScreenManager.getInstance().changeScreen(intro);
+
+                return intro;
+            } else if (screen.getType() == ScreenType.MAIN_MENU) {
+                MainMenuScreen mainMenu = (MainMenuScreen)screen;
+
+                ScreenManager.getInstance().changeScreen(mainMenu);
+
+                return mainMenu;
+            } else if (screen.getType() == ScreenType.FLAPPY_BIRD) {
+                FlappyBirdScreen flappyBird = (FlappyBirdScreen)screen;
+
+                ScreenManager.getInstance().changeScreen(flappyBird);
+
+                return flappyBird;
+            }
         } catch (ReflectionException e) {
             e.printStackTrace();
         }
-
-
         return null;
     }
 
@@ -133,6 +192,9 @@ public class Factory {
                 graphics.setHeight(componentData.getFloat("height", 0));
                 graphics.setLayer(componentData.getInt("layer", 0));
                 graphics.setTextureType(TextureType.getTypeFromId(componentData.getString("textureType", "Void")));
+                if (graphics.getTextureType() == TextureType.VOID) {
+                    graphics.setEnabled(false);
+                }
                 GraphicsManager.getInstance().add(graphics);
                 return graphics;
             } else if (component.getType() == ComponentType.IN_VIEW) {

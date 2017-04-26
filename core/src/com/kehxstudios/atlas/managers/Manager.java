@@ -12,8 +12,8 @@ import com.kehxstudios.atlas.screens.ScreenType;
 public abstract class Manager {
 
     protected GameManager gm;
-    protected ScreenType screenType;
     protected AScreen screen;
+    protected ScreenType screenType;
 
     public abstract void tick(float delta);
 
