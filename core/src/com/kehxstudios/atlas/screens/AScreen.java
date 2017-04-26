@@ -21,7 +21,7 @@ public abstract class AScreen implements Screen {
     protected ScreenType type;
     protected AScreenData screenData;
 
-    protected float WIDTH, HEIGHT;
+    protected float width, height;
 
     protected float screenTime;
 
@@ -43,28 +43,26 @@ public abstract class AScreen implements Screen {
     }
 
     protected void reset() {
-        screenEntity.setPosition(WIDTH/2, HEIGHT/2);
+        screenEntity.setPosition(width/2, height/2);
         screenTime = 0;
         score = 0;
     }
 
     protected void init() {
-        DebugTool.log("AScreen.init");
         if (screenData == null) {
-            DebugTool.log("screenData is null");
             return;
         }
 
         type = ScreenType.getTypeById(screenData.getType());
-        WIDTH = screenData.WIDTH;
-        HEIGHT = screenData.HEIGHT;
+        width = screenData.WIDTH;
+        height = screenData.HEIGHT;
 
         Gdx.graphics.setTitle(type.getId());
-        gm.getCamera().setToOrtho(false, WIDTH, HEIGHT);
+        gm.getCamera().setToOrtho(false, width, height);
         gm.getCamera().update();
 
         screenEntity = new Entity();
-        screenEntity.setPosition(WIDTH/2, HEIGHT/2);
+        screenEntity.setPosition(width/2, height/2);
 
         highScores = new HighScores(type);
     }
@@ -83,15 +81,21 @@ public abstract class AScreen implements Screen {
         return type;
     }
 
+    public void setType(ScreenType type) { this.type = type; }
+
     public float getScaleWidth() {
-        return Gdx.graphics.getWidth()/WIDTH;
+        return Gdx.graphics.getWidth()/width;
     }
 
     public float getScaleHeight() {
-        return Gdx.graphics.getHeight()/HEIGHT;
+        return Gdx.graphics.getHeight()/height;
     }
 
-    public float getScreenWidth() { return WIDTH; }
+    public float getWidth() { return width; }
 
-    public float getScreenHeight() { return HEIGHT; }
+    public float getHeight() { return height; }
+
+    public float getScreenTime() { return screenTime; }
+
+    public void setScreenTime(float screenTime) { this.screenTime = screenTime; }
 }

@@ -10,6 +10,7 @@ import com.kehxstudios.atlas.actions.HighScoreResetAction;
 import com.kehxstudios.atlas.actions.LaunchScreenAction;
 import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.components.ComponentData;
+import com.kehxstudios.atlas.components.ComponentType;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.data.Factory;
 import com.kehxstudios.atlas.data.TextureType;
@@ -35,8 +36,7 @@ public class MainMenuScreen extends AScreen {
     public void init() {
         super.init();
 
-        backgroundGraphics.setTextureType(TextureType.MAINMENU_BACKGROUND);
-        backgroundGraphics.setLayer(2);
+        ((GraphicsComponent)screenEntity.getComponentOfType(ComponentType.GRAPHICS)).setTextureType(TextureType.MAINMENU_BACKGROUND);
 
         EntityData flappyBirdData = new EntityData();
         flappyBirdData.setX(screenEntity.getPosition().x);

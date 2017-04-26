@@ -21,11 +21,9 @@ public class InputManager extends Manager {
     }
 
     private ArrayList<ClickableComponent> clickableComponents;
-    private ArrayList<ButtonComponent> buttonComponents;
 
     public InputManager() {
         clickableComponents = new ArrayList<ClickableComponent>();
-        buttonComponents = new ArrayList<ButtonComponent>();
     }
 
     public void tick(float delta) {
@@ -52,27 +50,15 @@ public class InputManager extends Manager {
         }
     }
 
-    public void addClickable(ClickableComponent component) {
+    public void add(ClickableComponent component) {
         if (!clickableComponents.contains(component)) {
             clickableComponents.add(component);
         }
     }
 
-    public void removeClickable(ClickableComponent component) {
+    public void remove(ClickableComponent component) {
         if (clickableComponents.contains(component)) {
             clickableComponents.remove(component);
-        }
-    }
-
-    public void addButton(ButtonComponent component) {
-        if (!buttonComponents.contains(component)) {
-            buttonComponents.add(component);
-        }
-    }
-
-    public void removeButton(ButtonComponent component) {
-        if (buttonComponents.contains(component)) {
-            buttonComponents.remove(component);
         }
     }
 
