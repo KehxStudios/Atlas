@@ -1,6 +1,5 @@
 package com.kehxstudios.atlas.screens;
 
-import com.badlogic.gdx.ai.pfa.Graph;
 import com.kehxstudios.atlas.actions.ActionData;
 import com.kehxstudios.atlas.components.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
@@ -10,6 +9,8 @@ import com.kehxstudios.atlas.data.Templates;
 import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.main.GameManager;
+
+import java.util.Random;
 
 /**
  * Created by ReidC on 2017-04-26.
@@ -37,14 +38,16 @@ public class FlappyBatScreen extends AScreen {
     private float batStartX, batCurrentX;
     private int lowHighScore, highestScore;
 
+    private Random random = new Random();
+
     public FlappyBatScreen() {
-        super();
-        type = ScreenType.FLAPPY_BAT;
+        super(ScreenType.FLAPPY_BAT);
         lowHighScore =  highScores.getLowScore();
         highestScore = highScores.getHighScore();
-    }
 
-    public void finalize() {
+        screenGraphics.setTextureType(TextureType.FLAPPYBIRD_BACKGROUND);
+        screenGraphics.setEnabled(true);
+
         batEntity = Factory.createEntity(Templates.createEntityData(width/4, height/2));
         ComponentData batGraphicsData = Templates.createGraphicsComponentData(0,0,2, TextureType.FLAPPYBIRD_BIRD);
         GraphicsComponent batGraphics = (GraphicsComponent)Factory.createComponent(batEntity, batGraphicsData);
@@ -53,7 +56,7 @@ public class FlappyBatScreen extends AScreen {
         batPhysics = (PhysicsComponent)Factory.createComponent(batEntity, batPhysicsData);
         ActionData batPhysicsAction = Templates.createPhysicsActionData(0, 300);
         ComponentData batClickable = Templates.createClickableComponentData(width, height, false, batPhysicsAction);
-
+        Factory.createComponent(batEntity, batClickable);
 
         ComponentData groundGraphicsData = Templates.createGraphicsComponentData(0, 0, 1, TextureType.FLAPPYBIRD_GROUND);
 
@@ -156,4 +159,50 @@ public class FlappyBatScreen extends AScreen {
     public void hide() {
 
     }
+
+        /*
+        tubes = new ArrayList<Entity>();
+
+        for(int i = 0; i < TUBE_COUNT; i++) {
+            Entity tube = new Entity(i * (TUBE_SPACING + TUBE_WIDTH) + 250, random.nextInt(TUBE_FLUCTUATION) + TUBE_LOWEST_OPENING + TUBE_GAP + TUBE_HEIGHT/2);
+
+            GraphicsComponent topGraphic = new GraphicsComponent(tube, TextureType.FLAPPYBIRD_TOPTUBE, 1);
+            PhysicsComponent topPhysics = new PhysicsComponent(tube, topGraphic.getWidth(), topGraphic.getHeight(), 0, 0, true);
+
+            GraphicsComponent bottomGraphic = new GraphicsComponent(tube, TextureType.FLAPPYBIRD_BOTTOMTUBE, 1);
+            bottomGraphic.setUsePositionAsOffset(true);
+            bottomGraphic.setLocation(0, -TUBE_GAP - TUBE_HEIGHT);
+            PhysicsComponent bottomPhysics = new PhysicsComponent(tube, bottomGraphic.getWidth(), bottomGraphic.getHeight(), 0, 0, true);
+            bottomPhysics.setUsePositionAsOffset(true);
+            bottomPhysics.setLocation(0, -TUBE_GAP - TUBE_HEIGHT);
+
+            tubes.add(tube);
+        }
+        */
+         /*
+        for(int i = 0; i < TUBE_COUNT; i++) {
+            tubes.get(i).setLocation(i * (TUBE_SPACING + TUBE_WIDTH) + 250, random.nextInt(TUBE_FLUCTUATION) + TUBE_LOWEST_OPENING + TUBE_GAP + TUBE_HEIGHT/2);
+        }
+        */
+         /*
+        for(Entity tube : tubes) {
+            if (tube.getX() == entity.getX() && entity != tube) {
+                entity.setY(random.nextInt(TUBE_FLUCTUATION) + TUBE_GAP + TUBE_LOWEST_OPENING + TUBE_HEIGHT/2);
+                entity.setX(x);
+                ((PhysicsComponent)entity.getComponentByType(ComponentType.PHYSICS)).updateBounds();
+
+                tube.setY(entity.getY() - TUBE_GAP - TUBE_HEIGHT);
+                tube.setX(x);
+                ((PhysicsComponent)tube.getComponentByType(ComponentType.PHYSICS)).updateBounds();
+                return;
+            }
+        }
+        */
+         /*
+        for (Entity tube : tubes) {
+            if(gm.getCamera().position.x - (gm.getCamera().viewportWidth / 2) > tube.getX() + TUBE_WIDTH)
+                repositionTube(tube, tube.getX() + ((TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
+        }
+        */
+
 }

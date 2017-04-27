@@ -30,17 +30,16 @@ public class IntroScreen extends AScreen {
     private ComponentData clickableData;
 
     public IntroScreen() {
-        super();
-        type = ScreenType.INTRO;
+        super(ScreenType.INTRO);
+
         screenGraphics.setTextureType(TextureType.DEV_LOGO);
+        screenGraphics.setEnabled(true);
         finalLogo = false;
         clickToContinue = false;
 
         // FloatingTextData
         floatingTextData = Templates.createFloatingTextComponentData(": ", "Click to Continue :");
-    }
 
-    public void finalize() {
         // ClickableData
         clickableData = Templates.createClickableComponentData(width, height, true,
                 Templates.createLaunchScreenActionData(ScreenType.INTRO));

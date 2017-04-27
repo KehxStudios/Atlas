@@ -47,7 +47,12 @@ public class ScreenManager extends Manager {
     public void changeScreen(ScreenType screenType) {
         if (screen != null)
             removeScreenTypeSettings();
-        screen = Factory.createScreen(screenType);
+        try {
+            screen = (AScreen) ClassReflection.newInstance(screenType.getLoaderClass());
+        } catch (ReflectionException e) {
+            e.printStackTrace();
+            return;
+        }
         GameManager.getInstance().setScreen(screen);
         this.screenType = screen.getType();
         setAllManagersScreens();

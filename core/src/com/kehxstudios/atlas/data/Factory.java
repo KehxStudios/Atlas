@@ -36,16 +36,8 @@ import com.kehxstudios.atlas.managers.EntityManager;
 import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.managers.InputManager;
 import com.kehxstudios.atlas.managers.PhysicsManager;
-import com.kehxstudios.atlas.managers.ScreenManager;
-import com.kehxstudios.atlas.screens.AScreen;
-import com.kehxstudios.atlas.screens.FlappyBirdScreen;
-import com.kehxstudios.atlas.screens.IntroScreen;
-import com.kehxstudios.atlas.screens.MainMenuScreen;
 import com.kehxstudios.atlas.screens.ScreenType;
-import com.kehxstudios.atlas.stats.HighScores;
 import com.kehxstudios.atlas.tools.UtilityTool;
-
-import java.util.ArrayList;
 
 /**
  * Created by ReidC on 2017-04-23.
@@ -58,30 +50,6 @@ public class Factory {
     }
 
     private static int uniqueId;
-
-    public static AScreen createScreen(ScreenType screenType) {
-        try {
-            AScreen screen = (AScreen) ClassReflection.newInstance(screenType.getLoaderClass());
-            screen.setType(screenType);
-            screen.setWidth(screenType.getWidth());
-            screen.setHeight(screenType.getHeight());
-            screen.setHighScores(new HighScores(screenType));
-
-            EntityData entityData = Templates.createEntityData(screen.getWidth()/2, screen.getHeight()/2);
-            screen.setScreenEntity(createEntity(entityData));
-
-            ComponentData graphicsData = Templates.createGraphicsComponentData(screen.getWidth(), screen.getHeight(), 0, TextureType.VOID);
-            screen.setScreenGraphics((GraphicsComponent)createComponent(screen.getScreenEntity(), graphicsData));
-
-            screen.finalize();
-            screen.getScreenGraphics().setEnabled(true);
-
-            return screen;
-        } catch (ReflectionException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public static Entity createEntity(EntityData entityData) {
         Entity entity = new Entity();
