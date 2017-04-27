@@ -75,6 +75,7 @@ public class PhysicsManager extends Manager {
     }
 
     private PhysicsManager() {
+        super();
         physicsComponents = new ArrayList<PhysicsComponent>();
     }
 }

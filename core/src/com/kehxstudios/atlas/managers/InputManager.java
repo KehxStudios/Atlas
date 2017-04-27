@@ -23,6 +23,7 @@ public class InputManager extends Manager {
     private ArrayList<ClickableComponent> clickableComponents;
 
     public InputManager() {
+        super();
         clickableComponents = new ArrayList<ClickableComponent>();
     }
 

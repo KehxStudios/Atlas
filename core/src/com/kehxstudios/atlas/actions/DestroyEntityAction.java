@@ -1,8 +1,7 @@
 package com.kehxstudios.atlas.actions;
 
-import com.kehxstudios.atlas.data.GrimReaper;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.entities.EntityType;
+import com.kehxstudios.atlas.managers.EntityManager;
 
 /**
  * Created by ReidC on 2017-04-16.
@@ -17,6 +16,6 @@ public class DestroyEntityAction extends Action {
 
     @Override
     public void trigger() {
-        GrimReaper.destroyEntity(entity);
+        EntityManager.getInstance().markEntityForRemoval(entity);
     }
 }

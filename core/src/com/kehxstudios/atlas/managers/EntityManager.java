@@ -1,8 +1,11 @@
 package com.kehxstudios.atlas.managers;
 
-import com.badlogic.gdx.Gdx;
+import com.kehxstudios.atlas.components.AnimationComponent;
+import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.components.Component;
-import com.kehxstudios.atlas.data.GrimReaper;
+import com.kehxstudios.atlas.components.ComponentType;
+import com.kehxstudios.atlas.components.GraphicsComponent;
+import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.tools.DebugTool;
 
@@ -22,10 +25,27 @@ public class EntityManager extends Manager {
         return instance;
     }
     private EntityManager() {
-        entities = new ArrayList<Entity>();
+        super();
+        loadScreenTypeSettings();
     }
 
     private ArrayList<Entity> entities;
+
+    // ArrayLists for Entities/Components to be removed on tick
+    private ArrayList<Entity> markedEntities;
+    private ArrayList<Component> markedComponents;
+
+    public void markEntityForRemoval(Entity entity) {
+        if (!markedEntities.contains(entity)) {
+            markedEntities.add(entity);
+        }
+    }
+
+    public void markComponentForRemoval(Component component) {
+        if (!markedComponents.contains(component)) {
+            markedComponents.add(component);
+        }
+    }
 
     public void addEntity(Entity entity) {
         if (!entities.contains(entity)) {
@@ -35,7 +55,7 @@ public class EntityManager extends Manager {
         }
     }
 
-    public void removeEntity(Entity entity) {
+    private void removeEntity(Entity entity) {
         if (entities.contains(entity)) {
             if (entity.getComponents().size() > 0) {
                 ArrayList<Component> components = entity.getComponents();
@@ -60,31 +80,53 @@ public class EntityManager extends Manager {
         }
     }
 
-    public void removeComponent(Entity entity, Component component) {
+    private void removeComponent(Entity entity, Component component) {
         if (entities.contains(entity)) {
             if (entity.hasComponent(component)) {
+                if (component.getType() == ComponentType.ANIMATION) {
+                    GraphicsManager.getInstance().remove((AnimationComponent)component);
+                } else if (component.getType() == ComponentType.CLICKABLE) {
+                    InputManager.getInstance().remove((ClickableComponent)component);
+                } else if (component.getType() == ComponentType.FLOATING_TEXT) {
+
+                } else if (component.getType() == ComponentType.GRAPHICS) {
+                    GraphicsManager.getInstance().remove((GraphicsComponent)component);
+                } else if (component.getType() == ComponentType.IN_VIEW) {
+
+                } else if (component.getType() == ComponentType.PHYSICS) {
+                    PhysicsManager.getInstance().remove((PhysicsComponent)component);
+                } else if (component.getType() == ComponentType.POINTER_DIRECTION) {
+
+                }
                 entity.getComponents().remove(component);
             } else {
-
+                DebugTool.log("Failed to find component in entity to remove component");
             }
         } else {
-            DebugTool.log("Failed to find entity in entities to add component");
+            DebugTool.log("Failed to find entity in entities to remove component");
         }
     }
 
     @Override
     public void tick(float delta) {
-
+        while (markedComponents.size() != 0) {
+            removeComponent(markedComponents.get(0).getEntity(), markedComponents.get(0));
+        }
+        while (markedEntities.size() != 0) {
+            removeEntity(entities.get(0));
+        }
     }
 
     @Override
     protected void loadScreenTypeSettings() {
-
+        entities = new ArrayList<Entity>();
+        markedEntities = new ArrayList<Entity>();
+        markedComponents = new ArrayList<Component>();
     }
 
     @Override
     protected void removeScreenTypeSettings() {
-        for (; entities.size() > 0;) {
+        while (entities.size() != 0) {
             removeEntity(entities.get(0));
         }
     }

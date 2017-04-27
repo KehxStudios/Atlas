@@ -129,6 +129,7 @@ public class GraphicsManager extends Manager {
     }
 
     private GraphicsManager() {
+        super();
         animationComponents = new ArrayList<AnimationComponent>();
         graphicComponents = new ArrayList<ArrayList<GraphicsComponent>>();
         for (int i = 0; i < MAX_LAYERS; i++) {

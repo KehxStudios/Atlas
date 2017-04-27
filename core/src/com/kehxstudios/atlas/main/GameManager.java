@@ -3,26 +3,16 @@ package com.kehxstudios.atlas.main;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.Method;
-import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.kehxstudios.atlas.data.Factory;
 import com.kehxstudios.atlas.managers.EntityManager;
 import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.managers.InputManager;
-import com.badlogic.gdx.utils.Json;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.managers.ScreenManager;
-import com.kehxstudios.atlas.screens.AScreen;
 import com.kehxstudios.atlas.screens.ScreenType;
-import com.kehxstudios.atlas.tools.DebugTool;
 
 public class GameManager extends Game {
 
@@ -31,23 +21,26 @@ public class GameManager extends Game {
 		return instance;
 	}
 
-	ScreenManager screenManager;
-	EntityManager entityManager;
-	GraphicsManager graphicsManager;
-	InputManager inputManager;
-	PhysicsManager physicsManager;
+	private ScreenManager screenManager;
+	private EntityManager entityManager;
+	private GraphicsManager graphicsManager;
+	private InputManager inputManager;
+	private PhysicsManager physicsManager;
 
-	AssetManager assetManager;
+	private AssetManager assetManager;
 
-	SpriteBatch batch;
-	OrthographicCamera camera;
+	private SpriteBatch batch;
+	private OrthographicCamera camera;
 
+	// Used for Desktop window size, will later update for size options
 	public static final float D_WIDTH = 480, D_HEIGHT = 800;
 
 	@Override
 	public void create () {
+		// Set instance to the current one created
 		instance = this;
 
+		// Setup instances of each Manager including AssetManager
 		screenManager = ScreenManager.getInstance();
 		entityManager = EntityManager.getInstance();
 		graphicsManager = GraphicsManager.getInstance();
@@ -55,35 +48,57 @@ public class GameManager extends Game {
 		physicsManager = PhysicsManager.getInstance();
 		assetManager = new AssetManager();
 
-		batch = new SpriteBatch();
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.update();
-
-		Gdx.app.getGraphics().setTitle("Atlas");
-
+		// If running on the Desktop set title, window size and lock, will update for size options later
 		if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+			Gdx.app.getGraphics().setTitle("Atlas");
 			Gdx.graphics.setWindowedMode((int)D_WIDTH, (int)D_HEIGHT);
 			Gdx.graphics.setResizable(false);
 		}
 
-        screenManager.changeScreen(ScreenType.INTRO);
+		// Setup Camera and Batch
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera.update();
+		batch = new SpriteBatch();
+		batch.setProjectionMatrix(camera.combined);
+
+		// Request a new Screen be started then tick to trigger launch
+        screenManager.requestNewScreenType(ScreenType.INTRO);
+		screenManager.tick(0);
 	}
 
 	@Override
 	public void render () {
+		// Get the current delta time to pass to Managers
 		float delta = Gdx.graphics.getDeltaTime();
+
+		// tick InputManager to check for input changes
 		inputManager.tick(delta);
+
+		// render the Screen that is set allowing screen functions
         super.render();
+
+		// tick PhysicsManager to change any locations by the means of physics
 		physicsManager.tick(delta);
+
+		// tick ScreenManager to check if screen change is needed
+		screenManager.tick(delta);
+
+		// tick EntityManager to check if anything needs to be removed
+		entityManager.tick(delta);
+
+		// tick GraphicsManager to check if any animations require changing
 		graphicsManager.tick(delta);
 
+		// Clear the current graphics
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.setProjectionMatrix(camera.combined);
+
+		// render everything inside of GraphicsManager
 		graphicsManager.render(batch, camera);
 	}
-	
+
+	// Dispose of everything that might need disposal
 	@Override
 	public void dispose () {
 		super.dispose();

@@ -20,6 +20,6 @@ public class LaunchScreenAction extends Action {
 
     @Override
     public void trigger() {
-        ScreenManager.getInstance().changeScreen(screenType);
+        ScreenManager.getInstance().requestNewScreenType(screenType);
     }
 }

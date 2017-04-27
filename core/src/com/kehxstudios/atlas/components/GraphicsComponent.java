@@ -29,6 +29,4 @@ public class GraphicsComponent extends Component {
 
     public int getLayer() { return layer; }
     public void setLayer(int layer) { this.layer = layer; }
-
-
 }
