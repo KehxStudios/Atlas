@@ -15,7 +15,7 @@ public enum ScreenType {
 
     INTRO("Intro", "texturePacks/intro.atlas", 512, 910, IntroScreen.class),
     MAIN_MENU("MainMenu", "texturePacks/mainMenu.atlas", 1440, 2560, MainMenuScreen.class),
-    FLAPPY_BIRD("FlappyBird", "texturePacks/flappyBat.atlas", 240, 400, FlappyBirdScreen.class),
+    FLAPPY_BAT("FlappyBat", "texturePacks/flappyBat.atlas", 240, 400, FlappyBatScreen.class),
     VOID("Void", "-", 0, 0, AScreen.class);
 
     private String id, path;

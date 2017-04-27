@@ -31,18 +31,19 @@ public class IntroScreen extends AScreen {
 
     public IntroScreen() {
         super();
+        type = ScreenType.INTRO;
         screenGraphics.setTextureType(TextureType.DEV_LOGO);
         finalLogo = false;
         clickToContinue = false;
 
         // FloatingTextData
-        floatingTextData = Templates.createFloatingTextData(": ", "Click to Continue :");
+        floatingTextData = Templates.createFloatingTextComponentData(": ", "Click to Continue :");
     }
 
     public void finalize() {
         // ClickableData
-        clickableData = Templates.createClickableData(width, height, true,
-                Templates.createLaunchScreenData(ScreenType.INTRO));
+        clickableData = Templates.createClickableComponentData(width, height, true,
+                Templates.createLaunchScreenActionData(ScreenType.INTRO));
     }
 
     @Override

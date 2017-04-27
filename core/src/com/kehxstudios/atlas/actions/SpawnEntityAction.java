@@ -20,6 +20,6 @@ public class SpawnEntityAction extends Action {
 
     @Override
     public void trigger() {
-        Factory.getInstance().createEntity(entityData);
+        Factory.createEntity(entityData);
     }
 }

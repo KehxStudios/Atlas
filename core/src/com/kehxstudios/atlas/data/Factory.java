@@ -38,7 +38,6 @@ import com.kehxstudios.atlas.managers.InputManager;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.screens.AScreen;
-import com.kehxstudios.atlas.screens.AScreenData;
 import com.kehxstudios.atlas.screens.FlappyBirdScreen;
 import com.kehxstudios.atlas.screens.IntroScreen;
 import com.kehxstudios.atlas.screens.MainMenuScreen;
@@ -71,37 +70,13 @@ public class Factory {
             EntityData entityData = Templates.createEntityData(screen.getWidth()/2, screen.getHeight()/2);
             screen.setScreenEntity(createEntity(entityData));
 
-            ComponentData graphicsData = Templates.createGraphicsData(screen.getWidth(), screen.getHeight(), 0, TextureType.VOID);
+            ComponentData graphicsData = Templates.createGraphicsComponentData(screen.getWidth(), screen.getHeight(), 0, TextureType.VOID);
             screen.setScreenGraphics((GraphicsComponent)createComponent(screen.getScreenEntity(), graphicsData));
 
             screen.finalize();
             screen.getScreenGraphics().setEnabled(true);
 
             return screen;
-            /*
-            if (screen.getType() == ScreenType.INTRO) {
-                IntroScreen intro = (IntroScreen)screen;
-
-                intro.finalize();
-                intro.getScreenGraphics().setEnabled(true);
-
-                return intro;
-            } else if (screen.getType() == ScreenType.MAIN_MENU) {
-                MainMenuScreen mainMenu = (MainMenuScreen)screen;
-
-                mainMenu.finalize();
-                mainMenu.getScreenGraphics().setEnabled(true);
-
-                return mainMenu;
-            } else if (screen.getType() == ScreenType.FLAPPY_BIRD) {
-                FlappyBirdScreen flappyBird = (FlappyBirdScreen)screen;
-
-                flappyBird.finalize();
-                flappyBird.getScreenGraphics().setEnabled(true);
-
-                return flappyBird;
-            }
-            */
         } catch (ReflectionException e) {
             e.printStackTrace();
         }
@@ -235,8 +210,8 @@ public class Factory {
                 return multi;
             } else if (action.getType() == ActionType.PHYSICS) {
                 PhysicsAction physics = (PhysicsAction)action;
-                physics.setTriggerValue(actionData.getFloat("triggerValue_x", 0),
-                        actionData.getFloat("triggerValue_y", 0));
+                physics.setTriggerValue(actionData.getFloat("actionValue_x", 0),
+                        actionData.getFloat("actionValue_y", 0));
                 physics.setPhysicsComponent((PhysicsComponent)entity.getComponentOfType(ComponentType.PHYSICS));
                 return physics;
             } else if (action.getType() == ActionType.REPOSITION) {
@@ -247,7 +222,7 @@ public class Factory {
                 return reposition;
             } else if (action.getType() == ActionType.SCORE) {
                 ScoreAction score = (ScoreAction)action;
-                score.setScoreValue(actionData.getInt("scoreValue", 0));
+                score.setScoreValue(actionData.getInt("actionValue", 0));
                 return score;
             } else if (action.getType() == ActionType.SPAWN_ENTITY) {
                 SpawnEntityAction spawnEntity = (SpawnEntityAction)action;
@@ -256,8 +231,8 @@ public class Factory {
             } else if (action.getType() == ActionType.TELEPORT) {
                 TeleportAction teleport = (TeleportAction)action;
                 teleport.setPosition(entity.getPosition());
-                teleport.setTeleportPosition(new Vector2(actionData.getFloat("teleportPosition_x", 0),
-                        actionData.getFloat("teleportPosition_y", 0)));
+                teleport.setTeleportPosition(new Vector2(actionData.getFloat("actionValue_x", 0),
+                        actionData.getFloat("actionValue_y", 0)));
                 return teleport;
             }
         } catch (ReflectionException e) {
@@ -306,6 +281,7 @@ public class Factory {
             componentData.putFloat("height", ((InViewComponent)component).getHeight());
             componentData.putString("action", UtilityTool.getStringFromDataClass(createActionData(((InViewComponent)component).getAction())));
         } else if (component.getType() == ComponentType.PHYSICS) {
+
 
         } else if (component.getType() == ComponentType.POINTER_DIRECTION) {
 

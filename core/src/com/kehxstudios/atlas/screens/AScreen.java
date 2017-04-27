@@ -29,6 +29,7 @@ public abstract class AScreen implements Screen {
     protected int score;
 
     public AScreen() {
+        type = ScreenType.VOID;
         screenTime = 0;
         score = 0;
     }

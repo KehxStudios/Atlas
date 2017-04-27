@@ -27,66 +27,14 @@ import java.util.ArrayList;
 
 public class FlappyBirdScreen extends AScreen {
 
-    private static final int TUBE_SPACING = 125;
-    private static final int TUBE_COUNT = 2;
-    private static final int TUBE_FLUCTUATION = 130;
-    private static final int TUBE_WIDTH = 52;
-    private static final int TUBE_HEIGHT = 320;
-    private static final int TUBE_GAP = 100;
-    private static final int TUBE_LOWEST_OPENING = 120;
-    private static final int GROUND_Y_OFFSET = 25;
-
-    private float GROUND_WIDTH;
-
-    private Entity bird;
-    private PhysicsComponent birdPhysics;
-    private Entity ground1, ground2;
-    private ArrayList<Entity> tubes;
-
     Random random = new Random();
-
-    private float birdStartX, birdCurrentX;
-    private int lowScore, highScore;
-
-    private BitmapFont font;
-    private GlyphLayout scoreLayout;
-    private String scoreText = "Score: ";
-
-    private GlyphLayout lowScoreLayout;
-    private String lowScoreText = "Low-Score: ";
-    private GlyphLayout highScoreLayout;
-    private String highScoreText = "High-Score: ";
 
     public FlappyBirdScreen() {
         super();
     }
 
-
-
     public void init() {
-
-        lowScore =  highScores.getLowScore();
-        highScore = highScores.getHighScore();
-
         /*
-        bird = new Entity(WIDTH/4,HEIGHT/2);
-        GraphicsComponent graphics = new GraphicsComponent(bird, TextureType.FLAPPYBIRD_BIRD, 3);
-        birdPhysics = new PhysicsComponent(bird, graphics.getWidth(), graphics.getHeight(), 100, -15, true);
-        PhysicsManager.getInstance().setPlayer(birdPhysics);
-        ClickableComponent clickable = new ClickableComponent(screenEntity, WIDTH, HEIGHT,
-                false, new PhysicsAction(birdPhysics, new Vector2(0,250)));
-        birdStartX = bird.getX();
-
-        gm.getCamera().position.x = bird.getX() + 80;
-        gm.getCamera().update();
-
-        ground1 = new Entity((int)(gm.getCamera().position.x - gm.getCamera().viewportWidth/2),GROUND_Y_OFFSET);
-        GraphicsComponent ground1Graphics = new GraphicsComponent(ground1, TextureType.FLAPPYBIRD_GROUND, 2);
-        GROUND_WIDTH = ground1Graphics.getWidth();
-
-        ground2 = new Entity((int)(ground1.getX() + GROUND_WIDTH), GROUND_Y_OFFSET);
-        GraphicsComponent ground2Graphics = new GraphicsComponent(ground2, TextureType.FLAPPYBIRD_GROUND, 2);
-
         tubes = new ArrayList<Entity>();
 
         for(int i = 0; i < TUBE_COUNT; i++) {
@@ -108,33 +56,9 @@ public class FlappyBirdScreen extends AScreen {
     }
 
     protected void reset() {
-        if (score > lowScore) {
-            highScores.addToHighScores("Test",score);
-        }
-
-        lowScore =  highScores.getLowScore();
-        highScore = highScores.getHighScore();
-
-        scoreLayout.setText(font, scoreText+score, Color.BLACK,WIDTH/2, Align.center, true);
-        lowScoreLayout.setText(font, lowScoreText+lowScore, Color.BLACK,WIDTH/2, Align.center, true);
-        highScoreLayout.setText(font, highScoreText+highScore, Color.BLACK,WIDTH/2, Align.center, true);
-
-        bird.setLocation(WIDTH/4,HEIGHT/2);
-        birdStartX = bird.getX();
-
-        gm.getCamera().position.x = bird.getX() + 80;
-        gm.getCamera().update();
-
-        ground1.setLocation((gm.getCamera().position.x - gm.getCamera().viewportWidth/2),GROUND_Y_OFFSET);
-        ground2.setLocation((ground1.getX() + GROUND_WIDTH),GROUND_Y_OFFSET);
-
         for(int i = 0; i < TUBE_COUNT; i++) {
             tubes.get(i).setLocation(i * (TUBE_SPACING + TUBE_WIDTH) + 250, random.nextInt(TUBE_FLUCTUATION) + TUBE_LOWEST_OPENING + TUBE_GAP + TUBE_HEIGHT/2);
         }
-    }
-
-    public void birdJump() {
-        birdPhysics.velocity.y = 250;
     }
 
     private void repositionTube(Entity entity, float x) {
@@ -159,22 +83,10 @@ public class FlappyBirdScreen extends AScreen {
 
     @Override
     public void render(float delta) {
-        if (birdPhysics.hasCollided) {
-            reset();
-        }
-        super.render(delta);
-        updateGround();
-        gm.getCamera().position.x = bird.getX() + 80;
-        gm.getCamera().update();
-        screenEntity.setX(gm.getCamera().position.x - (gm.getCamera().viewportWidth/2) + WIDTH/2);
-
         for (Entity tube : tubes) {
             if(gm.getCamera().position.x - (gm.getCamera().viewportWidth / 2) > tube.getX() + TUBE_WIDTH)
                 repositionTube(tube, tube.getX() + ((TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
         }
-
-        birdCurrentX = bird.getX();
-        score = (int)(birdCurrentX - birdStartX);
     }
 
     @Override
@@ -186,18 +98,9 @@ public class FlappyBirdScreen extends AScreen {
         super.dispose();
     }
 
-    private void updateGround() {
-        if(gm.getCamera().position.x - (gm.getCamera().viewportWidth / 2) > ground1.getX() + GROUND_WIDTH/2)
-            ground1.move(GROUND_WIDTH * 2,0);
-        if(gm.getCamera().position.x - (gm.getCamera().viewportWidth / 2) > ground2.getX() + GROUND_WIDTH/2)
-            ground2.move(GROUND_WIDTH * 2,0);
-    }
-
 
     @Override
     public void pause() {
-        DebugTool.log("PAUSED");
-        dispose();
     }
 
     @Override

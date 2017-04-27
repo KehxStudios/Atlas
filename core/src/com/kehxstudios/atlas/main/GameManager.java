@@ -21,7 +21,6 @@ import com.badlogic.gdx.utils.Json;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.screens.AScreen;
-import com.kehxstudios.atlas.screens.AScreenData;
 import com.kehxstudios.atlas.screens.ScreenType;
 import com.kehxstudios.atlas.tools.DebugTool;
 

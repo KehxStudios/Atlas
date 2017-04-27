@@ -7,7 +7,6 @@ import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.data.Factory;
 import com.kehxstudios.atlas.main.GameManager;
 import com.kehxstudios.atlas.screens.AScreen;
-import com.kehxstudios.atlas.screens.AScreenData;
 import com.kehxstudios.atlas.screens.ScreenType;
 
 /**

@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.Json;
 import com.kehxstudios.atlas.actions.ActionData;
 import com.kehxstudios.atlas.components.ComponentData;
 import com.kehxstudios.atlas.entities.EntityData;
-import com.kehxstudios.atlas.screens.AScreenData;
 import com.kehxstudios.atlas.screens.ScreenType;
 
 /**
@@ -18,26 +17,9 @@ public class UtilityTool {
 
     private static Json json = new Json();
 
-    public static AScreenData load(ScreenType type) {
-        DebugTool.log("Loading screen data");
-        FileHandle file = Gdx.files.internal("screens/" + type.getId() + ".sd");
-        DebugTool.log("File set");
-        if (file.exists()) {
-            AScreenData screenData = json.fromJson(AScreenData.class, file.readString());
-            DebugTool.log("AScreenData loaded");
-            return screenData;
-        }
-        DebugTool.log("Returning null");
-        return null;
-    }
-
-    // Transforms AScreenData, EntityData, ComponentData to string in json format
+    // Transforms EntityData, ComponentData to string in json format
     public static <T> String getStringFromDataClass(T data) {
         return json.prettyPrint(data);
-    }
-
-    public static AScreenData getAScreenDataFromString(String jsonString) {
-        return json.fromJson(AScreenData.class, jsonString);
     }
 
     public static EntityData getEntityDataFromString(String jsonString) {
