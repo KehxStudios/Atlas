@@ -9,7 +9,6 @@ import java.util.HashMap;
 public class AScreenData {
 
     public String type;
-    public float width, height;
     public HashMap<String, String> data;
 
     public AScreenData() {
@@ -18,8 +17,6 @@ public class AScreenData {
 
     public AScreenData(String type, float width, float height) {
         this.type = type;
-        this.width = width;
-        this.height = height;
         data = new HashMap<String, String>();
     }
 
@@ -30,14 +27,6 @@ public class AScreenData {
     public void setType(String type) {
         this.type = type;
     }
-
-    public float getWidth() { return width; }
-
-    public void setWidth(float width) { this.width = width; }
-
-    public float getHeight() { return height; }
-
-    public void setHeight(float height) { this.height = height; }
 
     public void putFloat(String key, float value) {
         data.put(key, "" + value);

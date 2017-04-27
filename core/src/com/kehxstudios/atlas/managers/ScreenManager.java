@@ -2,7 +2,12 @@ package com.kehxstudios.atlas.managers;
 
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.kehxstudios.atlas.components.GraphicsComponent;
+import com.kehxstudios.atlas.components.PhysicsComponent;
+import com.kehxstudios.atlas.data.Factory;
+import com.kehxstudios.atlas.main.GameManager;
 import com.kehxstudios.atlas.screens.AScreen;
+import com.kehxstudios.atlas.screens.AScreenData;
 import com.kehxstudios.atlas.screens.ScreenType;
 
 /**
@@ -19,7 +24,6 @@ public class ScreenManager extends Manager {
         return instance;
     }
 
-
     @Override
     public void tick(float delta) {
 
@@ -27,22 +31,34 @@ public class ScreenManager extends Manager {
 
     @Override
     protected void loadScreenTypeSettings() {
-        EntityManager.getInstance().setScreenType(screen);
-        GraphicsManager.getInstance().setScreenType(screen);
-        InputManager.getInstance().setScreenType(screen);
-        PhysicsManager.getInstance().setScreenType(screen);
+        EntityManager.getInstance().loadScreenTypeSettings();
+        GraphicsManager.getInstance().loadScreenTypeSettings();
+        InputManager.getInstance().loadScreenTypeSettings();
+        PhysicsManager.getInstance().loadScreenTypeSettings();
     }
 
     @Override
     protected void removeScreenTypeSettings() {
-
+        EntityManager.getInstance().removeScreenTypeSettings();
+        GraphicsManager.getInstance().removeScreenTypeSettings();
+        InputManager.getInstance().removeScreenTypeSettings();
+        PhysicsManager.getInstance().removeScreenTypeSettings();
     }
 
-    public void changeScreen(AScreen screen) {
+    public void changeScreen(ScreenType screenType) {
         if (screen != null)
             removeScreenTypeSettings();
-        this.screen = screen;
-        screenType = screen.getType();
+        screen = Factory.createScreen(screenType);
+        GameManager.getInstance().setScreen(screen);
+        this.screenType = screen.getType();
+        setAllManagersScreens();
         loadScreenTypeSettings();
+    }
+
+    private void setAllManagersScreens() {
+        EntityManager.getInstance().setScreen(screen);
+        GraphicsManager.getInstance().setScreen(screen);
+        InputManager.getInstance().setScreen(screen);
+        PhysicsManager.getInstance().setScreen(screen);
     }
 }

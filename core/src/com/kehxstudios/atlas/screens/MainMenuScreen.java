@@ -11,8 +11,10 @@ import com.kehxstudios.atlas.actions.LaunchScreenAction;
 import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.components.ComponentData;
 import com.kehxstudios.atlas.components.ComponentType;
+import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.data.Factory;
+import com.kehxstudios.atlas.data.Templates;
 import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.entities.EntityData;
@@ -28,46 +30,24 @@ public class MainMenuScreen extends AScreen {
 
     public MainMenuScreen() {
         super();
+        screenGraphics.setTextureType(TextureType.MAINMENU_BACKGROUND);
     }
 
-    public void init() {
+    public void finalize() {
+        Entity flappyBird = Factory.createEntity(Templates.createEntityData(width/2, height/5*2));
+        Factory.createComponent(flappyBird, Templates.createGraphicsData(200, 100, 2, TextureType.MAINMENU_BORDERS));
+        Factory.createComponent(flappyBird, Templates.createClickableData(200, 100, true, Templates.createLaunchScreenData(ScreenType.FLAPPY_BIRD)));
+        Factory.createComponent(flappyBird, Templates.createFloatingTextData("< ", "Flappy Bird >"));
 
-        ((GraphicsComponent)screenEntity.getComponentOfType(ComponentType.GRAPHICS)).setTextureType(TextureType.MAINMENU_BACKGROUND);
+        Entity intro = Factory.createEntity(Templates.createEntityData(width, height/5*3));
+        Factory.createComponent(intro, Templates.createGraphicsData(200, 100, 2, TextureType.MAINMENU_BORDERS));
+        Factory.createComponent(intro, Templates.createClickableData(200, 100, true, Templates.createLaunchScreenData(ScreenType.FLAPPY_BIRD)));
+        Factory.createComponent(intro, Templates.createFloatingTextData("< ", "Intro >"));
 
-        EntityData flappyBirdData = new EntityData();
-        flappyBirdData.setX(screenEntity.getPosition().x);
-        flappyBirdData.setY(screenEntity.getPosition().y);
-
-        ComponentData flappyBirdGraphicsData = new ComponentData();
-        flappyBirdGraphicsData.putString("textureType", TextureType.MAINMENU_BORDERS.getId());
-        flappyBirdGraphicsData.putInt("layer", 2);
-        flappyBirdData.putString("GraphicsComponent", UtilityTool.getStringFromDataClass(flappyBirdGraphicsData));
-
-        ActionData actionData = new ActionData();
-        actionData.setType(ActionType.LAUNCH_SCREEN.getId());
-        actionData.putString("screenType", ScreenType.FLAPPY_BIRD.getId());
-
-        ComponentData flappyBirdClickableData = new ComponentData();
-        flappyBirdClickableData.putFloat("width", 400);
-        flappyBirdClickableData.putFloat("height", 200);
-        flappyBirdClickableData.putString("action", UtilityTool.getStringFromDataClass(actionData));
-
-        Factory.getInstance().createEntity(flappyBirdData);
-        /*
-        introEntity = new Entity(screenEntity.getX(), screenEntity.getY());
-        GraphicsComponent introGraphics = new GraphicsComponent(introEntity, TextureType.MAINMENU_BORDERS,2);
-        ClickableComponent introClickable = new ClickableComponent(introEntity, introGraphics.getWidth(),
-                introGraphics.getHeight(), true, new LaunchScreenAction(ScreenType.INTRO));
-        introLayout = new GlyphLayout(font, introText);
-        introLayout.setText(font, introText, Color.WHITE,WIDTH/2, Align.left, true);
-
-        resetScoresEntity = new Entity(screenEntity.getX(), screenEntity.getY() + 500);
-        GraphicsComponent resetScoreGraphics = new GraphicsComponent(resetScoresEntity, TextureType.MAINMENU_BORDERS,2);
-        ClickableComponent ressetScoreClickable = new ClickableComponent(resetScoresEntity, resetScoreGraphics.getWidth(),
-                resetScoreGraphics.getHeight(), true, new HighScoreResetAction(type));
-        resetLayout = new GlyphLayout(font, resetText);
-        resetLayout.setText(font, resetText, Color.WHITE,WIDTH/2, Align.left, true);
-        */
+        Entity highScoreReset = Factory.createEntity(Templates.createEntityData(width, height/5*4));
+        Factory.createComponent(highScoreReset, Templates.createGraphicsData(200, 100, 2, TextureType.MAINMENU_BORDERS));
+        Factory.createComponent(highScoreReset, Templates.createClickableData(200, 100, true, Templates.createLaunchScreenData(ScreenType.FLAPPY_BIRD)));
+        Factory.createComponent(highScoreReset, Templates.createFloatingTextData("< ", "High-Score Reset >"));
     }
 
     @Override

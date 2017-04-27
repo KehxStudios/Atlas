@@ -33,6 +33,8 @@ public abstract class AScreen implements Screen {
         score = 0;
     }
 
+    public abstract void finalize();
+
     @Override
     public void render(float delta) {
         screenTime += delta;

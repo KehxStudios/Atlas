@@ -45,8 +45,6 @@ public class GameManager extends Game {
 
 	public static final float D_WIDTH = 480, D_HEIGHT = 800;
 
-	private static Json json = new Json();
-
 	@Override
 	public void create () {
 		instance = this;
@@ -70,22 +68,14 @@ public class GameManager extends Game {
 			Gdx.graphics.setResizable(false);
 		}
 
-		AScreenData screenData = new AScreenData();
-		screenData.setType(ScreenType.INTRO.getId());
-		screenData.setWidth(512);
-		screenData.setHeight(910);
-
-		Factory.getInstance().createScreen(screenData);
-	}
-
-	private void print() {
-		DebugTool.log("Print Complete");
+        screenManager.changeScreen(ScreenType.INTRO);
 	}
 
 	@Override
 	public void render () {
 		float delta = Gdx.graphics.getDeltaTime();
 		inputManager.tick(delta);
+        super.render();
 		physicsManager.tick(delta);
 		graphicsManager.tick(delta);
 
@@ -93,7 +83,6 @@ public class GameManager extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
 		graphicsManager.render(batch, camera);
-		super.render();
 	}
 	
 	@Override

@@ -13,7 +13,11 @@ public class GraphicsComponent extends Component {
     private int layer;
 
     public TextureType getTextureType() { return textureType; }
-    public void setTextureType(TextureType textureType) { this.textureType = textureType; }
+    public void setTextureType(TextureType textureType) {
+        this.textureType = textureType;
+        width = textureType.getWidth();
+        height = textureType.getHeight();
+    }
 
     public float getWidth() { return width; }
     public void setWidth(float width) { this.width = width; }

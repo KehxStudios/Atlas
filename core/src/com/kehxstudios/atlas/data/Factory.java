@@ -1,6 +1,5 @@
 package com.kehxstudios.atlas.data;
 
-import com.badlogic.gdx.ai.pfa.Graph;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.google.gwt.aria.client.LandmarkRole;
 import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.actions.ActionData;
 import com.kehxstudios.atlas.actions.ActionType;
@@ -56,86 +54,63 @@ import java.util.ArrayList;
 
 public class Factory {
 
-    private static Factory instance;
-    public static Factory getInstance() {
-        if (instance == null) {
-            instance = new Factory();
-        }
-        return instance;
+    static {
+        uniqueId = 0;
     }
 
-    private int unqiueId;
+    private static int uniqueId;
 
-    public AScreen createScreen(AScreenData screenData) {
+    public static AScreen createScreen(ScreenType screenType) {
         try {
-            AScreen screen = (AScreen) ClassReflection.newInstance(ScreenType.getTypeById(screenData.getType()).getLoaderClass());
-            screen.setType(ScreenType.getTypeById(screenData.getType()));
-            screen.setWidth(screenData.getWidth());
-            screen.setHeight(screenData.getHeight());
-            screen.setHighScores(new HighScores(screen.getType()));
+            AScreen screen = (AScreen) ClassReflection.newInstance(screenType.getLoaderClass());
+            screen.setType(screenType);
+            screen.setWidth(screenType.getWidth());
+            screen.setHeight(screenType.getHeight());
+            screen.setHighScores(new HighScores(screenType));
 
-            EntityData entityData = new EntityData();
-            entityData.setX(screen.getWidth()/2);
-            entityData.setY(screen.getHeight()/2);
+            EntityData entityData = Templates.createEntityData(screen.getWidth()/2, screen.getHeight()/2);
             screen.setScreenEntity(createEntity(entityData));
 
-            ComponentData graphicsData = new ComponentData();
-            graphicsData.setType(ComponentType.GRAPHICS.getId());
-            graphicsData.putFloat("width", screen.getWidth());
-            graphicsData.putFloat("height", screen.getHeight());
-            graphicsData.putInt("layer", 0);
+            ComponentData graphicsData = Templates.createGraphicsData(screen.getWidth(), screen.getHeight(), 0, TextureType.VOID);
             screen.setScreenGraphics((GraphicsComponent)createComponent(screen.getScreenEntity(), graphicsData));
 
+            screen.finalize();
+            screen.getScreenGraphics().setEnabled(true);
+
+            return screen;
+            /*
             if (screen.getType() == ScreenType.INTRO) {
                 IntroScreen intro = (IntroScreen)screen;
 
-                intro.getScreenGraphics().setTextureType(TextureType.DEV_LOGO);
+                intro.finalize();
                 intro.getScreenGraphics().setEnabled(true);
-
-                // ClickableData
-                ComponentData clickableData = new ComponentData();
-                clickableData.setType(ComponentType.CLICKABLE.getId());
-                clickableData.putFloat("width", screen.getWidth());
-                clickableData.putFloat("height", screen.getHeight());
-                clickableData.putBoolean("singleTrigger", true);
-                ActionData actionData = new ActionData();
-                actionData.type = ActionType.LAUNCH_SCREEN.getId();
-                actionData.putString("screenType", ScreenType.MAIN_MENU.getId());
-                clickableData.putString("action", UtilityTool.getStringFromDataClass(actionData));
-                intro.setClickableData(clickableData);
-
-                // FloatingTextData
-                ComponentData floatingTextData = new ComponentData();
-                floatingTextData.setType(ComponentType.FLOATING_TEXT.getId());
-                floatingTextData.putString("label", ": ");
-                floatingTextData.putString("text", "Click to Continue :");
-                intro.setFloatingTextData(floatingTextData);
-
-                ScreenManager.getInstance().changeScreen(intro);
 
                 return intro;
             } else if (screen.getType() == ScreenType.MAIN_MENU) {
                 MainMenuScreen mainMenu = (MainMenuScreen)screen;
 
-                ScreenManager.getInstance().changeScreen(mainMenu);
+                mainMenu.finalize();
+                mainMenu.getScreenGraphics().setEnabled(true);
 
                 return mainMenu;
             } else if (screen.getType() == ScreenType.FLAPPY_BIRD) {
                 FlappyBirdScreen flappyBird = (FlappyBirdScreen)screen;
 
-                ScreenManager.getInstance().changeScreen(flappyBird);
+                flappyBird.finalize();
+                flappyBird.getScreenGraphics().setEnabled(true);
 
                 return flappyBird;
             }
+            */
         } catch (ReflectionException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public Entity createEntity(EntityData entityData) {
+    public static Entity createEntity(EntityData entityData) {
         Entity entity = new Entity();
-        entity.setId("Entity_" + ++unqiueId);
+        entity.setId("Entity_" + ++uniqueId);
         entity.setPosition(entityData.getX(), entityData.getY());
 
         entity.setComponents();
@@ -148,7 +123,7 @@ public class Factory {
         return entity;
     }
 
-    public Component createComponent(Entity entity, ComponentData componentData) {
+    public static Component createComponent(Entity entity, ComponentData componentData) {
         try {
             Component component = (Component) ClassReflection.newInstance(ComponentType.getType(componentData.getType()).getLoaderClass());
             component.setEntity(entity);
@@ -192,6 +167,12 @@ public class Factory {
                 graphics.setHeight(componentData.getFloat("height", 0));
                 graphics.setLayer(componentData.getInt("layer", 0));
                 graphics.setTextureType(TextureType.getTypeFromId(componentData.getString("textureType", "Void")));
+                if (graphics.getWidth() == 0) {
+                    graphics.setWidth(graphics.getTextureType().getWidth());
+                }
+                if (graphics.getHeight() == 0) {
+                    graphics.setHeight(graphics.getTextureType().getHeight());
+                }
                 if (graphics.getTextureType() == TextureType.VOID) {
                     graphics.setEnabled(false);
                 }
@@ -231,7 +212,7 @@ public class Factory {
         return null;
     }
 
-    public Action createAction(Entity entity, ActionData actionData) {
+    public static Action createAction(Entity entity, ActionData actionData) {
         try {
             Action action = (Action) ClassReflection.newInstance(ActionType.getType(actionData.getType()).getLoaderClass());
             action.setType(ActionType.getType(actionData.getString("type", "Void")));
@@ -286,7 +267,7 @@ public class Factory {
     }
 
 
-    private EntityData createEntityData(Entity entity) {
+    private static EntityData createEntityData(Entity entity) {
         EntityData entityData = new EntityData();
         entityData.setX(entity.getPosition().x);
         entityData.setY(entity.getPosition().y);
@@ -298,7 +279,7 @@ public class Factory {
         return entityData;
     }
 
-    private ComponentData createComponentData(Component component) {
+    private static ComponentData createComponentData(Component component) {
         ComponentData componentData = new ComponentData();
         componentData.setX(component.getPosition().x);
         componentData.setY(component.getPosition().y);
@@ -332,7 +313,7 @@ public class Factory {
         return componentData;
     }
 
-    private ActionData createActionData(Action action) {
+    private static ActionData createActionData(Action action) {
         ActionData actionData = new ActionData();
         actionData.setType(action.getType().getId());
         if (action.getType() == ActionType.DESTROY_ENTITY) {

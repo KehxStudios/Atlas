@@ -17,7 +17,7 @@ public abstract class Manager {
 
     public abstract void tick(float delta);
 
-    public void setScreenType(AScreen screen) {
+    public void setScreen(AScreen screen) {
         if (screen != null)
             removeScreenTypeSettings();
         this.screen = screen;

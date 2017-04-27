@@ -12,6 +12,7 @@ import com.kehxstudios.atlas.components.ComponentData;
 import com.kehxstudios.atlas.components.ComponentType;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.data.Factory;
+import com.kehxstudios.atlas.data.Templates;
 import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.UtilityTool;
@@ -30,19 +31,22 @@ public class IntroScreen extends AScreen {
 
     public IntroScreen() {
         super();
+        screenGraphics.setTextureType(TextureType.DEV_LOGO);
         finalLogo = false;
         clickToContinue = false;
+
+        // FloatingTextData
+        floatingTextData = Templates.createFloatingTextData(": ", "Click to Continue :");
     }
 
-    protected void init() {
-        ((GraphicsComponent)screenEntity.getComponentOfType(ComponentType.GRAPHICS)).setTextureType(TextureType.DEV_LOGO);
-
+    public void finalize() {
+        // ClickableData
+        clickableData = Templates.createClickableData(width, height, true,
+                Templates.createLaunchScreenData(ScreenType.INTRO));
     }
 
     @Override
-    public void show() {
-
-    }
+    public void show() {}
 
     @Override
     public void render(float delta) {
@@ -52,12 +56,12 @@ public class IntroScreen extends AScreen {
             // If index is not on last path
             if (screenTime >= 2f) {
                 if (!finalLogo) {
-                    ((GraphicsComponent)screenEntity.getComponentOfType(ComponentType.GRAPHICS)).setTextureType(TextureType.GAME_LOGO);
+                    screenGraphics.setTextureType(TextureType.GAME_LOGO);
                     screenTime = 0f;
                     finalLogo = true;
                 } else if (finalLogo) {
-                    Factory.getInstance().createComponent(screenEntity, clickableData);
-                    Factory.getInstance().createComponent(screenEntity, floatingTextData);
+                    Factory.createComponent(screenEntity, clickableData);
+                    Factory.createComponent(screenEntity, floatingTextData);
                     clickToContinue = true;
                 }
             }
@@ -65,43 +69,19 @@ public class IntroScreen extends AScreen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) {}
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
         super.dispose();
     }
-
-    public boolean isFinalLogo() { return finalLogo; }
-
-    public void setFinalLogo(boolean finalLogo) { this.finalLogo = finalLogo; }
-
-    public boolean isClickToContinue() { return clickToContinue; }
-
-    public void setClickToContinue(boolean clickToContinue) { this.clickToContinue = clickToContinue; }
-
-    public ComponentData getClickableData() { return clickableData; }
-
-    public void setClickableData(ComponentData clickableData) { this.clickableData = clickableData; }
-
-    public ComponentData getFloatingTextData() { return floatingTextData; }
-
-    public void setFloatingTextData(ComponentData floatingTextData) { this.floatingTextData = floatingTextData; }
 }

@@ -59,26 +59,16 @@ public class FlappyBirdScreen extends AScreen {
 
     public FlappyBirdScreen() {
         super();
-        screenData = UtilityTool.load(ScreenType.FLAPPY_BIRD);
-        init();
     }
 
 
-    @Override
+
     public void init() {
-        super.init();
 
         lowScore =  highScores.getLowScore();
         highScore = highScores.getHighScore();
 
-        font = new BitmapFont();
-        scoreLayout = new GlyphLayout(font, scoreText+score);
-        scoreLayout.setText(font, scoreText+score, Color.BLACK,WIDTH/2, Align.center, true);
-        lowScoreLayout = new GlyphLayout(font, lowScoreText+lowScore);
-        lowScoreLayout.setText(font, lowScoreText+lowScore, Color.BLACK,WIDTH/2, Align.center, true);
-        highScoreLayout = new GlyphLayout(font, highScoreText+highScore);
-        highScoreLayout.setText(font, highScoreText+highScore, Color.BLACK,WIDTH/2, Align.center, true);
-/*
+        /*
         bird = new Entity(WIDTH/4,HEIGHT/2);
         GraphicsComponent graphics = new GraphicsComponent(bird, TextureType.FLAPPYBIRD_BIRD, 3);
         birdPhysics = new PhysicsComponent(bird, graphics.getWidth(), graphics.getHeight(), 100, -15, true);
@@ -121,7 +111,6 @@ public class FlappyBirdScreen extends AScreen {
         if (score > lowScore) {
             highScores.addToHighScores("Test",score);
         }
-        super.reset();
 
         lowScore =  highScores.getLowScore();
         highScore = highScores.getHighScore();
@@ -186,13 +175,6 @@ public class FlappyBirdScreen extends AScreen {
 
         birdCurrentX = bird.getX();
         score = (int)(birdCurrentX - birdStartX);
-        scoreLayout.setText(font, scoreText+score, Color.BLACK,0, Align.center, true);
-
-        gm.getBatch().begin();
-        font.draw(gm.getBatch(), scoreLayout, gm.getCamera().position.x, 55);
-        font.draw(gm.getBatch(), lowScoreLayout, gm.getCamera().position.x - lowScoreLayout.width/2, 40);
-        font.draw(gm.getBatch(), highScoreLayout, gm.getCamera().position.x - highScoreLayout.width/2, 25);
-        gm.getBatch().end();
     }
 
     @Override
@@ -200,14 +182,7 @@ public class FlappyBirdScreen extends AScreen {
 
     }
 
-    public void dispose() {
-        font.dispose();
-        bird.destroy();
-        ground1.destroy();
-        ground2.destroy();
-        for (Entity entity : tubes) {
-            entity.destroy();
-        }
+    public void dispose() {]
         super.dispose();
     }
 
