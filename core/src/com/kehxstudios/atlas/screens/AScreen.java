@@ -9,6 +9,7 @@ import com.kehxstudios.atlas.data.Templates;
 import com.kehxstudios.atlas.data.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.entities.EntityData;
+import com.kehxstudios.atlas.main.GameManager;
 import com.kehxstudios.atlas.stats.HighScores;
 
 /**
@@ -40,6 +41,8 @@ public abstract class AScreen implements Screen {
 
         ComponentData graphicsData = Templates.createGraphicsComponentData(0, 0, 0, TextureType.VOID);
         screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity, graphicsData);
+
+        GameManager.getInstance().getCamera().setToOrtho(false, width, height);
     }
 
     @Override
@@ -53,11 +56,11 @@ public abstract class AScreen implements Screen {
     }
 
     public float getScaleWidth() {
-        return Gdx.graphics.getWidth()/width;
+        return Gdx.graphics.getWidth();
     }
 
     public float getScaleHeight() {
-        return Gdx.graphics.getHeight()/height;
+        return Gdx.graphics.getHeight();
     }
 
     public float getWidth() { return width; }

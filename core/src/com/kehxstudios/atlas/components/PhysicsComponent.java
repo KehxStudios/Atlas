@@ -21,6 +21,13 @@ public class PhysicsComponent extends Component {
     public boolean collidable;
     public boolean collided; // Reset to false on creation
 
+    public PhysicsComponent() {
+        acceleration = new Vector2();
+        maxAcceleration = new Vector2();
+        velocity = new Vector2();
+        maxVelocity = new Vector2();
+    }
+
     public Vector2 getAcceleration() { return acceleration; }
     public void setAcceleration(float x, float y) { acceleration.set(x,y); }
     public void addAcceleration(float x, float y) { acceleration.add(x,y); }

@@ -4,6 +4,7 @@ import com.kehxstudios.atlas.components.AnimationComponent;
 import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.ComponentType;
+import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.entities.Entity;
@@ -88,7 +89,7 @@ public class EntityManager extends Manager {
                 } else if (component.getType() == ComponentType.CLICKABLE) {
                     InputManager.getInstance().remove((ClickableComponent)component);
                 } else if (component.getType() == ComponentType.FLOATING_TEXT) {
-
+                    GraphicsManager.getInstance().remove((FloatingTextComponent)component);
                 } else if (component.getType() == ComponentType.GRAPHICS) {
                     GraphicsManager.getInstance().remove((GraphicsComponent)component);
                 } else if (component.getType() == ComponentType.IN_VIEW) {

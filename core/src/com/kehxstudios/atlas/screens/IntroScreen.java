@@ -42,7 +42,9 @@ public class IntroScreen extends AScreen {
 
         // ClickableData
         clickableData = Templates.createClickableComponentData(width, height, true,
-                Templates.createLaunchScreenActionData(ScreenType.INTRO));
+                Templates.createLaunchScreenActionData(ScreenType.MAIN_MENU));
+
+        screenEntity.setPosition(getWidth()/2, getHeight()/2);
     }
 
     @Override

@@ -36,7 +36,7 @@ public enum ComponentType {
         }
     }
 
-    public static ComponentType getType(String id) {
+    public static ComponentType getTypeById(String id) {
         return componentTypes.get(id);
     }
 

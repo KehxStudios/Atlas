@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.kehxstudios.atlas.main.GameManager;
 import com.kehxstudios.atlas.screens.AScreen;
 import com.kehxstudios.atlas.screens.ScreenType;
+import com.kehxstudios.atlas.tools.DebugTool;
 
 /**
  * Created by ReidC on 2017-04-22.
@@ -32,19 +33,21 @@ public class ScreenManager extends Manager {
     @Override
     public void tick(float delta) {
         if (loadNewScreenOnTick) {
-            loadNewScreen(newScreenType);
+            loadNewScreen();
         }
     }
 
-    public void requestNewScreenType(ScreenType screenType) {
-        newScreenType = screenType;
+    public void requestNewScreenType(ScreenType newScreenType) {
+        this.newScreenType = newScreenType;
         loadNewScreenOnTick = true;
+        DebugTool.log("New Screen Requested: "+ newScreenType.getId());
     }
 
-    private void loadNewScreen(ScreenType screenType) {
+    private void loadNewScreen() {
+        DebugTool.log("New Screen Requested: "+ newScreenType.getId());
         if (getScreenType() != ScreenType.VOID)
             removeScreenTypeSettings();
-        setScreenType(screenType);
+        setScreenType(newScreenType);
         setAllManagersScreenTypes();
         loadScreenTypeSettings();
         try {
@@ -52,7 +55,9 @@ public class ScreenManager extends Manager {
             loadNewScreenOnTick = false;
         } catch (ReflectionException e) {
             e.printStackTrace();
-            loadNewScreen(ScreenType.INTRO);
+            DebugTool.log("ERROR_loadNewScreen");
+            newScreenType = ScreenType.INTRO;
+            loadNewScreen();
         }
     }
 

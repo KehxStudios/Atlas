@@ -15,7 +15,7 @@ public enum TextureType {
     MAINMENU_BORDERS("MainMenuBorders", "menuBorder", 625, 435),
 
     FLAPPYBIRD_BACKGROUND("FlappyBirdBackground", "background", 288, 512),
-    FLAPPYBIRD_BIRD("FlappyBirdBird", "bird", 34, 24),
+    FLAPPYBIRD_BIRD("FlappyBirdBird", "bat", 34, 24),
     FLAPPYBIRD_TOPTUBE("FlappyBirdTopTube",  "toptube", 32, 320),
     FLAPPYBIRD_BOTTOMTUBE("FlappyBirdBottomTube", "bottomtube", 32, 320),
     FLAPPYBIRD_GROUND("FlappyBirdGround", "ground", 366, 112),

@@ -36,7 +36,7 @@ public enum ActionType {
         }
     }
 
-    public static ActionType getType(String id) { return actionTypes.get(id); }
+    public static ActionType getTypeById(String id) { return actionTypes.get(id); }
 
     public String getId() { return id; }
 

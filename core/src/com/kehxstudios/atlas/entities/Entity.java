@@ -18,6 +18,11 @@ public class Entity {
     protected Vector2 position;
     protected ArrayList<Component> components;
 
+    public Entity() {
+        position = new Vector2();
+        components = new ArrayList<Component>();
+    }
+
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 

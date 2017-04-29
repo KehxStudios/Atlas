@@ -51,12 +51,14 @@ public class GraphicsManager extends Manager {
                 continue;
             }
             for (GraphicsComponent graphics : layerList) {
-                if (graphics.isEnabled()) {
-                    batch.draw(textureAtlas.findRegion(graphics.getTextureType().getId()),
+                if (graphics.isEnabled() && graphics.getTextureType() != TextureType.VOID) {
+
+                    batch.draw(textureAtlas.findRegion(graphics.getTextureType().getFileName()),
                         graphics.getPosition().x - graphics.getWidth() / 2,
                         graphics.getPosition().y - graphics.getHeight() / 2,
                         graphics.getWidth(), graphics.getHeight());
                 }
+
             }
         }
         for (FloatingTextComponent floatingText : floatingTextComponents) {
@@ -144,6 +146,12 @@ public class GraphicsManager extends Manager {
         gm.getAssetManager().load(screenType.getPath(), TextureAtlas.class);
         gm.getAssetManager().finishLoading();
         textureAtlas = gm.getAssetManager().get(screenType.getPath());
+        animationComponents = new ArrayList<AnimationComponent>();
+        graphicComponents = new ArrayList<ArrayList<GraphicsComponent>>();
+        for (int i = 0; i < MAX_LAYERS; i++) {
+            graphicComponents.add(new ArrayList<GraphicsComponent>());
+        }
+        floatingTextComponents = new ArrayList<FloatingTextComponent>();
     }
 
     @Override

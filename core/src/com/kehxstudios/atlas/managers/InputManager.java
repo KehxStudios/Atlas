@@ -45,7 +45,7 @@ public class InputManager extends Manager {
                         x < clickable.getPosition().x + clickable.getWidth() / 2 &&
                         y > clickable.getPosition().y - clickable.getHeight() / 2 &&
                         y < clickable.getPosition().y + clickable.getHeight() / 2) {
-                    clickable.getAction().trigger();
+                    clickable.trigger();
                 }
             }
         }
@@ -65,7 +65,7 @@ public class InputManager extends Manager {
 
     @Override
     protected void loadScreenTypeSettings() {
-
+        clickableComponents = new ArrayList<ClickableComponent>();
     }
 
     @Override

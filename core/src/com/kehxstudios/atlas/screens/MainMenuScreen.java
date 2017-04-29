@@ -3,6 +3,7 @@ package com.kehxstudios.atlas.screens;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.actions.ActionData;
 import com.kehxstudios.atlas.actions.ActionType;
@@ -37,17 +38,17 @@ public class MainMenuScreen extends AScreen {
         GraphicsComponent menuComponent = (GraphicsComponent)Factory.createComponent(
                 flappyBird, Templates.createGraphicsComponentData(200, 100, 2, TextureType.MAINMENU_BORDERS));
         Factory.createComponent(flappyBird, Templates.createClickableComponentData(
-                menuComponent.getWidth(), menuComponent.getHeight(), true, Templates.createLaunchScreenActionData(ScreenType.FLAPPY_BAT)));
+                width*2, height*2, true, Templates.createLaunchScreenActionData(ScreenType.FLAPPY_BAT)));
         Factory.createComponent(flappyBird, Templates.createFloatingTextComponentData("< ", "Flappy Bird >"));
 
         Entity intro = Factory.createEntity(Templates.createEntityData(width, height/5*3));
         Factory.createComponent(intro, Templates.createGraphicsComponentData(200, 100, 2, TextureType.MAINMENU_BORDERS));
-        Factory.createComponent(intro, Templates.createClickableComponentData(200, 100, true, Templates.createLaunchScreenActionData(ScreenType.INTRO)));
+        //Factory.createComponent(intro, Templates.createClickableComponentData(200, 100, true, Templates.createLaunchScreenActionData(ScreenType.INTRO)));
         Factory.createComponent(intro, Templates.createFloatingTextComponentData("< ", "Intro >"));
 
         Entity highScoreReset = Factory.createEntity(Templates.createEntityData(width, height/5*4));
         Factory.createComponent(highScoreReset, Templates.createGraphicsComponentData(200, 100, 2, TextureType.MAINMENU_BORDERS));
-        Factory.createComponent(highScoreReset, Templates.createClickableComponentData(200, 100, true, Templates.createHighScoreResetActionData(ScreenType.FLAPPY_BAT)));
+        //Factory.createComponent(highScoreReset, Templates.createClickableComponentData(200, 100, true, Templates.createHighScoreResetActionData(ScreenType.FLAPPY_BAT)));
         Factory.createComponent(highScoreReset, Templates.createFloatingTextComponentData("< ", "High-Score Reset >"));
     }
 

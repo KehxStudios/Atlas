@@ -73,6 +73,7 @@ public class Templates {
                                                            float bounds_width, float bounds_height,
                                                            boolean collidable) {
         ComponentData physicsData = createComponentData();
+        physicsData.setType(ComponentType.PHYSICS.getId());
         physicsData.putFloat("maxAccerlation_x", maxAccelerationX);
         physicsData.putFloat("maxAcceleration_y", maxAccelerationY);
         physicsData.putFloat("maxVeloity_x", maxVelocityX);

@@ -12,6 +12,10 @@ public class PhysicsAction extends Action {
     private PhysicsComponent physicsComponent;
     private Vector2 triggerValue;
 
+    public PhysicsAction() {
+        triggerValue = new Vector2();
+    }
+
     public PhysicsComponent getPhysicsComponent() { return physicsComponent; }
     public void setPhysicsComponent(PhysicsComponent physicsComponent) { this.physicsComponent = physicsComponent; }
 

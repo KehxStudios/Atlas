@@ -37,6 +37,7 @@ import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.managers.InputManager;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.screens.ScreenType;
+import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.UtilityTool;
 
 /**
@@ -68,12 +69,15 @@ public class Factory {
 
     public static Component createComponent(Entity entity, ComponentData componentData) {
         try {
-            Component component = (Component) ClassReflection.newInstance(ComponentType.getType(componentData.getType()).getLoaderClass());
+            ComponentType componentType = ComponentType.getTypeById(componentData.getType());
+            Component component = (Component) ClassReflection.newInstance(componentType.getLoaderClass());
             component.setEntity(entity);
-            component.setType(ComponentType.getType(componentData.getType()));
+            component.setType(componentType);
             component.setUseComponentPosition(componentData.getUseComponentPosition());
             component.setUsePositionAsOffset(componentData.getUsePositionAsOffset());
-            component.setPosition(componentData.getX(), componentData.getY());
+            if (component.getUseComponentPosition() || component.getUsePositionAsOffset()) {
+                component.setPosition(componentData.getX(), componentData.getY());
+            }
             component.setEnabled(componentData.isEnabled());
 
             EntityManager.getInstance().addComponent(entity, component);
@@ -88,6 +92,7 @@ public class Factory {
                 clickable.setWidth(componentData.getFloat("width", 0));
                 clickable.setHeight(componentData.getFloat("height", 0));
                 clickable.setSingleTrigger(componentData.getBoolean("singleTrigger", false));
+                clickable.setTriggered(false);
                 clickable.setAction(createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void"))));
                 InputManager.getInstance().add(clickable);
                 return clickable;
@@ -157,8 +162,10 @@ public class Factory {
 
     public static Action createAction(Entity entity, ActionData actionData) {
         try {
-            Action action = (Action) ClassReflection.newInstance(ActionType.getType(actionData.getType()).getLoaderClass());
-            action.setType(ActionType.getType(actionData.getString("type", "Void")));
+            ActionType actionType = ActionType.getTypeById(actionData.getType());
+            Action action = (Action) ClassReflection.newInstance(actionType.getLoaderClass());
+            action.setType(actionType);
+            DebugTool.log("XX_"+action);
 
             if (action.getType() == ActionType.DESTROY_ENTITY) {
                 DestroyEntityAction destroyEntity = (DestroyEntityAction)action;
@@ -171,6 +178,7 @@ public class Factory {
             } else if (action.getType() == ActionType.LAUNCH_SCREEN) {
                 LaunchScreenAction launchScreen = (LaunchScreenAction)action;
                 launchScreen.setScreenType(ScreenType.getTypeById(actionData.getString("screenType", "Void")));
+                DebugTool.log("X_"+launchScreen);
                 return launchScreen;
             } else if (action.getType() == ActionType.MULTI) {
                 MultiAction multi = (MultiAction)action;
