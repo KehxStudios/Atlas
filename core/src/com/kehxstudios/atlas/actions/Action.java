@@ -6,10 +6,10 @@ package com.kehxstudios.atlas.actions;
 
 public abstract class Action {
 
-    protected ActionType type;
+    protected com.kehxstudios.atlas.type.ActionType type;
 
-    public ActionType getType() { return type; }
-    public void setType(ActionType type) { this.type = type; }
+    public com.kehxstudios.atlas.type.ActionType getType() { return type; }
+    public void setType(com.kehxstudios.atlas.type.ActionType type) { this.type = type; }
 
     public abstract void trigger();
 }

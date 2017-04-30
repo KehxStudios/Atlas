@@ -1,4 +1,4 @@
-package com.kehxstudios.atlas.actions;
+package com.kehxstudios.atlas.data;
 
 import java.util.HashMap;
 

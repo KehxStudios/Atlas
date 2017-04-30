@@ -3,7 +3,7 @@ package com.kehxstudios.atlas;
 import com.badlogic.gdx.backends.iosmoe.IOSApplication;
 import com.badlogic.gdx.backends.iosmoe.IOSApplicationConfiguration;
 import org.moe.natj.general.Pointer;
-import com.kehxstudios.atlas.main.GameManager;
+import com.kehxstudios.atlas.managers.GameManager;
 
 import apple.uikit.c.UIKit;
 

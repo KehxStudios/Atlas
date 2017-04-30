@@ -1,4 +1,15 @@
-package com.kehxstudios.atlas.actions;
+package com.kehxstudios.atlas.type;
+
+import com.kehxstudios.atlas.actions.Action;
+import com.kehxstudios.atlas.actions.DestroyEntityAction;
+import com.kehxstudios.atlas.actions.HighScoreResetAction;
+import com.kehxstudios.atlas.actions.LaunchScreenAction;
+import com.kehxstudios.atlas.actions.MultiAction;
+import com.kehxstudios.atlas.actions.PhysicsAction;
+import com.kehxstudios.atlas.actions.RepositionAction;
+import com.kehxstudios.atlas.actions.ScoreAction;
+import com.kehxstudios.atlas.actions.SpawnEntityAction;
+import com.kehxstudios.atlas.actions.TeleportAction;
 
 import java.util.HashMap;
 

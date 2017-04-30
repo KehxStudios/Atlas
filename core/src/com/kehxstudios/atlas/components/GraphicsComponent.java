@@ -1,6 +1,6 @@
 package com.kehxstudios.atlas.components;
 
-import com.kehxstudios.atlas.data.TextureType;
+import com.kehxstudios.atlas.type.TextureType;
 
 /**
  * Created by ReidC on 2017-04-06.

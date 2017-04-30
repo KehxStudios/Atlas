@@ -3,7 +3,7 @@ package com.kehxstudios.atlas.managers;
 import com.kehxstudios.atlas.components.AnimationComponent;
 import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.components.Component;
-import com.kehxstudios.atlas.components.ComponentType;
+import com.kehxstudios.atlas.type.ComponentType;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;

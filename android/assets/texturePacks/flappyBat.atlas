@@ -1,40 +1,33 @@
 
 flappyBat.png
-size: 1024,512
+size: 512,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 background
   rotate: false
-  xy: 0, 0
+  xy: 0, 453
   size: 288, 512
   orig: 288, 512
   offset: 0, 0
   index: -1
 bat
   rotate: false
-  xy: 624, 488
+  xy: 288, 941
   size: 34, 24
   orig: 34, 24
   offset: 0, 0
   index: -1
-bottomtube
-  rotate: false
-  xy: 288, 80
-  size: 52, 320
-  orig: 52, 320
-  offset: 0, 0
-  index: -1
 ground
   rotate: false
-  xy: 288, 400
+  xy: 0, 334
   size: 336, 112
   orig: 336, 112
   offset: 0, 0
   index: -1
-toptube
+wall
   rotate: false
-  xy: 340, 80
+  xy: 0, 7
   size: 52, 320
   orig: 52, 320
   offset: 0, 0

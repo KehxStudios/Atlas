@@ -1,10 +1,6 @@
 package com.kehxstudios.atlas.managers;
 
-import com.badlogic.gdx.Screen;
-import com.kehxstudios.atlas.components.Component;
-import com.kehxstudios.atlas.main.GameManager;
-import com.kehxstudios.atlas.screens.AScreen;
-import com.kehxstudios.atlas.screens.ScreenType;
+import com.kehxstudios.atlas.type.ScreenType;
 
 /**
  * Created by ReidC on 2017-04-07.

@@ -1,4 +1,4 @@
-package com.kehxstudios.atlas.entities;
+package com.kehxstudios.atlas.data;
 
 import java.util.HashMap;
 
@@ -6,30 +6,53 @@ import java.util.HashMap;
  * Created by ReidC on 2017-04-15.
  */
 
-public class EntityData {
+public class ComponentData {
 
     public String id;
+    public String type;
+    public String entityId;
+    public boolean enabled;
     public float x, y;
+    public boolean useComponentPosition;
+    public boolean usePositionAsOffset;
     public HashMap<String, String> data;
 
-    public EntityData() {
+    public ComponentData() {
+        x = 0;
+        y = 0;
+        usePositionAsOffset = false;
+        useComponentPosition = false;
+        enabled = true;
         data = new HashMap<String, String>();
     }
 
-    public EntityData(String id, float x, float y) {
-        this.id = id;
-        this.x = x;
-        this.y = y;
-        data = new HashMap<String, String>();
+    public String getId() { return id; }
+
+    public void setId(String id) { this.id = id; }
+
+    public boolean getUseComponentPosition() { return useComponentPosition; }
+
+    public void setUseComponentPosition(boolean value) { useComponentPosition = value; }
+
+    public boolean getUsePositionAsOffset() { return usePositionAsOffset; }
+
+    public void setUsePositionAsOffset(boolean value) { usePositionAsOffset = value; }
+
+    public String getType() {
+        return type;
     }
 
-    public String getId() {
-        return id;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setId(String type) {
-        this.id = type;
-    }
+    public String getEntityId() { return entityId; }
+
+    public void setEntityId(String entityId) { this.entityId = entityId; }
+
+    public boolean isEnabled() { return enabled; }
+
+    public void setEnabled(boolean value) { enabled = value; }
 
     public float getX() { return x; }
 

@@ -2,9 +2,7 @@ package com.kehxstudios.atlas.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.components.Component;
-import com.kehxstudios.atlas.components.ComponentType;
-import com.kehxstudios.atlas.managers.EntityManager;
-import com.kehxstudios.atlas.tools.UtilityTool;
+import com.kehxstudios.atlas.type.ComponentType;
 
 import java.util.ArrayList;
 

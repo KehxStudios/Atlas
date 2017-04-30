@@ -1,26 +1,11 @@
 package com.kehxstudios.atlas.screens;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Align;
-import com.kehxstudios.atlas.actions.ActionData;
-import com.kehxstudios.atlas.actions.ActionType;
-import com.kehxstudios.atlas.actions.HighScoreResetAction;
-import com.kehxstudios.atlas.actions.LaunchScreenAction;
-import com.kehxstudios.atlas.components.ClickableComponent;
-import com.kehxstudios.atlas.components.ComponentData;
-import com.kehxstudios.atlas.components.ComponentType;
-import com.kehxstudios.atlas.components.FloatingTextComponent;
+import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.data.Factory;
-import com.kehxstudios.atlas.data.Templates;
-import com.kehxstudios.atlas.data.TextureType;
+import com.kehxstudios.atlas.tools.Factory;
+import com.kehxstudios.atlas.tools.Templates;
+import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.entities.EntityData;
-import com.kehxstudios.atlas.tools.DebugTool;
-import com.kehxstudios.atlas.tools.UtilityTool;
 
 
 /**
@@ -30,25 +15,28 @@ import com.kehxstudios.atlas.tools.UtilityTool;
 public class MainMenuScreen extends AScreen {
 
     public MainMenuScreen() {
-        super(ScreenType.MAIN_MENU);
-        screenGraphics.setTextureType(TextureType.MAINMENU_BACKGROUND);
+        super(com.kehxstudios.atlas.type.ScreenType.MAIN_MENU);
+        screenGraphics.setTextureType(TextureType.MAIN_MENU_BACKGROUND);
         screenGraphics.setEnabled(true);
 
+        ComponentData borderGraphics = Templates.createGraphicsComponentData(0, 0, 3, TextureType.MAIN_MENU_BORDER);
+
         Entity flappyBird = Factory.createEntity(Templates.createEntityData(width/2, height/5*2));
-        GraphicsComponent menuComponent = (GraphicsComponent)Factory.createComponent(
-                flappyBird, Templates.createGraphicsComponentData(200, 100, 2, TextureType.MAINMENU_BORDERS));
+        GraphicsComponent menuComponent = (GraphicsComponent)Factory.createComponent(flappyBird, borderGraphics);
         Factory.createComponent(flappyBird, Templates.createClickableComponentData(
-                width*2, height*2, true, Templates.createLaunchScreenActionData(ScreenType.FLAPPY_BAT)));
+                width*2, height*2, true, Templates.createLaunchScreenActionData(com.kehxstudios.atlas.type.ScreenType.FLAPPY_BAT)));
         Factory.createComponent(flappyBird, Templates.createFloatingTextComponentData("< ", "Flappy Bird >"));
 
         Entity intro = Factory.createEntity(Templates.createEntityData(width, height/5*3));
-        Factory.createComponent(intro, Templates.createGraphicsComponentData(200, 100, 2, TextureType.MAINMENU_BORDERS));
-        //Factory.createComponent(intro, Templates.createClickableComponentData(200, 100, true, Templates.createLaunchScreenActionData(ScreenType.INTRO)));
+        Factory.createComponent(intro, borderGraphics);
+        Factory.createComponent(intro, Templates.createClickableComponentData(
+                menuComponent.getWidth(), menuComponent.getHeight(), true, Templates.createLaunchScreenActionData(com.kehxstudios.atlas.type.ScreenType.INTRO)));
         Factory.createComponent(intro, Templates.createFloatingTextComponentData("< ", "Intro >"));
 
         Entity highScoreReset = Factory.createEntity(Templates.createEntityData(width, height/5*4));
-        Factory.createComponent(highScoreReset, Templates.createGraphicsComponentData(200, 100, 2, TextureType.MAINMENU_BORDERS));
-        //Factory.createComponent(highScoreReset, Templates.createClickableComponentData(200, 100, true, Templates.createHighScoreResetActionData(ScreenType.FLAPPY_BAT)));
+        Factory.createComponent(highScoreReset, borderGraphics);
+        Factory.createComponent(highScoreReset, Templates.createClickableComponentData(
+                menuComponent.getWidth(), menuComponent.getHeight(), false, Templates.createHighScoreResetActionData(com.kehxstudios.atlas.type.ScreenType.FLAPPY_BAT)));
         Factory.createComponent(highScoreReset, Templates.createFloatingTextComponentData("< ", "High-Score Reset >"));
     }
 

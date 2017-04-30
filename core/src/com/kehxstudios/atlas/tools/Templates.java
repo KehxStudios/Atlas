@@ -1,14 +1,12 @@
-package com.kehxstudios.atlas.data;
+package com.kehxstudios.atlas.tools;
 
-import com.kehxstudios.atlas.actions.Action;
-import com.kehxstudios.atlas.actions.ActionData;
-import com.kehxstudios.atlas.actions.ActionType;
-import com.kehxstudios.atlas.actions.RepositionAction;
-import com.kehxstudios.atlas.components.ComponentData;
-import com.kehxstudios.atlas.components.ComponentType;
-import com.kehxstudios.atlas.entities.EntityData;
-import com.kehxstudios.atlas.screens.ScreenType;
-import com.kehxstudios.atlas.tools.UtilityTool;
+import com.kehxstudios.atlas.data.ActionData;
+import com.kehxstudios.atlas.type.ActionType;
+import com.kehxstudios.atlas.data.ComponentData;
+import com.kehxstudios.atlas.type.ComponentType;
+import com.kehxstudios.atlas.data.EntityData;
+import com.kehxstudios.atlas.type.TextureType;
+import com.kehxstudios.atlas.type.ScreenType;
 
 /**
  * Created by ReidC on 2017-04-26.

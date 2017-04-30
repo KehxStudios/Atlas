@@ -1,4 +1,4 @@
-package com.kehxstudios.atlas.data;
+package com.kehxstudios.atlas.type;
 
 import java.util.HashMap;
 
@@ -11,14 +11,13 @@ public enum TextureType {
     DEV_LOGO("DevLogo", "devLogo", 512, 512),
     GAME_LOGO("GameLogo","gameLogo", 512, 512),
 
-    MAINMENU_BACKGROUND("MainMenuBackground", "background", 1440, 2560),
-    MAINMENU_BORDERS("MainMenuBorders", "menuBorder", 625, 435),
+    MAIN_MENU_BACKGROUND("MainMenuBackground", "background", 1440, 2560),
+    MAIN_MENU_BORDER("MainMenuBorders", "menuBorder", 625, 435),
 
-    FLAPPYBIRD_BACKGROUND("FlappyBirdBackground", "background", 288, 512),
-    FLAPPYBIRD_BIRD("FlappyBirdBird", "bat", 34, 24),
-    FLAPPYBIRD_TOPTUBE("FlappyBirdTopTube",  "toptube", 32, 320),
-    FLAPPYBIRD_BOTTOMTUBE("FlappyBirdBottomTube", "bottomtube", 32, 320),
-    FLAPPYBIRD_GROUND("FlappyBirdGround", "ground", 366, 112),
+    FLAPPY_BAT_BACKGROUND("FlappyBatBackground", "background", 288, 512),
+    FLAPPY_BAT_BAT("FlappyBatBird", "bat", 34, 24),
+    FLAPPY_BAT_WALL("FlappyBatWall",  "wall", 32, 320),
+    FLAPPY_BAT_GROUND("FlappyBatGround", "ground", 366, 112),
 
     VOID("Void", "void", 0, 0);
 

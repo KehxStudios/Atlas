@@ -2,15 +2,15 @@ package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.kehxstudios.atlas.components.ComponentData;
+import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.data.Factory;
-import com.kehxstudios.atlas.data.Templates;
-import com.kehxstudios.atlas.data.TextureType;
+import com.kehxstudios.atlas.tools.Factory;
+import com.kehxstudios.atlas.tools.Templates;
+import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.entities.EntityData;
-import com.kehxstudios.atlas.main.GameManager;
-import com.kehxstudios.atlas.stats.HighScores;
+import com.kehxstudios.atlas.data.EntityData;
+import com.kehxstudios.atlas.managers.GameManager;
+import com.kehxstudios.atlas.data.HighScores;
 
 /**
  * Created by ReidC on 2017-04-07.
@@ -18,7 +18,8 @@ import com.kehxstudios.atlas.stats.HighScores;
 
 public abstract class AScreen implements Screen {
 
-    protected ScreenType type;
+    protected GameManager gm;
+    protected com.kehxstudios.atlas.type.ScreenType type;
     protected float width, height;
 
     protected Entity screenEntity;
@@ -28,8 +29,9 @@ public abstract class AScreen implements Screen {
     protected HighScores highScores;
     protected int score;
 
-    public AScreen(ScreenType type) {
+    public AScreen(com.kehxstudios.atlas.type.ScreenType type) {
         this.type = type;
+        gm = GameManager.getInstance();
         width = type.getWidth();
         height = type.getHeight();
         highScores = new HighScores(type);
@@ -39,10 +41,11 @@ public abstract class AScreen implements Screen {
         EntityData entityData = Templates.createEntityData(width/2, height/2);
         screenEntity = Factory.createEntity(entityData);
 
-        ComponentData graphicsData = Templates.createGraphicsComponentData(0, 0, 0, TextureType.VOID);
+        ComponentData graphicsData = Templates.createGraphicsComponentData(0, 0, 1, TextureType.VOID);
         screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity, graphicsData);
 
         GameManager.getInstance().getCamera().setToOrtho(false, width, height);
+        GameManager.getInstance().getCamera().update();
     }
 
     @Override

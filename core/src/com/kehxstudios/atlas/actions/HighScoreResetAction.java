@@ -1,7 +1,7 @@
 package com.kehxstudios.atlas.actions;
 
-import com.kehxstudios.atlas.screens.ScreenType;
-import com.kehxstudios.atlas.stats.HighScores;
+import com.kehxstudios.atlas.type.ScreenType;
+import com.kehxstudios.atlas.data.HighScores;
 
 /**
  * Created by ReidC on 2017-04-16.

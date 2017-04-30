@@ -1,8 +1,6 @@
 package com.kehxstudios.atlas.components;
 
 import com.kehxstudios.atlas.actions.Action;
-import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.main.GameManager;
 
 /**
  * Created by ReidC on 2017-04-16.

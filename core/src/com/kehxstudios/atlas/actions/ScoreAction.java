@@ -1,7 +1,6 @@
 package com.kehxstudios.atlas.actions;
 
 import com.kehxstudios.atlas.screens.AScreen;
-import com.kehxstudios.atlas.screens.ScreenType;
 
 /**
  * Created by ReidC on 2017-04-16.

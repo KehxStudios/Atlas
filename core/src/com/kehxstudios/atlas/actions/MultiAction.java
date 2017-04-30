@@ -1,7 +1,5 @@
 package com.kehxstudios.atlas.actions;
 
-import com.kehxstudios.atlas.entities.Entity;
-
 import java.util.ArrayList;
 
 /**
@@ -24,7 +22,7 @@ public class MultiAction extends Action {
     public void removeAction(Action action) {
         actions.remove(action);
     }
-    public void removeAllActionsOfType(ActionType type) {
+    public void removeAllActionsOfType(com.kehxstudios.atlas.type.ActionType type) {
         for (int i = 0; i < actions.size(); i++) {
             if (actions.get(i).type == type) {
                 actions.remove(i--);

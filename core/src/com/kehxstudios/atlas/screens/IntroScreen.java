@@ -1,21 +1,9 @@
 package com.kehxstudios.atlas.screens;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.utils.Align;
-import com.kehxstudios.atlas.actions.ActionData;
-import com.kehxstudios.atlas.actions.ActionType;
-import com.kehxstudios.atlas.actions.LaunchScreenAction;
-import com.kehxstudios.atlas.components.ClickableComponent;
-import com.kehxstudios.atlas.components.ComponentData;
-import com.kehxstudios.atlas.components.ComponentType;
-import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.data.Factory;
-import com.kehxstudios.atlas.data.Templates;
-import com.kehxstudios.atlas.data.TextureType;
-import com.kehxstudios.atlas.tools.DebugTool;
-import com.kehxstudios.atlas.tools.UtilityTool;
+import com.kehxstudios.atlas.data.ComponentData;
+import com.kehxstudios.atlas.tools.Factory;
+import com.kehxstudios.atlas.tools.Templates;
+import com.kehxstudios.atlas.type.TextureType;
 
 /**
  * Created by ReidC on 2017-04-06.
@@ -30,7 +18,7 @@ public class IntroScreen extends AScreen {
     private ComponentData clickableData;
 
     public IntroScreen() {
-        super(ScreenType.INTRO);
+        super(com.kehxstudios.atlas.type.ScreenType.INTRO);
 
         screenGraphics.setTextureType(TextureType.DEV_LOGO);
         screenGraphics.setEnabled(true);
@@ -42,7 +30,7 @@ public class IntroScreen extends AScreen {
 
         // ClickableData
         clickableData = Templates.createClickableComponentData(width, height, true,
-                Templates.createLaunchScreenActionData(ScreenType.MAIN_MENU));
+                Templates.createLaunchScreenActionData(com.kehxstudios.atlas.type.ScreenType.MAIN_MENU));
 
         screenEntity.setPosition(getWidth()/2, getHeight()/2);
     }

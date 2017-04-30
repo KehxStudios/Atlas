@@ -1,4 +1,4 @@
-package com.kehxstudios.atlas.data;
+package com.kehxstudios.atlas.tools;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -9,8 +9,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.kehxstudios.atlas.actions.Action;
-import com.kehxstudios.atlas.actions.ActionData;
-import com.kehxstudios.atlas.actions.ActionType;
+import com.kehxstudios.atlas.data.ActionData;
+import com.kehxstudios.atlas.type.ActionType;
 import com.kehxstudios.atlas.actions.DestroyEntityAction;
 import com.kehxstudios.atlas.actions.HighScoreResetAction;
 import com.kehxstudios.atlas.actions.LaunchScreenAction;
@@ -23,22 +23,21 @@ import com.kehxstudios.atlas.actions.TeleportAction;
 import com.kehxstudios.atlas.components.AnimationComponent;
 import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.components.Component;
-import com.kehxstudios.atlas.components.ComponentData;
-import com.kehxstudios.atlas.components.ComponentType;
+import com.kehxstudios.atlas.data.ComponentData;
+import com.kehxstudios.atlas.type.ComponentType;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.InViewComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.components.PointerDirectionComponent;
+import com.kehxstudios.atlas.data.EntityData;
+import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.entities.EntityData;
 import com.kehxstudios.atlas.managers.EntityManager;
 import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.managers.InputManager;
 import com.kehxstudios.atlas.managers.PhysicsManager;
-import com.kehxstudios.atlas.screens.ScreenType;
-import com.kehxstudios.atlas.tools.DebugTool;
-import com.kehxstudios.atlas.tools.UtilityTool;
+import com.kehxstudios.atlas.type.ScreenType;
 
 /**
  * Created by ReidC on 2017-04-23.

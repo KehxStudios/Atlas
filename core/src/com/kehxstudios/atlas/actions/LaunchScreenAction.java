@@ -1,11 +1,7 @@
 package com.kehxstudios.atlas.actions;
 
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.kehxstudios.atlas.main.GameManager;
 import com.kehxstudios.atlas.managers.ScreenManager;
-import com.kehxstudios.atlas.screens.AScreen;
-import com.kehxstudios.atlas.screens.ScreenType;
+import com.kehxstudios.atlas.type.ScreenType;
 
 /**
  * Created by ReidC on 2017-04-16.

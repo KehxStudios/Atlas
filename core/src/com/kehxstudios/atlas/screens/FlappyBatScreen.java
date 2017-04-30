@@ -1,14 +1,17 @@
 package com.kehxstudios.atlas.screens;
 
-import com.kehxstudios.atlas.actions.ActionData;
-import com.kehxstudios.atlas.components.ComponentData;
+import com.kehxstudios.atlas.data.ActionData;
+import com.kehxstudios.atlas.actions.PhysicsAction;
+import com.kehxstudios.atlas.components.ClickableComponent;
+import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
-import com.kehxstudios.atlas.data.Factory;
-import com.kehxstudios.atlas.data.Templates;
-import com.kehxstudios.atlas.data.TextureType;
+import com.kehxstudios.atlas.tools.Factory;
+import com.kehxstudios.atlas.tools.Templates;
+import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.main.GameManager;
+import com.kehxstudios.atlas.managers.GameManager;
+import com.kehxstudios.atlas.tools.DebugTool;
 
 import java.util.Random;
 
@@ -41,24 +44,27 @@ public class FlappyBatScreen extends AScreen {
     private Random random = new Random();
 
     public FlappyBatScreen() {
-        super(ScreenType.FLAPPY_BAT);
+        super(com.kehxstudios.atlas.type.ScreenType.FLAPPY_BAT);
         lowHighScore =  highScores.getLowScore();
         highestScore = highScores.getHighScore();
 
-        screenGraphics.setTextureType(TextureType.FLAPPYBIRD_BACKGROUND);
+        screenGraphics.setTextureType(TextureType.FLAPPY_BAT_BACKGROUND);
         screenGraphics.setEnabled(true);
 
+        DebugTool.log("sg_"+screenGraphics.isEnabled());
+
         batEntity = Factory.createEntity(Templates.createEntityData(width/4, height/2));
-        ComponentData batGraphicsData = Templates.createGraphicsComponentData(0,0,2, TextureType.FLAPPYBIRD_BIRD);
+        ComponentData batGraphicsData = Templates.createGraphicsComponentData(0,0,2, TextureType.FLAPPY_BAT_BAT);
         GraphicsComponent batGraphics = (GraphicsComponent)Factory.createComponent(batEntity, batGraphicsData);
         ComponentData batPhysicsData = Templates.createPhysicsComponentData(100, 300, 100, 300, batGraphics.getWidth(),
                 batGraphics.getHeight(), true);
         batPhysics = (PhysicsComponent)Factory.createComponent(batEntity, batPhysicsData);
         ActionData batPhysicsAction = Templates.createPhysicsActionData(0, 300);
-        ComponentData batClickable = Templates.createClickableComponentData(width, height, false, batPhysicsAction);
-        Factory.createComponent(batEntity, batClickable);
+        ComponentData batClickableData = Templates.createClickableComponentData(width, height, false, batPhysicsAction);
+        ClickableComponent batClickable = (ClickableComponent)Factory.createComponent(screenEntity, batClickableData);
+        ((PhysicsAction)batClickable.getAction()).setPhysicsComponent(batPhysics);
 
-        ComponentData groundGraphicsData = Templates.createGraphicsComponentData(0, 0, 1, TextureType.FLAPPYBIRD_GROUND);
+        ComponentData groundGraphicsData = Templates.createGraphicsComponentData(0, 0, 1, TextureType.FLAPPY_BAT_GROUND);
 
         ground1Entity = Factory.createEntity(Templates.createEntityData(0,GROUND_Y_OFFSET));
         GraphicsComponent groundGraphics = (GraphicsComponent)Factory.createComponent(ground1Entity, groundGraphicsData);
@@ -71,7 +77,7 @@ public class FlappyBatScreen extends AScreen {
         Factory.createComponent(ground2Entity, groundGraphicsData);
         Factory.createComponent(ground2Entity, groundPhysicsData);
 
-        ComponentData tubeGraphicsData = Templates.createGraphicsComponentData(0, 0, 2, TextureType.FLAPPYBIRD_TOPTUBE);
+        ComponentData tubeGraphicsData = Templates.createGraphicsComponentData(0, 0, 2, TextureType.FLAPPY_BAT_WALL);
 
         tube1Entity = Factory.createEntity(Templates.createEntityData(0,0));
         GraphicsComponent tubeGraphics = (GraphicsComponent)Factory.createComponent(tube1Entity, tubeGraphicsData);
@@ -115,12 +121,10 @@ public class FlappyBatScreen extends AScreen {
 
         updateGround();
 
-        GameManager.getInstance().getCamera().position.x = batEntity.getPosition().x + 80;
-        GameManager.getInstance().getCamera().update();
+        gm.getCamera().position.x = batEntity.getPosition().x + 80;
+        gm.getCamera().update();
 
-        screenEntity.movePosition(GameManager.getInstance().getCamera().position.x - (
-                GameManager.getInstance().getCamera().viewportWidth/2) + width/2, 0);
-
+        screenEntity.setPosition(gm.getCamera().position.x, gm.getCamera().position.y);
 
         batCurrentX = batEntity.getPosition().x;
         score = (int)(batCurrentX - batStartX);

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.kehxstudios.atlas.components.AnimationComponent;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.data.TextureType;
+import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.tools.DebugTool;
 
 import java.util.ArrayList;
@@ -46,6 +46,7 @@ public class GraphicsManager extends Manager {
 
     public void render(SpriteBatch batch, OrthographicCamera camera) {
         batch.begin();
+        batch.setProjectionMatrix(camera.combined);
         for (ArrayList<GraphicsComponent> layerList : graphicComponents) {
             if (layerList.size() == 0) {
                 continue;

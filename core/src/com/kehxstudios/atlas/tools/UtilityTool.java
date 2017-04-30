@@ -1,12 +1,9 @@
 package com.kehxstudios.atlas.tools;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
-import com.kehxstudios.atlas.actions.ActionData;
-import com.kehxstudios.atlas.components.ComponentData;
-import com.kehxstudios.atlas.entities.EntityData;
-import com.kehxstudios.atlas.screens.ScreenType;
+import com.kehxstudios.atlas.data.ActionData;
+import com.kehxstudios.atlas.data.ComponentData;
+import com.kehxstudios.atlas.data.EntityData;
 
 /**
  * Created by ReidC on 2017-04-20.

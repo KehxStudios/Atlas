@@ -1,4 +1,4 @@
-package com.kehxstudios.atlas.main;
+package com.kehxstudios.atlas.managers;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
@@ -7,12 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.kehxstudios.atlas.managers.EntityManager;
-import com.kehxstudios.atlas.managers.GraphicsManager;
-import com.kehxstudios.atlas.managers.InputManager;
-import com.kehxstudios.atlas.managers.PhysicsManager;
-import com.kehxstudios.atlas.managers.ScreenManager;
-import com.kehxstudios.atlas.screens.ScreenType;
+import com.kehxstudios.atlas.type.ScreenType;
 
 public class GameManager extends Game {
 

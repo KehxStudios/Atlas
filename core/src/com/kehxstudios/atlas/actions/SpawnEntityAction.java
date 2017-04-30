@@ -1,9 +1,7 @@
 package com.kehxstudios.atlas.actions;
 
-import com.kehxstudios.atlas.data.Factory;
-import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.entities.EntityData;
-import com.kehxstudios.atlas.tools.UtilityTool;
+import com.kehxstudios.atlas.tools.Factory;
+import com.kehxstudios.atlas.data.EntityData;
 
 /**
  * Created by ReidC on 2017-04-16.
