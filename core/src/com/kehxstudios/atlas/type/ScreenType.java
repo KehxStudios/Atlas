@@ -16,15 +16,16 @@ public enum ScreenType {
     INTRO("Intro", "texturePacks/intro.atlas", 512, 910, IntroScreen.class),
     MAIN_MENU("MainMenu", "texturePacks/mainMenu.atlas", 1440, 2560, MainMenuScreen.class),
     FLAPPY_BAT("FlappyBat", "texturePacks/flappyBat.atlas", 240, 400, FlappyBatScreen.class),
+    SMART_ROCKETS("SmartRockets", "texturePacks/smartRockets.atlas", 512, 910, AScreen.class),
     VOID("Void", "-", 0, 0, AScreen.class);
 
-    private String id, path;
+    private String id, atlasPath;
     private float width, height;
     public Class loaderClass;
 
-    private ScreenType(String id, String path, float width, float height, Class loaderClass) {
+    private ScreenType(String id, String atlasPath, float width, float height, Class loaderClass) {
         this.id = id;
-        this.path = path;
+        this.atlasPath = atlasPath;
         this.width = width;
         this.height = height;
         this.loaderClass = loaderClass;
@@ -32,7 +33,7 @@ public enum ScreenType {
 
     public String getId() { return id; }
 
-    public String getPath() { return path; }
+    public String getAtlasPath() { return atlasPath; }
 
     public float getWidth() { return width; }
 
