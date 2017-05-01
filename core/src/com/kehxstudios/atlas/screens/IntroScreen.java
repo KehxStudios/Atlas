@@ -4,6 +4,7 @@ import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
 import com.kehxstudios.atlas.type.TextureType;
+import com.kehxstudios.atlas.type.ScreenType;
 
 /**
  * Created by ReidC on 2017-04-06.
@@ -18,7 +19,7 @@ public class IntroScreen extends AScreen {
     private ComponentData clickableData;
 
     public IntroScreen() {
-        super(com.kehxstudios.atlas.type.ScreenType.INTRO);
+        super(ScreenType.INTRO);
 
         screenGraphics.setTextureType(TextureType.DEV_LOGO);
         screenGraphics.setEnabled(true);
@@ -30,9 +31,7 @@ public class IntroScreen extends AScreen {
 
         // ClickableData
         clickableData = Templates.createClickableComponentData(width, height, true,
-                Templates.createLaunchScreenActionData(com.kehxstudios.atlas.type.ScreenType.MAIN_MENU));
-
-        screenEntity.setPosition(getWidth()/2, getHeight()/2);
+                Templates.createLaunchScreenActionData(ScreenType.MAIN_MENU));
     }
 
     @Override
