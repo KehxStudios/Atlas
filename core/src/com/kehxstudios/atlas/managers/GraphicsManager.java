@@ -33,6 +33,8 @@ public class GraphicsManager extends Manager {
     private ArrayList<FloatingTextComponent> floatingTextComponents;
 
     private TextureAtlas textureAtlas;
+    
+    private CameraComponent cameraComponent;
 
     public void tick(float delta) {
         if (animationComponents.size() > 0) {
@@ -45,8 +47,11 @@ public class GraphicsManager extends Manager {
     }
 
     public void render(SpriteBatch batch, OrthographicCamera camera) {
+        if (componentCamera == null) {
+            return;
+        }
         batch.begin();
-        batch.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(cameraComponent.getCamera().combined);
         for (ArrayList<GraphicsComponent> layerList : graphicComponents) {
             if (layerList.size() == 0) {
                 continue;
@@ -130,6 +135,26 @@ public class GraphicsManager extends Manager {
             DebugTool.log("Failed to find floatingText in floatingTextComponents");
         }
     }
+    
+    public void add(CameraComponent cameraComponent) {
+        if (this.cameraComponent != null) {
+            EntityManager.remove(this.cameraComponent);
+        }
+        this.cameraComponent = cameraComponent;
+    }
+    
+    public void remove(CameraComponent cameraComponent) {
+        if (this.cameraComponent == cameraComponent) {
+            this.cameraComponent = null;   
+        }
+    }
+    
+    public OrthographicCamera getCamera() {
+        if (cameraComponent
+            return cameraComponent.getCamera();
+        }
+        return null;
+    }
 
     private GraphicsManager() {
         super();
@@ -140,6 +165,7 @@ public class GraphicsManager extends Manager {
         }
         floatingTextComponents = new ArrayList<FloatingTextComponent>();
         textureAtlas = new TextureAtlas();
+        cameraComponent = null;
     }
 
     @Override
