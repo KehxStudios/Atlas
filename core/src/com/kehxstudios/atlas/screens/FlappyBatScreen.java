@@ -12,6 +12,7 @@ import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.GameManager;
 import com.kehxstudios.atlas.tools.DebugTool;
+import com.kehxstudios.atlas.type.ScreenType;
 
 import java.util.Random;
 
@@ -28,31 +29,25 @@ public class FlappyBatScreen extends AScreen {
     private static final int TUBE_HEIGHT = 320;
     private static final int TUBE_GAP = 100;
     private static final int TUBE_LOWEST_OPENING = 120;
+    
     private static final int GROUND_Y_OFFSET = 25;
-
-    private float GROUND_WIDTH;
+    private static final int GROUND_WIDTH = 366;
 
     private Entity batEntity;
     private Entity ground1Entity, ground2Entity;
     private Entity tube1Entity, tube2Entity;
 
     private PhysicsComponent batPhysics;
-
     private float batStartX, batCurrentX;
-    private int lowHighScore, highestScore;
 
     private Random random = new Random();
 
     public FlappyBatScreen() {
-        super(com.kehxstudios.atlas.type.ScreenType.FLAPPY_BAT);
-        lowHighScore =  highScores.getLowScore();
-        highestScore = highScores.getHighScore();
+        super(ScreenType.FLAPPY_BAT);
 
         screenGraphics.setTextureType(TextureType.FLAPPY_BAT_BACKGROUND);
         screenGraphics.setEnabled(true);
-
-        DebugTool.log("sg_"+screenGraphics.isEnabled());
-
+        
         batEntity = Factory.createEntity(Templates.createEntityData(width/4, height/2));
         ComponentData batGraphicsData = Templates.createGraphicsComponentData(0,0,2, TextureType.FLAPPY_BAT_BAT);
         GraphicsComponent batGraphics = (GraphicsComponent)Factory.createComponent(batEntity, batGraphicsData);
@@ -71,7 +66,6 @@ public class FlappyBatScreen extends AScreen {
         ComponentData groundPhysicsData = Templates.createPhysicsComponentData(0, 0, 0, 0, groundGraphics.getWidth(),
                 groundGraphics.getHeight(), true);
         Factory.createComponent(ground1Entity, groundPhysicsData);
-        GROUND_WIDTH = groundGraphics.getWidth();
 
         ground2Entity = Factory.createEntity(Templates.createEntityData(GROUND_WIDTH, GROUND_Y_OFFSET));
         Factory.createComponent(ground2Entity, groundGraphicsData);
@@ -95,12 +89,8 @@ public class FlappyBatScreen extends AScreen {
     }
 
     private void resetScreen() {
-        if (score > lowHighScore) {
-            highScores.addToHighScores("Test",score);
-            lowHighScore =  highScores.getLowScore();
-            highestScore = highScores.getHighScore();
-        }
-
+        highScores.addToHighScores("Test",score);
+        
         screenEntity.setPosition(width/2, height/2);
 
         batEntity.setPosition(width/4, height/2);
@@ -131,11 +121,11 @@ public class FlappyBatScreen extends AScreen {
     }
 
     private void updateGround() {
-        if(GameManager.getInstance().getCamera().position.x - (
-                GameManager.getInstance().getCamera().viewportWidth / 2) > ground1Entity.getPosition().x + GROUND_WIDTH/2)
+        if(gm.getCamera().position.x - (
+                gm.getCamera().viewportWidth / 2) > ground1Entity.getPosition().x + GROUND_WIDTH/2)
             ground1Entity.movePosition(GROUND_WIDTH * 2,0);
-        if(GameManager.getInstance().getCamera().position.x - (
-                GameManager.getInstance().getCamera().viewportWidth / 2) > ground2Entity.getPosition().x + GROUND_WIDTH/2)
+        if(gm.getCamera().position.x - (
+                gm.getCamera().viewportWidth / 2) > ground2Entity.getPosition().x + GROUND_WIDTH/2)
             ground2Entity.movePosition(GROUND_WIDTH * 2,0);
     }
 
