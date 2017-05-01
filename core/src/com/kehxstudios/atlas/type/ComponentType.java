@@ -18,6 +18,7 @@ import java.util.HashMap;
 public enum ComponentType {
 
     ANIMATION("Animation", AnimationComponent.class),
+    CAMERA("Camera", Component.class),
     CLICKABLE("Clickable", ClickableComponent.class),
     FLOATING_TEXT("Floating_Text", FloatingTextComponent.class),
     GRAPHICS("Graphics", GraphicsComponent.class),
