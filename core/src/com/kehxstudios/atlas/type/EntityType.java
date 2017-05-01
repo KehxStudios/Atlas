@@ -10,16 +10,17 @@ import java.util.HashMap;
 
 public enum EntityType {
 
-    SCREEN("Screen", Entity.class),
-    PLAYER("Player", Entity.class),
-    VOID("void", Entity.class);
+    SCREEN("Screen"),
+    PLAYER("Player"),
+    ENEMY("Enemy",
+    WORLD("World"),
+    OTHER("Other"),
+    VOID("void");
 
     private String id;
-    private Class loaderClass;
 
-    private EntityType(String name, Class loaderClass) {
+    private EntityType(String name) {
         this.id = name;
-        this.loaderClass = loaderClass;
     }
 
     public String getId() {
