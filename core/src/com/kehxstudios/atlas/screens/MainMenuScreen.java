@@ -6,6 +6,7 @@ import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
+import com.kehxstudios.atlas.type.ScreenType;
 
 
 /**
@@ -15,7 +16,7 @@ import com.kehxstudios.atlas.entities.Entity;
 public class MainMenuScreen extends AScreen {
 
     public MainMenuScreen() {
-        super(com.kehxstudios.atlas.type.ScreenType.MAIN_MENU);
+        super(ScreenType.MAIN_MENU);
         screenGraphics.setTextureType(TextureType.MAIN_MENU_BACKGROUND);
         screenGraphics.setEnabled(true);
 
@@ -24,19 +25,19 @@ public class MainMenuScreen extends AScreen {
         Entity flappyBird = Factory.createEntity(Templates.createEntityData(width/2, height/5*2));
         GraphicsComponent menuComponent = (GraphicsComponent)Factory.createComponent(flappyBird, borderGraphics);
         Factory.createComponent(flappyBird, Templates.createClickableComponentData(
-                width*2, height*2, true, Templates.createLaunchScreenActionData(com.kehxstudios.atlas.type.ScreenType.FLAPPY_BAT)));
+                width*2, height*2, true, Templates.createLaunchScreenActionData(ScreenType.FLAPPY_BAT)));
         Factory.createComponent(flappyBird, Templates.createFloatingTextComponentData("< ", "Flappy Bird >"));
 
         Entity intro = Factory.createEntity(Templates.createEntityData(width, height/5*3));
         Factory.createComponent(intro, borderGraphics);
         Factory.createComponent(intro, Templates.createClickableComponentData(
-                menuComponent.getWidth(), menuComponent.getHeight(), true, Templates.createLaunchScreenActionData(com.kehxstudios.atlas.type.ScreenType.INTRO)));
+                menuComponent.getWidth(), menuComponent.getHeight(), true, Templates.createLaunchScreenActionData(ScreenType.INTRO)));
         Factory.createComponent(intro, Templates.createFloatingTextComponentData("< ", "Intro >"));
 
         Entity highScoreReset = Factory.createEntity(Templates.createEntityData(width, height/5*4));
         Factory.createComponent(highScoreReset, borderGraphics);
         Factory.createComponent(highScoreReset, Templates.createClickableComponentData(
-                menuComponent.getWidth(), menuComponent.getHeight(), false, Templates.createHighScoreResetActionData(com.kehxstudios.atlas.type.ScreenType.FLAPPY_BAT)));
+                menuComponent.getWidth(), menuComponent.getHeight(), false, Templates.createHighScoreResetActionData(ScreenType.FLAPPY_BAT)));
         Factory.createComponent(highScoreReset, Templates.createFloatingTextComponentData("< ", "High-Score Reset >"));
     }
 
