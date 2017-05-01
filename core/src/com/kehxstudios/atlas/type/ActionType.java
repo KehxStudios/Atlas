@@ -22,12 +22,12 @@ public enum ActionType {
     DESTROY_ENTITY("Destroy Entity", DestroyEntityAction.class),
     HIGH_SCORE_RESET("High-Score Reset", HighScoreResetAction.class),
     LAUNCH_SCREEN("Launch Screen", LaunchScreenAction.class),
-    MULTI("Multi", MultiAction.class),
+    MULTI("Multi", MultiAction.class), // TO BE USED
     PHYSICS("Physics", PhysicsAction.class),
-    REPOSITION("Reposition", RepositionAction.class),
+    REPOSITION("Reposition", RepositionAction.class), // TO BE MERGED WITH TELEPORT
     SCORE("Score", ScoreAction.class),
     SPAWN_ENTITY("Spawn Entity", SpawnEntityAction.class),
-    TELEPORT("Teleport", TeleportAction.class),
+    TELEPORT("Teleport", TeleportAction.class), // TO BE MERGED WITH REPOSITION
     VOID("Void", Action.class);
 
     private static HashMap<String, ActionType> actionTypes;
