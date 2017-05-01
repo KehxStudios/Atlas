@@ -17,6 +17,7 @@ public class FloatingTextComponent extends Component{
     private String label;
     private String text;
     private Color color;
+    private boolean isUIElement;
 
     public BitmapFont getFont() { return font; }
     public void setFont(BitmapFont font) { this.font = font;}
@@ -40,4 +41,8 @@ public class FloatingTextComponent extends Component{
     public void setScale(float scale) {
         font.getData().setScale(scale);
     }
+
+    public boolean getIsUIElement() { return isUIElement; }
+
+    public void setUIElement(boolean value) { isUIElement = value; }
 }
