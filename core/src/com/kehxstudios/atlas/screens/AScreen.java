@@ -11,6 +11,7 @@ import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.data.EntityData;
 import com.kehxstudios.atlas.managers.GameManager;
 import com.kehxstudios.atlas.data.HighScores;
+import com.kehxstudios.atlas.type.ScreenType;
 
 /**
  * Created by ReidC on 2017-04-07.
@@ -19,7 +20,7 @@ import com.kehxstudios.atlas.data.HighScores;
 public abstract class AScreen implements Screen {
 
     protected GameManager gm;
-    protected com.kehxstudios.atlas.type.ScreenType type;
+    protected ScreenType type;
     protected float width, height;
 
     protected Entity screenEntity;
@@ -38,14 +39,13 @@ public abstract class AScreen implements Screen {
         screenTime = 0;
         score = 0;
 
-        EntityData entityData = Templates.createEntityData(width/2, height/2);
-        screenEntity = Factory.createEntity(entityData);
+        screenEntity = Factory.createEntity(Templates.createEntityData(width/2, height/2));
 
-        ComponentData graphicsData = Templates.createGraphicsComponentData(0, 0, 1, TextureType.VOID);
-        screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity, graphicsData);
+        screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity, 
+                  Templates.createGraphicsComponentData(0, 0, 1, TextureType.VOID));
 
-        GameManager.getInstance().getCamera().setToOrtho(false, width, height);
-        GameManager.getInstance().getCamera().update();
+        gm.getCamera().setToOrtho(false, width, height);
+        gm.getCamera().update();
     }
 
     @Override
@@ -58,11 +58,11 @@ public abstract class AScreen implements Screen {
         highScores.dispose();
     }
 
-    public float getScaleWidth() {
+    public float getGraphicsWidth() {
         return Gdx.graphics.getWidth();
     }
 
-    public float getScaleHeight() {
+    public float getGraphicsHeight() {
         return Gdx.graphics.getHeight();
     }
 
