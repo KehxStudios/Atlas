@@ -36,11 +36,12 @@ public class Templates {
         return actionData;
     }
 
-    public static ActionData createRepositionActionData(float x, float y) {
+    public static ActionData createRepositionActionData(float x, float y, boolean teleport) {
         ActionData actionData = new ActionData();
         actionData.setType(ActionType.REPOSITION.getId());
         actionData.putFloat("actionValue_x", x);
         actionData.putFloat("actionValue_y", y);
+        actionData.putBoolean("teleport", teleport);
         return actionData;
     }
 
