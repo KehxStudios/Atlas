@@ -24,10 +24,9 @@ public enum ActionType {
     LAUNCH_SCREEN("Launch Screen", LaunchScreenAction.class),
     MULTI("Multi", MultiAction.class), // TO BE USED
     PHYSICS("Physics", PhysicsAction.class),
-    REPOSITION("Reposition", RepositionAction.class), // TO BE MERGED WITH TELEPORT
+    REPOSITION("Reposition", RepositionAction.class),
     SCORE("Score", ScoreAction.class),
     SPAWN_ENTITY("Spawn Entity", SpawnEntityAction.class),
-    TELEPORT("Teleport", TeleportAction.class), // TO BE MERGED WITH REPOSITION
     VOID("Void", Action.class);
 
     private static HashMap<String, ActionType> actionTypes;
