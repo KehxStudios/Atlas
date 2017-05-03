@@ -12,4 +12,14 @@ public class CameraComponent extends Component {
 
   public OrthographicCamera getCamera() { return camera; }
   public void setCamera(OrthographicCamera camera) { this.camera = camera; }
+  
+  public void setNewSize(float width, float height) {
+    camera.setToOrtho(false, width, height);
+    updateCamera();
+  }
+  
+  public void updateCamera() {
+    camera.position.set(entity.getPosition);
+    camera.update(); 
+  }
 }
