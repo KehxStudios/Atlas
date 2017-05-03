@@ -202,6 +202,7 @@ public class Factory {
                 reposition.setPosition(entity.getPosition());
                 reposition.setActionValue(actionData.getFloat("actionValue_x", 0),
                         actionData.getFloat("actionValue_y", 0));
+                reposition.setTeleportToActionValue(actionData.getBoolean("teleport", false);
                 return reposition;
             } else if (action.getType() == ActionType.SCORE) {
                 ScoreAction score = (ScoreAction)action;
@@ -211,12 +212,6 @@ public class Factory {
                 SpawnEntityAction spawnEntity = (SpawnEntityAction)action;
                 spawnEntity.setEntityData(UtilityTool.getEntityDataFromString(actionData.getString("entityData", "Void")));
                 return action;
-            } else if (action.getType() == ActionType.TELEPORT) {
-                TeleportAction teleport = (TeleportAction)action;
-                teleport.setPosition(entity.getPosition());
-                teleport.setTeleportPosition(new Vector2(actionData.getFloat("actionValue_x", 0),
-                        actionData.getFloat("actionValue_y", 0)));
-                return teleport;
             }
         } catch (ReflectionException e) {
             e.printStackTrace();
@@ -290,8 +285,6 @@ public class Factory {
         } else if (action.getType() == ActionType.SCORE) {
 
         } else if (action.getType() == ActionType.SPAWN_ENTITY) {
-
-        } else if (action.getType() == ActionType.TELEPORT) {
 
         }
         return actionData;
