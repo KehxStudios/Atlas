@@ -56,7 +56,6 @@ public class Factory {
         entity.setId("Entity_" + ++uniqueId);
         entity.setPosition(entityData.getX(), entityData.getY());
 
-        entity.setComponents();
         for (String componentString : entityData.data.values()) {
             entity.addComponent(createComponent(entity, UtilityTool.getComponentDataFromString(componentString)));
         }
@@ -81,12 +80,12 @@ public class Factory {
 
             EntityManager.getInstance().addComponent(entity, component);
 
-            if (component.getType() == ComponentType.ANIMATION) {
+            if (componentType == ComponentType.ANIMATION) {
                 AnimationComponent animation = (AnimationComponent)component;
                 // TO BE ADDED
                 GraphicsManager.getInstance().add(animation);
                 return animation;
-            } else if (component.getType() == ComponentType.CAMERA) {
+            } else if (componentType == ComponentType.CAMERA) {
                 CameraComponent camera = (CameraComponent)component;
                 camera.setWidth(componentData.getFloat("width", 0));
                 camera.setHeight(componentData.getFloat("height", 0));
@@ -94,7 +93,7 @@ public class Factory {
                 camera.update();
                 GraphicsManager.getInstance().add(camera);
                 return camera;
-            } else if (component.getType() == ComponentType.CLICKABLE) {
+            } else if (componentType == ComponentType.CLICKABLE) {
                 ClickableComponent clickable = (ClickableComponent)component;
                 clickable.setWidth(componentData.getFloat("width", 0));
                 clickable.setHeight(componentData.getFloat("height", 0));
@@ -103,7 +102,7 @@ public class Factory {
                 clickable.setAction(createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void"))));
                 InputManager.getInstance().add(clickable);
                 return clickable;
-            } else if (component.getType() == ComponentType.FLOATING_TEXT) {
+            } else if (componentType == ComponentType.FLOATING_TEXT) {
                 FloatingTextComponent floatingText = (FloatingTextComponent)component;
                 floatingText.setFont(new BitmapFont());
                 floatingText.setScale(2f);
@@ -116,7 +115,7 @@ public class Factory {
                         Color.BLACK, 0, Align.center, true);
                 GraphicsManager.getInstance().add(floatingText);
                 return floatingText;
-            } else if (component.getType() == ComponentType.GRAPHICS) {
+            } else if (componentType == ComponentType.GRAPHICS) {
                 GraphicsComponent graphics = (GraphicsComponent)component;
                 graphics.setWidth(componentData.getFloat("width", 0));
                 graphics.setHeight(componentData.getFloat("height", 0));
@@ -133,13 +132,13 @@ public class Factory {
                 }
                 GraphicsManager.getInstance().add(graphics);
                 return graphics;
-            } else if (component.getType() == ComponentType.IN_VIEW) {
+            } else if (componentType == ComponentType.IN_VIEW) {
                 InViewComponent inView = (InViewComponent)component;
                 inView.setWidth(componentData.getFloat("width", 0));
                 inView.setHeight(componentData.getFloat("height", 0));
                 inView.setAction(createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void"))));
                 return inView;
-            } else if (component.getType() == ComponentType.PHYSICS) {
+            } else if (componentType == ComponentType.PHYSICS) {
                 PhysicsComponent physics = (PhysicsComponent)component;
                 physics.setAcceleration(componentData.getFloat("acceleraton_x", 0),
                         componentData.getFloat("acceleration_y", 0));
@@ -156,7 +155,7 @@ public class Factory {
                 physics.setCollided(componentData.getBoolean("collided", false));
                 PhysicsManager.getInstance().add(physics);
                 return physics;
-            } else if (component.getType() == ComponentType.POINTER_DIRECTION) {
+            } else if (componentType == ComponentType.POINTER_DIRECTION) {
                 PointerDirectionComponent pointerDirection = (PointerDirectionComponent)component;
                 // TO BE ADDED
                 return pointerDirection;
@@ -174,41 +173,40 @@ public class Factory {
             action.setType(actionType);
             DebugTool.log("XX_"+action);
 
-            if (action.getType() == ActionType.DESTROY_ENTITY) {
+            if (actionType == ActionType.DESTROY_ENTITY) {
                 DestroyEntityAction destroyEntity = (DestroyEntityAction)action;
                 // TO BE ADDED
                 return destroyEntity;
-            } else if (action.getType() == ActionType.HIGH_SCORE_RESET) {
+            } else if (actionType == ActionType.HIGH_SCORE_RESET) {
                 HighScoreResetAction highScoreReset = (HighScoreResetAction)action;
                 highScoreReset.setScreenType(ScreenType.getTypeById(actionData.getString("screenType", "Void")));
                 return highScoreReset;
-            } else if (action.getType() == ActionType.LAUNCH_SCREEN) {
+            } else if (actionType == ActionType.LAUNCH_SCREEN) {
                 LaunchScreenAction launchScreen = (LaunchScreenAction)action;
                 launchScreen.setScreenType(ScreenType.getTypeById(actionData.getString("screenType", "Void")));
-                DebugTool.log("X_"+launchScreen);
                 return launchScreen;
-            } else if (action.getType() == ActionType.MULTI) {
+            } else if (actionType == ActionType.MULTI) {
                 MultiAction multi = (MultiAction)action;
                 // TO BE ADDED
                 return multi;
-            } else if (action.getType() == ActionType.PHYSICS) {
+            } else if (actionType == ActionType.PHYSICS) {
                 PhysicsAction physics = (PhysicsAction)action;
                 physics.setTriggerValue(actionData.getFloat("actionValue_x", 0),
                         actionData.getFloat("actionValue_y", 0));
                 physics.setPhysicsComponent((PhysicsComponent)entity.getComponentOfType(ComponentType.PHYSICS));
                 return physics;
-            } else if (action.getType() == ActionType.REPOSITION) {
+            } else if (actionType == ActionType.REPOSITION) {
                 RepositionAction reposition = (RepositionAction)action;
                 reposition.setPosition(entity.getPosition());
                 reposition.setActionValue(actionData.getFloat("actionValue_x", 0),
                         actionData.getFloat("actionValue_y", 0));
                 reposition.setTeleportToActionValue(actionData.getBoolean("teleport", false);
                 return reposition;
-            } else if (action.getType() == ActionType.SCORE) {
+            } else if (actionType == ActionType.SCORE) {
                 ScoreAction score = (ScoreAction)action;
                 score.setScoreValue(actionData.getInt("actionValue", 0));
                 return score;
-            } else if (action.getType() == ActionType.SPAWN_ENTITY) {
+            } else if (actionType == ActionType.SPAWN_ENTITY) {
                 SpawnEntityAction spawnEntity = (SpawnEntityAction)action;
                 spawnEntity.setEntityData(UtilityTool.getEntityDataFromString(actionData.getString("entityData", "Void")));
                 return action;
