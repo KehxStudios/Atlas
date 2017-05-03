@@ -21,7 +21,7 @@ public enum ScreenType {
 
     private String id, atlasPath;
     private float width, height;
-    public Class loaderClass;
+    private Class loaderClass;
 
     private ScreenType(String id, String atlasPath, float width, float height, Class loaderClass) {
         this.id = id;
