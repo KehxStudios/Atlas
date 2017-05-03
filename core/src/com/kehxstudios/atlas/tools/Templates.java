@@ -65,6 +65,14 @@ public class Templates {
         componentData.setEnabled(true);
         return componentData;
     }
+    
+    public static ComponentData createCameraComponentData(float width, float height, boolean flipped) {
+        ComponentData cameraData = createComponentData();
+        cameraData.putFloat("width", width);
+        cameraData.putFloat("height", height);
+        cameraData.putBoolean("flipped", flipped);
+        return cameraData;
+    }
 
     public static ComponentData createPhysicsComponentData(float maxAccelerationX, float maxAccelerationY,
                                                            float maxVelocityX, float maxVelocityY,
