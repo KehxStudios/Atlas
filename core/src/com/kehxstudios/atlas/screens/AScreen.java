@@ -25,6 +25,7 @@ public abstract class AScreen implements Screen {
 
     protected Entity screenEntity;
     protected GraphicsComponent screenGraphics;
+    protected CameraComponent screenCamera;
 
     protected float screenTime;
     protected HighScores highScores;
@@ -43,9 +44,9 @@ public abstract class AScreen implements Screen {
 
         screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity, 
                   Templates.createGraphicsComponentData(0, 0, 1, TextureType.VOID));
-
-        gm.getCamera().setToOrtho(false, width, height);
-        gm.getCamera().update();
+        
+        screenCamera = (CameraComponent)Factory.createComponent(screenEntity,
+                  Templates.createCameraComponentData(false, width, height);
     }
 
     @Override
