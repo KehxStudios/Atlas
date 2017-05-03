@@ -86,6 +86,14 @@ public class Factory {
                 // TO BE ADDED
                 GraphicsManager.getInstance().add(animation);
                 return animation;
+            } else if (component.getType() == ComponentType.CAMERA) {
+                CameraComponent camera = (CameraComponent)component;
+                camera.setWidth(componentData.getFloat("width", 0));
+                camera.setHeight(componentData.getFloat("height", 0));
+                camera.setFlipped(componentData.getBoolean("flipped", false));
+                camera.update();
+                GraphicsManager.getInstance().add(camera);
+                return camera;
             } else if (component.getType() == ComponentType.CLICKABLE) {
                 ClickableComponent clickable = (ClickableComponent)component;
                 clickable.setWidth(componentData.getFloat("width", 0));
