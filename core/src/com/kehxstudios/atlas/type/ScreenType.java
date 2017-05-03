@@ -19,6 +19,7 @@ public enum ScreenType {
     GENE_ROCKETS("Gene Rockets", "texturePacks/geneRockets.atlas", 512, 910, AScreen.class), // FUTURE SCREEN
     PING("Ping", "texturePacks/ping.atlas", 512, 910, AScreen.class), // FUTURE SCREEN
     RECAP_JOURNAL("Recap Journal", "texturePacks/recapJournal.atlas", 512, 910, AScreen.class), // FUTURE SCREEN
+    LOADING("Loading", "texturePacks/loading.atlas", 512, 910, LoadingScreen.class),
     VOID("Void", "", 0, 0, AScreen.class);
 
     private String id, atlasPath;
