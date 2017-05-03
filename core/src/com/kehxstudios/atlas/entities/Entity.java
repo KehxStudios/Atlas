@@ -46,7 +46,6 @@ public class Entity {
         }
         return false;
     }
-    public void setComponents() { components = new ArrayList<Component>(); }
     public void addComponent(Component component) { components.add(component); }
     public void removeComponent(Component component) { components.remove(component); }
 }
