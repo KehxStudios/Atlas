@@ -46,7 +46,7 @@ public abstract class AScreen implements Screen {
                   Templates.createGraphicsComponentData(0, 0, 1, TextureType.VOID));
         
         screenCamera = (CameraComponent)Factory.createComponent(screenEntity,
-                  Templates.createCameraComponentData(false, width, height);
+                  Templates.createCameraComponentData(width, height, false);
     }
 
     @Override
