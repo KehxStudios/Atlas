@@ -14,10 +14,12 @@ import java.util.HashMap;
 public enum ScreenType {
 
     INTRO("Intro", "texturePacks/intro.atlas", 512, 910, IntroScreen.class),
-    MAIN_MENU("MainMenu", "texturePacks/mainMenu.atlas", 1440, 2560, MainMenuScreen.class),
-    FLAPPY_BAT("FlappyBat", "texturePacks/flappyBat.atlas", 240, 400, FlappyBatScreen.class),
-    SMART_ROCKETS("SmartRockets", "texturePacks/smartRockets.atlas", 512, 910, AScreen.class),
-    VOID("Void", "-", 0, 0, AScreen.class);
+    MAIN_MENU("Main Menu", "texturePacks/mainMenu.atlas", 1440, 2560, MainMenuScreen.class),
+    FLAPPY_BAT("Flappy Bat", "texturePacks/flappyBat.atlas", 240, 400, FlappyBatScreen.class),
+    GENE_ROCKETS("Gene Rockets", "texturePacks/geneRockets.atlas", 512, 910, AScreen.class), // FUTURE SCREEN
+    PING("Ping", "texturePacks/ping.atlas", 512, 910, AScreen.class), // FUTURE SCREEN
+    RECAP_JOURNAL("Recap Journal", "texturePacks/recapJournal.atlas", 512, 910, AScreen.class), // FUTURE SCREEN
+    VOID("Void", "", 0, 0, AScreen.class);
 
     private String id, atlasPath;
     private float width, height;
