@@ -78,7 +78,7 @@ public class GraphicsManager extends Manager {
     }
 
     public void dispose() {
-
+        removeScreenTypeSettings();
     }
 
     private boolean contained(GraphicsComponent graphics) {
@@ -87,68 +87,51 @@ public class GraphicsManager extends Manager {
         else
             return false;
     }
-
-    public void add(GraphicsComponent graphics) {
-        if (!contained(graphics)) {
-            graphicComponents.get(graphics.getLayer()).add(graphics);
-        } else {
-            DebugTool.log("Failed to add graphic to graphicComponents");
-        }
-    }
-
-    public void remove(GraphicsComponent graphics) {
-        if (contained(graphics)) {
-            graphicComponents.get(graphics.getLayer()).remove(graphics);
-        } else {
-            DebugTool.log("Failed to find graphic in graphicComponents");
-        }
-    }
-
-    public void add(AnimationComponent animation) {
-        if (!animationComponents.contains(animation)) {
-            animationComponents.add(animation);
-        } else {
-            DebugTool.log("Failed to add animation to animationComponents");
-        }
-    }
-
-    public void remove(AnimationComponent animation) {
-        if (animationComponents.contains(animation)) {
-            animationComponents.remove(animation);
-        } else {
-            DebugTool.log("Failed to find animation in animationComponents");
-        }
-    }
-
-    public void add(FloatingTextComponent floatingText) {
-        if (!floatingTextComponents.contains(floatingText)) {
-            floatingTextComponents.add(floatingText);
-        } else {
-            DebugTool.log("Failed to add floatingText to floatingTextComponents");
-        }
-    }
-
-    public void remove(FloatingTextComponent floatingText) {
-        if (floatingTextComponents.contains(floatingText)) {
-            floatingTextComponents.remove(floatingText);
-        } else {
-            DebugTool.log("Failed to find floatingText in floatingTextComponents");
-        }
-    }
     
-    public void add(CameraComponent cameraComponent) {
-        if (this.cameraComponent != null) {
-            EntityManager.remove(this.cameraComponent);
+    public void add(Component component) {
+        if (component.getType() == ComponentType.ANIMATION) {
+            AnimationComponent animation = (AnimationComponent)component;
+            if (!animationComponents.contains(animation)) {
+                animationComponents.add(animation);
+        } else if (component.getType() == ComponentType.CAMERA) {
+            CameraComponent camera = (CameraComponent)component;
+            if (cameraComponent != null) {
+                EntityManager.remove(cameraComponent);
+            }
+            cameraComponent = camera;
+        } else if (component.getType() == ComponentType.GRAPHICS) {
+            GraphicsComponent graphics = (GraphicsComponent)component;
+            if (!contained(graphics)) {
+                graphicComponents.get(graphics.getLayer()).add(graphics);
+        } else if (component.getType() == ComponentType.FLOATING_TEXT) {
+            FloatingTextComponent floatingText = (FloatingTextComponent)component;
+            if (!floatingTextComponents.contains(floatingText)) {
+                floatingTextComponents.add(floatingText);
         }
-        this.cameraComponent = cameraComponent;
     }
-    
-    public void remove(CameraComponent cameraComponent) {
-        if (this.cameraComponent == cameraComponent) {
-            this.cameraComponent = null;   
+                
+    public void remove(Component component) {
+        if (component.getType() == ComponentType.ANIMATION) {
+            AnimationComponent animation = (AnimationComponent)component;
+            if (animationComponents.contains(animation)) {
+                animationComponents.remove(animation);
+        } else if (component.getType() == ComponentType.CAMERA) {
+            CameraComponent camera = (CameraComponent)component;
+            if (cameraComponent == camera) {
+                EntityManager.remove(cameraComponent);
+                cameraComponent = null;
+            }
+        } else if (component.getType() == ComponentType.GRAPHICS) {
+            GraphicsComponent graphics = (GraphicsComponent)component;
+            if (contained(graphics)) {
+                graphicComponents.get(graphics.getLayer()).remove(graphics);
+        } else if (component.getType() == ComponentType.FLOATING_TEXT) {
+            FloatingTextComponent floatingText = (FloatingTextComponent)component;
+            if (floatingTextComponents.contains(floatingText))
+                floatingTextComponents.remove(floatingText);
         }
     }
-    
+ 
     public OrthographicCamera getCamera() {
         if (cameraComponent
             return cameraComponent.getCamera();
@@ -158,13 +141,18 @@ public class GraphicsManager extends Manager {
 
     private GraphicsManager() {
         super();
+        textureAtlas = new TextureAtlas();
+        
+        setup();
+    }
+            
+    private void setup() {
         animationComponents = new ArrayList<AnimationComponent>();
         graphicComponents = new ArrayList<ArrayList<GraphicsComponent>>();
         for (int i = 0; i < MAX_LAYERS; i++) {
             graphicComponents.add(new ArrayList<GraphicsComponent>());
         }
         floatingTextComponents = new ArrayList<FloatingTextComponent>();
-        textureAtlas = new TextureAtlas();
         cameraComponent = null;
     }
 
@@ -173,12 +161,8 @@ public class GraphicsManager extends Manager {
         gm.getAssetManager().load(screenType.getPath(), TextureAtlas.class);
         gm.getAssetManager().finishLoading();
         textureAtlas = gm.getAssetManager().get(screenType.getPath());
-        animationComponents = new ArrayList<AnimationComponent>();
-        graphicComponents = new ArrayList<ArrayList<GraphicsComponent>>();
-        for (int i = 0; i < MAX_LAYERS; i++) {
-            graphicComponents.add(new ArrayList<GraphicsComponent>());
-        }
-        floatingTextComponents = new ArrayList<FloatingTextComponent>();
+        
+        setup();
     }
 
     @Override
