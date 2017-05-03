@@ -27,6 +27,15 @@ public class Templates {
         actionData.putString("screenType", screenType.getId());
         return actionData;
     }
+    
+    public static ActionData createMultiActionData(ArrayList<ActionData> actionsData) {
+        ActionData actionData = new ActionData();
+        actionData.type = ActionType.MULTI.getId();
+        for (ActionData data : actionsData) {
+            actionData.putString(data.getType().getId(), UtilityTools.getStringFromDataClass(data));
+        }
+        return actionData;
+    }
 
     public static ActionData createPhysicsActionData(float x, float y) {
         ActionData actionData = new ActionData();
