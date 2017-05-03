@@ -8,14 +8,14 @@ import java.util.HashMap;
 
 public enum TextureType {
 
-    DEV_LOGO("DevLogo", "devLogo", 512, 512),
-    GAME_LOGO("GameLogo","gameLogo", 512, 512),
+    INTRO_DEV_LOGO("IntroDevLogo", "devLogo", 512, 512),
+    INTRO_GAME_LOGO("IntroGameLogo","gameLogo", 512, 512),
 
     MAIN_MENU_BACKGROUND("MainMenuBackground", "background", 1440, 2560),
-    MAIN_MENU_BORDER("MainMenuBorders", "menuBorder", 625, 435),
+    MAIN_MENU_BORDER("MainMenuBorder", "menuBorder", 625, 435),
 
     FLAPPY_BAT_BACKGROUND("FlappyBatBackground", "background", 288, 512),
-    FLAPPY_BAT_BAT("FlappyBatBird", "bat", 34, 24),
+    FLAPPY_BAT_BAT("FlappyBatBat", "bat", 34, 24),
     FLAPPY_BAT_WALL("FlappyBatWall",  "wall", 32, 320),
     FLAPPY_BAT_GROUND("FlappyBatGround", "ground", 366, 112),
 
