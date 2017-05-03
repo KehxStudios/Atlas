@@ -5,17 +5,18 @@ import com.kehxstudios.atlas.entities.Entity;
 import java.util.HashMap;
 
 /**
- * Could be removed in the future
+ * Will be used in the future
  */
 
 public enum EntityType {
 
     SCREEN("Screen"),
     PLAYER("Player"),
-    ENEMY("Enemy",
+    ENEMY("Enemy"),
     WORLD("World"),
+    BOUNDS("Bounds"),
     OTHER("Other"),
-    VOID("void");
+    VOID("Void");
 
     private String id;
 
