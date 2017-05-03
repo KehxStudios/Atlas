@@ -32,6 +32,8 @@ public class FlappyBatScreen extends AScreen {
     
     private static final int GROUND_Y_OFFSET = 25;
     private static final int GROUND_WIDTH = 366;
+    
+    private static final float BAT_MOVEMENT = 300;
 
     private Entity batEntity;
     private Entity ground1Entity, ground2Entity;
@@ -108,6 +110,8 @@ public class FlappyBatScreen extends AScreen {
         if (batPhysics.hasCollided()) {
             resetScreen();
         }
+        
+        batPhysics.addAcceleration(BAT_MOVEMENT, 0);
 
         updateGround();
 
