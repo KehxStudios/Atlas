@@ -16,6 +16,7 @@ public class MultiAction extends Action {
     }
 
     public ArrayList<Action> getActions() { return actions; }
+    public void setActions(ArrayList<Action> actions) { this.actions = actions; }
     public void addAction(Action action, int position) {
         if (position < 0)
             position = 0;
