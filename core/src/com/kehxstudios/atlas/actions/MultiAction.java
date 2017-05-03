@@ -1,6 +1,7 @@
 package com.kehxstudios.atlas.actions;
 
 import java.util.ArrayList;
+import com.kehxstudios.atlas.type.ActionType;
 
 /**
  * Created by ReidC on 2017-04-19.
@@ -9,9 +10,12 @@ import java.util.ArrayList;
 public class MultiAction extends Action {
 
     private ArrayList<Action> actions;
+    
+    public MultiAction() {
+        actions = new ArrayList<Action>();
+    }
 
     public ArrayList<Action> getActions() { return actions; }
-    public void setActions() { actions = new ArrayList<Action>(); }
     public void addAction(Action action, int position) {
         if (position < 0)
             position = 0;
@@ -22,7 +26,7 @@ public class MultiAction extends Action {
     public void removeAction(Action action) {
         actions.remove(action);
     }
-    public void removeAllActionsOfType(com.kehxstudios.atlas.type.ActionType type) {
+    public void removeAllActionsOfType(ActionType type) {
         for (int i = 0; i < actions.size(); i++) {
             if (actions.get(i).type == type) {
                 actions.remove(i--);
