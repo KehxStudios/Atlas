@@ -25,9 +25,9 @@ public class PhysicsManager extends Manager {
     public void tick(float delta) {
         for (PhysicsComponent physics : physicsComponents) {
             if (physics.isEnabled()) {
-                physics.getVelocity().add(physics.getAcceleration());
+                physics.getVelocity().set(physics.getAcceleration());
                 physics.getVelocity().scl(delta);
-                physics.movePosition(physics.getVelocity().x * delta, physics.getVelocity().y * delta);
+                physics.movePosition(physics.getVelocity().x, physics.getVelocity().y);
                 physics.getVelocity().scl(1 / delta);
             }
         }
