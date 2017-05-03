@@ -187,7 +187,9 @@ public class Factory {
                 return launchScreen;
             } else if (actionType == ActionType.MULTI) {
                 MultiAction multi = (MultiAction)action;
-                // TO BE ADDED
+                for (String data : actionData.data.values()) {
+                    multi.addAction(UtilityTools.getActionDataFromString(data);   
+                }
                 return multi;
             } else if (actionType == ActionType.PHYSICS) {
                 PhysicsAction physics = (PhysicsAction)action;
