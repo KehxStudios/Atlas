@@ -2,6 +2,7 @@ package com.kehxstudios.atlas.components;
 
 import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.entities.Entity;
+import com.kehxstudios.atlas.type.ComponentType;
 
 /**
  * Created by ReidC on 2017-04-06.
@@ -10,7 +11,7 @@ import com.kehxstudios.atlas.entities.Entity;
 public class Component {
 
     protected String id;
-    protected com.kehxstudios.atlas.type.ComponentType type;
+    protected ComponentType type;
     protected Entity entity;
 
     protected Vector2 position;
@@ -24,8 +25,8 @@ public class Component {
         this.id = id;
     }
 
-    public com.kehxstudios.atlas.type.ComponentType getType() { return type; }
-    public void setType(com.kehxstudios.atlas.type.ComponentType type) { this.type = type; }
+    public ComponentType getType() { return type; }
+    public void setType(ComponentType type) { this.type = type; }
 
     public Entity getEntity() {
         return entity;
@@ -37,36 +38,33 @@ public class Component {
     }
 
     public Vector2 getPosition() {
-        if (!useComponentPosition) {
-            return entity.getPosition();
-        } else {
+        if (useComponentPosition) {
             if (usePositionAsOffset) {
                 return position.add(entity.getPosition());
             } else {
-                return position;
+                return position;   
             }
+        } else {
+            return entity.getPosition();   
         }
     }
     public void setPosition(float x, float y) {
-        if (!useComponentPosition) {
-            entity.setPosition(x,y);
-        } else {
+        if (useComponentPosition) {
             position.set(x,y);
+        } else {
+            entity.setPosition(x,y);
         }
     }
     public void movePosition(float x, float y) {
-        if (!useComponentPosition) {
-            entity.movePosition(x,y);
-        } else {
+        if (useComponentPosition) {
             position.add(x,y);
+        } else {
+            entity.movePosition(x,y);
         }
     }
 
     public boolean getUseComponentPosition() { return useComponentPosition; }
     public void setUseComponentPosition(boolean value) {
-        if (value && position == null) {
-            position = new Vector2(0,0);
-        }
         useComponentPosition = value;
     }
 
