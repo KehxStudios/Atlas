@@ -32,26 +32,27 @@ public class LoadingScreen extends AScreen {
   
     @Override
     public void show() {
-
+        super.show();
     }
 
     @Override
     public void resize(int width, int height) {
-
+        super.resize(width, height);
     }
 
     @Override
     public void pause() {
-
+        super.pause();
     }
 
     @Override
     public void resume() {
-
+        super.resume();
     }
 
     @Override
     public void hide() {
-
+        super.hide();
     }
+
 }
