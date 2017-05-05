@@ -5,8 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.kehxstudios.atlas.components.AnimationComponent;
+import com.kehxstudios.atlas.components.CameraComponent;
+import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
+import com.kehxstudios.atlas.type.ComponentType;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.tools.DebugTool;
 
@@ -47,7 +50,7 @@ public class GraphicsManager extends Manager {
     }
 
     public void render(SpriteBatch batch, OrthographicCamera camera) {
-        if (componentCamera == null) {
+        if (cameraComponent == null) {
             return;
         }
         batch.begin();
@@ -93,20 +96,23 @@ public class GraphicsManager extends Manager {
             AnimationComponent animation = (AnimationComponent)component;
             if (!animationComponents.contains(animation)) {
                 animationComponents.add(animation);
+            }
         } else if (component.getType() == ComponentType.CAMERA) {
             CameraComponent camera = (CameraComponent)component;
             if (cameraComponent != null) {
-                EntityManager.remove(cameraComponent);
+                EntityManager.getInstance().markComponentForRemoval(cameraComponent);
             }
             cameraComponent = camera;
         } else if (component.getType() == ComponentType.GRAPHICS) {
             GraphicsComponent graphics = (GraphicsComponent)component;
             if (!contained(graphics)) {
                 graphicComponents.get(graphics.getLayer()).add(graphics);
+            }
         } else if (component.getType() == ComponentType.FLOATING_TEXT) {
             FloatingTextComponent floatingText = (FloatingTextComponent)component;
             if (!floatingTextComponents.contains(floatingText)) {
                 floatingTextComponents.add(floatingText);
+            }
         }
     }
                 
@@ -116,24 +122,27 @@ public class GraphicsManager extends Manager {
             if (animationComponents.contains(animation)) {
                 animationComponents.remove(animation);
         } else if (component.getType() == ComponentType.CAMERA) {
-            CameraComponent camera = (CameraComponent)component;
-            if (cameraComponent == camera) {
-                EntityManager.remove(cameraComponent);
-                cameraComponent = null;
-            }
+                CameraComponent camera = (CameraComponent)component;
+                if (cameraComponent == camera) {
+                    EntityManager.getInstance().markComponentForRemoval(cameraComponent);
+                    cameraComponent = null;
+                }
         } else if (component.getType() == ComponentType.GRAPHICS) {
-            GraphicsComponent graphics = (GraphicsComponent)component;
-            if (contained(graphics)) {
-                graphicComponents.get(graphics.getLayer()).remove(graphics);
+                GraphicsComponent graphics = (GraphicsComponent)component;
+                if (contained(graphics)) {
+                    graphicComponents.get(graphics.getLayer()).remove(graphics);
+                }
         } else if (component.getType() == ComponentType.FLOATING_TEXT) {
-            FloatingTextComponent floatingText = (FloatingTextComponent)component;
-            if (floatingTextComponents.contains(floatingText))
-                floatingTextComponents.remove(floatingText);
+                FloatingTextComponent floatingText = (FloatingTextComponent) component;
+                if (floatingTextComponents.contains(floatingText)) {
+                    floatingTextComponents.remove(floatingText);
+                }
+            }
         }
     }
  
     public OrthographicCamera getCamera() {
-        if (cameraComponent
+        if (cameraComponent != null) {
             return cameraComponent.getCamera();
         }
         return null;
@@ -158,9 +167,9 @@ public class GraphicsManager extends Manager {
 
     @Override
     protected void loadScreenTypeSettings() {
-        gm.getAssetManager().load(screenType.getPath(), TextureAtlas.class);
+        gm.getAssetManager().load(screenType.getAtlasPath(), TextureAtlas.class);
         gm.getAssetManager().finishLoading();
-        textureAtlas = gm.getAssetManager().get(screenType.getPath());
+        textureAtlas = gm.getAssetManager().get(screenType.getAtlasPath());
         
         setup();
     }

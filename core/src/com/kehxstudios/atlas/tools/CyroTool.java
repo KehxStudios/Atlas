@@ -1,6 +1,18 @@
 package com.kehxstudios.atlas.tools;
 
 
+import com.kehxstudios.atlas.actions.Action;
+import com.kehxstudios.atlas.components.ClickableComponent;
+import com.kehxstudios.atlas.components.Component;
+import com.kehxstudios.atlas.components.GraphicsComponent;
+import com.kehxstudios.atlas.components.InViewComponent;
+import com.kehxstudios.atlas.data.ActionData;
+import com.kehxstudios.atlas.data.ComponentData;
+import com.kehxstudios.atlas.data.EntityData;
+import com.kehxstudios.atlas.entities.Entity;
+import com.kehxstudios.atlas.type.ActionType;
+import com.kehxstudios.atlas.type.ComponentType;
+
 public class CyroTool {
 
     public static EntityData freezeEntity(Entity entity) {
@@ -10,7 +22,7 @@ public class CyroTool {
         entityData.setY(entity.getPosition().y);
         
         for (Component component : entity.getComponents()) {
-            entityData.setString(component.getType().getId(), UtilityTools.getStringFromDataClass(freezeComponent(component)));
+            entityData.putString(component.getType().getId(), UtilityTool.getStringFromDataClass(freezeComponent(component)));
         }
         
         return entityData;
@@ -30,7 +42,7 @@ public class CyroTool {
             componentData.putFloat("width", (((ClickableComponent)component).getWidth()));
             componentData.putFloat("height", (((ClickableComponent)component).getHeight()));
             componentData.putBoolean("singleTarget", (((ClickableComponent)component).isSingleTrigger()));
-            componentData.putString("action", UtilityTool.getStringFromDataClass(createActionData(((ClickableComponent)component).getAction())));
+            componentData.putString("action", UtilityTool.getStringFromDataClass(freezeAction(((ClickableComponent)component).getAction())));
         } else if (component.getType() == ComponentType.FLOATING_TEXT) {
 
         } else if (component.getType() == ComponentType.GRAPHICS) {
@@ -41,7 +53,7 @@ public class CyroTool {
         } else if (component.getType() == ComponentType.IN_VIEW) {
             componentData.putFloat("width", ((InViewComponent)component).getWidth());
             componentData.putFloat("height", ((InViewComponent)component).getHeight());
-            componentData.putString("action", UtilityTool.getStringFromDataClass(createActionData(((InViewComponent)component).getAction())));
+            componentData.putString("action", UtilityTool.getStringFromDataClass(freezeAction(((InViewComponent)component).getAction())));
         } else if (component.getType() == ComponentType.PHYSICS) {
 
 

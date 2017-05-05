@@ -31,7 +31,7 @@ public class DebugTool {
     }
     
     // Prints the title with message
-    private void print(String message) {
+    private static void print(String message) {
         Gdx.app.error(title, message);   
     }
 }

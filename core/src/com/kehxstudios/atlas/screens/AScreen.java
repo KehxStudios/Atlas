@@ -2,6 +2,7 @@ package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.tools.Factory;
@@ -46,7 +47,7 @@ public abstract class AScreen implements Screen {
                   Templates.createGraphicsComponentData(0, 0, 1, TextureType.VOID));
         
         screenCamera = (CameraComponent)Factory.createComponent(screenEntity,
-                  Templates.createCameraComponentData(width, height, false);
+                  Templates.createCameraComponentData(width, height, false));
     }
 
     @Override

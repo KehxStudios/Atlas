@@ -1,6 +1,9 @@
 
 package com.kehxstudios.atlas.screens;
 
+import com.kehxstudios.atlas.managers.ScreenManager;
+import com.kehxstudios.atlas.type.ScreenType;
+
 public class LoadingScreen extends AScreen {
 
     private ScreenType loadingType;
@@ -17,7 +20,7 @@ public class LoadingScreen extends AScreen {
       super.render(delta);
       
       if (finishedLoading) {
-          ScreenManager.getInstance.requestNewScreenType(loadingType);
+          ScreenManager.getInstance().requestNewScreenType(loadingType);
       }
     }
  

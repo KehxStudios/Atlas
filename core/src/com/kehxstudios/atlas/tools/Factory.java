@@ -8,7 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.google.gwt.user.server.Util;
 import com.kehxstudios.atlas.actions.Action;
+import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.data.ActionData;
 import com.kehxstudios.atlas.type.ActionType;
 import com.kehxstudios.atlas.actions.DestroyEntityAction;
@@ -105,14 +107,14 @@ public class Factory {
             } else if (componentType == ComponentType.FLOATING_TEXT) {
                 FloatingTextComponent floatingText = (FloatingTextComponent)component;
                 floatingText.setFont(new BitmapFont());
-                floatingText.setScale(2f);
+                floatingText.setScale(componentData.getFloat("scale", 1));
                 floatingText.setLabel(componentData.getString("label", "-"));
                 floatingText.setText(componentData.getString("text", "-"));
                 floatingText.setLayout(new GlyphLayout(floatingText.getFont(),
                         floatingText.getLabel() + floatingText.getText()));
                 floatingText.getLayout().setText(floatingText.getFont(),
                         floatingText.getLabel() + floatingText.getText(),
-                        Color.BLACK, 0, Align.center, true);
+                        Color.BLACK, 0, Align.left, true);
                 GraphicsManager.getInstance().add(floatingText);
                 return floatingText;
             } else if (componentType == ComponentType.GRAPHICS) {
@@ -188,7 +190,7 @@ public class Factory {
             } else if (actionType == ActionType.MULTI) {
                 MultiAction multi = (MultiAction)action;
                 for (String data : actionData.data.values()) {
-                    multi.addAction(UtilityTools.getActionDataFromString(data);   
+                    multi.addAction(createAction(entity, UtilityTool.getActionDataFromString(data)),99);
                 }
                 return multi;
             } else if (actionType == ActionType.PHYSICS) {
@@ -202,7 +204,7 @@ public class Factory {
                 reposition.setPosition(entity.getPosition());
                 reposition.setActionValue(actionData.getFloat("actionValue_x", 0),
                         actionData.getFloat("actionValue_y", 0));
-                reposition.setTeleportToActionValue(actionData.getBoolean("teleport", false);
+                reposition.setTeleportToActionValue(actionData.getBoolean("teleport", false));
                 return reposition;
             } else if (actionType == ActionType.SCORE) {
                 ScoreAction score = (ScoreAction)action;

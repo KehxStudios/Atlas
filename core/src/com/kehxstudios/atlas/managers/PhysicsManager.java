@@ -26,7 +26,7 @@ public class PhysicsManager extends Manager {
         for (PhysicsComponent physics : physicsComponents) {
             if (physics.isEnabled()) {
                 physics.getVelocity().set(physics.getAcceleration());
-                physics.getAccleration().set(0,0);
+                physics.getAcceleration().set(0,0);
                 physics.getVelocity().scl(delta);
                 physics.movePosition(physics.getVelocity().x, physics.getVelocity().y);
                 // physics.getVelocity().scl(1 / delta);

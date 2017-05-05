@@ -3,6 +3,7 @@ package com.kehxstudios.atlas.type;
 import com.kehxstudios.atlas.screens.AScreen;
 import com.kehxstudios.atlas.screens.FlappyBatScreen;
 import com.kehxstudios.atlas.screens.IntroScreen;
+import com.kehxstudios.atlas.screens.LoadingScreen;
 import com.kehxstudios.atlas.screens.MainMenuScreen;
 
 import java.util.HashMap;

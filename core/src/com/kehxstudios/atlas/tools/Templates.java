@@ -8,6 +8,8 @@ import com.kehxstudios.atlas.data.EntityData;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.type.ScreenType;
 
+import java.util.ArrayList;
+
 /**
  * Created by ReidC on 2017-04-26.
  */
@@ -32,7 +34,7 @@ public class Templates {
         ActionData actionData = new ActionData();
         actionData.type = ActionType.MULTI.getId();
         for (ActionData data : actionsData) {
-            actionData.putString(data.getType().getId(), UtilityTools.getStringFromDataClass(data));
+            actionData.putString(data.getType(), UtilityTool.getStringFromDataClass(data));
         }
         return actionData;
     }
@@ -78,6 +80,7 @@ public class Templates {
     
     public static ComponentData createCameraComponentData(float width, float height, boolean flipped) {
         ComponentData cameraData = createComponentData();
+        cameraData.setType(ComponentType.CAMERA.getId());
         cameraData.putFloat("width", width);
         cameraData.putFloat("height", height);
         cameraData.putBoolean("flipped", flipped);
@@ -110,11 +113,12 @@ public class Templates {
         return clickableData;
     }
 
-    public static ComponentData createFloatingTextComponentData(String label, String text) {
+    public static ComponentData createFloatingTextComponentData(String label, String text, float scale) {
         ComponentData floatingTextData = createComponentData();
         floatingTextData.setType(ComponentType.FLOATING_TEXT.getId());
         floatingTextData.putString("label", label);
         floatingTextData.putString("text", text);
+        floatingTextData.putFloat("scale", scale);
         return floatingTextData;
     }
 

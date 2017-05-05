@@ -21,13 +21,13 @@ public class IntroScreen extends AScreen {
     public IntroScreen() {
         super(ScreenType.INTRO);
 
-        screenGraphics.setTextureType(TextureType.DEV_LOGO);
+        screenGraphics.setTextureType(TextureType.INTRO_DEV_LOGO);
         screenGraphics.setEnabled(true);
         finalLogo = false;
         clickToContinue = false;
 
         // FloatingTextData
-        floatingTextData = Templates.createFloatingTextComponentData(": ", "Click to Continue :");
+        floatingTextData = Templates.createFloatingTextComponentData(": ", "Click to Continue :", 4);
 
         // ClickableData
         clickableData = Templates.createClickableComponentData(width, height, true,
@@ -45,7 +45,7 @@ public class IntroScreen extends AScreen {
             // If index is not on last path
             if (screenTime >= 2f) {
                 if (!finalLogo) {
-                    screenGraphics.setTextureType(TextureType.GAME_LOGO);
+                    screenGraphics.setTextureType(TextureType.INTRO_GAME_LOGO);
                     screenTime = 0f;
                     finalLogo = true;
                 } else if (finalLogo) {
