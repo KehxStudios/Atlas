@@ -31,13 +31,13 @@ public class InputManager extends Manager {
     public void tick(float delta) {
         if (Gdx.input.justTouched() && clickableComponents.size() != 0) {
             Vector3 input = gm.getCamera().unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0));
-            DebugTool.log("Checking Input", input.x+"_" + input.y);
+            // checkClickable(Gdx.input.getX(), Gdx.input.getY());
             checkClickable(input.x, input.y);
         }
     }
 
     private void checkClickable(float x, float y) {
-        DebugTool.log("Checking Clickable", x+"_" + y);
+        DebugTool.log("Checking Clickable", "x : "x+" _ y: " + y);
         //x = x + gm.getCamera().position.x - gm.getCamera().viewportWidth/2;
         //y = y + gm.getCamera().position.y - gm.getCamera().viewportHeight/2;
 
@@ -48,6 +48,7 @@ public class InputManager extends Manager {
                         y > clickable.getPosition().y - clickable.getHeight() / 2 &&
                         y < clickable.getPosition().y + clickable.getHeight() / 2) {
                     clickable.trigger();
+                    DebugTool.log("Clickable Triggered");
                 }
             }
         }
