@@ -46,6 +46,7 @@ public abstract class AScreen implements Screen {
 
         screenCamera = (CameraComponent)Factory.createComponent(screenEntity,
                   Templates.createCameraComponentData(width, height, false));
+        screenCamera.getCamera().setToOrtho(false, width, height);
         screenCamera.update();
         
         screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity, 
@@ -77,12 +78,15 @@ public abstract class AScreen implements Screen {
 
     @Override
     public void resume() {
-        GraphicsManager.getInstance().loadTextureAtlas();
+        GraphicsManager.getInstance().loadTextureAtlas(type);
+        // ScreenManager.getInstance().demandNewScreen(ScreenType.INTRO);
     }
 
     @Override
     public void hide() {
     }
+
+    public ScreenType getType() { return type; }
 
     public float getGraphicsWidth() {
         return Gdx.graphics.getWidth();
@@ -95,6 +99,10 @@ public abstract class AScreen implements Screen {
     public float getWidth() { return width; }
 
     public float getHeight() { return height; }
+
+    public float getScaleWidth() { return Gdx.graphics.getWidth() / width; }
+
+    public float getScaleHeight() { return Gdx.graphics.getHeight() / height; }
 
     public int getScore() { return score; }
 

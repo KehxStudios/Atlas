@@ -10,6 +10,7 @@ import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.type.ComponentType;
+import com.kehxstudios.atlas.type.ScreenType;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.tools.DebugTool;
 
@@ -166,15 +167,15 @@ public class GraphicsManager extends Manager {
         cameraComponent = null;
     }
 
-    public void loadTextureAtlas() {
-        gm.getAssetManager().load(screenType.getAtlasPath(), TextureAtlas.class);
+    public void loadTextureAtlas(ScreenType type) {
+        gm.getAssetManager().load(type.getAtlasPath(), TextureAtlas.class);
         gm.getAssetManager().finishLoading();
-        textureAtlas = gm.getAssetManager().get(screenType.getAtlasPath());
+        textureAtlas = gm.getAssetManager().get(type.getAtlasPath());
     }
     
     @Override
     protected void loadScreenTypeSettings() {
-        loadTextureAtlas();
+        loadTextureAtlas(screenType);
         setup();
     }
 

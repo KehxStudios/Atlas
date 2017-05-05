@@ -16,6 +16,6 @@ public class LaunchScreenAction extends Action {
 
     @Override
     public void trigger() {
-        ScreenManager.getInstance().requestNewScreenType(screenType);
+        ScreenManager.getInstance().requestNewScreen(screenType);
     }
 }

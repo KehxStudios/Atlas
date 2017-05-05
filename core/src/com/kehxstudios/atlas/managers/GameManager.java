@@ -57,9 +57,8 @@ public class GameManager extends Game {
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
 
-		// Request a new Screen be started then tick to trigger launch
-        screenManager.requestNewScreenType(ScreenType.INTRO);
-		screenManager.tick(0);
+		// Demand a new Screen be started now
+        screenManager.demandNewScreen(ScreenType.INTRO);
 	}
 
 	@Override

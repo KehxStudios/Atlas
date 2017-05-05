@@ -1,5 +1,6 @@
 package com.kehxstudios.atlas.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
@@ -43,7 +44,7 @@ public class IntroScreen extends AScreen {
         super.render(delta);
         if (!clickToContinue) {
             // If index is not on last path
-            if (screenTime >= 2f) {
+            if (screenTime >= 2f || screenTime > 1f && Gdx.input.isTouched()) {
                 if (!finalLogo) {
                     screenGraphics.setTextureType(TextureType.INTRO_GAME_LOGO);
                     screenTime = 0f;

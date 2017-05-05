@@ -1,5 +1,6 @@
 package com.kehxstudios.atlas.managers;
 
+import com.kehxstudios.atlas.screens.AScreen;
 import com.kehxstudios.atlas.type.ScreenType;
 
 /**
@@ -9,6 +10,7 @@ import com.kehxstudios.atlas.type.ScreenType;
 public abstract class Manager {
 
     protected GameManager gm;
+    protected AScreen screen;
     protected ScreenType screenType;
 
     public abstract void tick(float delta);
@@ -17,6 +19,9 @@ public abstract class Manager {
         gm = GameManager.getInstance();
         screenType = ScreenType.VOID;
     }
+
+    public AScreen getScreen() { return screen; }
+    public void setScreen(AScreen screen) { this.screen = screen;}
 
     public ScreenType getScreenType() { return screenType; }
     public void setScreenType(ScreenType screenType) { this.screenType = screenType; }

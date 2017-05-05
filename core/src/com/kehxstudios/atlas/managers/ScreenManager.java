@@ -36,21 +36,28 @@ public class ScreenManager extends Manager {
         }
     }
 
-    public void requestNewScreenType(ScreenType newScreenType) {
+    public void requestNewScreen(ScreenType newScreenType) {
+        DebugTool.log("New Screen Requested: "+ newScreenType.getId());
         this.newScreenType = newScreenType;
         loadNewScreenOnTick = true;
-        DebugTool.log("New Screen Requested: "+ newScreenType.getId());
+    }
+
+    public void demandNewScreen(ScreenType newScreenType) {
+        DebugTool.log("New Screen Demanded: "+ newScreenType.getId());
+        this.newScreenType = newScreenType;
+        loadNewScreen();
     }
 
     private void loadNewScreen() {
-        DebugTool.log("New Screen Requested: "+ newScreenType.getId());
+        DebugTool.log("New Screen Loading: "+ newScreenType.getId());
         if (getScreenType() != ScreenType.VOID)
             removeScreenTypeSettings();
         setScreenType(newScreenType);
         setAllManagersScreenTypes();
         loadScreenTypeSettings();
         try {
-            GameManager.getInstance().setScreen((AScreen) ClassReflection.newInstance(screenType.getLoaderClass()));
+            screen = (AScreen)ClassReflection.newInstance(screenType.getLoaderClass());
+            setAllManagersScreens();
             loadNewScreenOnTick = false;
         } catch (ReflectionException e) {
             e.printStackTrace();
@@ -62,6 +69,7 @@ public class ScreenManager extends Manager {
 
     @Override
     protected void loadScreenTypeSettings() {
+        DebugTool.log("Loading ScreenType into Managers: "+ newScreenType.getId());
         EntityManager.getInstance().loadScreenTypeSettings();
         GraphicsManager.getInstance().loadScreenTypeSettings();
         InputManager.getInstance().loadScreenTypeSettings();
@@ -70,6 +78,7 @@ public class ScreenManager extends Manager {
 
     @Override
     protected void removeScreenTypeSettings() {
+        DebugTool.log("Removing ScreenType into Managers: "+ newScreenType.getId());
         EntityManager.getInstance().removeScreenTypeSettings();
         GraphicsManager.getInstance().removeScreenTypeSettings();
         InputManager.getInstance().removeScreenTypeSettings();
@@ -77,9 +86,19 @@ public class ScreenManager extends Manager {
     }
 
     private void setAllManagersScreenTypes() {
+        DebugTool.log("Setting ScreenType in Managers: "+ newScreenType.getId());
         EntityManager.getInstance().setScreenType(screenType);
         GraphicsManager.getInstance().setScreenType(screenType);
         InputManager.getInstance().setScreenType(screenType);
         PhysicsManager.getInstance().setScreenType(screenType);
+    }
+
+    private void setAllManagersScreens() {
+        DebugTool.log("Setting AScreen in Managers: "+ screen.getType().getId());
+        EntityManager.getInstance().setScreen(screen);
+        GraphicsManager.getInstance().setScreen(screen);
+        InputManager.getInstance().setScreen(screen);
+        PhysicsManager.getInstance().setScreen(screen);
+        GameManager.getInstance().setScreen(screen);
     }
 }
