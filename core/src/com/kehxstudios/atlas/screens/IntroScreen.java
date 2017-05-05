@@ -60,20 +60,29 @@ public class IntroScreen extends AScreen {
         }
     }
 
-    @Override
-    public void resize(int width, int height) {}
 
     @Override
-    public void pause() {}
+    public void show() {
+        super.show();
+    }
 
     @Override
-    public void resume() {}
+    public void resize(int width, int height) {
+        super.resize(width, height);
+    }
 
     @Override
-    public void hide() {}
+    public void pause() {
+        super.pause();
+    }
 
     @Override
-    public void dispose() {
-        super.dispose();
+    public void resume() {
+        super.resume();
+    }
+
+    @Override
+    public void hide() {
+        super.hide();
     }
 }
