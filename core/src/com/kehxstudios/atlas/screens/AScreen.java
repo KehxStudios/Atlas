@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
+import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
 import com.kehxstudios.atlas.type.TextureType;
@@ -54,7 +55,7 @@ public abstract class AScreen implements Screen {
     @Override
     public void render(float delta) {
         screenTime += delta;
-        camera.update();
+        screenCamera.update();
     }
 
     @Override

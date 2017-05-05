@@ -38,9 +38,6 @@ public class IntroScreen extends AScreen {
     }
 
     @Override
-    public void show() {}
-
-    @Override
     public void render(float delta) {
         // increase screenTime in super method
         super.render(delta);

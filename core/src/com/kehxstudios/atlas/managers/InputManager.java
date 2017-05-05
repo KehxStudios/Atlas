@@ -37,7 +37,7 @@ public class InputManager extends Manager {
     }
 
     private void checkClickable(float x, float y) {
-        DebugTool.log("Checking Clickable", "x : "x+" _ y: " + y);
+        DebugTool.log("Checking Clickable", "x : "+x+" _ y: " + y);
         //x = x + gm.getCamera().position.x - gm.getCamera().viewportWidth/2;
         //y = y + gm.getCamera().position.y - gm.getCamera().viewportHeight/2;
 
