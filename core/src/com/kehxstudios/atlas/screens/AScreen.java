@@ -63,6 +63,27 @@ public abstract class AScreen implements Screen {
     public float getGraphicsWidth() {
         return Gdx.graphics.getWidth();
     }
+    
+    @Override
+    public void show() {
+    }
+
+    @Override
+    public void resize(int width, int height) {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+        GraphicsManager.getInstance().loadTextureAtlas();
+    }
+
+    @Override
+    public void hide() {
+    }
 
     public float getGraphicsHeight() {
         return Gdx.graphics.getHeight();
