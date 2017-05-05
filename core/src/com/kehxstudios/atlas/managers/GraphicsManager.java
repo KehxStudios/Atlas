@@ -154,6 +154,7 @@ public class GraphicsManager extends Manager {
         
         setup();
     }
+    
             
     private void setup() {
         animationComponents = new ArrayList<AnimationComponent>();
@@ -165,12 +166,15 @@ public class GraphicsManager extends Manager {
         cameraComponent = null;
     }
 
-    @Override
-    protected void loadScreenTypeSettings() {
+    public void loadTextureAtlas() {
         gm.getAssetManager().load(screenType.getAtlasPath(), TextureAtlas.class);
         gm.getAssetManager().finishLoading();
         textureAtlas = gm.getAssetManager().get(screenType.getAtlasPath());
-        
+    }
+    
+    @Override
+    protected void loadScreenTypeSettings() {
+        loadTextureAtlas();
         setup();
     }
 
