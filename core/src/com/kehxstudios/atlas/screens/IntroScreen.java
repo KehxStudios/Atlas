@@ -28,6 +28,9 @@ public class IntroScreen extends AScreen {
 
         // FloatingTextData
         floatingTextData = Templates.createFloatingTextComponentData(": ", "Click to Continue :", 4);
+        floatingTextData.setUseComponentPosition(true);
+        floatingTextData.setX(width/2);
+        floatingTextData.setY(height/5);
 
         // ClickableData
         clickableData = Templates.createClickableComponentData(width, height, true,
