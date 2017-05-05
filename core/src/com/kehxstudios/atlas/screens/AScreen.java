@@ -25,43 +25,41 @@ public abstract class AScreen implements Screen {
     protected float width, height;
 
     protected Entity screenEntity;
-    protected GraphicsComponent screenGraphics;
     protected CameraComponent screenCamera;
+    protected GraphicsComponent screenGraphics;
 
     protected float screenTime;
     protected HighScores highScores;
     protected int score;
 
-    public AScreen(com.kehxstudios.atlas.type.ScreenType type) {
+    public AScreen(ScreenType type) {
         this.type = type;
         gm = GameManager.getInstance();
         width = type.getWidth();
         height = type.getHeight();
         highScores = new HighScores(type);
-        screenTime = 0;
+        screenTime = 0f;
         score = 0;
 
         screenEntity = Factory.createEntity(Templates.createEntityData(width/2, height/2));
 
-        screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity, 
-                  Templates.createGraphicsComponentData(0, 0, 1, TextureType.VOID));
-        
         screenCamera = (CameraComponent)Factory.createComponent(screenEntity,
                   Templates.createCameraComponentData(width, height, false));
+        screenCamera.update();
+        
+        screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity, 
+                  Templates.createGraphicsComponentData(0, 0, 1, TextureType.VOID));
     }
 
     @Override
     public void render(float delta) {
         screenTime += delta;
+        camera.update();
     }
 
     @Override
     public void dispose() {
         highScores.dispose();
-    }
-
-    public float getGraphicsWidth() {
-        return Gdx.graphics.getWidth();
     }
     
     @Override
@@ -85,6 +83,10 @@ public abstract class AScreen implements Screen {
     public void hide() {
     }
 
+    public float getGraphicsWidth() {
+        return Gdx.graphics.getWidth();
+    }
+    
     public float getGraphicsHeight() {
         return Gdx.graphics.getHeight();
     }
