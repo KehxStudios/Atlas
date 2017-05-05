@@ -173,11 +173,10 @@ public class Factory {
             ActionType actionType = ActionType.getTypeById(actionData.getType());
             Action action = (Action) ClassReflection.newInstance(actionType.getLoaderClass());
             action.setType(actionType);
-            DebugTool.log("XX_"+action);
 
             if (actionType == ActionType.DESTROY_ENTITY) {
                 DestroyEntityAction destroyEntity = (DestroyEntityAction)action;
-                // TO BE ADDED
+                destroyEntity.setEntity(entity);
                 return destroyEntity;
             } else if (actionType == ActionType.HIGH_SCORE_RESET) {
                 HighScoreResetAction highScoreReset = (HighScoreResetAction)action;
