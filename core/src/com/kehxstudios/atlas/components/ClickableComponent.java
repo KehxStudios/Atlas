@@ -35,9 +35,12 @@ public class ClickableComponent extends Component {
     public void setAction(Action action) { this.action = action;}
 
     public void trigger() {
-        if (!triggered) {
+        if (!singleTrigger || singleTrigger && !triggered) {
             triggered = true;
+            DebugTool.log("Clickable Triggered");
             action.trigger();
+        } else {
+            DebugTool.log("Failed to trigger", singleTrigger+"");
         }
     }
 }

@@ -25,6 +25,6 @@ public class PhysicsAction extends Action {
 
     @Override
     public void trigger() {
-        physicsComponent.movePosition(triggerValue.x, triggerValue.y);
+        physicsComponent.addAcceleration(triggerValue.x, triggerValue.y);
     }
 }

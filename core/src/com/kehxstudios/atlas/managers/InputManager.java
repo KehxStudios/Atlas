@@ -37,11 +37,12 @@ public class InputManager extends Manager {
     private void checkClickable() {
         float x = screen.getWidth() - Gdx.input.getX() / screen.getScaleWidth();
         float y = screen.getHeight() - Gdx.input.getY() / screen.getScaleHeight();
-        DebugTool.log("Checking Clickable", "x : "+x+" _ y: " + y);
+        DebugTool.log("Checking Input", "x : "+x+" _ y: " + y);
         //Vector3 input = gm.getCamera().unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0));
         //checkClickable(input.x / screen.getScaleWidth(), input.y / screen.getScaleHeight());
-        //x = x + gm.getCamera().position.x - gm.getCamera().viewportWidth/2;
-        //y = y + gm.getCamera().position.y - gm.getCamera().viewportHeight/2;
+        x += screen.getCamera().position.x - screen.getCamera().viewportWidth/2;
+        y += screen.getCamera().position.y - screen.getCamera().viewportHeight/2;
+        DebugTool.log("Checking Clickable", "x : "+x+" _ y: " + y);
 
         for (ClickableComponent clickable : clickableComponents) {
             if (clickable.isEnabled()) {
@@ -50,7 +51,6 @@ public class InputManager extends Manager {
                         y > clickable.getPosition().y - clickable.getHeight() / 2 &&
                         y < clickable.getPosition().y + clickable.getHeight() / 2) {
                     clickable.trigger();
-                    DebugTool.log("Clickable Triggered");
                 }
             }
         }

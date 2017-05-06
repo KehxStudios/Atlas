@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.type.ScreenType;
 
 public class GameManager extends Game {
@@ -61,16 +62,48 @@ public class GameManager extends Game {
         screenManager.demandNewScreen(ScreenType.INTRO);
 	}
 
+	public void reload() {
+		// Set instance to the current one created
+		instance = this;
+
+		// Setup instances of each Manager including AssetManager
+		screenManager = ScreenManager.getInstance();
+		entityManager = EntityManager.getInstance();
+		graphicsManager = GraphicsManager.getInstance();
+		inputManager = InputManager.getInstance();
+		physicsManager = PhysicsManager.getInstance();
+		assetManager = new AssetManager();
+
+		// If running on the Desktop set title, window size and lock, will update for size options later
+		if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+			Gdx.app.getGraphics().setTitle("Atlas");
+			Gdx.graphics.setWindowedMode((int)D_WIDTH, (int)D_HEIGHT);
+			Gdx.graphics.setResizable(false);
+		}
+
+		// Setup Camera and Batch
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera.update();
+		batch = new SpriteBatch();
+		batch.setProjectionMatrix(camera.combined);
+
+		// Demand a new Screen be started now
+		screenManager.demandNewScreen(ScreenType.INTRO);
+
+		DebugTool.log("GameManager.reload() complete");
+	}
+
 	@Override
 	public void render () {
 		// Get the current delta time to pass to Managers
 		float delta = Gdx.graphics.getDeltaTime();
 
+		// render the Screen that is set allowing screen functions
+		super.render();
+
 		// tick InputManager to check for input changes
 		inputManager.tick(delta);
-
-		// render the Screen that is set allowing screen functions
-        super.render();
 
 		// tick PhysicsManager to change any locations by the means of physics
 		physicsManager.tick(delta);
@@ -107,5 +140,9 @@ public class GameManager extends Game {
 		return batch;
 	}
 
+	public void setBatch(SpriteBatch batch) { this.batch = batch; }
+
 	public AssetManager getAssetManager() { return assetManager; }
+
+	public ScreenManager getScreenManager() { return screenManager; }
 }

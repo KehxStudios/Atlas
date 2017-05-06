@@ -2,6 +2,7 @@ package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
@@ -82,7 +83,7 @@ public abstract class AScreen implements Screen {
     public void resume() {
         // GraphicsManager.getInstance().loadTextureAtlas(type);
         DebugTool.log("loadedAssets_"+gm.getAssetManager().getLoadedAssets());
-        ScreenManager.getInstance().demandNewScreen(ScreenType.INTRO);
+        gm.reload();
     }
 
     @Override
@@ -90,6 +91,8 @@ public abstract class AScreen implements Screen {
     }
 
     public ScreenType getType() { return type; }
+
+    public OrthographicCamera getCamera() { return screenCamera.getCamera(); }
 
     public float getGraphicsWidth() {
         return Gdx.graphics.getWidth();

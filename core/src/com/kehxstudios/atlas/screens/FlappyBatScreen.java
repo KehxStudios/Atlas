@@ -34,9 +34,9 @@ public class FlappyBatScreen extends AScreen {
     private static final int GROUND_WIDTH = 366;
     
     private static final float BAT_X_MOVEMENT = 100;
-    private static final float BAT_Y_JUMP = 200;
+    private static final float BAT_Y_JUMP = 1000;
 
-    private static final float GRAVITY = -20;
+    private static final float GRAVITY = -70;
 
     private Entity batEntity;
     private Entity ground1Entity, ground2Entity;
@@ -93,6 +93,23 @@ public class FlappyBatScreen extends AScreen {
         score = 0;
     }
 
+    @Override
+    public void render(float delta) {
+        if (batPhysics.hasCollided()) {
+            resetScreen();
+        }
+
+        screenEntity.setPosition(batEntity.getPosition().x + 80, height/2);
+        batPhysics.setAcceleration(BAT_X_MOVEMENT, GRAVITY);
+
+        updateGround();
+
+        batCurrentX = batEntity.getPosition().x;
+        score = (int)(batCurrentX - batStartX);
+
+        super.render(delta);
+    }
+
     private void resetScreen() {
         highScores.addToHighScores("Test",score);
         
@@ -105,23 +122,6 @@ public class FlappyBatScreen extends AScreen {
         batStartX = batEntity.getPosition().x;
         batCurrentX = batStartX;
         score = 0;
-    }
-
-    @Override
-    public void render(float delta) {
-        if (batPhysics.hasCollided()) {
-            resetScreen();
-        }
-
-        screenEntity.setPosition(batEntity.getPosition().x - 80, height/2);
-        batPhysics.addAcceleration(BAT_X_MOVEMENT, GRAVITY);
-
-        updateGround();
-
-        batCurrentX = batEntity.getPosition().x;
-        score = (int)(batCurrentX - batStartX);
-
-        super.render(delta);
     }
 
     private void updateGround() {
