@@ -30,9 +30,9 @@ public class InputManager extends Manager {
 
     public void tick(float delta) {
         if (Gdx.input.justTouched() && clickableComponents.size() != 0) {
-            Vector3 input = gm.getCamera().unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0));
-            // checkClickable(Gdx.input.getX(), Gdx.input.getY());
-            checkClickable(input.x / screen.getScaleWidth(), input.y / screen.getScaleHeight());
+            //Vector3 input = gm.getCamera().unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0));
+            //checkClickable(input.x / screen.getScaleWidth(), input.y / screen.getScaleHeight());
+            checkClickable(Gdx.input.getX() / screen.getScaleWidth(), Gdx.input.getY() / screen.getScaleHeight());
         }
     }
 
