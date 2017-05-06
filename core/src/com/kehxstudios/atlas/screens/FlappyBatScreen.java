@@ -33,7 +33,10 @@ public class FlappyBatScreen extends AScreen {
     private static final int GROUND_Y_OFFSET = 25;
     private static final int GROUND_WIDTH = 366;
     
-    private static final float BAT_MOVEMENT = 300;
+    private static final float BAT_X_MOVEMENT = 100;
+    private static final float BAT_Y_JUMP = 200;
+
+    private static final float GRAVITY = -20;
 
     private Entity batEntity;
     private Entity ground1Entity, ground2Entity;
@@ -56,10 +59,10 @@ public class FlappyBatScreen extends AScreen {
         ComponentData batPhysicsData = Templates.createPhysicsComponentData(100, 300, 100, 300, batGraphics.getWidth(),
                 batGraphics.getHeight(), true);
         batPhysics = (PhysicsComponent)Factory.createComponent(batEntity, batPhysicsData);
-        ActionData batPhysicsAction = Templates.createPhysicsActionData(0, 300);
+        ActionData batPhysicsAction = Templates.createPhysicsActionData(0, BAT_Y_JUMP);
         ComponentData batClickableData = Templates.createClickableComponentData(width, height, false, batPhysicsAction);
-        //ClickableComponent batClickable = (ClickableComponent)Factory.createComponent(screenEntity, batClickableData);
-        //((PhysicsAction)batClickable.getAction()).setPhysicsComponent(batPhysics);
+        ClickableComponent batClickable = (ClickableComponent)Factory.createComponent(screenEntity, batClickableData);
+        ((PhysicsAction)batClickable.getAction()).setPhysicsComponent(batPhysics);
 
         ComponentData groundGraphicsData = Templates.createGraphicsComponentData(0, 0, 1, TextureType.FLAPPY_BAT_GROUND);
 
@@ -110,8 +113,8 @@ public class FlappyBatScreen extends AScreen {
             resetScreen();
         }
 
-        screenEntity.setPosition(batEntity.getPosition().x, height/2);
-        batPhysics.addAcceleration(BAT_MOVEMENT, 0);
+        screenEntity.setPosition(batEntity.getPosition().x - 80, height/2);
+        batPhysics.addAcceleration(BAT_X_MOVEMENT, GRAVITY);
 
         updateGround();
 

@@ -25,7 +25,7 @@ public class MainMenuScreen extends AScreen {
         Entity flappyBird = Factory.createEntity(Templates.createEntityData(width/2, height/5*4));
         GraphicsComponent menuComponent = (GraphicsComponent)Factory.createComponent(flappyBird, borderGraphics);
         Factory.createComponent(flappyBird, Templates.createClickableComponentData(
-                width*2, height*2, true, Templates.createLaunchScreenActionData(ScreenType.FLAPPY_BAT)));
+                menuComponent.getWidth(), menuComponent.getHeight(), true, Templates.createLaunchScreenActionData(ScreenType.FLAPPY_BAT)));
         Factory.createComponent(flappyBird, Templates.createFloatingTextComponentData("< ", "Flappy Bird >", 3));
 
         Entity intro = Factory.createEntity(Templates.createEntityData(width/2, height/5*3));

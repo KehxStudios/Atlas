@@ -6,6 +6,8 @@ import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.managers.GraphicsManager;
+import com.kehxstudios.atlas.managers.ScreenManager;
+import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
 import com.kehxstudios.atlas.type.TextureType;
@@ -78,8 +80,9 @@ public abstract class AScreen implements Screen {
 
     @Override
     public void resume() {
-        GraphicsManager.getInstance().loadTextureAtlas(type);
-        // ScreenManager.getInstance().demandNewScreen(ScreenType.INTRO);
+        // GraphicsManager.getInstance().loadTextureAtlas(type);
+        DebugTool.log("loadedAssets_"+gm.getAssetManager().getLoadedAssets());
+        ScreenManager.getInstance().demandNewScreen(ScreenType.INTRO);
     }
 
     @Override
@@ -91,7 +94,7 @@ public abstract class AScreen implements Screen {
     public float getGraphicsWidth() {
         return Gdx.graphics.getWidth();
     }
-    
+
     public float getGraphicsHeight() {
         return Gdx.graphics.getHeight();
     }
