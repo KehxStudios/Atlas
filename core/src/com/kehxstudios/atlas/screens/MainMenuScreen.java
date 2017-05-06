@@ -22,19 +22,19 @@ public class MainMenuScreen extends AScreen {
 
         ComponentData borderGraphics = Templates.createGraphicsComponentData(0, 0, 3, TextureType.MAIN_MENU_BORDER);
 
-        Entity flappyBird = Factory.createEntity(Templates.createEntityData(width/2, height/5*2));
+        Entity flappyBird = Factory.createEntity(Templates.createEntityData(width/2, height/5*4));
         GraphicsComponent menuComponent = (GraphicsComponent)Factory.createComponent(flappyBird, borderGraphics);
         Factory.createComponent(flappyBird, Templates.createClickableComponentData(
                 width*2, height*2, true, Templates.createLaunchScreenActionData(ScreenType.FLAPPY_BAT)));
         Factory.createComponent(flappyBird, Templates.createFloatingTextComponentData("< ", "Flappy Bird >", 3));
 
-        Entity intro = Factory.createEntity(Templates.createEntityData(width, height/5*3));
+        Entity intro = Factory.createEntity(Templates.createEntityData(width/2, height/5*3));
         Factory.createComponent(intro, borderGraphics);
         Factory.createComponent(intro, Templates.createClickableComponentData(
                 menuComponent.getWidth(), menuComponent.getHeight(), true, Templates.createLaunchScreenActionData(ScreenType.INTRO)));
         Factory.createComponent(intro, Templates.createFloatingTextComponentData("< ", "Intro >", 3));
 
-        Entity highScoreReset = Factory.createEntity(Templates.createEntityData(width, height/5*4));
+        Entity highScoreReset = Factory.createEntity(Templates.createEntityData(width/2, height/5*2));
         Factory.createComponent(highScoreReset, borderGraphics);
         Factory.createComponent(highScoreReset, Templates.createClickableComponentData(
                 menuComponent.getWidth(), menuComponent.getHeight(), false, Templates.createHighScoreResetActionData(ScreenType.FLAPPY_BAT)));
@@ -70,7 +70,6 @@ public class MainMenuScreen extends AScreen {
     public void hide() {
         super.hide();
     }
-
 
     @Override
     public void dispose() {

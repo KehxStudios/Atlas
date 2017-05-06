@@ -92,6 +92,7 @@ public class Factory {
                 camera.setWidth(componentData.getFloat("width", 0));
                 camera.setHeight(componentData.getFloat("height", 0));
                 camera.setFlipped(componentData.getBoolean("flipped", false));
+                camera.getCamera().setToOrtho(camera.isFlipped(), camera.getWidth(), camera.getHeight());
                 camera.update();
                 GraphicsManager.getInstance().add(camera);
                 return camera;

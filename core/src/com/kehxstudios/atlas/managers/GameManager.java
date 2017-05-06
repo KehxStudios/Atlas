@@ -107,9 +107,5 @@ public class GameManager extends Game {
 		return batch;
 	}
 
-	public OrthographicCamera getCamera() {
-		return camera;
-	}
-
 	public AssetManager getAssetManager() { return assetManager; }
 }

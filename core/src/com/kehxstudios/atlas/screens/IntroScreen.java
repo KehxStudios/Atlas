@@ -28,7 +28,7 @@ public class IntroScreen extends AScreen {
         clickToContinue = false;
 
         // FloatingTextData
-        floatingTextData = Templates.createFloatingTextComponentData(": ", "Click to Continue :", 4);
+        floatingTextData = Templates.createFloatingTextComponentData(">", "Click to Continue", 3);
         floatingTextData.setUseComponentPosition(true);
         floatingTextData.setX(width/2);
         floatingTextData.setY(height/5);
@@ -44,7 +44,7 @@ public class IntroScreen extends AScreen {
         super.render(delta);
         if (!clickToContinue) {
             // If index is not on last path
-            if (screenTime >= 2f || screenTime > 1f && Gdx.input.isTouched()) {
+            if (screenTime >= 2f || screenTime > 0.5f && Gdx.input.isTouched()) {
                 if (!finalLogo) {
                     screenGraphics.setTextureType(TextureType.INTRO_GAME_LOGO);
                     screenTime = 0f;

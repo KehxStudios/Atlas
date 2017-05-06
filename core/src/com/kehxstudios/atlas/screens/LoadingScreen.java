@@ -20,7 +20,7 @@ public class LoadingScreen extends AScreen {
       super.render(delta);
       
       if (finishedLoading) {
-          ScreenManager.getInstance().requestNewScreenType(loadingType);
+          ScreenManager.getInstance().requestNewScreen(loadingType);
       }
     }
  

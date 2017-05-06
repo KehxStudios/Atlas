@@ -58,8 +58,8 @@ public class FlappyBatScreen extends AScreen {
         batPhysics = (PhysicsComponent)Factory.createComponent(batEntity, batPhysicsData);
         ActionData batPhysicsAction = Templates.createPhysicsActionData(0, 300);
         ComponentData batClickableData = Templates.createClickableComponentData(width, height, false, batPhysicsAction);
-        ClickableComponent batClickable = (ClickableComponent)Factory.createComponent(screenEntity, batClickableData);
-        ((PhysicsAction)batClickable.getAction()).setPhysicsComponent(batPhysics);
+        //ClickableComponent batClickable = (ClickableComponent)Factory.createComponent(screenEntity, batClickableData);
+        //((PhysicsAction)batClickable.getAction()).setPhysicsComponent(batPhysics);
 
         ComponentData groundGraphicsData = Templates.createGraphicsComponentData(0, 0, 1, TextureType.FLAPPY_BAT_GROUND);
 
@@ -106,30 +106,27 @@ public class FlappyBatScreen extends AScreen {
 
     @Override
     public void render(float delta) {
-        super.render(delta);
         if (batPhysics.hasCollided()) {
             resetScreen();
         }
-        
+
+        screenEntity.setPosition(batEntity.getPosition().x, height/2);
         batPhysics.addAcceleration(BAT_MOVEMENT, 0);
 
         updateGround();
 
-        gm.getCamera().position.x = batEntity.getPosition().x + 80;
-        gm.getCamera().update();
-
-        screenEntity.setPosition(gm.getCamera().position.x, gm.getCamera().position.y);
-
         batCurrentX = batEntity.getPosition().x;
         score = (int)(batCurrentX - batStartX);
+
+        super.render(delta);
     }
 
     private void updateGround() {
-        if(gm.getCamera().position.x - (
-                gm.getCamera().viewportWidth / 2) > ground1Entity.getPosition().x + GROUND_WIDTH/2)
+        if(screenEntity.getPosition().x - (
+                width / 2) > ground1Entity.getPosition().x + GROUND_WIDTH/2)
             ground1Entity.movePosition(GROUND_WIDTH * 2,0);
-        if(gm.getCamera().position.x - (
-                gm.getCamera().viewportWidth / 2) > ground2Entity.getPosition().x + GROUND_WIDTH/2)
+        if(screenEntity.getPosition().x - (
+                width / 2) > ground2Entity.getPosition().x + GROUND_WIDTH/2)
             ground2Entity.movePosition(GROUND_WIDTH * 2,0);
     }
 
