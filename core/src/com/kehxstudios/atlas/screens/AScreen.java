@@ -53,7 +53,7 @@ public abstract class AScreen implements Screen {
         screenCamera.update();
         
         screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity, 
-                  Templates.createGraphicsComponentData(0, 0, 1, TextureType.VOID));
+                  Templates.createGraphicsComponentData(0, 0, 0, TextureType.VOID));
     }
 
     @Override
@@ -65,29 +65,35 @@ public abstract class AScreen implements Screen {
     @Override
     public void dispose() {
         highScores.dispose();
+        DebugTool.log("SCREEN_DISPOSAL");
     }
     
     @Override
     public void show() {
+        DebugTool.log("SCREEN_SHOW");
     }
 
     @Override
     public void resize(int width, int height) {
+        DebugTool.log("SCREEN_RESIZE");
     }
 
     @Override
     public void pause() {
+        DebugTool.log("SCREEN_PAUSE");
     }
 
     @Override
     public void resume() {
+        DebugTool.log("SCREEN_RESUME");
         // GraphicsManager.getInstance().loadTextureAtlas(type);
-        DebugTool.log("loadedAssets_"+gm.getAssetManager().getLoadedAssets());
-        gm.reload();
+        //DebugTool.log("loadedAssets_"+gm.getAssetManager().getLoadedAssets());
+        //gm.reload();
     }
 
     @Override
     public void hide() {
+        DebugTool.log("SCREEN_HIDE");
     }
 
     public ScreenType getType() { return type; }

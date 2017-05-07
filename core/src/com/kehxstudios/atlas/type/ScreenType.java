@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 public enum ScreenType {
 
-    INTRO("Intro", "texturePacks/intro.atlas", 512, 910, IntroScreen.class),
+    INTRO("Intro", "texturePacks/intro.atlas", 1080, 1920, IntroScreen.class),
     MAIN_MENU("Main Menu", "texturePacks/mainMenu.atlas", 1440, 2560, MainMenuScreen.class),
     FLAPPY_BAT("Flappy Bat", "texturePacks/flappyBat.atlas", 240, 400, FlappyBatScreen.class),
     GENE_ROCKETS("Gene Rockets", "texturePacks/geneRockets.atlas", 512, 910, AScreen.class), // FUTURE SCREEN

@@ -38,11 +38,19 @@ public class PhysicsComponent extends Component {
     public Vector2 getVelocity() { return velocity; }
     public void setVelocity(float x, float y) { velocity.set(x,y); }
     public void addVelocity(float x, float y) { velocity.add(x,y); }
+    public void setXVelocity(float x) { velocity.x = x; }
+    public void setYVelocity(float y) { velocity.y = y; }
+    public void addXVelocity(float x) { velocity.x += x; }
+    public void addYVelocity(float y) { velocity.y += y; }
 
     public Vector2 getMaxVelocity() { return maxVelocity; }
     public void setMaxVelocity(float x, float y) { maxVelocity.set(x,y); }
 
-    public Rectangle getBounds() { return bounds; };
+    public Rectangle getBounds() {
+        bounds.setX(getPosition().x - bounds.width/2);
+        bounds.setY(getPosition().y - bounds.height/2);
+        return bounds;
+    };
     public void setBounds(Rectangle bounds) { this.bounds = bounds; }
     public void moveBounds(float x, float y) {
         bounds.setX(bounds.x + x);

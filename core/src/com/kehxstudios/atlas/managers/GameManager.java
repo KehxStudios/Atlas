@@ -60,6 +60,8 @@ public class GameManager extends Game {
 
 		// Demand a new Screen be started now
         screenManager.demandNewScreen(ScreenType.INTRO);
+
+		DebugTool.log("GameManager.create() complete");
 	}
 
 	public void reload() {

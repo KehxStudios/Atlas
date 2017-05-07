@@ -40,7 +40,7 @@ public class Component {
     public Vector2 getPosition() {
         if (useComponentPosition) {
             if (usePositionAsOffset) {
-                return position.add(entity.getPosition());
+                return new Vector2(position).add(entity.getPosition());
             } else {
                 return position;   
             }

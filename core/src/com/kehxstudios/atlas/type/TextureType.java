@@ -8,8 +8,8 @@ import java.util.HashMap;
 
 public enum TextureType {
 
-    INTRO_DEV_LOGO("IntroDevLogo", "devLogo", 512, 512),
-    INTRO_GAME_LOGO("IntroGameLogo","gameLogo", 512, 512),
+    INTRO_DEV_LOGO("IntroDevLogo", "devLogo", 700, 200),
+    INTRO_GAME_LOGO("IntroGameLogo","gameLogo", 360, 360),
 
     MAIN_MENU_BACKGROUND("MainMenuBackground", "background", 1440, 2560),
     MAIN_MENU_BORDER("MainMenuBorder", "menuBorder", 625, 435),

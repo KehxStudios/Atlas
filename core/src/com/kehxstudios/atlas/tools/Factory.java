@@ -151,9 +151,10 @@ public class Factory {
                         componentData.getFloat("velocity_y", 0));
                 physics.setMaxVelocity(componentData.getFloat("maxVelocity_x", 0),
                         componentData.getFloat("maxVelocity_y", 0));
-                physics.setBounds( new Rectangle(componentData.getFloat("bounds_x", 0),
-                        componentData.getFloat("bounds_y", 0), componentData.getFloat("bounds_width", 0),
-                        componentData.getFloat("bounds_height", 0)));
+                float width = componentData.getFloat("bounds_width", 0);
+                float height = componentData.getFloat("bounds_height", 0);
+                physics.setBounds( new Rectangle(entity.getPosition().x - width/2,
+                        entity.getPosition().y - height/2, width, height));
                 physics.setCollidable(componentData.getBoolean("collidable", false));
                 physics.setCollided(componentData.getBoolean("collided", false));
                 PhysicsManager.getInstance().add(physics);

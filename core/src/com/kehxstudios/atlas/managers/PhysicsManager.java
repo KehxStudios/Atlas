@@ -25,7 +25,7 @@ public class PhysicsManager extends Manager {
     public void tick(float delta) {
         for (PhysicsComponent physics : physicsComponents) {
             if (physics.isEnabled()) {
-                physics.getVelocity().set(physics.getAcceleration());
+                //physics.getVelocity().set(physics.getAcceleration());
                 //physics.getAcceleration().set(0,0);
                 physics.getVelocity().scl(delta);
                 physics.movePosition(physics.getVelocity().x, physics.getVelocity().y);
@@ -39,7 +39,10 @@ public class PhysicsManager extends Manager {
         }
         for (PhysicsComponent physic : physicsComponents) {
             if (physic.isEnabled() && physic.collidable && physic != player) {
-                physic.collided = player.bounds.overlaps(physic.bounds);
+                if (player.getBounds().overlaps(physic.getBounds())) {
+                    DebugTool.log("Collision");
+                    player.setCollided(true);
+                }
             }
         }
 
