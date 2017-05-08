@@ -118,21 +118,21 @@ public class FlappyBatScreen extends AScreen {
         highScore = highScores.getHighScore();
 
         scoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.createFloatingTextComponentData("Score", score+"", 2));
+                Templates.createFloatingTextComponentData("Score", score+"", 1));
         scoreText.setUsePositionAsOffset(true);
-        scoreText.setPosition(0, -height/2 + 50);
+        scoreText.setPosition(0, -height/2 + 60);
 
 
         lowScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.createFloatingTextComponentData("Low-Score", lowScore+"", 2));
+                Templates.createFloatingTextComponentData("Low-Score", lowScore+"", 1));
         lowScoreText.setUsePositionAsOffset(true);
-        lowScoreText.setPosition(0, -height/2 + 30);
+        lowScoreText.setPosition(0, -height/2 + 40);
 
 
         highScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.createFloatingTextComponentData("High-Score", highScore+"", 2));
+                Templates.createFloatingTextComponentData("High-Score", highScore+"", 1));
         highScoreText.setUsePositionAsOffset(true);
-        highScoreText.setPosition(0, -height/2 + 10);
+        highScoreText.setPosition(0, -height/2 + 20);
     }
 
     public float tubeRandomY() {
@@ -155,6 +155,7 @@ public class FlappyBatScreen extends AScreen {
         batCurrentX = batEntity.getPosition().x;
         score = (int)(batCurrentX - batStartX);
         scoreText.setText(score+"");
+        DebugTool.log("score: " + score);
 
         super.render(delta);
     }
