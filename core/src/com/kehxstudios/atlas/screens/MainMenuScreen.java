@@ -2,6 +2,7 @@ package com.kehxstudios.atlas.screens;
 
 import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
+import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
 import com.kehxstudios.atlas.type.TextureType;
@@ -50,7 +51,7 @@ public class MainMenuScreen extends AScreen {
         super.render(delta);
         
         if (screenTime >= 5f) {
-            ScreenManager.getInstance().requestNewScreen(ScreenType.INTRO);   
+            ScreenManager.getInstance().requestNewScreen(ScreenType.INTRO);
         }
     }
 
