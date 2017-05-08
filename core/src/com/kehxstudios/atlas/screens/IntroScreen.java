@@ -16,9 +16,6 @@ public class IntroScreen extends AScreen {
     private boolean finalLogo;
     private boolean clickToContinue;
 
-    private ComponentData floatingTextData;
-    private ComponentData clickableData;
-
     public IntroScreen() {
         super(ScreenType.INTRO);
 
@@ -26,16 +23,6 @@ public class IntroScreen extends AScreen {
         screenGraphics.setEnabled(true);
         finalLogo = false;
         clickToContinue = false;
-
-        // FloatingTextData
-        floatingTextData = Templates.createFloatingTextComponentData(">", "Click to Continue", 3);
-        floatingTextData.setUseComponentPosition(true);
-        floatingTextData.setX(width/2);
-        floatingTextData.setY(height/5);
-
-        // ClickableData
-        clickableData = Templates.createClickableComponentData(width, height, true,
-                Templates.createLaunchScreenActionData(ScreenType.MAIN_MENU));
     }
 
     @Override
@@ -44,18 +31,31 @@ public class IntroScreen extends AScreen {
         super.render(delta);
         if (!clickToContinue) {
             // If index is not on last path
-            if (screenTime >= 2f || screenTime > 0.5f && Gdx.input.isTouched()) {
+            if (screenTime >= 2f || screenTime > 1f && Gdx.input.isTouched()) {
                 if (!finalLogo) {
                     screenGraphics.setTextureType(TextureType.INTRO_GAME_LOGO);
                     screenTime = 0f;
                     finalLogo = true;
                 } else if (finalLogo) {
-                    Factory.createComponent(screenEntity, clickableData);
-                    Factory.createComponent(screenEntity, floatingTextData);
+                    createFinalComponents();
                     clickToContinue = true;
                 }
             }
         }
+    }
+    
+    public void createFinalComponents() {
+        // FloatingText
+        ComponentData floatingTextData = Templates.createFloatingTextComponentData("", "Click to Continue", 3);
+        floatingTextData.setUseComponentPosition(true);
+        floatingTextData.setX(width/2);
+        floatingTextData.setY(height/5);
+        Factory.createComponent(screenEntity, floatingTextData);
+        
+        // Clickable
+        ComponentData clickableData = Templates.createClickableComponentData(width, height, true,
+                Templates.createLaunchScreenActionData(ScreenType.MAIN_MENU));
+        Factory.createComponent(screenEntity, clickableData);
     }
 
 
