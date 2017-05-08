@@ -104,6 +104,8 @@ public class HighScores {
         names[scorePosition] = name;
         scores[scorePosition] = score;
         dates[scorePosition] = (new Date(TimeUtils.millis())).toString();
+
+        saveScores();
     }
 
     public int getLowScore() {
@@ -112,14 +114,6 @@ public class HighScores {
 
     public int getHighScore() {
         return scores[0];
-    }
-
-    public boolean withinTopTen(int score) {
-        if (score > scores[size-1]) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public void dispose() {

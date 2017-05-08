@@ -1,5 +1,6 @@
 package com.kehxstudios.atlas.screens;
 
+import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.data.ActionData;
 import com.kehxstudios.atlas.actions.PhysicsAction;
 import com.kehxstudios.atlas.components.ClickableComponent;
@@ -26,12 +27,13 @@ public class FlappyBatScreen extends AScreen {
 
     private static final int TUBE_SPACING = 125;
     private static final int TUBE_COUNT = 3;
-    public static final int TUBE_WIDTH = 52;
-    public static final int TUBE_HEIGHT = 320;
+    private static final int TUBE_WIDTH = 52;
+    private static final int TUBE_HEIGHT = 320;
     private static final int TUBE_FLUCTUATION = 150;
     private static final int TUBE_GAP = 100;
     private static final int TUBE_LOWEST_OPENING = 175;
-    
+
+    private static final int GROUND_COUNT = 2;
     private static final int GROUND_Y_OFFSET = 25;
     private static final int GROUND_WIDTH = 366;
     
@@ -41,11 +43,14 @@ public class FlappyBatScreen extends AScreen {
     private static final float GRAVITY = -15;
 
     private Entity batEntity;
-    private Entity ground1Entity, ground2Entity;
+    private ArrayList<Entity> grounds;
     private ArrayList<Entity> tubes;
 
     private PhysicsComponent batPhysics;
     private float batStartX, batCurrentX;
+
+    private int lowScore, highScore;
+    private FloatingTextComponent scoreText, lowScoreText, highScoreText;
 
     private Random random = new Random();
 
@@ -68,18 +73,17 @@ public class FlappyBatScreen extends AScreen {
         ((PhysicsAction)batClickable.getAction()).setPhysicsComponent(batPhysics);
 
         ComponentData groundGraphicsData = Templates.createGraphicsComponentData(0, 0, 2, TextureType.FLAPPY_BAT_GROUND);
-
-        ground1Entity = Factory.createEntity(Templates.createEntityData(0,GROUND_Y_OFFSET));
-
-        GraphicsComponent groundGraphics = (GraphicsComponent)Factory.createComponent(ground1Entity, groundGraphicsData);
         ComponentData groundPhysicsData = Templates.createPhysicsComponentData(0, 0, 0, 0,  TextureType.FLAPPY_BAT_GROUND.getWidth(),
                 TextureType.FLAPPY_BAT_GROUND.getHeight(), true);
-        Factory.createComponent(ground1Entity, groundPhysicsData);
 
-        ground2Entity = Factory.createEntity(Templates.createEntityData(GROUND_WIDTH, GROUND_Y_OFFSET));
+        grounds = new ArrayList<Entity>();
 
-        Factory.createComponent(ground2Entity, groundGraphicsData);
-        Factory.createComponent(ground2Entity, groundPhysicsData);
+        for (int i = 0; i < GROUND_COUNT; i++) {
+            Entity ground = Factory.createEntity(Templates.createEntityData(0,GROUND_Y_OFFSET));
+            Factory.createComponent(ground, groundGraphicsData);
+            Factory.createComponent(ground, groundPhysicsData);
+            grounds.add(ground);
+        }
 
         ComponentData tubeGraphicsData = Templates.createGraphicsComponentData(0, 0, 1, TextureType.FLAPPY_BAT_WALL);
         ComponentData tubePhysicsData = Templates.createPhysicsComponentData(0, 0, 0, 0, TextureType.FLAPPY_BAT_WALL.getWidth(),
@@ -110,27 +114,34 @@ public class FlappyBatScreen extends AScreen {
 
         batStartX = batEntity.getPosition().x;
         batCurrentX = batStartX;
-        score = 0;
+        lowScore = highScores.getLowScore();
+        highScore = highScores.getHighScore();
+
+        scoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
+                Templates.createFloatingTextComponentData("Score", score+"", 2));
+        scoreText.setUsePositionAsOffset(true);
+        scoreText.setPosition(0, -height/2 + 50);
+
+
+        lowScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
+                Templates.createFloatingTextComponentData("Low-Score", lowScore+"", 2));
+        lowScoreText.setUsePositionAsOffset(true);
+        lowScoreText.setPosition(0, -height/2 + 30);
+
+
+        highScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
+                Templates.createFloatingTextComponentData("High-Score", highScore+"", 2));
+        highScoreText.setUsePositionAsOffset(true);
+        highScoreText.setPosition(0, -height/2 + 10);
     }
 
     public float tubeRandomY() {
         return random.nextFloat() * TUBE_FLUCTUATION + TUBE_LOWEST_OPENING;
     }
 
-    public boolean isOutsideOfMap() {
-        if (batEntity.getPosition().x < screenEntity.getPosition().x - width /2 ||
-                batEntity.getPosition().x > screenEntity.getPosition().x + width/2 ||
-                batEntity.getPosition().y < GROUND_Y_OFFSET * 2 ||
-                batEntity.getPosition().y > height) {
-            return true;
-        }
-        return false;
-    }
-
-
     @Override
     public void render(float delta) {
-        if (batPhysics.hasCollided() || isOutsideOfMap()) {
+        if (batPhysics.hasCollided() || batEntity.getPosition().y > height) {
             resetScreen();
         }
 
@@ -143,22 +154,28 @@ public class FlappyBatScreen extends AScreen {
 
         batCurrentX = batEntity.getPosition().x;
         score = (int)(batCurrentX - batStartX);
-
+        scoreText.setText(score+"");
 
         super.render(delta);
     }
 
     private void resetScreen() {
-        highScores.addToHighScores("Test",score);
+        if (score > lowScore) {
+            highScores.addToHighScores("Test",score);
+            lowScore = highScores.getLowScore();
+            lowScoreText.setText(lowScore+"");
+            highScore = highScores.getHighScore();
+            highScoreText.setText(highScore+"");
+        }
         
         screenEntity.setPosition(width/2, height/2);
 
         batEntity.setPosition(width/4, height/2);
         batPhysics.setVelocity(0,0);
         batPhysics.setCollided(false);
-        ground1Entity.setPosition(0, GROUND_Y_OFFSET);
-        ground2Entity.setPosition(GROUND_WIDTH, GROUND_Y_OFFSET);
-
+        for (int i = 0; i < GROUND_COUNT; i++) {
+            grounds.get(i).setPosition(i * GROUND_WIDTH, GROUND_Y_OFFSET);
+        }
         for (int i = 0; i < TUBE_COUNT; i++) {
             tubes.get(i).setPosition(screenEntity.getPosition().x + 100 + i * TUBE_SPACING, tubeRandomY());
         }
@@ -178,12 +195,12 @@ public class FlappyBatScreen extends AScreen {
     }
 
     private void updateGround() {
-        if(screenEntity.getPosition().x - (
-                width / 2) > ground1Entity.getPosition().x + GROUND_WIDTH/2)
-            ground1Entity.movePosition(GROUND_WIDTH * 2,0);
-        if(screenEntity.getPosition().x - (
-                width / 2) > ground2Entity.getPosition().x + GROUND_WIDTH/2)
-            ground2Entity.movePosition(GROUND_WIDTH * 2,0);
+        for (Entity ground : grounds) {
+            if(screenEntity.getPosition().x - (width / 2) >
+                    ground.getPosition().x + GROUND_WIDTH/2) {
+                ground.movePosition(GROUND_WIDTH * GROUND_COUNT, 0);
+            }
+        }
     }
 
     @Override
@@ -210,50 +227,5 @@ public class FlappyBatScreen extends AScreen {
     public void hide() {
         super.hide();
     }
-
-        /*
-        tubes = new ArrayList<Entity>();
-
-        for(int i = 0; i < TUBE_COUNT; i++) {
-            Entity tube = new Entity(i * (TUBE_SPACING + TUBE_WIDTH) + 250, random.nextInt(TUBE_FLUCTUATION) + TUBE_LOWEST_OPENING + TUBE_GAP + TUBE_HEIGHT/2);
-
-            GraphicsComponent topGraphic = new GraphicsComponent(tube, TextureType.FLAPPYBIRD_TOPTUBE, 1);
-            PhysicsComponent topPhysics = new PhysicsComponent(tube, topGraphic.getWidth(), topGraphic.getHeight(), 0, 0, true);
-
-            GraphicsComponent bottomGraphic = new GraphicsComponent(tube, TextureType.FLAPPYBIRD_BOTTOMTUBE, 1);
-            bottomGraphic.setUsePositionAsOffset(true);
-            bottomGraphic.setLocation(0, -TUBE_GAP - TUBE_HEIGHT);
-            PhysicsComponent bottomPhysics = new PhysicsComponent(tube, bottomGraphic.getWidth(), bottomGraphic.getHeight(), 0, 0, true);
-            bottomPhysics.setUsePositionAsOffset(true);
-            bottomPhysics.setLocation(0, -TUBE_GAP - TUBE_HEIGHT);
-
-            tubes.add(tube);
-        }
-        */
-         /*
-        for(int i = 0; i < TUBE_COUNT; i++) {
-            tubes.get(i).setLocation(i * (TUBE_SPACING + TUBE_WIDTH) + 250, random.nextInt(TUBE_FLUCTUATION) + TUBE_LOWEST_OPENING + TUBE_GAP + TUBE_HEIGHT/2);
-        }
-        */
-         /*
-        for(Entity tube : tubes) {
-            if (tube.getX() == entity.getX() && entity != tube) {
-                entity.setY(random.nextInt(TUBE_FLUCTUATION) + TUBE_GAP + TUBE_LOWEST_OPENING + TUBE_HEIGHT/2);
-                entity.setX(x);
-                ((PhysicsComponent)entity.getComponentByType(ComponentType.PHYSICS)).updateBounds();
-
-                tube.setY(entity.getY() - TUBE_GAP - TUBE_HEIGHT);
-                tube.setX(x);
-                ((PhysicsComponent)tube.getComponentByType(ComponentType.PHYSICS)).updateBounds();
-                return;
-            }
-        }
-        */
-         /*
-        for (Entity tube : tubes) {
-            if(gm.getCamera().position.x - (gm.getCamera().viewportWidth / 2) > tube.getX() + TUBE_WIDTH)
-                repositionTube(tube, tube.getX() + ((TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
-        }
-        */
 
 }
