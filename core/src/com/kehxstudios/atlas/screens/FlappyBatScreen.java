@@ -79,7 +79,7 @@ public class FlappyBatScreen extends AScreen {
         grounds = new ArrayList<Entity>();
 
         for (int i = 0; i < GROUND_COUNT; i++) {
-            Entity ground = Factory.createEntity(Templates.createEntityData(0,GROUND_Y_OFFSET));
+            Entity ground = Factory.createEntity(Templates.createEntityData(i * GROUND_WIDTH,GROUND_Y_OFFSET));
             Factory.createComponent(ground, groundGraphicsData);
             Factory.createComponent(ground, groundPhysicsData);
             grounds.add(ground);
@@ -168,11 +168,13 @@ public class FlappyBatScreen extends AScreen {
             lowScore = highScores.getLowScore();
             lowScoreText.setText(lowScore+"");
             lowScoreText.getLayout().setText(lowScoreText.getFont(), lowScoreText.getLabel() + lowScoreText.getText(),
-            Color.BLACK, 0, Align.left, true);
-            highScore = highScores.getHighScore();
-            highScoreText.setText(highScore+"");
-            highScoreText.getLayout().setText(highScoreText.getFont(), highScoreText.getLabel() + highScoreText.getText(),
-            Color.BLACK, 0, Align.left, true);
+                    Color.BLACK, 0, Align.left, true);
+            if (highScore != highScores.getHighScore()) {
+                highScore = highScores.getHighScore();
+                highScoreText.setText(highScore+"");
+                highScoreText.getLayout().setText(highScoreText.getFont(), highScoreText.getLabel() + highScoreText.getText(),
+                    Color.BLACK, 0, Align.left, true);
+            }
         }
         
         screenEntity.setPosition(width/2, height/2);
@@ -195,7 +197,6 @@ public class FlappyBatScreen extends AScreen {
     private void updateTubes() {
         for (Entity tube : tubes) {
             if (screenEntity.getPosition().x - width / 2 > tube.getPosition().x + TUBE_WIDTH/2) {
-                DebugTool.log("Moving Tube");
                 tube.setPosition(tube.getPosition().x + TUBE_SPACING * TUBE_COUNT, tubeRandomY());
             }
         }
@@ -203,8 +204,7 @@ public class FlappyBatScreen extends AScreen {
 
     private void updateGround() {
         for (Entity ground : grounds) {
-            if(screenEntity.getPosition().x - (width / 2) >
-                    ground.getPosition().x + GROUND_WIDTH/2) {
+            if(screenEntity.getPosition().x - (width / 2) > ground.getPosition().x + GROUND_WIDTH/2) {
                 ground.movePosition(GROUND_WIDTH * GROUND_COUNT, 0);
             }
         }
