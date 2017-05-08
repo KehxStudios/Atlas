@@ -20,6 +20,10 @@ public class MainMenuScreen extends AScreen {
         screenGraphics.setTextureType(TextureType.MAIN_MENU_BACKGROUND);
         screenGraphics.setEnabled(true);
 
+        setup();
+    }
+    
+    private void setup() {
         ComponentData borderGraphics = Templates.createGraphicsComponentData(0, 0, 3, TextureType.MAIN_MENU_BORDER);
 
         Entity flappyBird = Factory.createEntity(Templates.createEntityData(width/2, height/5*4));
@@ -44,6 +48,10 @@ public class MainMenuScreen extends AScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+        
+        if (screenTime >= 5f) {
+            ScreenManager.getInstance().requestNewScreen(ScreenType.INTRO);   
+        }
     }
 
     @Override
