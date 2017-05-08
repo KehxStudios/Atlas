@@ -150,11 +150,13 @@ public class FlappyBatScreen extends AScreen {
         batPhysics.addYVelocity(GRAVITY);
 
         updateGround();
-        checkTubes();
+        updateTubes();
 
         batCurrentX = batEntity.getPosition().x;
         score = (int)(batCurrentX - batStartX);
         scoreText.setText(score+"");
+        scoreText.getLayout().setText(scoreText.getFont(), scoreText.getLabel() + scoreText.getText(),
+            Color.BLACK, 0, Align.left, true);
         DebugTool.log("score: " + score);
 
         super.render(delta);
@@ -165,8 +167,12 @@ public class FlappyBatScreen extends AScreen {
             highScores.addToHighScores("Test",score);
             lowScore = highScores.getLowScore();
             lowScoreText.setText(lowScore+"");
+            lowScoreText.getLayout().setText(lowScoreText.getFont(), lowScoreText.getLabel() + lowScoreText.getText(),
+            Color.BLACK, 0, Align.left, true);
             highScore = highScores.getHighScore();
             highScoreText.setText(highScore+"");
+            highScoreText.getLayout().setText(highScoreText.getFont(), highScoreText.getLabel() + highScoreText.getText(),
+            Color.BLACK, 0, Align.left, true);
         }
         
         screenEntity.setPosition(width/2, height/2);
@@ -186,7 +192,7 @@ public class FlappyBatScreen extends AScreen {
         score = 0;
     }
 
-    private void checkTubes() {
+    private void updateTubes() {
         for (Entity tube : tubes) {
             if (screenEntity.getPosition().x - width / 2 > tube.getPosition().x + TUBE_WIDTH/2) {
                 DebugTool.log("Moving Tube");
