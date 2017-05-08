@@ -1,5 +1,7 @@
 package com.kehxstudios.atlas.screens;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.data.ActionData;
 import com.kehxstudios.atlas.actions.PhysicsAction;
@@ -186,7 +188,7 @@ public class FlappyBatScreen extends AScreen {
             grounds.get(i).setPosition(i * GROUND_WIDTH, GROUND_Y_OFFSET);
         }
         for (int i = 0; i < TUBE_COUNT; i++) {
-            tubes.get(i).setPosition(screenEntity.getPosition().x + 100 + i * TUBE_SPACING, tubeRandomY());
+            tubes.get(i).setPosition(screenEntity.getPosition().x + 80 + i * TUBE_SPACING, tubeRandomY());
         }
 
         batStartX = batEntity.getPosition().x;
