@@ -25,6 +25,10 @@ public class InputManager extends Manager {
 
     public InputManager() {
         super();
+        setup();
+    }
+    
+    private void setup() {
         clickableComponents = new ArrayList<ClickableComponent>();
     }
 
@@ -35,14 +39,10 @@ public class InputManager extends Manager {
     }
 
     private void checkClickable() {
-        float x = screen.getWidth() - Gdx.input.getX() / screen.getScaleWidth();
-        float y = screen.getHeight() - Gdx.input.getY() / screen.getScaleHeight();
-        DebugTool.log("Checking Input", "x : "+x+" _ y: " + y);
-        //Vector3 input = gm.getCamera().unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0));
-        //checkClickable(input.x / screen.getScaleWidth(), input.y / screen.getScaleHeight());
-        x += screen.getCamera().position.x - screen.getCamera().viewportWidth/2;
-        y += screen.getCamera().position.y - screen.getCamera().viewportHeight/2;
-        DebugTool.log("Checking Clickable", "x : "+x+" _ y: " + y);
+        float x = screen.getWidth() - Gdx.input.getX() / screen.getScaleWidth() + screen.getCamera().position.x - 
+                screen.getCamera().viewportWidth/2;
+        float y = screen.getHeight() - Gdx.input.getY() / screen.getScaleHeight() + screen.getCamera().position.y - 
+                screen.getCamera().viewportHeight/2;
 
         for (ClickableComponent clickable : clickableComponents) {
             if (clickable.isEnabled()) {
@@ -69,12 +69,12 @@ public class InputManager extends Manager {
     }
 
     @Override
-    protected void loadScreenTypeSettings() {
-        clickableComponents = new ArrayList<ClickableComponent>();
+    protected void loadScreenSettings() {
+        setup();
     }
 
     @Override
-    protected void removeScreenTypeSettings() {
+    protected void removeScreenSettings() {
 
     }
 }
