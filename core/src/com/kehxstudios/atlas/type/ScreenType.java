@@ -18,7 +18,7 @@ public enum ScreenType {
     MAIN_MENU("Main Menu", "texturePacks/mainMenu.atlas", 1440, 2560, MainMenuScreen.class),
     FLAPPY_BAT("Flappy Bat", "texturePacks/flappyBat.atlas", 240, 400, FlappyBatScreen.class),
     GENE_ROCKETS("Gene Rockets", "texturePacks/geneRockets.atlas", 512, 910, AScreen.class), // FUTURE SCREEN
-    PING("Ping", "texturePacks/ping.atlas", 512, 910, AScreen.class), // FUTURE SCREEN
+    PONG("Pong", "texturePacks/pong.atlas", 512, 910, PongScreen.class), // FUTURE SCREEN
     RECAP_JOURNAL("Recap Journal", "texturePacks/recapJournal.atlas", 512, 910, AScreen.class), // FUTURE SCREEN
     LOADING("Loading", "texturePacks/loading.atlas", 512, 910, LoadingScreen.class),
     VOID("Void", "", 0, 0, AScreen.class);
