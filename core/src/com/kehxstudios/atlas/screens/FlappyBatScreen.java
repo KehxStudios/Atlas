@@ -62,6 +62,16 @@ public class FlappyBatScreen extends AScreen {
         screenGraphics.setTextureType(TextureType.FLAPPY_BAT_BACKGROUND);
         screenGraphics.setEnabled(true);
         
+        batStartX = width/4;
+        batCurrentX = batStartX;
+        lowScore = highScores.getLowScore();
+        highScore = highScores.getHighScore();
+        
+        setup();
+    }
+    
+    private void setup() {
+        
         batEntity = Factory.createEntity(Templates.createEntityData(width/4, height/2));
         ComponentData batGraphicsData = Templates.createGraphicsComponentData(0,0,2, TextureType.FLAPPY_BAT_BAT);
         GraphicsComponent batGraphics = (GraphicsComponent)Factory.createComponent(batEntity, batGraphicsData);
@@ -114,11 +124,6 @@ public class FlappyBatScreen extends AScreen {
             tubes.add(tube);
         }
 
-        batStartX = batEntity.getPosition().x;
-        batCurrentX = batStartX;
-        lowScore = highScores.getLowScore();
-        highScore = highScores.getHighScore();
-
         scoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
                 Templates.createFloatingTextComponentData("Score", score+"", 1));
         scoreText.setUsePositionAsOffset(true);
@@ -135,10 +140,6 @@ public class FlappyBatScreen extends AScreen {
                 Templates.createFloatingTextComponentData("High-Score", highScore+"", 1));
         highScoreText.setUsePositionAsOffset(true);
         highScoreText.setPosition(0, -height/2 + 20);
-    }
-
-    public float tubeRandomY() {
-        return random.nextFloat() * TUBE_FLUCTUATION + TUBE_LOWEST_OPENING;
     }
 
     @Override
@@ -162,6 +163,10 @@ public class FlappyBatScreen extends AScreen {
         DebugTool.log("score: " + score);
 
         super.render(delta);
+    }
+    
+    public float tubeRandomY() {
+        return random.nextFloat() * TUBE_FLUCTUATION + TUBE_LOWEST_OPENING;
     }
 
     private void resetScreen() {
