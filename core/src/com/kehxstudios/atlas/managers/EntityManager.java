@@ -25,10 +25,6 @@ public class EntityManager extends Manager {
         }
         return instance;
     }
-    private EntityManager() {
-        super();
-        loadScreenTypeSettings();
-    }
 
     private ArrayList<Entity> entities;
 
@@ -36,6 +32,11 @@ public class EntityManager extends Manager {
     private ArrayList<Entity> markedEntities;
     private ArrayList<Component> markedComponents;
 
+    private EntityManager() {
+        super();
+        setup();
+    }
+    
     public void markEntityForRemoval(Entity entity) {
         if (!markedEntities.contains(entity)) {
             markedEntities.add(entity);
@@ -117,16 +118,20 @@ public class EntityManager extends Manager {
             removeEntity(entities.get(0));
         }
     }
-
-    @Override
-    protected void loadScreenTypeSettings() {
+    
+    private void setup() {
         entities = new ArrayList<Entity>();
         markedEntities = new ArrayList<Entity>();
         markedComponents = new ArrayList<Component>();
     }
 
     @Override
-    protected void removeScreenTypeSettings() {
+    protected void loadScreenSettings() {
+        setup();
+    }
+
+    @Override
+    protected void removeScreenSettings() {
         while (entities.size() != 0) {
             removeEntity(entities.get(0));
         }
