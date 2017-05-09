@@ -16,7 +16,7 @@ public abstract class Manager {
 
     public Manager() {
         gm = GameManager.getInstance();
-        screenType = ScreenType.VOID;
+        screen = null;
     }
 
     public AScreen getScreen() { return screen; }
@@ -28,6 +28,6 @@ public abstract class Manager {
         loadScreenTypeSettings();
     }
 
-    protected abstract void loadScreenTypeSettings();
-    protected abstract void removeScreenTypeSettings();
+    protected abstract void loadScreenSettings();
+    protected abstract void removeScreenSettings();
 }
