@@ -55,7 +55,7 @@ public class PhysicsManager extends Manager {
 
     @Override
     protected void loadScreenTypeSettings() {
-        physicsComponents = new ArrayList<PhysicsComponent>();
+        setup();
     }
 
     @Override
@@ -81,6 +81,10 @@ public class PhysicsManager extends Manager {
 
     private PhysicsManager() {
         super();
+        setup();
+    }
+    
+    private void setup() {
         physicsComponents = new ArrayList<PhysicsComponent>();
     }
 }
