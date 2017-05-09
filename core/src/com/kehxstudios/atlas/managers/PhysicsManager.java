@@ -54,12 +54,12 @@ public class PhysicsManager extends Manager {
     }
 
     @Override
-    protected void loadScreenTypeSettings() {
+    protected void loadScreenSettings() {
         setup();
     }
 
     @Override
-    protected void removeScreenTypeSettings() {
+    protected void removeScreenSettings() {
 
     }
 
