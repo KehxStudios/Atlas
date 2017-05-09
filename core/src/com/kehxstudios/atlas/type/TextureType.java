@@ -18,6 +18,10 @@ public enum TextureType {
     FLAPPY_BAT_BAT("FlappyBatBat", "bat", 34, 24),
     FLAPPY_BAT_WALL("FlappyBatWall",  "wall", 32, 320),
     FLAPPY_BAT_GROUND("FlappyBatGround", "ground", 366, 112),
+    
+    PONG_BACKGROUND("PongBackground", "background", 512, 910),
+    PONG_PADDLE("PongPaddle", "paddle", 10, 50),
+    PONG_BALL("PongBall", "ball", 10, 10),
 
     VOID("Void", "void", 0, 0);
 
