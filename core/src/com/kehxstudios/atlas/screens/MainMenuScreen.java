@@ -26,31 +26,39 @@ public class MainMenuScreen extends AScreen {
     
     private void setup() {
         ComponentData borderGraphics = Templates.createGraphicsComponentData(0, 0, 3, TextureType.MAIN_MENU_BORDER);
+        ComponentData clickableData = Templates.createClickableComponentData(TextureType.MAIN_MENU_BORDER.getWidth(), 
+                TextureType.MAIN_MENU_BORDER.getHeight(), true, Templates.createLaunchScreenActionData(ScreenType.FLAPPY_BAT)));
+        
+        Entity flappyBirdEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5*4));
+        Factory.createComponent(flappyBirdEntity, borderGraphics);
+        Factory.createComponent(flappyBirdEntity, Templates.createFloatingTextComponentData("", "Flappy Bird", 4));
+        ClickableComponent flappyBirdClickable = (ClickableComponent)Factory.createComponent(flappyBirdEntity, clickableData);
+        flappyBirdClickable.getAction.setScreenType();
+        
+        Entity pongEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5*3));
+        Factory.createComponent(pongEntity, borderGraphics);
+        Factory.createComponent(pongEntity, Templates.createFloatingTextComponentData("", "Pong", 4));
+        ClickableComponent pongClickable = (ClickableComponent)Factory.createComponent(pongEntity, clickableData);
+        pongClickable.getAction.setScreenType(ScreenType.PONG);
 
-        Entity flappyBird = Factory.createEntity(Templates.createEntityData(width/2, height/5*4));
-        GraphicsComponent menuComponent = (GraphicsComponent)Factory.createComponent(flappyBird, borderGraphics);
-        Factory.createComponent(flappyBird, Templates.createClickableComponentData(
-                menuComponent.getWidth(), menuComponent.getHeight(), true, Templates.createLaunchScreenActionData(ScreenType.FLAPPY_BAT)));
-        Factory.createComponent(flappyBird, Templates.createFloatingTextComponentData("< ", "Flappy Bird >", 3));
-
-        Entity intro = Factory.createEntity(Templates.createEntityData(width/2, height/5*3));
-        Factory.createComponent(intro, borderGraphics);
-        Factory.createComponent(intro, Templates.createClickableComponentData(
-                menuComponent.getWidth(), menuComponent.getHeight(), true, Templates.createLaunchScreenActionData(ScreenType.INTRO)));
-        Factory.createComponent(intro, Templates.createFloatingTextComponentData("< ", "Intro >", 3));
-
-        Entity highScoreReset = Factory.createEntity(Templates.createEntityData(width/2, height/5*2));
-        Factory.createComponent(highScoreReset, borderGraphics);
-        Factory.createComponent(highScoreReset, Templates.createClickableComponentData(
+        Entity geneRocketsEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5*2));
+        Factory.createComponent(geneRocketsEntity, borderGraphics);
+        Factory.createComponent(geneRocketsEntity, Templates.createFloatingTextComponentData("", "Gene Rockets", 4));
+        ClickableComponent geneRocketsClickable = (ClickableComponent)Factory.createComponent(pongEntity, clickableData);
+        geneRocketsClickable.getAction.setScreenType(ScreenType.GENE_ROCKETS);
+        
+        Entity highScoreResetEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5));
+        Factory.createComponent(highScoreResetEntity, borderGraphics);
+        Factory.createComponent(highScoreResetEntity, Templates.createClickableComponentData(
                 menuComponent.getWidth(), menuComponent.getHeight(), false, Templates.createHighScoreResetActionData(ScreenType.FLAPPY_BAT)));
-        Factory.createComponent(highScoreReset, Templates.createFloatingTextComponentData("< ", "High-Score Reset >", 3));
+        Factory.createComponent(highScoreResetEntity, Templates.createFloatingTextComponentData("", "High-Score Reset", 4));
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         
-        if (screenTime >= 5f) {
+        if (screenTime >= 10f) {
             ScreenManager.getInstance().requestNewScreen(ScreenType.INTRO);
         }
     }
