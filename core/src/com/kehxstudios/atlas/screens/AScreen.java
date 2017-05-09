@@ -36,6 +36,10 @@ public abstract class AScreen implements Screen {
     protected HighScores highScores;
     protected int score;
 
+    
+    private abstract void setup();
+    
+    
     public AScreen(ScreenType type) {
         this.type = type;
         gm = GameManager.getInstance();
@@ -55,7 +59,7 @@ public abstract class AScreen implements Screen {
         screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity, 
                   Templates.createGraphicsComponentData(0, 0, 0, TextureType.VOID));
     }
-
+    
     @Override
     public void render(float delta) {
         screenTime += delta;
@@ -99,14 +103,6 @@ public abstract class AScreen implements Screen {
     public ScreenType getType() { return type; }
 
     public OrthographicCamera getCamera() { return screenCamera.getCamera(); }
-
-    public float getGraphicsWidth() {
-        return Gdx.graphics.getWidth();
-    }
-
-    public float getGraphicsHeight() {
-        return Gdx.graphics.getHeight();
-    }
 
     public float getWidth() { return width; }
 
