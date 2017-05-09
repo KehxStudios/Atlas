@@ -22,10 +22,10 @@ public abstract class Manager {
     public AScreen getScreen() { return screen; }
     public void setScreen(AScreen screen) { 
         if (screen != null) {
-            removeScreenTypeSettings
+            removeScreenSettings();
         }
         this.screen = screen;
-        loadScreenTypeSettings();
+        loadScreenSettings();
     }
 
     protected abstract void loadScreenSettings();

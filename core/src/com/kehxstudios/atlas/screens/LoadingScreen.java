@@ -12,9 +12,12 @@ public class LoadingScreen extends AScreen {
     public LoadingScreen() {
       super(ScreenType.LOADING);
       finishedLoading = false;
-      
     }
-    
+
+    public void finalizeSetup() {
+        super.finalizeSetup();
+    }
+
     @Override
     public void render(float delta) {
       super.render(delta);

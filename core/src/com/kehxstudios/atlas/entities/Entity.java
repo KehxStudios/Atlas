@@ -27,6 +27,8 @@ public class Entity {
     public Vector2 getPosition() { return position; }
     public void setPosition(float x, float y) { position.set(x,y); }
     public void movePosition(float x, float y) { position.add(x,y); }
+    public void setX(float x) { position.x = x; }
+    public void setY(float y) { position.y = y; }
 
     public ArrayList<Component> getComponents() { return components; }
     public Component getComponentOfType(ComponentType componentType) {

@@ -110,9 +110,6 @@ public class GameManager extends Game {
 		// tick PhysicsManager to change any locations by the means of physics
 		physicsManager.tick(delta);
 
-		// tick ScreenManager to check if screen change is needed
-		screenManager.tick(delta);
-
 		// tick EntityManager to check if anything needs to be removed
 		entityManager.tick(delta);
 
@@ -124,7 +121,10 @@ public class GameManager extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		// render everything inside of GraphicsManager
-		graphicsManager.render(batch, camera);
+		graphicsManager.render(batch);
+
+		// tick ScreenManager to check if screen change is needed
+		screenManager.tick(delta);
 	}
 
 	// Dispose of everything that might need disposal

@@ -18,7 +18,10 @@ public class IntroScreen extends AScreen {
 
     public IntroScreen() {
         super(ScreenType.INTRO);
+    }
 
+    public void finalizeSetup() {
+        super.finalizeSetup();
         screenGraphics.setTextureType(TextureType.INTRO_DEV_LOGO);
         screenGraphics.setEnabled(true);
         finalLogo = false;
@@ -44,7 +47,7 @@ public class IntroScreen extends AScreen {
         }
     }
     
-    public void createFinalComponents() {
+    private void createFinalComponents() {
         // FloatingText
         ComponentData floatingTextData = Templates.createFloatingTextComponentData("", "Click to Continue", 3);
         floatingTextData.setUseComponentPosition(true);

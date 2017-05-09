@@ -59,19 +59,17 @@ public class FlappyBatScreen extends AScreen {
     public FlappyBatScreen() {
         super(ScreenType.FLAPPY_BAT);
 
-        screenGraphics.setTextureType(TextureType.FLAPPY_BAT_BACKGROUND);
-        screenGraphics.setEnabled(true);
-        
         batStartX = width/4;
         batCurrentX = batStartX;
         lowScore = highScores.getLowScore();
         highScore = highScores.getHighScore();
-        
-        setup();
     }
-    
-    private void setup() {
-        
+
+    public void finalizeSetup() {
+        super.finalizeSetup();
+        screenGraphics.setTextureType(TextureType.FLAPPY_BAT_BACKGROUND);
+        screenGraphics.setEnabled(true);
+
         batEntity = Factory.createEntity(Templates.createEntityData(width/4, height/2));
         ComponentData batGraphicsData = Templates.createGraphicsComponentData(0,0,2, TextureType.FLAPPY_BAT_BAT);
         GraphicsComponent batGraphics = (GraphicsComponent)Factory.createComponent(batEntity, batGraphicsData);

@@ -37,9 +37,6 @@ public abstract class AScreen implements Screen {
     protected int score;
 
     
-    private abstract void setup();
-    
-    
     public AScreen(ScreenType type) {
         this.type = type;
         gm = GameManager.getInstance();
@@ -48,16 +45,18 @@ public abstract class AScreen implements Screen {
         highScores = new HighScores(type);
         screenTime = 0f;
         score = 0;
+    }
 
+    public void finalizeSetup() {
         screenEntity = Factory.createEntity(Templates.createEntityData(width/2, height/2));
 
         screenCamera = (CameraComponent)Factory.createComponent(screenEntity,
-                  Templates.createCameraComponentData(width, height, false));
+                Templates.createCameraComponentData(width, height, false));
         screenCamera.getCamera().setToOrtho(false, width, height);
         screenCamera.update();
-        
-        screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity, 
-                  Templates.createGraphicsComponentData(0, 0, 0, TextureType.VOID));
+
+        screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity,
+                Templates.createGraphicsComponentData(0, 0, 0, TextureType.VOID));
     }
     
     @Override
@@ -90,8 +89,7 @@ public abstract class AScreen implements Screen {
     @Override
     public void resume() {
         DebugTool.log("SCREEN_RESUME");
-        // GraphicsManager.getInstance().loadTextureAtlas(type);
-        //DebugTool.log("loadedAssets_"+gm.getAssetManager().getLoadedAssets());
+        GraphicsManager.getInstance().loadTextureAtlas();
         //gm.reload();
     }
 

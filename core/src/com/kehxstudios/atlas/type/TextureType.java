@@ -23,6 +23,9 @@ public enum TextureType {
     PONG_PADDLE("PongPaddle", "paddle", 10, 50),
     PONG_BALL("PongBall", "ball", 10, 10),
 
+    GENE_ROCKETS_ROCKET("GeneRocketRocket", "rocket", 10, 50),
+    GENE_ROCKETS_TARGET("GeneRocketTarget", "target", 10, 10),
+
     VOID("Void", "void", 0, 0);
 
     private String id, fileName;

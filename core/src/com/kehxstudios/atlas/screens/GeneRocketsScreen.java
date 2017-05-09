@@ -5,7 +5,9 @@ import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
+import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
+import com.kehxstudios.atlas.type.ScreenType;
 import com.kehxstudios.atlas.type.TextureType;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public class GeneRocketsScreen extends AScreen {
     private float timePerGeneration;
     private int rocketsPerGeneration;
     
-    private ArrayList<Entities> rockets;
+    private ArrayList<Entity> rockets;
     private Entity targetEntity;
 
     public GeneRocketsScreen() {
@@ -25,11 +27,10 @@ public class GeneRocketsScreen extends AScreen {
         generation = 0;
         timePerGeneration = 400f;
         rocketsPerGeneration = 50;
-        
-        setup();
     }
-    
-    private void setup() {
+
+    public void finalizeSetup() {
+        super.finalizeSetup();
         ComponentData targetGraphicsData = Templates.createGraphicsComponentData(0,0,1, TextureType.GENE_ROCKETS_TARGET);
         ComponentData targetPhysicsData = Templates.createPhysicsComponentData(0, 0, 0, 0, 
                 TextureType.GENE_ROCKETS_TARGET.getWidth(), TextureType.GENE_ROCKETS_TARGET.getHeight(), true);

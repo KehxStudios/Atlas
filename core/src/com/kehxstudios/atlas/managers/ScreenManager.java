@@ -33,26 +33,27 @@ public class ScreenManager extends Manager {
     public void tick(float delta) {
         if (loadNewScreenOnTick) {
             loadNewScreen();
+            loadNewScreenOnTick = false;
         }
     }
 
-    public void requestNewScreen(ScreenType newScreenType) {
-        DebugTool.log("New Screen Requested: "+ newScreenType.getId());
-        this.newScreenType = newScreenType;
+    public void requestNewScreen(ScreenType screenType) {
+        DebugTool.log("New Screen Requested: "+ screenType.getId());
+        newScreenType = screenType;
         loadNewScreenOnTick = true;
     }
 
-    public void demandNewScreen(ScreenType newScreenType) {
-        DebugTool.log("New Screen Demanded: "+ newScreenType.getId());
-        this.newScreenType = newScreenType;
+    public void demandNewScreen(ScreenType screenType) {
+        DebugTool.log("New Screen Demanded: "+ screenType.getId());
+        newScreenType = screenType;
         loadNewScreen();
     }
 
     private void loadNewScreen() {
         DebugTool.log("New Screen Loading: "+ newScreenType.getId());
-        loadNewScreenOnTick = false;
         try {
-            setScreen((AScreen)ClassReflection.newInstance(screenType.getLoaderClass()));
+            setScreen((AScreen)ClassReflection.newInstance(newScreenType.getLoaderClass()));
+            screen.finalizeSetup();
         } catch (ReflectionException e) {
             DebugTool.log("ERROR_loadNewScreen");
             e.printStackTrace();

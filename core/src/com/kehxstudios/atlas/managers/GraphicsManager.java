@@ -50,7 +50,7 @@ public class GraphicsManager extends Manager {
         }
     }
 
-    public void render(SpriteBatch batch, OrthographicCamera camera) {
+    public void render(SpriteBatch batch) {
         if (cameraComponent == null) {
             return;
         }
@@ -151,7 +151,6 @@ public class GraphicsManager extends Manager {
 
     private GraphicsManager() {
         super();
-        
         setup();
     }
     
@@ -167,7 +166,8 @@ public class GraphicsManager extends Manager {
         cameraComponent = null;
     }
 
-    public void loadTextureAtlas(ScreenType type) {
+    public void loadTextureAtlas() {
+        ScreenType type = screen.getType();
         gm.getAssetManager().load(type.getAtlasPath(), TextureAtlas.class);
         gm.getAssetManager().finishLoading();
         textureAtlas = gm.getAssetManager().get(type.getAtlasPath());
@@ -175,21 +175,17 @@ public class GraphicsManager extends Manager {
     
     @Override
     protected void loadScreenSettings() {
-        setup();
-        loadTextureAtlas(screen.getType());
+        loadTextureAtlas();
     }
 
     @Override
     protected void removeScreenSettings() {
         DebugTool.log("Removing TextureAtlas");
         textureAtlas.dispose();
+        textureAtlas = new TextureAtlas();
     }
 
     public Texture getTexture(TextureType textureType) {
         return textureAtlas.findRegion(textureType.getFileName()).getTexture();
-    }
-
-    public void setAtlas(TextureAtlas atlas) {
-        textureAtlas = atlas;
     }
 }

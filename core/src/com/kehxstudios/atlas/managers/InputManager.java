@@ -70,7 +70,7 @@ public class InputManager extends Manager {
 
     @Override
     protected void loadScreenSettings() {
-        setup();
+
     }
 
     @Override

@@ -55,7 +55,7 @@ public class PhysicsManager extends Manager {
 
     @Override
     protected void loadScreenSettings() {
-        setup();
+
     }
 
     @Override

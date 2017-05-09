@@ -78,7 +78,7 @@ public class EntityManager extends Manager {
             } else {
             }
         } else {
-            DebugTool.log("Failed to find entity in entities to add component");
+            DebugTool.log("Failed to find entity in entities to add component_1");
         }
     }
 
@@ -86,13 +86,13 @@ public class EntityManager extends Manager {
         if (entities.contains(entity)) {
             if (entity.hasComponent(component)) {
                 if (component.getType() == ComponentType.ANIMATION) {
-                    GraphicsManager.getInstance().remove((AnimationComponent)component);
+                    GraphicsManager.getInstance().remove(component);
                 } else if (component.getType() == ComponentType.CLICKABLE) {
                     InputManager.getInstance().remove((ClickableComponent)component);
                 } else if (component.getType() == ComponentType.FLOATING_TEXT) {
-                    GraphicsManager.getInstance().remove((FloatingTextComponent)component);
+                    GraphicsManager.getInstance().remove(component);
                 } else if (component.getType() == ComponentType.GRAPHICS) {
-                    GraphicsManager.getInstance().remove((GraphicsComponent)component);
+                    GraphicsManager.getInstance().remove(component);
                 } else if (component.getType() == ComponentType.IN_VIEW) {
 
                 } else if (component.getType() == ComponentType.PHYSICS) {
@@ -105,7 +105,7 @@ public class EntityManager extends Manager {
                 DebugTool.log("Failed to find component in entity to remove component");
             }
         } else {
-            DebugTool.log("Failed to find entity in entities to remove component");
+            //DebugTool.log("Failed to find entity in entities to remove component_2");
         }
     }
 
@@ -127,7 +127,7 @@ public class EntityManager extends Manager {
 
     @Override
     protected void loadScreenSettings() {
-        setup();
+
     }
 
     @Override

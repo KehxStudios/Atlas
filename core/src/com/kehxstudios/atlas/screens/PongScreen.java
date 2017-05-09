@@ -5,7 +5,9 @@ import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
+import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
+import com.kehxstudios.atlas.type.ScreenType;
 import com.kehxstudios.atlas.type.TextureType;
 
 import java.util.Random;
@@ -13,13 +15,9 @@ import java.util.Random;
 
 public class PongScreen extends AScreen {
 
-    private final int paddleWidth;
-    private final int paddleHeight;
-    private final float paddleSpeed;
+    private final float paddleWidth, paddleHeight, paddleSpeed;
     
-    private final int ballWidth;
-    private final int ballHeight;
-    private final float ballSpeed;
+    private final float ballWidth, ballHeight, ballSpeed;
 
     Entity player1Entity, player2Entity, ballEntity;
     PhysicsComponent player1Physics, player2Physics, ballPhysics;
@@ -31,34 +29,34 @@ public class PongScreen extends AScreen {
     public PongScreen() {
         super(ScreenType.PONG);
 
-        screenGraphics.setTextureType(TextureType.PONG_BACKGROUND);
-        screenGraphics.setEnabled(true);
-        
         paddleWidth = TextureType.PONG_PADDLE.getWidth();
         paddleHeight = TextureType.PONG_PADDLE.getHeight();
         
         ballWidth = TextureType.PONG_BALL.getWidth();
         ballHeight = TextureType.PONG_BALL.getHeight();
-        
-        setup();
-    }
-    
-    private void setup() {
-        player2Score = 0;
+
         paddleSpeed = 5f;
         ballSpeed = 6f;
+    }
+    
+    public void finalizeSetup() {
+        super.finalizeSetup();
+        screenGraphics.setTextureType(TextureType.PONG_BACKGROUND);
+        screenGraphics.setEnabled(true);
+
+        player2Score = 0;
         
         ComponentData paddleGraphicsData = Templates.createGraphicsComponentData(0, 0, 3, TextureType.PONG_PADDLE);
         ComponentData paddlePhysicsData = Templates.createPhysicsComponentData(0, paddleSpeed, 0, 
                 paddleSpeed, TextureType.PONG_PADDLE.getWidth(), TextureType.PONG_PADDLE.getHeight(), true);
         
         player1Entity = Factory.createEntity(Templates.createEntityData(paddleWidth, height/2));
-        GraphicsComponent player1Graphics = (GraphicsComponent)Factory.createComponent(player1, paddleGraphicsData);
-        player1Physics = (PhysicsComponent)Factory.createComponent(player1, paddlePhysicsData);
+        GraphicsComponent player1Graphics = (GraphicsComponent)Factory.createComponent(player1Entity, paddleGraphicsData);
+        player1Physics = (PhysicsComponent)Factory.createComponent(player1Entity, paddlePhysicsData);
         
-        player2 = Factory.createEntity(Templates.createEntityData(width - paddleWidth, height/2));
-        GraphicsComponent player2Graphics = (GraphicsComponent)Factory.createComponent(player2, paddleGraphicsData);
-        player2Physics = (PhysicsComponent)Factory.createComponent(player2, paddlePhysicsData);
+        player2Entity = Factory.createEntity(Templates.createEntityData(width - paddleWidth, height/2));
+        GraphicsComponent player2Graphics = (GraphicsComponent)Factory.createComponent(player2Entity, paddleGraphicsData);
+        player2Physics = (PhysicsComponent)Factory.createComponent(player2Entity, paddlePhysicsData);
         
         
         ComponentData ballGraphicsData = Templates.createGraphicsComponentData(0, 0, 3, TextureType.PONG_BALL);
@@ -66,8 +64,8 @@ public class PongScreen extends AScreen {
                 ballSpeed, TextureType.PONG_BALL.getWidth(), TextureType.PONG_BALL.getHeight(), true);
         
         ballEntity = Factory.createEntity(Templates.createEntityData(width/2, height/2));
-        GraphicsComponent ballGraphics = (GraphicsComponent)Factory.createComponent(ball, ballGraphicsData);
-        ballPhysics = (PhysicsComponent)Factory.createComponent(ball, ballPhysicsData);
+        GraphicsComponent ballGraphics = (GraphicsComponent)Factory.createComponent(ballEntity, ballGraphicsData);
+        ballPhysics = (PhysicsComponent)Factory.createComponent(ballEntity, ballPhysicsData);
         PhysicsManager.getInstance().setPlayer(ballPhysics);
     }
 
@@ -85,7 +83,7 @@ public class PongScreen extends AScreen {
         }
         
         if (ballEntity.getPosition().y + ballHeight/2 > height || ballEntity.getPosition().y - ballHeight/2 < 0) {
-            ballPhysics.setYVelocity(-ballPhysics.getYVelocity);
+            ballPhysics.setYVelocity(-ballPhysics.getVelocity().y);
         }
         
         if (player1Entity.getPosition().y + paddleHeight/2 > height) {

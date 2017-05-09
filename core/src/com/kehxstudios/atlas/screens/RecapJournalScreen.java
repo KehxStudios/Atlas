@@ -6,6 +6,7 @@ import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.tools.Templates;
+import com.kehxstudios.atlas.type.ScreenType;
 import com.kehxstudios.atlas.type.TextureType;
 
 
@@ -15,6 +16,11 @@ public class RecapJournalScreen extends AScreen {
     public RecapJournalScreen() {
         super(ScreenType.RECAP_JOURNAL);
         
+    }
+
+
+    public void finalizeSetup() {
+        super.finalizeSetup();
     }
 
     @Override
