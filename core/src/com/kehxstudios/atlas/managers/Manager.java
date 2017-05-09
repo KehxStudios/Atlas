@@ -11,7 +11,6 @@ public abstract class Manager {
 
     protected GameManager gm;
     protected AScreen screen;
-    protected ScreenType screenType;
 
     public abstract void tick(float delta);
 
@@ -21,10 +20,13 @@ public abstract class Manager {
     }
 
     public AScreen getScreen() { return screen; }
-    public void setScreen(AScreen screen) { this.screen = screen;}
-
-    public ScreenType getScreenType() { return screenType; }
-    public void setScreenType(ScreenType screenType) { this.screenType = screenType; }
+    public void setScreen(AScreen screen) { 
+        if (screen != null) {
+            removeScreenTypeSettings
+        }
+        this.screen = screen;
+        loadScreenTypeSettings();
+    }
 
     protected abstract void loadScreenTypeSettings();
     protected abstract void removeScreenTypeSettings();
