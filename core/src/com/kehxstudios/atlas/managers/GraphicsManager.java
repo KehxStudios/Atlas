@@ -82,7 +82,7 @@ public class GraphicsManager extends Manager {
     }
 
     public void dispose() {
-        removeScreenTypeSettings();
+        removeScreenSettings();
     }
 
     private boolean contained(GraphicsComponent graphics) {
@@ -151,13 +151,13 @@ public class GraphicsManager extends Manager {
 
     private GraphicsManager() {
         super();
-        textureAtlas = new TextureAtlas();
         
         setup();
     }
     
             
     private void setup() {
+        textureAtlas = new TextureAtlas();
         animationComponents = new ArrayList<AnimationComponent>();
         graphicComponents = new ArrayList<ArrayList<GraphicsComponent>>();
         for (int i = 0; i < MAX_LAYERS; i++) {
@@ -174,18 +174,15 @@ public class GraphicsManager extends Manager {
     }
     
     @Override
-    protected void loadScreenTypeSettings() {
-        loadTextureAtlas(screenType);
+    protected void loadScreenSettings() {
         setup();
+        loadTextureAtlas(screen.getType());
     }
 
     @Override
-    protected void removeScreenTypeSettings() {
+    protected void removeScreenSettings() {
+        DebugTool.log("Removing TextureAtlas");
         textureAtlas.dispose();
-        for (Texture texture : textureAtlas.getTextures()) {
-            texture.dispose();
-            DebugTool.log("Removing Texture from TextureAtlas");
-        }
     }
 
     public Texture getTexture(TextureType textureType) {
