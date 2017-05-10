@@ -12,22 +12,22 @@ public abstract class Manager {
     protected GameManager gm;
     protected AScreen screen;
 
-    public abstract void tick(float delta);
-
     public Manager() {
         gm = GameManager.getInstance();
         screen = null;
     }
 
-    public AScreen getScreen() { return screen; }
-    public void setScreen(AScreen screen) { 
+    public abstract void tick(float delta);
+    
+    protected abstract void setup();
+    protected abstract void loadScreenSettings();
+    protected abstract void removeScreenSettings();
+    
+    public void setScreen(AScreen newScreen) { 
         if (screen != null) {
             removeScreenSettings();
         }
-        this.screen = screen;
+        screen = newScreen;
         loadScreenSettings();
     }
-
-    protected abstract void loadScreenSettings();
-    protected abstract void removeScreenSettings();
 }
