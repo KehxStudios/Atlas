@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.kehxstudios.atlas.screens.AScreen;
 import com.kehxstudios.atlas.type.ScreenType;
 import com.kehxstudios.atlas.tools.DebugTool;
+import com.kehxstudios.atlas.tools.ErrorTool;
 
 /**
  * Created by ReidC on 2017-04-22.
@@ -12,6 +13,7 @@ import com.kehxstudios.atlas.tools.DebugTool;
 
 public class ScreenManager extends Manager {
 
+    // Holds instance of class, create new if not set
     private static ScreenManager instance;
     public static ScreenManager getInstance() {
         if (instance == null) {
@@ -20,59 +22,76 @@ public class ScreenManager extends Manager {
         return instance;
     }
 
+    // ScreenType for the next screen to be loaded
     private ScreenType newScreenType;
-    private boolean loadNewScreenOnTick;
+    // Used to start new screen on @tick()
+    private boolean screenRequested;
 
+    // Constructor
     private ScreenManager() {
         super();
+        setup();
+    }
+    
+    // Set the default variables
+    @Override
+    protected setup() {
         newScreenType = ScreenType.VOID;
-        loadNewScreenOnTick = false;
+        screenRequested = false;
+        DebugTool.log("ScreenManager_setup: Complete");
     }
 
+    // Called to check if new screen is requested
     @Override
     public void tick(float delta) {
-        if (loadNewScreenOnTick) {
+        if (screenRequested) {
             loadNewScreen();
-            loadNewScreenOnTick = false;
+            screenRequested = false;
         }
     }
 
-    public void requestNewScreen(ScreenType screenType) {
-        DebugTool.log("New Screen Requested: "+ screenType.getId());
-        newScreenType = screenType;
-        loadNewScreenOnTick = true;
+    // Called when loading a new screen
+    @Override
+    protected void loadScreenSettings() {
+        EntityManager.getInstance().setScreen(screen);
+        GraphicsManager.getInstance().setScreen(screen);
+        InputManager.getInstance().setScreen(screen);
+        PhysicsManager.getInstance().setScreen(screen);
+        GameManager.getInstance().setScreen(screen);
+        DebugTool.log("ScreenManager_loadScreenSettings: Complete");
     }
 
-    public void demandNewScreen(ScreenType screenType) {
-        DebugTool.log("New Screen Demanded: "+ screenType.getId());
+    // Called when unloading the current screen
+    @Override
+    protected void removeScreenSettings() {
+        DebugTool.log("ScreenManager_removeScreenSettings: Complete");
+    }
+    
+    // Called when new screen is requested on next @tick()
+    public void requestNewScreen(ScreenType screenType) {
         newScreenType = screenType;
+        loadNewScreenOnTick = true;
+        DebugTool.log("ScreenManager_requestNewScreen: " + newScreenType.getId());
+    }
+
+    // Called to demand a new screen be started now
+    public void demandNewScreen(ScreenType screenType) {
+        newScreenType = screenType;
+        DebugTool.log("ScreenManager_demandNewScreen: " + newScreenType.getId());
         loadNewScreen();
     }
 
+    // Called to load a new screen
     private void loadNewScreen() {
         DebugTool.log("New Screen Loading: "+ newScreenType.getId());
         try {
             setScreen((AScreen)ClassReflection.newInstance(newScreenType.getLoaderClass()));
             screen.finalizeSetup();
         } catch (ReflectionException e) {
-            DebugTool.log("ERROR_loadNewScreen");
+            ErrorTool.log("Failed to load " + newScreenType.getId() + " screen, demanding Intro screen");
             e.printStackTrace();
             demandNewScreen(ScreenType.INTRO);
         }
     }
 
-    @Override
-    protected void loadScreenSettings() {
-        DebugTool.log("Loading Screen into Managers: "+ newScreenType.getId());
-        EntityManager.getInstance().setScreen(screen);
-        GraphicsManager.getInstance().setScreen(screen);
-        InputManager.getInstance().setScreen(screen);
-        PhysicsManager.getInstance().setScreen(screen);
-        GameManager.getInstance().setScreen(screen);
-    }
-
-    @Override
-    protected void removeScreenSettings() {
-        DebugTool.log("Removing ScreenType into Managers: "+ newScreenType.getId());
-    }
 }
