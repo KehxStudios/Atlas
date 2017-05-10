@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 public class GraphicsManager extends Manager {
 
+    // Holds instance of class, create new if not set
     private static GraphicsManager instance;
     public static GraphicsManager getInstance() {
         if (instance == null) {
@@ -30,16 +31,42 @@ public class GraphicsManager extends Manager {
         return instance;
     }
 
+    // Maximum number of layers for @graphicsComponents
     private int MAX_LAYERS = 5;
 
+    // ArrayLists for all used components
     private ArrayList<AnimationComponent> animationComponents;
     private ArrayList<ArrayList<GraphicsComponent>> graphicComponents;
     private ArrayList<FloatingTextComponent> floatingTextComponents;
 
+    // TextureAtlas to load textures to and from
     private TextureAtlas textureAtlas;
     
+    // Camera for rendering
     private CameraComponent cameraComponent;
 
+    // Constructor
+    private GraphicsManager() {
+        super();
+        setup();
+    }
+    
+    // Setup ArrayLists and other variables
+    @Override
+    private void setup() {
+        textureAtlas = new TextureAtlas();
+        animationComponents = new ArrayList<AnimationComponent>();
+        graphicComponents = new ArrayList<ArrayList<GraphicsComponent>>();
+        for (int i = 0; i < MAX_LAYERS; i++) {
+            graphicComponents.add(new ArrayList<GraphicsComponent>());
+        }
+        floatingTextComponents = new ArrayList<FloatingTextComponent>();
+        cameraComponent = null;
+        DebugTool.log("GraphicsManager_setup: Complete");
+    }
+    
+    // Called to update @animationComponents
+    @Override
     public void tick(float delta) {
         if (animationComponents.size() > 0) {
             for (AnimationComponent animation : animationComponents) {
@@ -49,7 +76,23 @@ public class GraphicsManager extends Manager {
             }
         }
     }
+    
+    // Called when loading a new screen
+    @Override
+    protected void loadScreenSettings() {
+        loadTextureAtlas();
+        DebugTool.log("GraphicsManager_loadScreenSettings: Complete");
+    }
 
+    // Called when unloading the current scree
+    @Override
+    protected void removeScreenSettings() {
+        textureAtlas.dispose();
+        textureAtlas = new TextureAtlas();
+        DebugTool.log("GraphicsManager_removeScreenSettings: Complete");
+    }
+
+    // Called to render all graphics and floatingText
     public void render(SpriteBatch batch) {
         if (cameraComponent == null) {
             return;
@@ -81,10 +124,21 @@ public class GraphicsManager extends Manager {
         batch.end();
     }
 
+    // Called to load textures into the TextureAtlas
+    private void loadTextureAtlas() {
+        ScreenType type = screen.getType();
+        gm.getAssetManager().load(type.getAtlasPath(), TextureAtlas.class);
+        gm.getAssetManager().finishLoading();
+        textureAtlas = gm.getAssetManager().get(type.getAtlasPath());
+        DebugTool.log("GraphicsManager_loadTextureAtlas: Complete");
+    }
+    
+    // Called to dispose of any resources
     public void dispose() {
         removeScreenSettings();
     }
 
+    // Called to check if graphics is already contained in @graphicsComponents
     private boolean contained(GraphicsComponent graphics) {
         if (graphicComponents.get(graphics.getLayer()).contains(graphics))
             return true;
@@ -92,6 +146,7 @@ public class GraphicsManager extends Manager {
             return false;
     }
     
+    // Called to add component to corresponding ArrayList
     public void add(Component component) {
         if (component.getType() == ComponentType.ANIMATION) {
             AnimationComponent animation = (AnimationComponent)component;
@@ -116,7 +171,8 @@ public class GraphicsManager extends Manager {
             }
         }
     }
-                
+             
+    // Called to remove component from corresponding ArrayList   
     public void remove(Component component) {
         if (component.getType() == ComponentType.ANIMATION) {
             AnimationComponent animation = (AnimationComponent)component;
@@ -142,6 +198,7 @@ public class GraphicsManager extends Manager {
         }
     }
  
+    // Called to get the current camera
     public OrthographicCamera getCamera() {
         if (cameraComponent != null) {
             return cameraComponent.getCamera();
@@ -149,42 +206,7 @@ public class GraphicsManager extends Manager {
         return null;
     }
 
-    private GraphicsManager() {
-        super();
-        setup();
-    }
-    
-            
-    private void setup() {
-        textureAtlas = new TextureAtlas();
-        animationComponents = new ArrayList<AnimationComponent>();
-        graphicComponents = new ArrayList<ArrayList<GraphicsComponent>>();
-        for (int i = 0; i < MAX_LAYERS; i++) {
-            graphicComponents.add(new ArrayList<GraphicsComponent>());
-        }
-        floatingTextComponents = new ArrayList<FloatingTextComponent>();
-        cameraComponent = null;
-    }
-
-    public void loadTextureAtlas() {
-        ScreenType type = screen.getType();
-        gm.getAssetManager().load(type.getAtlasPath(), TextureAtlas.class);
-        gm.getAssetManager().finishLoading();
-        textureAtlas = gm.getAssetManager().get(type.getAtlasPath());
-    }
-    
-    @Override
-    protected void loadScreenSettings() {
-        loadTextureAtlas();
-    }
-
-    @Override
-    protected void removeScreenSettings() {
-        DebugTool.log("Removing TextureAtlas");
-        textureAtlas.dispose();
-        textureAtlas = new TextureAtlas();
-    }
-
+    // Called to get the texture from the @textureAtlas
     public Texture getTexture(TextureType textureType) {
         return textureAtlas.findRegion(textureType.getFileName()).getTexture();
     }
