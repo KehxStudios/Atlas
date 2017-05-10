@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.tools.DebugTool;
+import com.kehxstudios.atlas.tools.ErrorTool;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class InputManager extends Manager {
     
     // Initalizes the @clickableComponents
     @Override
-    private void setup() {
+    protected void setup() {
         clickableComponents = new ArrayList<ClickableComponent>();
         DebugTool.log("InputManager_setup: Complete");
     }
@@ -77,7 +78,7 @@ public class InputManager extends Manager {
         if (!clickableComponents.contains(clickable)) {
             clickableComponents.add(clickable);
         } else {
-            ErrorTool.log("Failed to add clickable to clickableComponents");  
+            ErrorTool.log("Failed to add clickable to clickableComponents");
         }
     }
 

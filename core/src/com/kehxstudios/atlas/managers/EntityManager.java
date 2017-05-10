@@ -66,6 +66,7 @@ public class EntityManager extends Manager {
     // Called when loading a new screen
     @Override
     protected void loadScreenSettings() {
+        setup();
         DebugTool.log("EntityManager_loadScreenSettings: Complete");
     }
 
@@ -110,8 +111,8 @@ public class EntityManager extends Manager {
         if (entities.contains(entity)) {
             if (entity.getComponents().size() > 0) {
                 ArrayList<Component> components = entity.getComponents();
-                for (Component component : components) {
-                    removeComponent(entity, component);
+                for (;components.size() > 0;) {
+                    removeComponent(entity, components.get(0));
                 }
             }
             entities.remove(entity);

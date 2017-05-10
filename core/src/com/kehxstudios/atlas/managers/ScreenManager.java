@@ -35,7 +35,7 @@ public class ScreenManager extends Manager {
     
     // Set the default variables
     @Override
-    protected setup() {
+    protected void setup() {
         newScreenType = ScreenType.VOID;
         screenRequested = false;
         DebugTool.log("ScreenManager_setup: Complete");
@@ -70,7 +70,7 @@ public class ScreenManager extends Manager {
     // Called when new screen is requested on next @tick()
     public void requestNewScreen(ScreenType screenType) {
         newScreenType = screenType;
-        loadNewScreenOnTick = true;
+        screenRequested = true;
         DebugTool.log("ScreenManager_requestNewScreen: " + newScreenType.getId());
     }
 

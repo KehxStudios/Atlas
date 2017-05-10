@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.type.ScreenType;
@@ -33,6 +34,7 @@ public class GameManager extends Game {
 
 	@Override
 	public void create () {
+		DebugTool.log("GameManager.create() started");
 		// Set instance to the current one created
 		instance = this;
 
@@ -43,6 +45,7 @@ public class GameManager extends Game {
 		inputManager = InputManager.getInstance();
 		physicsManager = PhysicsManager.getInstance();
 		assetManager = new AssetManager();
+		Texture.setAssetManager(assetManager);
 
 		// If running on the Desktop set title, window size and lock, will update for size options later
 		if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
@@ -90,11 +93,16 @@ public class GameManager extends Game {
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
 
-		// Demand a new Screen be started now
-		screenManager.demandNewScreen(ScreenType.INTRO);
-
 		DebugTool.log("GameManager.reload() complete");
 	}
+
+	@Override
+	public void resume() {
+		DebugTool.log("GAME_RESUME");
+		assetManager.finishLoading();
+	}
+
+
 
 	@Override
 	public void render () {

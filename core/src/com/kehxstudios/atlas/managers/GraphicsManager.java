@@ -53,7 +53,7 @@ public class GraphicsManager extends Manager {
     
     // Setup ArrayLists and other variables
     @Override
-    private void setup() {
+    protected void setup() {
         textureAtlas = new TextureAtlas();
         animationComponents = new ArrayList<AnimationComponent>();
         graphicComponents = new ArrayList<ArrayList<GraphicsComponent>>();
@@ -80,6 +80,7 @@ public class GraphicsManager extends Manager {
     // Called when loading a new screen
     @Override
     protected void loadScreenSettings() {
+        setup();
         loadTextureAtlas();
         DebugTool.log("GraphicsManager_loadScreenSettings: Complete");
     }
@@ -181,7 +182,6 @@ public class GraphicsManager extends Manager {
         } else if (component.getType() == ComponentType.CAMERA) {
                 CameraComponent camera = (CameraComponent)component;
                 if (cameraComponent == camera) {
-                    EntityManager.getInstance().markComponentForRemoval(cameraComponent);
                     cameraComponent = null;
                 }
         } else if (component.getType() == ComponentType.GRAPHICS) {

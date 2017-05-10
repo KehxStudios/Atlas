@@ -158,7 +158,6 @@ public class FlappyBatScreen extends AScreen {
         scoreText.setText(score+"");
         scoreText.getLayout().setText(scoreText.getFont(), scoreText.getLabel() + scoreText.getText(),
             Color.BLACK, 0, Align.left, true);
-        DebugTool.log("score: " + score);
 
         super.render(delta);
     }

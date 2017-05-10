@@ -89,8 +89,6 @@ public abstract class AScreen implements Screen {
     @Override
     public void resume() {
         DebugTool.log("SCREEN_RESUME");
-        GraphicsManager.getInstance().loadTextureAtlas();
-        //gm.reload();
     }
 
     @Override

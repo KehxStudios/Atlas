@@ -34,7 +34,7 @@ public class PhysicsManager extends Manager {
     
     // Initalize @physicsComponents
     @Override
-    private void setup() {
+    protected void setup() {
         physicsComponents = new ArrayList<PhysicsComponent>();
         DebugTool.log("PhysicsManager_setup: Complete");
     }
