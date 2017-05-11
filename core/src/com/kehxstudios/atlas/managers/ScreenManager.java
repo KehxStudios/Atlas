@@ -57,7 +57,7 @@ public class ScreenManager extends Manager {
         GraphicsManager.getInstance().setScreen(screen);
         InputManager.getInstance().setScreen(screen);
         PhysicsManager.getInstance().setScreen(screen);
-        GameManager.getInstance().setScreen(screen);
+        GameManager.getInstance().setScreenBeingLoaded(screen);
         DebugTool.log("ScreenManager_loadScreenSettings: Complete");
     }
 
