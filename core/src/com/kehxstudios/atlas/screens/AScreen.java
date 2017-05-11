@@ -115,4 +115,6 @@ public abstract class AScreen implements Screen {
     public void addScore(int value) { score += value; }
 
     public void setScore(int score) { this.score = score; }
+    
+    public String[] getLoadingStrings() { return loadingStrings; }
 }
