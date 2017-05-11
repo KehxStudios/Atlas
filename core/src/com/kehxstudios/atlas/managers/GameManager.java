@@ -30,6 +30,8 @@ public class GameManager extends Game {
 	private OrthographicCamera camera;
 	
 	private GameState gameState;
+	private LoadingScreen loadingScreen;
+	private AScreen screenBeingLoaded;
 
 	// Used for Desktop window size, will later update for size options
 	public static final float D_WIDTH = 480, D_HEIGHT = 800;
@@ -63,11 +65,13 @@ public class GameManager extends Game {
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
 
+		gameState = GameState.Running;
+		
+		loadingScreen = new LoadingScreen();
+
 		// Demand a new Screen be started now
         	screenManager.demandNewScreen(ScreenType.INTRO);
 		
-		gameState = GameState.Running;
-
 		DebugTool.log("GameManager.create() complete");
 	}
 
@@ -142,6 +146,10 @@ public class GameManager extends Game {
 
 			// tick ScreenManager to check if screen change is needed
 			screenManager.tick(delta);
+		} else if (gameState == GameState.Loading) {
+			if (loadingScreen.isFinishedLoading() {
+				finishedLoading();	
+			}
 		}
 	}
 
@@ -164,8 +172,20 @@ public class GameManager extends Game {
 		return batch;
 	}
 	
-	public void startLoading() { gameState = GameState.Loading; }
-	public void finishedLoading() { gameState = GameState.Running; }
+	private void startLoading() { 
+		gameState = GameState.Loading; 
+		loadingScreen.setFilesLoading(screenBeingLoaded.getLoadingStrings());
+		setScreen(loadingScreen);
+	}
+	private void finishedLoading() { 
+		gameState = GameState.Running; 
+		setScreen(screen);
+	}
+	
+	public void setScreenBeingLoaded(AScreen screen) {
+		screenBeingLoaded = screen;
+		startLoading();
+	}
 
 	public void setBatch(SpriteBatch batch) { this.batch = batch; }
 
