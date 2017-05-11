@@ -36,6 +36,7 @@ public abstract class AScreen implements Screen {
     protected HighScores highScores;
     protected int score;
 
+    protected String[] loadingStrings;
     
     public AScreen(ScreenType type) {
         this.type = type;
@@ -45,6 +46,7 @@ public abstract class AScreen implements Screen {
         highScores = new HighScores(type);
         screenTime = 0f;
         score = 0;
+        loadingString = new String[];
     }
 
     public void finalizeSetup() {
