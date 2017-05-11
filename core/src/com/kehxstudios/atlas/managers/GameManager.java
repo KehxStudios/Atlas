@@ -28,6 +28,8 @@ public class GameManager extends Game {
 
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
+	
+	private GameState gameState;
 
 	// Used for Desktop window size, will later update for size options
 	public static final float D_WIDTH = 480, D_HEIGHT = 800;
@@ -62,7 +64,9 @@ public class GameManager extends Game {
 		batch.setProjectionMatrix(camera.combined);
 
 		// Demand a new Screen be started now
-        screenManager.demandNewScreen(ScreenType.INTRO);
+        	screenManager.demandNewScreen(ScreenType.INTRO);
+		
+		gameState = GameState.Running;
 
 		DebugTool.log("GameManager.create() complete");
 	}
@@ -97,42 +101,48 @@ public class GameManager extends Game {
 	}
 
 	@Override
-	public void resume() {
-		DebugTool.log("GAME_RESUME");
-		assetManager.finishLoading();
+	public void pause() {
+		DebugTool.log("GAME_PAUSE");
+		gameState = GameState.Paused;
 	}
 
-
+	@Override
+	public void resume() {
+		DebugTool.log("GAME_RESUME");
+		gameState = GameState.Running;
+	}
 
 	@Override
 	public void render () {
-		// Get the current delta time to pass to Managers
-		float delta = Gdx.graphics.getDeltaTime();
-
 		// render the Screen that is set allowing screen functions
 		super.render();
+		
+		if (gameState == GameState.Running) {
+			// Get the current delta time to pass to Managers
+			float delta = Gdx.graphics.getDeltaTime();
 
-		// tick InputManager to check for input changes
-		inputManager.tick(delta);
+			// tick InputManager to check for input changes
+			inputManager.tick(delta);
 
-		// tick PhysicsManager to change any locations by the means of physics
-		physicsManager.tick(delta);
+			// tick PhysicsManager to change any locations by the means of physics
+			physicsManager.tick(delta);
 
-		// tick EntityManager to check if anything needs to be removed
-		entityManager.tick(delta);
+			// tick EntityManager to check if anything needs to be removed
+			entityManager.tick(delta);
 
-		// tick GraphicsManager to check if any animations require changing
-		graphicsManager.tick(delta);
+			// tick GraphicsManager to check if any animations require changing
+			graphicsManager.tick(delta);
 
-		// Clear the current graphics
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			// Clear the current graphics
+			Gdx.gl.glClearColor(1, 1, 1, 1);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		// render everything inside of GraphicsManager
-		graphicsManager.render(batch);
+			// render everything inside of GraphicsManager
+			graphicsManager.render(batch);
 
-		// tick ScreenManager to check if screen change is needed
-		screenManager.tick(delta);
+			// tick ScreenManager to check if screen change is needed
+			screenManager.tick(delta);
+		}
 	}
 
 	// Dispose of everything that might need disposal
@@ -145,10 +155,17 @@ public class GameManager extends Game {
 		assetManager.dispose();
 		Gdx.app.error("Disposal", "COMPLETED");
 	}
+	
+	public enum GameState {
+		Running, Paused, Loading
+	}
 
 	public SpriteBatch getBatch() {
 		return batch;
 	}
+	
+	public void startLoading() { gameState = GameState.Loading; }
+	public void finishedLoading() { gameState = GameState.Running; }
 
 	public void setBatch(SpriteBatch batch) { this.batch = batch; }
 
