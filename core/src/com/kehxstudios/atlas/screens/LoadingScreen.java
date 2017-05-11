@@ -6,33 +6,43 @@ import com.kehxstudios.atlas.type.ScreenType;
 
 public class LoadingScreen extends AScreen {
 
-    private ScreenType loadingType;
-    private boolean finishedLoading;
+    private String[] filesLoading;
 
     public LoadingScreen() {
-      super(ScreenType.LOADING);
-      finishedLoading = false;
+        super(ScreenType.LOADING);
+        fileLoading = new String[];
     }
 
     public void finalizeSetup() {
-        super.finalizeSetup();
     }
 
     @Override
     public void render(float delta) {
-      super.render(delta);
-      
-      if (finishedLoading) {
-          ScreenManager.getInstance().requestNewScreen(loadingType);
-      }
+        if (checkAllFiles()) {
+            gm.finishedLoading();
+        } else {
+            super.render(delta);
+            gm.getAssetManager().update();
+            
+			Gdx.gl.glClearColor(1, 1, 1, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            
+            
+        }
     }
- 
-    public ScreenType getloadingType() { return loadingType; }
-    public void setLoadingType(ScreenType type) { loadingType = type; }
     
-    public boolean isFinishedLoading() { return finishedLoading; }
-    public void setFinishedLoading(boolean value) { finishedLoading = value; }
-  
+    private void checkAllFiles() {
+        if (filesLoading.size() > 0) {
+            for (String fileName : filesLoading) {
+                if (!gm.getAssetManager.isLoaded(fileName))
+                    return false;
+            }
+        }
+        return true;
+    }
+    
+    public void setFilesLoading(String[] filesLoading) { this.filesLoading = filesLoading; }
+    
     @Override
     public void show() {
         super.show();
