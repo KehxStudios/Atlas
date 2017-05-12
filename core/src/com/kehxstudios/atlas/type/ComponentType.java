@@ -4,6 +4,7 @@ import com.kehxstudios.atlas.components.AnimationComponent;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.components.Component;
+import com.kehxstudios.atlas.components.CollisionComponent;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.InViewComponent;
@@ -23,7 +24,6 @@ public enum ComponentType {
     ANIMATION("Animation", AnimationComponent.class),
     CAMERA("Camera", CameraComponent.class),
     CLICKABLE("Clickable", ClickableComponent.class),
-    COLLIDABLE("Collidable", CollidableComponent.class),
     COLLISION("Collision", CollisionComponent.class),
     FLOATING_TEXT("Floating_Text", FloatingTextComponent.class),
     GRAPHICS("Graphics", GraphicsComponent.class),
