@@ -1,6 +1,13 @@
 package com.kehxstudios.atlas.managers;
 
 
+import com.kehxstudios.atlas.components.Component;
+import com.kehxstudios.atlas.components.MusicComponent;
+import com.kehxstudios.atlas.components.SoundComponent;
+import com.kehxstudios.atlas.tools.DebugTool;
+import com.kehxstudios.atlas.type.ComponentType;
+
+import java.util.ArrayList;
 
 public class SoundManager extends Manager {
 
@@ -46,13 +53,13 @@ public class SoundManager extends Manager {
     public void play(Component component) {
         if (component.getType() == ComponentType.SOUND) {
             SoundComponent sound = (SoundComponent)component;
-            if (!soundComponents.contains(sound) {
+            if (!soundComponents.contains(sound)) {
                 add(sound);
             }
             // music.getClip().play();
         } else if (component.getType() == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
-            if (!musicComponents.contains(music) {
+            if (!musicComponents.contains(music)) {
                 add(music);
             }
             // music.getClip().play();
@@ -62,7 +69,7 @@ public class SoundManager extends Manager {
     public void stop(Component component) {
         if (component.getType() == ComponentType.SOUND) {
             SoundComponent sound = (SoundComponent)component;
-            if (!soundComponents.contains(sound) {
+            if (!soundComponents.contains(sound)) {
                 add(sound);
             }
             //if (sound.getClip().isPlaying()) {
@@ -70,7 +77,7 @@ public class SoundManager extends Manager {
             //}
         } else if (component.getType() == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
-            if (!musicComponents.contains(music) {
+            if (!musicComponents.contains(music)) {
                 add(music);
             }
             //if (music.getClip().isPlaying()) {
@@ -82,13 +89,13 @@ public class SoundManager extends Manager {
     public void add(Component component) {
         if (component.getType() == ComponentType.SOUND) {
             SoundComponent sound = (SoundComponent)component;
-            if (!soundComponents.contains(sound) {
+            if (!soundComponents.contains(sound)) {
                 soundComponents.add(sound);
             }
         } else if (component.getType() == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
-            if (!musicComponents.contains(music) {
-                musicComponets.add(music);
+            if (!musicComponents.contains(music)) {
+                musicComponents.add(music);
             }
         }
     }
@@ -96,13 +103,13 @@ public class SoundManager extends Manager {
     public void remove(Component component) {
         if (component.getType() == ComponentType.SOUND) {
             SoundComponent sound = (SoundComponent)component;
-            if (soundComponents.contains(sound) {
+            if (soundComponents.contains(sound)) {
                 soundComponents.remove(sound);
             }
         } else if (component.getType() == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
-            if (musicComponents.contains(music) {
-                musicComponets.remove(music);
+            if (musicComponents.contains(music)) {
+                musicComponents.remove(music);
             }
         }
     }

@@ -45,7 +45,7 @@ public class ScreenManager extends Manager {
     @Override
     public void tick(float delta) {
         if (screenRequested) {
-            loadNewScreen();
+            startLoadingScreen();
             screenRequested = false;
         }
     }
@@ -57,7 +57,7 @@ public class ScreenManager extends Manager {
         GraphicsManager.getInstance().setScreen(screen);
         InputManager.getInstance().setScreen(screen);
         PhysicsManager.getInstance().setScreen(screen);
-        GameManager.getInstance().setScreenBeingLoaded(screen);
+        GameManager.getInstance().setScreen(screen);
         DebugTool.log("ScreenManager_loadScreenSettings: Complete");
     }
 
@@ -78,11 +78,15 @@ public class ScreenManager extends Manager {
     public void demandNewScreen(ScreenType screenType) {
         newScreenType = screenType;
         DebugTool.log("ScreenManager_demandNewScreen: " + newScreenType.getId());
-        loadNewScreen();
+        startLoadingScreen();
     }
 
-    // Called to load a new screen
-    private void loadNewScreen() {
+
+    private void startLoadingScreen() {
+        gm.startLoading(newScreenType);
+    }
+
+    public void finishedLoadingScreen() {
         DebugTool.log("New Screen Loading: "+ newScreenType.getId());
         try {
             setScreen((AScreen)ClassReflection.newInstance(newScreenType.getLoaderClass()));
@@ -93,5 +97,4 @@ public class ScreenManager extends Manager {
             demandNewScreen(ScreenType.INTRO);
         }
     }
-
 }

@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 public enum SoundType {
 
-    INTRO("Intro", "intro.mp3", "screens/intro/", 3.0f), 
+    INTRO("Intro", "intro.mp3", "sounds/intro/", 3.0f),
     
-    MAIN_MENU("MainMenu", "mainMenu.mp3", "screens/mainMenu/", 5.0f),
+    MAIN_MENU("MainMenu", "mainMenu.mp3", "sounds/mainMenu/", 5.0f),
     
     VOID("Void", "", "", 0.0f);
 
@@ -38,5 +38,6 @@ public enum SoundType {
         soundTypes = new HashMap<String, SoundType>();
         for (SoundType type : SoundType.values()) {
             soundTypes.put(type.id, type);
+        }
     }
 }

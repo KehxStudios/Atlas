@@ -1,48 +1,40 @@
 
 package com.kehxstudios.atlas.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.type.ScreenType;
 
 public class LoadingScreen extends AScreen {
 
-    private String[] filesLoading;
+    private ScreenType loadingType;
 
     public LoadingScreen() {
         super(ScreenType.LOADING);
-        fileLoading = new String[];
+        loadingType = ScreenType.VOID;
     }
 
     public void finalizeSetup() {
+        gm.getAssetManager().load(loadingType.getAtlasPath(), TextureAtlas.class);
     }
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0,0,1,1);
+        /*
         if (checkAllFiles()) {
             gm.finishedLoading();
         } else {
             super.render(delta);
             gm.getAssetManager().update();
-            
-			Gdx.gl.glClearColor(1, 1, 1, 1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            
-            
+
         }
+        */
     }
-    
-    private void checkAllFiles() {
-        if (filesLoading.size() > 0) {
-            for (String fileName : filesLoading) {
-                if (!gm.getAssetManager.isLoaded(fileName))
-                    return false;
-            }
-        }
-        return true;
-    }
-    
-    public void setFilesLoading(String[] filesLoading) { this.filesLoading = filesLoading; }
-    
+
+    public void setLoadingType(ScreenType type) { loadingType = type; }
+
     @Override
     public void show() {
         super.show();

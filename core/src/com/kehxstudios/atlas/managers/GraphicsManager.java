@@ -127,10 +127,7 @@ public class GraphicsManager extends Manager {
 
     // Called to load textures into the TextureAtlas
     private void loadTextureAtlas() {
-        ScreenType type = screen.getType();
-        gm.getAssetManager().load(type.getAtlasPath(), TextureAtlas.class);
-        gm.getAssetManager().finishLoading();
-        textureAtlas = gm.getAssetManager().get(type.getAtlasPath());
+        textureAtlas = gm.getAssetManager().get(screen.getType().getAtlasPath());
         DebugTool.log("GraphicsManager_loadTextureAtlas: Complete");
     }
     

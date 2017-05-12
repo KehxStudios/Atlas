@@ -4,11 +4,11 @@ import java.util.HashMap;
 
 public enum MusicType {
 
-    INTRO("Intro", "intro.mp3", "music/intro/", 3.0f), 
+    INTRO("Intro", "intro.mp3", "intro/music/"),
     
-    MAIN_MENU("MainMenu", "mainMenu.mp3", "music/mainMenu/", 5.0f),
+    MAIN_MENU("MainMenu", "mainMenu.mp3", "mainMenu/music/"),
     
-    VOID("Void", "", "", 0.0f);
+    VOID("Void", "", "");
 
     private String id, fileName, filePath;
 
@@ -34,5 +34,6 @@ public enum MusicType {
         musicTypes = new HashMap<String, MusicType>();
         for (MusicType type : MusicType.values()) {
             musicTypes.put(type.id, type);
+        }
     }
 }

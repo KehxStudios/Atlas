@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.kehxstudios.atlas.screens.AScreen;
+import com.kehxstudios.atlas.screens.LoadingScreen;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.type.ScreenType;
 
@@ -31,7 +33,7 @@ public class GameManager extends Game {
 	
 	private GameState gameState;
 	private LoadingScreen loadingScreen;
-	private AScreen screenBeingLoaded;
+	private ScreenType loadingScreenType;
 
 	// Used for Desktop window size, will later update for size options
 	public static final float D_WIDTH = 480, D_HEIGHT = 800;
@@ -118,9 +120,13 @@ public class GameManager extends Game {
 
 	@Override
 	public void render () {
+		// Clear the current graphics
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		// render the Screen that is set allowing screen functions
 		super.render();
-		
+
 		if (gameState == GameState.Running) {
 			// Get the current delta time to pass to Managers
 			float delta = Gdx.graphics.getDeltaTime();
@@ -137,18 +143,14 @@ public class GameManager extends Game {
 			// tick GraphicsManager to check if any animations require changing
 			graphicsManager.tick(delta);
 
-			// Clear the current graphics
-			Gdx.gl.glClearColor(1, 1, 1, 1);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 			// render everything inside of GraphicsManager
 			graphicsManager.render(batch);
 
 			// tick ScreenManager to check if screen change is needed
 			screenManager.tick(delta);
 		} else if (gameState == GameState.Loading) {
-			if (loadingScreen.isFinishedLoading() {
-				finishedLoading();	
+			if (assetManager.update()) {
+				finishedLoading();
 			}
 		}
 	}
@@ -172,19 +174,16 @@ public class GameManager extends Game {
 		return batch;
 	}
 	
-	private void startLoading() { 
-		gameState = GameState.Loading; 
-		loadingScreen.setFilesLoading(screenBeingLoaded.getLoadingStrings());
+	public void startLoading(ScreenType screenType) {
+		loadingScreenType = screenType;
+		loadingScreen.setLoadingType(loadingScreenType);
 		setScreen(loadingScreen);
+		loadingScreen.finalizeSetup();
+		gameState = GameState.Loading;
 	}
-	private void finishedLoading() { 
-		gameState = GameState.Running; 
-		setScreen(screen);
-	}
-	
-	public void setScreenBeingLoaded(AScreen screen) {
-		screenBeingLoaded = screen;
-		startLoading();
+	private void finishedLoading() {
+		screenManager.finishedLoadingScreen();
+		gameState = GameState.Running;
 	}
 
 	public void setBatch(SpriteBatch batch) { this.batch = batch; }

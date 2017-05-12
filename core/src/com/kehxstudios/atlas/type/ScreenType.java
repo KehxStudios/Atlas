@@ -17,13 +17,13 @@ import java.util.HashMap;
 
 public enum ScreenType {
 
-    INTRO("Intro", "texturePacks/intro.atlas", 1080, 1920, IntroScreen.class),
-    MAIN_MENU("Main Menu", "texturePacks/mainMenu.atlas", 1440, 2560, MainMenuScreen.class),
-    FLAPPY_BAT("Flappy Bat", "texturePacks/flappyBat.atlas", 240, 400, FlappyBatScreen.class),
-    GENE_ROCKETS("Gene Rockets", "texturePacks/geneRockets.atlas", 512, 910, GeneRocketsScreen.class),
-    PONG("Pong", "texturePacks/pong.atlas", 512, 910, PongScreen.class),
-    RECAP_JOURNAL("Recap Journal", "texturePacks/recapJournal.atlas", 512, 910, RecapJournalScreen.class),
-    LOADING("Loading", "texturePacks/loading.atlas", 512, 910, LoadingScreen.class),
+    INTRO("Intro", "intro/intro.atlas", 1080, 1920, IntroScreen.class),
+    MAIN_MENU("Main Menu", "mainMenu/mainMenu.atlas", 1440, 2560, MainMenuScreen.class),
+    FLAPPY_BAT("Flappy Bat", "flappyBat/flappyBat.atlas", 240, 400, FlappyBatScreen.class),
+    GENE_ROCKETS("Gene Rockets", "geneRockets/geneRockets.atlas", 512, 910, GeneRocketsScreen.class),
+    PONG("Pong", "pong/pong.atlas", 512, 910, PongScreen.class),
+    RECAP_JOURNAL("Recap Journal", "recapJournal/recapJournal.atlas", 512, 910, RecapJournalScreen.class),
+    LOADING("Loading", "loading/loading.atlas", 512, 910, LoadingScreen.class),
     VOID("Void", "", 0, 0, AScreen.class);
 
     private String id, atlasPath;

@@ -7,8 +7,10 @@ import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.InViewComponent;
+import com.kehxstudios.atlas.components.MusicComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.components.PointerDirectionComponent;
+import com.kehxstudios.atlas.components.SoundComponent;
 
 import java.util.HashMap;
 
@@ -24,8 +26,10 @@ public enum ComponentType {
     FLOATING_TEXT("Floating_Text", FloatingTextComponent.class),
     GRAPHICS("Graphics", GraphicsComponent.class),
     IN_VIEW("In_View", InViewComponent.class),
+    MUSIC("Music", MusicComponent.class),
     PHYSICS("Physics", PhysicsComponent.class),
     POINTER_DIRECTION("Pointer_Direction", PointerDirectionComponent.class),
+    SOUND("Sound", SoundComponent.class),
     VOID("void", Component.class);
 
     private static HashMap<String, ComponentType> componentTypes;

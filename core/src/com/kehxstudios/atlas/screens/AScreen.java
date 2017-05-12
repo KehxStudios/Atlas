@@ -46,7 +46,7 @@ public abstract class AScreen implements Screen {
         highScores = new HighScores(type);
         screenTime = 0f;
         score = 0;
-        loadingString = new String[];
+        loadingStrings = new String[0];
     }
 
     public void finalizeSetup() {
