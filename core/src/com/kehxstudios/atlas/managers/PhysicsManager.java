@@ -23,8 +23,10 @@ public class PhysicsManager extends Manager {
 
     // ArrayList for all PhysicsComponents created
     private ArrayList<PhysicsComponent> physicsComponents;
-    // PhysicsComponent that collision will be checked against, will be removed for complete collision later
-    private PhysicsComponent player;
+    
+    // ArrayList's for all CollisionComponents created based on if static or dynamic position
+    private ArrayList<CollisionComponent> staticCollisionComponents;
+    private ArrayList<CollisionComponent> dynamicCollisionComponents;
 
     // Constructor
     private PhysicsManager() {
@@ -36,6 +38,8 @@ public class PhysicsManager extends Manager {
     @Override
     protected void setup() {
         physicsComponents = new ArrayList<PhysicsComponent>();
+        staticCollisionComponents = new ArrayList<CollisionComponent>();
+        dynamicCollisionComponents = new ArrayList<CollisionComponent>();
         DebugTool.log("PhysicsManager_setup: Complete");
     }
     
@@ -52,13 +56,22 @@ public class PhysicsManager extends Manager {
                 physics.getVelocity().scl(1 / delta);
             }
         }
-
-        if (player != null) {
-            for (PhysicsComponent physic : physicsComponents) {
-                if (physic.isEnabled() && physic.collidable && physic != player) {
-                    if (player.getBounds().overlaps(physic.getBounds())) {
-                        DebugTool.log("Collision");
-                        player.setCollided(true);
+        if (dynamicCollisionComponents.size() > 0) {
+            for (CollisionComponent collision : dynamicCollisionComponents) {
+                if (collision.isEnabled()) {
+                    for (CollisionComponent staticCollision : staticCollisionComponents) {
+                        if (staticCollision.isEnabled() && collision.getBounds().overlaps(staticCollision.getBounds())) {
+                            DebugTool.log("Static Collision");
+                            collision.trigger();
+                            staticCollision.trigger();
+                        }
+                    }
+                    for (CollisionComponent dynamicCollision : dynamicCollisionComponents) {
+                        if (collision != dynamicCollision &&  dynamicCollision.isEnabled() &&
+                                collision.getBounds().overlaps(dynamicCollision.getBounds())) {
+                            DebugTool.log("Dynamic Collision");
+                            collision.trigger();
+                        }
                     }
                 }
             }
@@ -77,12 +90,6 @@ public class PhysicsManager extends Manager {
         DebugTool.log("PhysicsManager_removeScreenSettings: Complete");
     }
     
-    // Called to set the current @player for collision
-    public void setPlayer(PhysicsComponent player) {
-        this.player = player;
-        DebugTool.log("PhysicsManager_setPlayer: Complete");
-    }
-
     // Adds a physics to @physicsComponents
     public void add(PhysicsComponent physics) {
         if (!physicsComponents.contains(physics)) {
