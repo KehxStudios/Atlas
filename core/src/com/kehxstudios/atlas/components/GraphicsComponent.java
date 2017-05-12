@@ -9,6 +9,7 @@ import com.kehxstudios.atlas.type.TextureType;
 public class GraphicsComponent extends Component {
 
     private TextureType textureType;
+    private Texture texture;
     private float width, height;
     private int layer;
 
@@ -17,7 +18,12 @@ public class GraphicsComponent extends Component {
         this.textureType = textureType;
         width = textureType.getWidth();
         height = textureType.getHeight();
+        if (textureType != TextureType.VOID) {
+            texture = GraphicsManager.getInstance().getTexture(textureType);
+        }
     }
+    
+    public Texture getTexture() { return texture; }
 
     public float getWidth() { return width; }
     public void setWidth(float width) { this.width = width; }
