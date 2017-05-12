@@ -23,6 +23,8 @@ public enum ComponentType {
     ANIMATION("Animation", AnimationComponent.class),
     CAMERA("Camera", CameraComponent.class),
     CLICKABLE("Clickable", ClickableComponent.class),
+    COLLIDABLE("Collidable", CollidableComponent.class),
+    COLLISION("Collision", CollisionComponent.class),
     FLOATING_TEXT("Floating_Text", FloatingTextComponent.class),
     GRAPHICS("Graphics", GraphicsComponent.class),
     IN_VIEW("In_View", InViewComponent.class),
