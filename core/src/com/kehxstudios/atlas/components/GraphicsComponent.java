@@ -12,6 +12,7 @@ public class GraphicsComponent extends Component {
     private Texture texture;
     private float width, height;
     private int layer;
+    private float rotation
 
     public TextureType getTextureType() { return textureType; }
     public void setTextureType(TextureType textureType) {
@@ -35,4 +36,16 @@ public class GraphicsComponent extends Component {
 
     public int getLayer() { return layer; }
     public void setLayer(int layer) { this.layer = layer; }
+    
+    public float getRotation() { return rotation; }
+    public void addRotation(float value) { setRotation(rotation + value); }
+    public void setRotation(float rotation) { 
+        while (rotation > 360f) {
+            rotation -= 360f;
+        }
+        while (rotation < 0f) {
+            rotation += 360f;   
+        }
+        this.rotation = rotation; 
+    }
 }
