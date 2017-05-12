@@ -106,9 +106,7 @@ public class GraphicsManager extends Manager {
             }
             for (GraphicsComponent graphics : layerList) {
                 if (graphics.isEnabled() && graphics.getTextureType() != TextureType.VOID) {
-
-                    batch.draw(textureAtlas.findRegion(graphics.getTextureType().getFileName()),
-                        graphics.getPosition().x - graphics.getWidth() / 2,
+                    batch.draw(graphics.getTexture(), graphics.getPosition().x - graphics.getWidth() / 2,
                         graphics.getPosition().y - graphics.getHeight() / 2,
                         graphics.getWidth(), graphics.getHeight());
                 }
