@@ -25,6 +25,8 @@ public class InputManager extends Manager {
 
     // ArrayList for all ClickableComponents created
     private ArrayList<ClickableComponent> clickableComponents;
+    
+    private Vector2 clickedPosition;
 
     // Constructor
     public InputManager() {
@@ -36,6 +38,7 @@ public class InputManager extends Manager {
     @Override
     protected void setup() {
         clickableComponents = new ArrayList<ClickableComponent>();
+        clickedPosition = new Vector2(0,0);
         DebugTool.log("InputManager_setup: Complete");
     }
 
@@ -47,6 +50,7 @@ public class InputManager extends Manager {
                 screen.getCamera().viewportWidth/2;
             float y = screen.getHeight() - Gdx.input.getY() / screen.getScaleHeight() + screen.getCamera().position.y - 
                 screen.getCamera().viewportHeight/2;
+            clickedPosition.set(x, y);
 
             for (ClickableComponent clickable : clickableComponents) {
                 if (clickable.isEnabled()) {
@@ -58,6 +62,8 @@ public class InputManager extends Manager {
                     }
                 }
             }
+        } else {
+            clickedPosition.set(0, 0);
         }
     }
     
@@ -91,4 +97,5 @@ public class InputManager extends Manager {
         }
     }
 
+    public Vector2 getClickedPosition() { return clickedPosition; }
 }
