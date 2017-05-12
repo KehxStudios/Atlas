@@ -16,130 +16,188 @@ import java.util.ArrayList;
 
 public class Templates {
 
-    public static ActionData createLaunchScreenActionData(ScreenType screenType) {
-        ActionData actionData = new ActionData();
-        actionData.type = ActionType.LAUNCH_SCREEN.getId();
-        actionData.putString("screenType", screenType.getId());
-        return actionData;
-    }
-
-    public static ActionData createHighScoreResetActionData(ScreenType screenType){
-        ActionData actionData = new ActionData();
-        actionData.type = ActionType.HIGH_SCORE_RESET.getId();
-        actionData.putString("screenType", screenType.getId());
-        return actionData;
+    public static ActionData destroyEntityActionData(Entity entity) {
+        ActionData data = new ActionData();   
+        data.type = ActionType.DESTROY_ENTITY.getId();
+        data.putString("entityId", entity.getId());
+        return data;
     }
     
-    public static ActionData createMultiActionData(ArrayList<ActionData> actionsData) {
-        ActionData actionData = new ActionData();
-        actionData.type = ActionType.MULTI.getId();
-        for (ActionData data : actionsData) {
-            actionData.putString(data.getType(), UtilityTool.getStringFromDataClass(data));
+    public static ActionData followActionData(boolean vertical, boolean horizontal) {
+        ActionData data = new ActionData();
+        data.type = ActionType.FOLLOW.getId();   
+        data.putBoolean("vertical", vertical);
+        data.putBoolean("horizontal", horizontal);
+        return data;
+    }
+    
+    public static ActionData highScoreResetActionData(ScreenType screenType){
+        ActionData data = new ActionData();
+        data.type = ActionType.HIGH_SCORE_RESET.getId();
+        data.putString("screenType", screenType.getId());
+        return data;
+    }
+    
+    public static ActionData launchScreenActionData(ScreenType screenType) {
+        ActionData data = new ActionData();
+        data.type = ActionType.LAUNCH_SCREEN.getId();
+        data.putString("screenType", screenType.getId());
+        return data;
+    }
+    
+    public static ActionData multiActionData(ArrayList<ActionData> actionsData) {
+        ActionData data = new ActionData();
+        data.type = ActionType.MULTI.getId();
+        for (ActionData action : actionsData) {
+            data.putString(data.getType(), UtilityTool.getStringFromDataClass(action));
         }
-        return actionData;
+        return data;
     }
 
-    public static ActionData createPhysicsActionData(float x, float y) {
-        ActionData actionData = new ActionData();
-        actionData.setType(ActionType.PHYSICS.getId());
-        actionData.putFloat("actionValue_x", x);
-        actionData.putFloat("actionValue_y", y);
-        return actionData;
+    public static ActionData physicsActionData(float x, float y) {
+        ActionData data = new ActionData();
+        data.setType(ActionType.PHYSICS.getId());
+        data.putFloat("actionValue_x", x);
+        data.putFloat("actionValue_y", y);
+        return data;
     }
 
-    public static ActionData createRepositionActionData(float x, float y, boolean teleport) {
-        ActionData actionData = new ActionData();
-        actionData.setType(ActionType.REPOSITION.getId());
-        actionData.putFloat("actionValue_x", x);
-        actionData.putFloat("actionValue_y", y);
-        actionData.putBoolean("teleport", teleport);
-        return actionData;
+    public static ActionData repositionActionData(float x, float y, boolean teleport) {
+        ActionData data = new ActionData();
+        data.setType(ActionType.REPOSITION.getId());
+        data.putFloat("actionValue_x", x);
+        data.putFloat("actionValue_y", y);
+        data.putBoolean("teleport", teleport);
+        return data;
     }
 
-    public static ActionData createScoreActionData(int score) {
-        ActionData actionData = new ActionData();
-        actionData.setType(ActionType.SCORE.getId());
-        actionData.putInt("actionValue", score);
-        return actionData;
+    public static ActionData scoreActionData(int score) {
+        ActionData data = new ActionData();
+        data.setType(ActionType.SCORE.getId());
+        data.putInt("actionValue", score);
+        return data;
     }
 
-    public static ActionData createSpawnEntityActionData(EntityData entityData) {
-        ActionData actionData = new ActionData();
-        actionData.setType(ActionType.SPAWN_ENTITY.getId());
-        actionData.putString("entityData", UtilityTool.getStringFromDataClass(entityData));
-        return actionData;
+    public static ActionData spawnEntityActionData(EntityData entityData) {
+        ActionData data = new ActionData();
+        data.setType(ActionType.SPAWN_ENTITY.getId());
+        data.putString("entityData", UtilityTool.getStringFromDataClass(entityData));
+        return data;
     }
 
-    private static ComponentData createComponentData() {
-        ComponentData componentData = new ComponentData();
-        componentData.setUseComponentPosition(false);
-        componentData.setUsePositionAsOffset(false);
-        componentData.setEnabled(true);
-        return componentData;
+    
+    private static ComponentData componentData() {
+        ComponentData data = new ComponentData();
+        data.setUseComponentPosition(false);
+        data.setUsePositionAsOffset(false);
+        data.setEnabled(true);
+        return data;
     }
     
-    public static ComponentData createCameraComponentData(float width, float height, boolean flipped) {
-        ComponentData cameraData = createComponentData();
-        cameraData.setType(ComponentType.CAMERA.getId());
-        cameraData.putFloat("width", width);
-        cameraData.putFloat("height", height);
-        cameraData.putBoolean("flipped", flipped);
-        return cameraData;
+    public static ComponentData animationComponentData() {
+        ComponentData data = componentData();
+        data.setType(ComponentType.ANIMATION.getId());
+        
+        return data;
+    }
+    
+    public static ComponentData cameraComponentData(float width, float height, boolean flipped) {
+        ComponentData data = componentData();
+        data.setType(ComponentType.CAMERA.getId());
+        data.putFloat("width", width);
+        data.putFloat("height", height);
+        data.putBoolean("flipped", flipped);
+        return data;
     }
 
-    public static ComponentData createPhysicsComponentData(float maxAccelerationX, float maxAccelerationY,
-                                                           float maxVelocityX, float maxVelocityY,
-                                                           float bounds_width, float bounds_height,
-                                                           boolean collidable) {
-        ComponentData physicsData = createComponentData();
-        physicsData.setType(ComponentType.PHYSICS.getId());
-        physicsData.putFloat("maxAccerlation_x", maxAccelerationX);
-        physicsData.putFloat("maxAcceleration_y", maxAccelerationY);
-        physicsData.putFloat("maxVeloity_x", maxVelocityX);
-        physicsData.putFloat("maxVelocity_y", maxVelocityY);
-        physicsData.putFloat("bounds_width", bounds_width);
-        physicsData.putFloat("bounds_height", bounds_height);
-        physicsData.putBoolean("collidable", collidable);
-        return physicsData;
+    public static ComponentData clickableComponentData(float width, float height, boolean singleTrigger, ActionData actionData) {
+        ComponentData data = componentData();
+        data.setType(ComponentType.CLICKABLE.getId());
+        data.putFloat("width", width);
+        data.putFloat("height", height);
+        data.putBoolean("singleTrigger", singleTrigger);
+        data.putString("action", UtilityTool.getStringFromDataClass(actionData));
+        return data;
+    }
+    
+    public static ComponentData collisionComponentData(float width, float height, boolean staticPosition, boolean singleTrigger
+                boolean triggered, ActionData actionData) {
+        ComponentData data = componentData();
+        data.setType(ComponentType.COLLISION.getId());
+        data.putFloat("width", width);
+        data.putFloat("height", height);
+        data.putBoolean("staticPosition", staticPosition);
+        data.putBoolean("singleTrigger", singleTrigger);
+        data.putBoolean("triggered", triggered);
+        data.putString("action", UtilityTool.getStringFromDataClass(actionData));
+        return data; 
+    }
+    
+    public static ComponentData floatingTextComponentData(String label, String text, float scale) {
+        ComponentData data = componentData();
+        data.setType(ComponentType.FLOATING_TEXT.getId());
+        data.putString("label", label);
+        data.putString("text", text);
+        data.putFloat("scale", scale);
+        return data;
+    }
+    
+    public static ComponentData graphicsComponentData(float width, float height, int layer, TextureType textureType) {
+        ComponentData data = componentData();
+        data.setType(ComponentType.GRAPHICS.getId());
+        data.putFloat("width", width);
+        data.putFloat("height", height);
+        data.putInt("layer", layer);
+        data.putString("textureType", textureType.getId());
+        return data;
+    }
+    
+    public static ComponentData inViewComponentData() {
+        ComponentData data = componentData();
+        data.setType(ComponentType.IN_VIEW.getId());
+        
+        return data;
+    }
+    
+    public static ComponentData musicComponentData(MusicType musicType, float volume) {
+        ComponentData data = componentData();
+        data.setType(ComponentType.MUSIC.getId());
+        data.putString("musicType", musicType.getId());
+        data.putFloat("volume", volume);
+        return data;
+    }
+    
+    public static ComponentData physicsComponentData(float maxAccelerationX, float maxAccelerationY,
+                                                           float maxVelocityX, float maxVelocityY) {
+        ComponentData data = componentData();
+        data.setType(ComponentType.PHYSICS.getId());
+        data.putFloat("maxAccerlation_x", maxAccelerationX);
+        data.putFloat("maxAcceleration_y", maxAccelerationY);
+        data.putFloat("maxVeloity_x", maxVelocityX);
+        data.putFloat("maxVelocity_y", maxVelocityY);
+        return data;
     }
 
-    public static ComponentData createClickableComponentData(float width, float height, boolean singleTrigger, ActionData actionData) {
-        ComponentData clickableData = createComponentData();
-        clickableData.setType(ComponentType.CLICKABLE.getId());
-        clickableData.putFloat("width", width);
-        clickableData.putFloat("height", height);
-        clickableData.putBoolean("singleTrigger", singleTrigger);
-        clickableData.putString("action", UtilityTool.getStringFromDataClass(actionData));
-        return clickableData;
+    public static ComponentData pointerDirectionComponentData() {
+        ComponentData data = componentData();
+        data.setType(ComponentType.POINTER_DIRECTION.getId());
+        
+        return data;
     }
-
-    public static ComponentData createFloatingTextComponentData(String label, String text, float scale) {
-        ComponentData floatingTextData = createComponentData();
-        floatingTextData.setType(ComponentType.FLOATING_TEXT.getId());
-        floatingTextData.putString("label", label);
-        floatingTextData.putString("text", text);
-        floatingTextData.putFloat("scale", scale);
-        return floatingTextData;
-    }
-
-    public static ComponentData createGraphicsComponentData(float width, float height, int layer, TextureType textureType) {
-        ComponentData graphicsData = createComponentData();
-        graphicsData.setType(ComponentType.GRAPHICS.getId());
-        graphicsData.putFloat("width", width);
-        graphicsData.putFloat("height", height);
-        graphicsData.putInt("layer", layer);
-        graphicsData.putString("textureType", textureType.getId());
-        return graphicsData;
+    
+    public static ComponentData soundComponentData(SoundType soundType, float volume) {
+        ComponentData data = componentData();
+        data.setType(ComponentType.SOUND.getId());
+        data.putString("soundType", soundType.getId());
+        data.putFloat("volume", volume);
+        return data;
     }
 
     public static EntityData createEntityData(float x, float y) {
-        EntityData entityData = new EntityData();
-        entityData.setX(x);
-        entityData.setY(y);
+        EntityData data = new EntityData();
+        data.setX(x);
+        data.setY(y);
 
-        return entityData;
+        return data;
     }
-
-
-
 }
