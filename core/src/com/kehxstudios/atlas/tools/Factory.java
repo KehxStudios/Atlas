@@ -105,6 +105,16 @@ public class Factory {
                 clickable.setAction(createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void"))));
                 InputManager.getInstance().add(clickable);
                 return clickable;
+            } else if (componentType == ComponentType.COLLISION) {
+                CollisionComponent collision = (CollisionComponent)component;  
+                collision.setWidth(componentData.getFloat("width", 0));
+                collision.setHeight(componentData.getFloat("height", 0));
+                collision.setStaticPosition(componentData.getBoolean("staticPosition", true));
+                collision.setSingleTrigger(componentData.getBoolean("singleTrigger", false));
+                collision.setTriggered(componentData.getBoolean("triggered", false));
+                collision.setAction(createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void"))));
+                PhysicsManager.getInstance().add(collision);
+                return collision;
             } else if (componentType == ComponentType.FLOATING_TEXT) {
                 FloatingTextComponent floatingText = (FloatingTextComponent)component;
                 floatingText.setFont(new BitmapFont());
@@ -140,7 +150,14 @@ public class Factory {
                 inView.setWidth(componentData.getFloat("width", 0));
                 inView.setHeight(componentData.getFloat("height", 0));
                 inView.setAction(createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void"))));
+                // ADD TO MANAGER
                 return inView;
+            } else if (componentType == ComponentType.MUSIC) {
+                MusicComponent music = (MusicComponent)component;
+                music.setMusicType(MusicType.getTypeFromId(componentData.getString("musicType", "Void")));
+                music.setVolume(componentData.getFloat("volume", 0f));
+                SoundManager.getInstance().add(music);
+                return music;
             } else if (componentType == ComponentType.PHYSICS) {
                 PhysicsComponent physics = (PhysicsComponent)component;
                 physics.setAcceleration(componentData.getFloat("acceleraton_x", 0),
@@ -151,18 +168,18 @@ public class Factory {
                         componentData.getFloat("velocity_y", 0));
                 physics.setMaxVelocity(componentData.getFloat("maxVelocity_x", 0),
                         componentData.getFloat("maxVelocity_y", 0));
-                float width = componentData.getFloat("bounds_width", 0);
-                float height = componentData.getFloat("bounds_height", 0);
-                physics.setBounds( new Rectangle(entity.getPosition().x - width/2,
-                        entity.getPosition().y - height/2, width, height));
-                physics.setCollidable(componentData.getBoolean("collidable", false));
-                physics.setCollided(componentData.getBoolean("collided", false));
                 PhysicsManager.getInstance().add(physics);
                 return physics;
             } else if (componentType == ComponentType.POINTER_DIRECTION) {
                 PointerDirectionComponent pointerDirection = (PointerDirectionComponent)component;
                 // TO BE ADDED
                 return pointerDirection;
+            } else if (componentType == ComponentType.SOUND) {
+                SoundComponent sound = (SoundComponent)component;
+                sound.setSoundType(SoundType.getTypeFromId(componentData.getString("soundType", "Void")));
+                sound.setVolume(componentData.getFloat("volume", 0f));
+                SoundManager.getInstance().add(sound);
+                return sound;
             }
         } catch (ReflectionException e) {
             e.printStackTrace();
@@ -180,6 +197,12 @@ public class Factory {
                 DestroyEntityAction destroyEntity = (DestroyEntityAction)action;
                 destroyEntity.setEntity(entity);
                 return destroyEntity;
+            } else if (actionType == ActionType.FOLLOW) {
+                FollowAction follow = (FollowAction)action;
+                follow.setVerticalAllowed(actionData.getBoolean("veritical", false));
+                follow.setHorizontalAllowed(actionData.getBoolean("horizontal", false));
+                follow.setPosition(entity.getPosition);
+                return follow;
             } else if (actionType == ActionType.HIGH_SCORE_RESET) {
                 HighScoreResetAction highScoreReset = (HighScoreResetAction)action;
                 highScoreReset.setScreenType(ScreenType.getTypeById(actionData.getString("screenType", "Void")));
