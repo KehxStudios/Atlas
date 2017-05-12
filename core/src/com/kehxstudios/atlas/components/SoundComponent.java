@@ -3,7 +3,27 @@ package com.kehxstudios.atlas.components;
 
 public class SoundComponent extends Component {
 
-    private float currentTime;
-    private boolean looped, finished;
+    private SoundType soundType
+    private Sound sound;
+    private float volume;
     
+    public SoundComponent() {
+        super();   
+    }
+    
+    public void setSoundType(SoundType soundType) {
+        this.soundType = soundType;
+        if (soundType == SoundType.VOID) {
+            setEnabled(false);
+        } else {
+            sound = SoundManager.getInstance().getSound(soundType);
+        }
+    }
+    public SoundType getSoundType() { return soundType; }
+    
+    public Sound getSound() { return sound; }
+    
+    public void setVolume(float volume) { this.volume = volume; }
+    public void changeVolume(float value) { volume += value; }
+    public float getVolume() { return volume; }
 }
