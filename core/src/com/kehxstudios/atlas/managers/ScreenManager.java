@@ -27,6 +27,8 @@ public class ScreenManager extends Manager {
     // Used to start new screen on @tick()
     private boolean screenRequested;
 
+    private boolean resetRequested;
+
     // Constructor
     private ScreenManager() {
         super();
@@ -38,6 +40,7 @@ public class ScreenManager extends Manager {
     protected void setup() {
         newScreenType = ScreenType.VOID;
         screenRequested = false;
+        resetRequested = false;
         DebugTool.log("ScreenManager_setup: Complete");
     }
 
@@ -47,6 +50,10 @@ public class ScreenManager extends Manager {
         if (screenRequested) {
             startLoadingScreen();
             screenRequested = false;
+        }
+        if (resetRequested) {
+            resetScreen();
+            resetRequested = false;
         }
     }
 
@@ -81,7 +88,6 @@ public class ScreenManager extends Manager {
         startLoadingScreen();
     }
 
-
     private void startLoadingScreen() {
         gm.startLoading(newScreenType);
     }
@@ -96,5 +102,19 @@ public class ScreenManager extends Manager {
             e.printStackTrace();
             demandNewScreen(ScreenType.INTRO);
         }
+    }
+
+    public void requestScreenReset() {
+        resetRequested = true;
+        DebugTool.log("ScreenManager_requestScreenReset");
+    }
+
+    public void demandScreenReset() {
+        resetScreen();
+        DebugTool.log("ScreenManager_demandScreenReset");
+    }
+
+    private void resetScreen() {
+        screen.reset();
     }
 }

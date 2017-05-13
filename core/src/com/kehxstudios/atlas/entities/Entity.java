@@ -39,6 +39,15 @@ public class Entity {
         }
         return null;
     }
+    public ArrayList<Component> getAllComponentsOfType(ComponentType componentType) {
+        ArrayList<Component> allOfType = new ArrayList<Component>();
+        for (Component component : components) {
+            if (component.getType() == componentType) {
+                allOfType.add(component);
+            }
+        }
+        return allOfType;
+    }
     public boolean hasComponent(Component component) { return components.contains(component); }
     public boolean hasComponentOfType(ComponentType componentType) {
         for (Component component : components) {

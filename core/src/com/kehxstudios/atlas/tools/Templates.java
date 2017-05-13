@@ -74,6 +74,12 @@ public class Templates {
         return data;
     }
 
+    public static ActionData resetScreenActionData() {
+        ActionData data = new ActionData();
+        data.setType(ActionType.RESET_SCREEN.getId());
+        return data;
+    }
+
     public static ActionData scoreActionData(int score) {
         ActionData data = new ActionData();
         data.setType(ActionType.SCORE.getId());

@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.google.gwt.user.server.Util;
 import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.actions.FollowAction;
+import com.kehxstudios.atlas.actions.ResetScreenAction;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.components.CollisionComponent;
 import com.kehxstudios.atlas.components.MusicComponent;
@@ -115,6 +116,8 @@ public class Factory {
                 CollisionComponent collision = (CollisionComponent)component;
                 collision.setWidth(componentData.getFloat("width", 0));
                 collision.setHeight(componentData.getFloat("height", 0));
+                collision.setBounds(new Rectangle(collision.getPosition().x - collision.getWidth()/2,
+                        collision.getPosition().y + collision.getHeight()/2, collision.getWidth(), collision.getHeight()));
                 collision.setStaticPosition(componentData.getBoolean("staticPosition", true));
                 collision.setSingleTrigger(componentData.getBoolean("singleTrigger", false));
                 collision.setTriggered(componentData.getBoolean("triggered", false));
@@ -236,6 +239,9 @@ public class Factory {
                         actionData.getFloat("actionValue_y", 0));
                 reposition.setTeleportToActionValue(actionData.getBoolean("teleport", false));
                 return reposition;
+            } else if (actionType == ActionType.RESET_SCREEN) {
+                ResetScreenAction resetScreen = (ResetScreenAction)action;
+                return resetScreen;
             } else if (actionType == ActionType.SCORE) {
                 ScoreAction score = (ScoreAction)action;
                 score.setScoreValue(actionData.getInt("actionValue", 0));

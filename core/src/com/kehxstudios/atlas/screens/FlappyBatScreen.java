@@ -1,7 +1,10 @@
 package com.kehxstudios.atlas.screens;
 
+import com.badlogic.gdx.ai.utils.Collision;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Align;
+import com.kehxstudios.atlas.components.CollisionComponent;
+import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.data.ActionData;
 import com.kehxstudios.atlas.actions.PhysicsAction;
@@ -12,6 +15,7 @@ import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
+import com.kehxstudios.atlas.type.ComponentType;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.GameManager;
@@ -70,18 +74,25 @@ public class FlappyBatScreen extends AScreen {
         screenGraphics.setTextureType(TextureType.FLAPPY_BAT_BACKGROUND);
         screenGraphics.setEnabled(true);
 
+        ActionData resetScreenData = Templates.resetScreenActionData();
+
         batEntity = Factory.createEntity(Templates.createEntityData(width/4, height/2));
         ComponentData batGraphicsData = Templates.graphicsComponentData(0,0,2, TextureType.FLAPPY_BAT_BAT);
         GraphicsComponent batGraphics = (GraphicsComponent)Factory.createComponent(batEntity, batGraphicsData);
         ComponentData batPhysicsData = Templates.physicsComponentData(100, 300, 100, 300);
         batPhysics = (PhysicsComponent)Factory.createComponent(batEntity, batPhysicsData);
         ActionData batPhysicsAction = Templates.physicsActionData(0, BAT_Y_JUMP);
+        ComponentData batCollisionData = Templates.collisionComponentData(TextureType.FLAPPY_BAT_BAT.getWidth(),
+                TextureType.FLAPPY_BAT_BAT.getHeight(), false, false, false, resetScreenData);
+        Factory.createComponent(batEntity, batCollisionData);
         ComponentData batClickableData = Templates.clickableComponentData(width, height, false, batPhysicsAction);
         ClickableComponent batClickable = (ClickableComponent)Factory.createComponent(screenEntity, batClickableData);
         ((PhysicsAction)batClickable.getAction()).setPhysicsComponent(batPhysics);
 
         ComponentData groundGraphicsData = Templates.graphicsComponentData(0, 0, 2, TextureType.FLAPPY_BAT_GROUND);
         ComponentData groundPhysicsData = Templates.physicsComponentData(0, 0, 0, 0);
+        ComponentData groundCollisionData = Templates.collisionComponentData(TextureType.FLAPPY_BAT_GROUND.getWidth(),
+                TextureType.FLAPPY_BAT_GROUND.getHeight(), true, false, false, resetScreenData);
 
         grounds = new ArrayList<Entity>();
 
@@ -89,11 +100,14 @@ public class FlappyBatScreen extends AScreen {
             Entity ground = Factory.createEntity(Templates.createEntityData(i * GROUND_WIDTH,GROUND_Y_OFFSET));
             Factory.createComponent(ground, groundGraphicsData);
             Factory.createComponent(ground, groundPhysicsData);
+            Factory.createComponent(ground, groundCollisionData);
             grounds.add(ground);
         }
 
         ComponentData tubeGraphicsData = Templates.graphicsComponentData(0, 0, 1, TextureType.FLAPPY_BAT_WALL);
         ComponentData tubePhysicsData = Templates.physicsComponentData(0, 0, 0, 0);
+        ComponentData tubeCollisionData = Templates.collisionComponentData(TextureType.FLAPPY_BAT_GROUND.getWidth(),
+                TextureType.FLAPPY_BAT_GROUND.getHeight(), true, false, false, resetScreenData);
 
         tubes = new ArrayList<Entity>();
 
@@ -108,12 +122,23 @@ public class FlappyBatScreen extends AScreen {
             tubeBottomGraphics.setUsePositionAsOffset(true);
             tubeBottomGraphics.setPosition(0, -(TUBE_GAP/2 + TUBE_HEIGHT/2));
 
+
             PhysicsComponent tubeTopPhysics = (PhysicsComponent)Factory.createComponent(tube, tubePhysicsData);
             tubeTopPhysics.setUsePositionAsOffset(true);
             tubeTopPhysics.setPosition(0, TUBE_GAP/2 + TUBE_HEIGHT/2);
             PhysicsComponent tubeBottomPhysics = (PhysicsComponent)Factory.createComponent(tube, tubePhysicsData);
             tubeBottomPhysics.setUsePositionAsOffset(true);
             tubeBottomPhysics.setPosition(0, -(TUBE_GAP/2 + TUBE_HEIGHT/2));
+
+            CollisionComponent tubeTopCollision= (CollisionComponent)Factory.createComponent(tube, tubeCollisionData);
+            tubeTopCollision.setUsePositionAsOffset(true);
+            tubeTopCollision.setPosition(0, TUBE_GAP/2 + TUBE_HEIGHT/2);
+            tubeTopCollision.updateBounds();
+
+            CollisionComponent tubeBottomCollision= (CollisionComponent)Factory.createComponent(tube, tubeCollisionData);
+            tubeBottomCollision.setUsePositionAsOffset(true);
+            tubeBottomCollision.setPosition(0, -(TUBE_GAP/2 + TUBE_HEIGHT/2));
+            tubeBottomCollision.updateBounds();
 
             tubes.add(tube);
         }
@@ -139,7 +164,7 @@ public class FlappyBatScreen extends AScreen {
     @Override
     public void render(float delta) {
         if (batPhysics.hasCollided() || batEntity.getPosition().y > height) {
-            resetScreen();
+            reset();
         }
 
         screenEntity.setPosition(batEntity.getPosition().x + 80, height/2);
@@ -162,7 +187,8 @@ public class FlappyBatScreen extends AScreen {
         return random.nextFloat() * TUBE_FLUCTUATION + TUBE_LOWEST_OPENING;
     }
 
-    private void resetScreen() {
+    public void reset() {
+        super.reset();
         if (score > lowScore) {
             highScores.addToHighScores("Test",score);
             lowScore = highScores.getLowScore();
@@ -176,9 +202,6 @@ public class FlappyBatScreen extends AScreen {
                     Color.BLACK, 0, Align.left, true);
             }
         }
-        
-        screenEntity.setPosition(width/2, height/2);
-
         batEntity.setPosition(width/4, height/2);
         batPhysics.setVelocity(0,0);
         batPhysics.setCollided(false);
@@ -198,6 +221,9 @@ public class FlappyBatScreen extends AScreen {
         for (Entity tube : tubes) {
             if (screenEntity.getPosition().x - width / 2 > tube.getPosition().x + TUBE_WIDTH/2) {
                 tube.setPosition(tube.getPosition().x + TUBE_SPACING * TUBE_COUNT, tubeRandomY());
+                for (Component component : tube.getAllComponentsOfType(ComponentType.COLLISION)) {
+                    ((CollisionComponent)component).updateBounds();
+                }
             }
         }
     }
@@ -206,6 +232,7 @@ public class FlappyBatScreen extends AScreen {
         for (Entity ground : grounds) {
             if(screenEntity.getPosition().x - (width / 2) > ground.getPosition().x + GROUND_WIDTH/2) {
                 ground.movePosition(GROUND_WIDTH * GROUND_COUNT, 0);
+                ((CollisionComponent)ground.getComponentOfType(ComponentType.COLLISION)).updateBounds();
             }
         }
     }

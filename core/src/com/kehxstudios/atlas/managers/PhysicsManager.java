@@ -5,6 +5,7 @@ import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.ErrorTool;
+import com.kehxstudios.atlas.type.ComponentType;
 
 import java.util.ArrayList;
 
@@ -61,11 +62,13 @@ public class PhysicsManager extends Manager {
         if (dynamicCollisionComponents.size() > 0) {
             for (CollisionComponent collision : dynamicCollisionComponents) {
                 if (collision.isEnabled()) {
-                    for (CollisionComponent staticCollision : staticCollisionComponents) {
-                        if (staticCollision.isEnabled() && collision.getBounds().overlaps(staticCollision.getBounds())) {
-                            DebugTool.log("Static Collision");
-                            collision.trigger();
-                            staticCollision.trigger();
+                    if (staticCollisionComponents.size() > 0) {
+                        for (CollisionComponent staticCollision : staticCollisionComponents) {
+                            if (staticCollision.isEnabled() && collision.getBounds().overlaps(staticCollision.getBounds())) {
+                                DebugTool.log("Static Collision");
+                                collision.trigger();
+                                staticCollision.trigger();
+                            }
                         }
                     }
                     for (CollisionComponent dynamicCollision : dynamicCollisionComponents) {
@@ -102,7 +105,23 @@ public class PhysicsManager extends Manager {
     }
 
     public void add(Component component) {
-
+        if (component.getType() == ComponentType.PHYSICS) {
+            PhysicsComponent physics = (PhysicsComponent)component;
+            if (!physicsComponents.contains(physics)) {
+                physicsComponents.add(physics);
+            }
+        } else if (component.getType() == ComponentType.COLLISION) {
+            CollisionComponent collision = (CollisionComponent)component;
+            if (collision.isStaticPosition()) {
+                if (!staticCollisionComponents.contains(collision)) {
+                    staticCollisionComponents.add(collision);
+                }
+            } else {
+                if (!dynamicCollisionComponents.contains(collision)) {
+                    dynamicCollisionComponents.add(collision);
+                }
+            }
+        }
     }
 
     public void remove(Component component) {

@@ -35,8 +35,6 @@ public abstract class AScreen implements Screen {
     protected float screenTime;
     protected HighScores highScores;
     protected int score;
-
-    protected String[] loadingStrings;
     
     public AScreen(ScreenType type) {
         this.type = type;
@@ -46,7 +44,6 @@ public abstract class AScreen implements Screen {
         highScores = new HighScores(type);
         screenTime = 0f;
         score = 0;
-        loadingStrings = new String[0];
     }
 
     public void finalizeSetup() {
@@ -59,6 +56,11 @@ public abstract class AScreen implements Screen {
 
         screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity,
                 Templates.graphicsComponentData(0, 0, 0, TextureType.VOID));
+    }
+
+    public void reset() {
+        screenEntity.setPosition(width/2, height/2);
+        screenCamera.update();
     }
     
     @Override
@@ -115,6 +117,4 @@ public abstract class AScreen implements Screen {
     public void addScore(int value) { score += value; }
 
     public void setScore(int score) { this.score = score; }
-    
-    public String[] getLoadingStrings() { return loadingStrings; }
 }

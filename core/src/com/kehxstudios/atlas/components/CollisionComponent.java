@@ -34,8 +34,8 @@ public class CollisionComponent extends Component {
     
     public void setBounds(Rectangle bounds) { this.bounds = bounds; }
     public void updateBounds() {
-        bounds.x = getPosition().x;
-        bounds.y = getPosition().y;
+        bounds.x = getPosition().x - width/2;
+        bounds.y = getPosition().y + height/2;
     }
     public Rectangle getBounds() { 
         if (!staticPosition) {

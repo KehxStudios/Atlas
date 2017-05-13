@@ -34,7 +34,7 @@ public class Component {
     public void setEntity(Entity entity) { this.entity = entity; }
 
     public Component() {
-        position = new Vector2();
+        position = new Vector2(0,0);
     }
 
     public Vector2 getPosition() {
