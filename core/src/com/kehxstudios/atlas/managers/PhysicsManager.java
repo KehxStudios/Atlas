@@ -1,5 +1,7 @@
 package com.kehxstudios.atlas.managers;
 
+import com.kehxstudios.atlas.components.CollisionComponent;
+import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.ErrorTool;
@@ -97,6 +99,14 @@ public class PhysicsManager extends Manager {
         } else {
             ErrorTool.log("Failed to add physics to physicsComponents");
         }
+    }
+
+    public void add(Component component) {
+
+    }
+
+    public void remove(Component component) {
+
     }
 
     // Removes a physics from @physicsComponents

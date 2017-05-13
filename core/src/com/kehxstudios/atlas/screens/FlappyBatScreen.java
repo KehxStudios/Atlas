@@ -71,20 +71,17 @@ public class FlappyBatScreen extends AScreen {
         screenGraphics.setEnabled(true);
 
         batEntity = Factory.createEntity(Templates.createEntityData(width/4, height/2));
-        ComponentData batGraphicsData = Templates.createGraphicsComponentData(0,0,2, TextureType.FLAPPY_BAT_BAT);
+        ComponentData batGraphicsData = Templates.graphicsComponentData(0,0,2, TextureType.FLAPPY_BAT_BAT);
         GraphicsComponent batGraphics = (GraphicsComponent)Factory.createComponent(batEntity, batGraphicsData);
-        ComponentData batPhysicsData = Templates.createPhysicsComponentData(100, 300, 100, 300, TextureType.FLAPPY_BAT_BAT.getWidth(),
-                TextureType.FLAPPY_BAT_BAT.getHeight(), true);
+        ComponentData batPhysicsData = Templates.physicsComponentData(100, 300, 100, 300);
         batPhysics = (PhysicsComponent)Factory.createComponent(batEntity, batPhysicsData);
-        PhysicsManager.getInstance().setPlayer(batPhysics);
-        ActionData batPhysicsAction = Templates.createPhysicsActionData(0, BAT_Y_JUMP);
-        ComponentData batClickableData = Templates.createClickableComponentData(width, height, false, batPhysicsAction);
+        ActionData batPhysicsAction = Templates.physicsActionData(0, BAT_Y_JUMP);
+        ComponentData batClickableData = Templates.clickableComponentData(width, height, false, batPhysicsAction);
         ClickableComponent batClickable = (ClickableComponent)Factory.createComponent(screenEntity, batClickableData);
         ((PhysicsAction)batClickable.getAction()).setPhysicsComponent(batPhysics);
 
-        ComponentData groundGraphicsData = Templates.createGraphicsComponentData(0, 0, 2, TextureType.FLAPPY_BAT_GROUND);
-        ComponentData groundPhysicsData = Templates.createPhysicsComponentData(0, 0, 0, 0,  TextureType.FLAPPY_BAT_GROUND.getWidth(),
-                TextureType.FLAPPY_BAT_GROUND.getHeight(), true);
+        ComponentData groundGraphicsData = Templates.graphicsComponentData(0, 0, 2, TextureType.FLAPPY_BAT_GROUND);
+        ComponentData groundPhysicsData = Templates.physicsComponentData(0, 0, 0, 0);
 
         grounds = new ArrayList<Entity>();
 
@@ -95,9 +92,8 @@ public class FlappyBatScreen extends AScreen {
             grounds.add(ground);
         }
 
-        ComponentData tubeGraphicsData = Templates.createGraphicsComponentData(0, 0, 1, TextureType.FLAPPY_BAT_WALL);
-        ComponentData tubePhysicsData = Templates.createPhysicsComponentData(0, 0, 0, 0, TextureType.FLAPPY_BAT_WALL.getWidth(),
-                TextureType.FLAPPY_BAT_WALL.getHeight(), true);
+        ComponentData tubeGraphicsData = Templates.graphicsComponentData(0, 0, 1, TextureType.FLAPPY_BAT_WALL);
+        ComponentData tubePhysicsData = Templates.physicsComponentData(0, 0, 0, 0);
 
         tubes = new ArrayList<Entity>();
 
@@ -123,19 +119,19 @@ public class FlappyBatScreen extends AScreen {
         }
 
         scoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.createFloatingTextComponentData("Score", score+"", 1));
+                Templates.floatingTextComponentData("Score", score+"", 1));
         scoreText.setUsePositionAsOffset(true);
         scoreText.setPosition(0, -height/2 + 60);
 
 
         lowScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.createFloatingTextComponentData("Low-Score", lowScore+"", 1));
+                Templates.floatingTextComponentData("Low-Score", lowScore+"", 1));
         lowScoreText.setUsePositionAsOffset(true);
         lowScoreText.setPosition(0, -height/2 + 40);
 
 
         highScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.createFloatingTextComponentData("High-Score", highScore+"", 1));
+                Templates.floatingTextComponentData("High-Score", highScore+"", 1));
         highScoreText.setUsePositionAsOffset(true);
         highScoreText.setPosition(0, -height/2 + 20);
     }

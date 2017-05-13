@@ -1,10 +1,13 @@
 package com.kehxstudios.atlas.tools;
 
 import com.kehxstudios.atlas.data.ActionData;
+import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.type.ActionType;
 import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.type.ComponentType;
 import com.kehxstudios.atlas.data.EntityData;
+import com.kehxstudios.atlas.type.MusicType;
+import com.kehxstudios.atlas.type.SoundType;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.type.ScreenType;
 
@@ -120,7 +123,7 @@ public class Templates {
         return data;
     }
     
-    public static ComponentData collisionComponentData(float width, float height, boolean staticPosition, boolean singleTrigger
+    public static ComponentData collisionComponentData(float width, float height, boolean staticPosition, boolean singleTrigger,
                 boolean triggered, ActionData actionData) {
         ComponentData data = componentData();
         data.setType(ComponentType.COLLISION.getId());

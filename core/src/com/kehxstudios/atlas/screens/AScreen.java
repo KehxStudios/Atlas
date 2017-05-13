@@ -53,12 +53,12 @@ public abstract class AScreen implements Screen {
         screenEntity = Factory.createEntity(Templates.createEntityData(width/2, height/2));
 
         screenCamera = (CameraComponent)Factory.createComponent(screenEntity,
-                Templates.createCameraComponentData(width, height, false));
+                Templates.cameraComponentData(width, height, false));
         screenCamera.getCamera().setToOrtho(false, width, height);
         screenCamera.update();
 
         screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity,
-                Templates.createGraphicsComponentData(0, 0, 0, TextureType.VOID));
+                Templates.graphicsComponentData(0, 0, 0, TextureType.VOID));
     }
     
     @Override

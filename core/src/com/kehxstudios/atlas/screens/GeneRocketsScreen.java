@@ -31,22 +31,19 @@ public class GeneRocketsScreen extends AScreen {
 
     public void finalizeSetup() {
         super.finalizeSetup();
-        ComponentData targetGraphicsData = Templates.createGraphicsComponentData(0,0,1, TextureType.GENE_ROCKETS_TARGET);
-        ComponentData targetPhysicsData = Templates.createPhysicsComponentData(0, 0, 0, 0, 
-                TextureType.GENE_ROCKETS_TARGET.getWidth(), TextureType.GENE_ROCKETS_TARGET.getHeight(), true);
+        ComponentData targetGraphicsData = Templates.graphicsComponentData(0,0,1, TextureType.GENE_ROCKETS_TARGET);
+        ComponentData targetPhysicsData = Templates.physicsComponentData(0, 0, 0, 0);
         
         targetEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5*4));
         Factory.createComponent(targetEntity, targetGraphicsData);
         PhysicsComponent targetPhysics = (PhysicsComponent)Factory.createComponent(targetEntity, targetPhysicsData);
-        PhysicsManager.getInstance().setPlayer(targetPhysics);
         
         generateRockets();
     }
     
     private void generateRockets() {
-        ComponentData rocketGraphicsData = Templates.createGraphicsComponentData(0,0,2, TextureType.GENE_ROCKETS_ROCKET);
-        ComponentData rocketPhysicsData = Templates.createPhysicsComponentData(10, 10, 10, 10, 
-                TextureType.GENE_ROCKETS_ROCKET.getWidth(), TextureType.GENE_ROCKETS_ROCKET.getHeight(), true);
+        ComponentData rocketGraphicsData = Templates.graphicsComponentData(0,0,2, TextureType.GENE_ROCKETS_ROCKET);
+        ComponentData rocketPhysicsData = Templates.physicsComponentData(10, 10, 10, 10);
         
         rockets = new ArrayList<Entity>();
         for (int i = 0; i < rocketsPerGeneration; i++) {

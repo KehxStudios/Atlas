@@ -1,5 +1,7 @@
 package com.kehxstudios.atlas.components;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.type.TextureType;
 
 /**
@@ -12,7 +14,7 @@ public class GraphicsComponent extends Component {
     private Texture texture;
     private float width, height;
     private int layer;
-    private float rotation
+    private float rotation;
 
     public TextureType getTextureType() { return textureType; }
     public void setTextureType(TextureType textureType) {

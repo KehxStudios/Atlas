@@ -1,9 +1,13 @@
 package com.kehxstudios.atlas.components;
 
 
+import com.badlogic.gdx.audio.Sound;
+import com.kehxstudios.atlas.managers.SoundManager;
+import com.kehxstudios.atlas.type.SoundType;
+
 public class SoundComponent extends Component {
 
-    private SoundType soundType
+    private SoundType soundType;
     private Sound sound;
     private float volume;
     

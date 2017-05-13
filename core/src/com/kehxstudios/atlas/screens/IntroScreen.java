@@ -49,15 +49,15 @@ public class IntroScreen extends AScreen {
     
     private void createFinalComponents() {
         // FloatingText
-        ComponentData floatingTextData = Templates.createFloatingTextComponentData("", "Click to Continue", 3);
+        ComponentData floatingTextData = Templates.floatingTextComponentData("", "Click to Continue", 3);
         floatingTextData.setUseComponentPosition(true);
         floatingTextData.setX(width/2);
         floatingTextData.setY(height/5);
         Factory.createComponent(screenEntity, floatingTextData);
         
         // Clickable
-        ComponentData clickableData = Templates.createClickableComponentData(width, height, true,
-                Templates.createLaunchScreenActionData(ScreenType.MAIN_MENU));
+        ComponentData clickableData = Templates.clickableComponentData(width, height, true,
+                Templates.launchScreenActionData(ScreenType.MAIN_MENU));
         Factory.createComponent(screenEntity, clickableData);
     }
 

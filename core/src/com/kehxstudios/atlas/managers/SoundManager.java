@@ -1,11 +1,15 @@
 package com.kehxstudios.atlas.managers;
 
 
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.MusicComponent;
 import com.kehxstudios.atlas.components.SoundComponent;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.type.ComponentType;
+import com.kehxstudios.atlas.type.MusicType;
+import com.kehxstudios.atlas.type.SoundType;
 
 import java.util.ArrayList;
 
@@ -28,6 +32,13 @@ public class SoundManager extends Manager {
         setup();
     }
 
+    public Music getMusic(MusicType type) {
+        return null;
+    }
+
+    public Sound getSound(SoundType type) {
+        return null;
+    }
 
     @Override
     public void tick(float delta) {

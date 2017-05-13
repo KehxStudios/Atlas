@@ -1,6 +1,7 @@
 package com.kehxstudios.atlas.managers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.tools.DebugTool;

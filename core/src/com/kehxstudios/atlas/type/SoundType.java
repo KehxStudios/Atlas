@@ -30,7 +30,7 @@ public enum SoundType {
     
     public float getLength() { return length; }
 
-    public SoundType getTypeById(String id) { return soundTypes.get(id); }
+    public static SoundType getTypeById(String id) { return soundTypes.get(id); }
 
     private static HashMap<String, SoundType> soundTypes;
 

@@ -46,9 +46,8 @@ public class PongScreen extends AScreen {
 
         player2Score = 0;
         
-        ComponentData paddleGraphicsData = Templates.createGraphicsComponentData(0, 0, 3, TextureType.PONG_PADDLE);
-        ComponentData paddlePhysicsData = Templates.createPhysicsComponentData(0, paddleSpeed, 0, 
-                paddleSpeed, TextureType.PONG_PADDLE.getWidth(), TextureType.PONG_PADDLE.getHeight(), true);
+        ComponentData paddleGraphicsData = Templates.graphicsComponentData(0, 0, 3, TextureType.PONG_PADDLE);
+        ComponentData paddlePhysicsData = Templates.physicsComponentData(0, paddleSpeed, 0, paddleSpeed);
         
         player1Entity = Factory.createEntity(Templates.createEntityData(paddleWidth, height/2));
         GraphicsComponent player1Graphics = (GraphicsComponent)Factory.createComponent(player1Entity, paddleGraphicsData);
@@ -59,14 +58,12 @@ public class PongScreen extends AScreen {
         player2Physics = (PhysicsComponent)Factory.createComponent(player2Entity, paddlePhysicsData);
         
         
-        ComponentData ballGraphicsData = Templates.createGraphicsComponentData(0, 0, 3, TextureType.PONG_BALL);
-        ComponentData ballPhysicsData = Templates.createPhysicsComponentData(ballSpeed, ballSpeed, ballSpeed, 
-                ballSpeed, TextureType.PONG_BALL.getWidth(), TextureType.PONG_BALL.getHeight(), true);
+        ComponentData ballGraphicsData = Templates.graphicsComponentData(0, 0, 3, TextureType.PONG_BALL);
+        ComponentData ballPhysicsData = Templates.physicsComponentData(ballSpeed, ballSpeed, ballSpeed, ballSpeed);
         
         ballEntity = Factory.createEntity(Templates.createEntityData(width/2, height/2));
         GraphicsComponent ballGraphics = (GraphicsComponent)Factory.createComponent(ballEntity, ballGraphicsData);
         ballPhysics = (PhysicsComponent)Factory.createComponent(ballEntity, ballPhysicsData);
-        PhysicsManager.getInstance().setPlayer(ballPhysics);
     }
 
     @Override

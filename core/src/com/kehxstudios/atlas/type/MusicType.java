@@ -26,7 +26,7 @@ public enum MusicType {
     
     public String getCompletePath() { return filePath + fileName; }
     
-    public MusicType getTypeById(String id) { return musicTypes.get(id); }
+    public static MusicType getTypeById(String id) { return musicTypes.get(id); }
 
     private static HashMap<String, MusicType> musicTypes;
 
