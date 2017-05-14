@@ -45,7 +45,7 @@ public class MainMenuScreen extends AScreen {
         Factory.createComponent(geneRocketsEntity, borderGraphics);
         Factory.createComponent(geneRocketsEntity, Templates.floatingTextComponentData("", "Gene Rockets", 4));
         Factory.createComponent(geneRocketsEntity, Templates.clickableComponentData(TextureType.MAIN_MENU_BORDER.getWidth(),
-                TextureType.MAIN_MENU_BORDER.getHeight(), true, Templates.launchScreenActionData(ScreenType.INTRO)));
+                TextureType.MAIN_MENU_BORDER.getHeight(), true, Templates.launchScreenActionData(ScreenType.GENE_ROCKETS)));
         
         Entity highScoreResetEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5));
         Factory.createComponent(highScoreResetEntity, borderGraphics);

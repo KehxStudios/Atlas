@@ -37,6 +37,7 @@ public class PhysicsComponent extends Component {
 
     public Vector2 getVelocity() { return velocity; }
     public void setVelocity(float x, float y) { velocity.set(x,y); }
+    public void setVelocity(Vector2 velocity) { this.velocity = velocity; }
     public void addVelocity(float x, float y) { velocity.add(x,y); }
     public void setXVelocity(float x) { velocity.x = x; }
     public void setYVelocity(float y) { velocity.y = y; }

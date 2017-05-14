@@ -14,6 +14,7 @@ import com.kehxstudios.atlas.actions.FollowAction;
 import com.kehxstudios.atlas.actions.ResetScreenAction;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.components.CollisionComponent;
+import com.kehxstudios.atlas.components.GeneRocketComponent;
 import com.kehxstudios.atlas.components.MusicComponent;
 import com.kehxstudios.atlas.components.SoundComponent;
 import com.kehxstudios.atlas.data.ActionData;
@@ -137,7 +138,11 @@ public class Factory {
                         Color.BLACK, 0, Align.left, true);
                 GraphicsManager.getInstance().add(floatingText);
                 return floatingText;
-            } else if (componentType == ComponentType.GRAPHICS) {
+            } else if (componentType == ComponentType.GENE_ROCKET) {
+                GeneRocketComponent geneRocket = (GeneRocketComponent)component;
+                geneRocket.setFitness(0f);
+                return geneRocket;
+            }else if (componentType == ComponentType.GRAPHICS) {
                 GraphicsComponent graphics = (GraphicsComponent)component;
                 graphics.setWidth(componentData.getFloat("width", 0));
                 graphics.setHeight(componentData.getFloat("height", 0));

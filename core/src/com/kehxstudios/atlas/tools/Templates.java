@@ -1,5 +1,6 @@
 package com.kehxstudios.atlas.tools;
 
+import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.data.ActionData;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.type.ActionType;
@@ -148,6 +149,11 @@ public class Templates {
         data.putString("label", label);
         data.putString("text", text);
         data.putFloat("scale", scale);
+        return data;
+    }
+
+    public static ComponentData geneRocketComponentData() {
+        ComponentData data = componentData();
         return data;
     }
     
