@@ -117,7 +117,7 @@ public class Factory {
                 collision.setWidth(componentData.getFloat("width", 0));
                 collision.setHeight(componentData.getFloat("height", 0));
                 collision.setBounds(new Rectangle(collision.getPosition().x - collision.getWidth()/2,
-                        collision.getPosition().y + collision.getHeight()/2, collision.getWidth(), collision.getHeight()));
+                        collision.getPosition().y - collision.getHeight()/2, collision.getWidth(), collision.getHeight()));
                 collision.setStaticPosition(componentData.getBoolean("staticPosition", true));
                 collision.setSingleTrigger(componentData.getBoolean("singleTrigger", false));
                 collision.setTriggered(componentData.getBoolean("triggered", false));

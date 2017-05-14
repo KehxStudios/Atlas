@@ -14,19 +14,19 @@ import java.util.ArrayList;
 
 public class GeneRocketsScreen extends AScreen {
 
-    private int generation;
+    private int generationNumber;
     private float timePerGeneration;
-    private int rocketsPerGeneration;
+    private int rockPopulationSize;
     
-    private ArrayList<Entity> rockets;
+    private ArrayList<Entity> rocketPopulation;
     private Entity targetEntity;
 
     public GeneRocketsScreen() {
         super(ScreenType.GENE_ROCKETS);
-        
-        generation = 0;
+
+        generationNumber = 0;
         timePerGeneration = 400f;
-        rocketsPerGeneration = 50;
+        rockPopulationSize = 50;
     }
 
     public void finalizeSetup() {
@@ -44,21 +44,21 @@ public class GeneRocketsScreen extends AScreen {
     private void generateRockets() {
         ComponentData rocketGraphicsData = Templates.graphicsComponentData(0,0,2, TextureType.GENE_ROCKETS_ROCKET);
         ComponentData rocketPhysicsData = Templates.physicsComponentData(10, 10, 10, 10);
-        
-        rockets = new ArrayList<Entity>();
-        for (int i = 0; i < rocketsPerGeneration; i++) {
+
+        rocketPopulation = new ArrayList<Entity>();
+        for (int i = 0; i < rockPopulationSize; i++) {
             Entity rocket = Factory.createEntity(Templates.createEntityData(width/2, height/5));
             Factory.createComponent(rocket, rocketGraphicsData);
             Factory.createComponent(rocket, rocketPhysicsData);
-            rockets.add(rocket);
+            rocketPopulation.add(rocket);
         }
     }
     
     private void newGeneration() {
-        for (Entity rocket : rockets) {
+        for (Entity rocket : rocketPopulation) {
             rocket.setPosition(width/2, height/5);   
         }
-        generation++;
+        generationNumber++;
         screenTime = 0f;
     }
 
