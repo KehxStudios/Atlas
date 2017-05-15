@@ -142,16 +142,24 @@ public class EntityManager extends Manager {
                     GraphicsManager.getInstance().remove(component);
                 } else if (component.getType() == ComponentType.CLICKABLE) {
                     InputManager.getInstance().remove((ClickableComponent)component);
-                } else if (component.getType() == ComponentType.FLOATING_TEXT) {
+                } else if (component.getType() == ComponentType.COLLISION) {
+                    PhysicsManager.getInstance().remove(component);
+                }else if (component.getType() == ComponentType.FLOATING_TEXT) {
                     GraphicsManager.getInstance().remove(component);
+                } else if (component.getType() == ComponentType.GENE_ROCKET) {
+
                 } else if (component.getType() == ComponentType.GRAPHICS) {
                     GraphicsManager.getInstance().remove(component);
                 } else if (component.getType() == ComponentType.IN_VIEW) {
 
+                } else if (component.getType() == ComponentType.MUSIC) {
+                    SoundManager.getInstance().remove(component);
                 } else if (component.getType() == ComponentType.PHYSICS) {
                     PhysicsManager.getInstance().remove((PhysicsComponent)component);
                 } else if (component.getType() == ComponentType.POINTER_DIRECTION) {
 
+                } else if (component.getType() == ComponentType.SOUND) {
+                    SoundManager.getInstance().remove(component);
                 }
                 entity.getComponents().remove(component);
             } else {

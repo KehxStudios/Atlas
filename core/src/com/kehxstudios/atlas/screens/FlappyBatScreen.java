@@ -40,7 +40,7 @@ public class FlappyBatScreen extends AScreen {
     private static final int WALL_LOWEST_OPENING = 155;
 
     private static final int GROUND_COUNT = 2;
-    private static final int GROUND_Y_OFFSET = 0;
+    private static final int GROUND_Y_OFFSET = 5;
     private static final int GROUND_WIDTH = 366;
     
     private static final float BAT_X_MOVEMENT = 100;
@@ -134,19 +134,19 @@ public class FlappyBatScreen extends AScreen {
         }
 
         scoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.floatingTextComponentData("Score", score+"", 1));
+                Templates.floatingTextComponentData("Score: ", score+"", 1));
         scoreText.setUsePositionAsOffset(true);
         scoreText.setPosition(0, -height/2 + 60);
 
 
         lowScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.floatingTextComponentData("Low-Score", lowScore+"", 1));
+                Templates.floatingTextComponentData("Low-Score: ", lowScore+"", 1));
         lowScoreText.setUsePositionAsOffset(true);
         lowScoreText.setPosition(0, -height/2 + 40);
 
 
         highScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.floatingTextComponentData("High-Score", highScore+"", 1));
+                Templates.floatingTextComponentData("High-Score: ", highScore+"", 1));
         highScoreText.setUsePositionAsOffset(true);
         highScoreText.setPosition(0, -height/2 + 20);
     }

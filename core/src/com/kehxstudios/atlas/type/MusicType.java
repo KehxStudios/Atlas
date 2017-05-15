@@ -8,6 +8,7 @@ public enum MusicType {
     MAIN_MENU("Main Menu", "music.mp3", "mainMenu/"),
     FLAPPY_BAT("Flappy Bat", "music.mp3", "flappyBat/"),
     LOADING("Loading", "music.mp3", "loading/"),
+    GENE_ROCKETS("Gene Rockets", "music.mp3", "geneRockets/"),
 
     VOID("Void", "music.mp3", "intro/");
 

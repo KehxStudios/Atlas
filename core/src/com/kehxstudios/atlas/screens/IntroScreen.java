@@ -36,10 +36,9 @@ public class IntroScreen extends AScreen {
             // If index is not on last path
             if (!finalLogo && screenTime >= 2f || screenTime > 1f && Gdx.input.isTouched()) {
                 screenGraphics.setTextureType(TextureType.INTRO_GAME_LOGO);
-                screenTime = 0f;
                 finalLogo = true;
 
-            } else if (finalLogo && screenTime > 4f || screenTime > 3f && Gdx.input.isTouched()) {
+            } else if (finalLogo && screenTime > 4f || screenTime > 2f && Gdx.input.isTouched()) {
                 createFinalComponents();
                 clickToContinue = true;
             }

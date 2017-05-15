@@ -18,7 +18,9 @@ import com.kehxstudios.atlas.components.GeneRocketComponent;
 import com.kehxstudios.atlas.components.MusicComponent;
 import com.kehxstudios.atlas.components.SoundComponent;
 import com.kehxstudios.atlas.data.ActionData;
+import com.kehxstudios.atlas.managers.GameManager;
 import com.kehxstudios.atlas.managers.SoundManager;
+import com.kehxstudios.atlas.screens.AScreen;
 import com.kehxstudios.atlas.type.ActionType;
 import com.kehxstudios.atlas.actions.DestroyEntityAction;
 import com.kehxstudios.atlas.actions.HighScoreResetAction;
@@ -250,6 +252,7 @@ public class Factory {
             } else if (actionType == ActionType.SCORE) {
                 ScoreAction score = (ScoreAction)action;
                 score.setScoreValue(actionData.getInt("actionValue", 0));
+                score.setScreen((AScreen)GameManager.getInstance().getScreen());
                 return score;
             } else if (actionType == ActionType.SPAWN_ENTITY) {
                 SpawnEntityAction spawnEntity = (SpawnEntityAction)action;

@@ -1,6 +1,7 @@
 package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.math.Vector2;
+import com.kehxstudios.atlas.components.CollisionComponent;
 import com.kehxstudios.atlas.components.GeneRocketComponent;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.EntityManager;
@@ -10,6 +11,7 @@ import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
+import com.kehxstudios.atlas.type.ComponentType;
 import com.kehxstudios.atlas.type.ScreenType;
 import com.kehxstudios.atlas.type.TextureType;
 
@@ -80,6 +82,8 @@ public class GeneRocketsScreen extends AScreen {
 
         rocketPopulation = new ArrayList<Entity>(rocketPopulationSize);
         physicsComponents = new ArrayList<PhysicsComponent>(rocketPopulationSize);
+        geneRocketComponents = new ArrayList<GeneRocketComponent>(rocketPopulationSize);
+
         for (int i = 0; i < rocketPopulationSize; i++) {
             Entity rocketEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5));
             Factory.createComponent(rocketEntity, rocketGraphicsData);
@@ -96,7 +100,7 @@ public class GeneRocketsScreen extends AScreen {
         ArrayList<Vector2> genes = new ArrayList<Vector2>(numOfGenes);
 
         for (int i = 0; i < numOfGenes; i++) {
-            genes.set(i, new Vector2(random.nextFloat()*6-3, random.nextFloat()*6-3));
+            genes.add(new Vector2(random.nextFloat()*20-10, random.nextFloat()*200-100));
         }
 
         return genes;
@@ -164,16 +168,16 @@ public class GeneRocketsScreen extends AScreen {
     }
 
     private void measureRocketsFitness() {
-        for (Entity rocketEntity : rocketPopulation) {
-            float distance = Math.pow((rocketEntity.getPosition.x-targetEntity.getPosition.x), 2)
-                            + Math.pow((rocketEntity.getPosition.y-targetEntity.getPosition.y), 2));
+        for (int i = 0; i < rocketPopulationSize; i++) {
+            float distance = (float)(Math.pow((rocketPopulation.get(i).getPosition().x-targetEntity.getPosition().x), 2)
+                    + Math.pow((rocketPopulation.get(i).getPosition().y-targetEntity.getPosition().y), 2));
             float fitness = 500f - distance;
-            CollisionComponent rocketCollision = (CollisionComponent)rocketEntity.getComponentOfType(ComponentType.COLLISION);
-            if (rocketCollision.isTriggered && distance != 0f) {
+            CollisionComponent rocketCollision = (CollisionComponent)rocketPopulation.get(i).getComponentOfType(ComponentType.COLLISION);
+            if (rocketCollision.isTriggered() && distance != 0f) {
                 fitness -= 100f;
                 rocketCollision.setTriggered(false);
             }
-            rocketEntity.setFitness(fitness);
+            geneRocketComponents.get(i).setFitness(fitness);
         }
     }
     

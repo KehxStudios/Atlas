@@ -154,6 +154,7 @@ public class Templates {
 
     public static ComponentData geneRocketComponentData() {
         ComponentData data = componentData();
+        data.setType(ComponentType.GENE_ROCKET.getId());
         return data;
     }
     

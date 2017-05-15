@@ -14,13 +14,8 @@ public class GeneRocketComponent extends Component {
     private ArrayList<Vector2> genes;
     private float fitness;
 
-    public GeneRocketComponent(int numOfGenes) {
+    public GeneRocketComponent() {
         super();
-        createGenes(numOfGenes);
-    }
-
-    public void createGenes(int numOfGenes) {
-        genes = new ArrayList<Vector2>(numOfGenes);
     }
 
     public void setGenes(ArrayList<Vector2> genes) {
