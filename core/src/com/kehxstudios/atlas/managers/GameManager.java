@@ -3,6 +3,7 @@ package com.kehxstudios.atlas.managers;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -148,11 +149,12 @@ public class GameManager extends Game {
 
 			// tick ScreenManager to check if screen change is needed
 			screenManager.tick(delta);
-		} else if (gameState == GameState.Loading) {
-			if (assetManager.update()) {
-				finishedLoading();
-			}
 		}
+	}
+
+	public void setScreen(Screen screen) {
+		super.setScreen(screen);
+		finishedLoading();
 	}
 
 	// Dispose of everything that might need disposal
@@ -182,7 +184,6 @@ public class GameManager extends Game {
 		gameState = GameState.Loading;
 	}
 	private void finishedLoading() {
-		screenManager.finishedLoadingScreen();
 		gameState = GameState.Running;
 	}
 

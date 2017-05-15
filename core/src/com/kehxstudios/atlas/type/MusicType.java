@@ -4,11 +4,12 @@ import java.util.HashMap;
 
 public enum MusicType {
 
-    INTRO("Intro", "intro.mp3", "intro/music/"),
-    
-    MAIN_MENU("MainMenu", "mainMenu.mp3", "mainMenu/music/"),
-    
-    VOID("Void", "", "");
+    INTRO("Intro", "music.mp3", "intro/"),
+    MAIN_MENU("Main Menu", "music.mp3", "mainMenu/"),
+    FLAPPY_BAT("Flappy Bat", "music.mp3", "flappyBat/"),
+    LOADING("Loading", "music.mp3", "loading/"),
+
+    VOID("Void", "music.mp3", "intro/");
 
     private String id, fileName, filePath;
 

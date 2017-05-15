@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.kehxstudios.atlas.components.CameraComponent;
+import com.kehxstudios.atlas.components.MusicComponent;
 import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.managers.GraphicsManager;
@@ -11,6 +12,7 @@ import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
+import com.kehxstudios.atlas.type.MusicType;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.data.EntityData;
@@ -56,6 +58,10 @@ public abstract class AScreen implements Screen {
 
         screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity,
                 Templates.graphicsComponentData(0, 0, 0, TextureType.VOID));
+
+        MusicComponent screenMusic = (MusicComponent)Factory.createComponent(screenEntity,
+                Templates.musicComponentData(MusicType.getTypeById(type.getId()), 0.5f));
+        screenMusic.getMusic().play();
     }
 
     public void reset() {

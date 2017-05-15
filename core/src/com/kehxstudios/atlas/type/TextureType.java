@@ -8,8 +8,9 @@ import java.util.HashMap;
 
 public enum TextureType {
 
+    INTRO_BACKGROUND("IntroBackground", "background", 512, 910),
     INTRO_DEV_LOGO("IntroDevLogo", "devLogo", 700, 200),
-    INTRO_GAME_LOGO("IntroGameLogo","gameLogo", 360, 360),
+    INTRO_GAME_LOGO("IntroGameLogo","gameLogo", 512, 512),
 
     MAIN_MENU_BACKGROUND("MainMenuBackground", "background", 1440, 2560),
     MAIN_MENU_BORDER("MainMenuBorder", "menuBorder", 625, 435),
@@ -23,8 +24,14 @@ public enum TextureType {
     PONG_PADDLE("PongPaddle", "paddle", 10, 50),
     PONG_BALL("PongBall", "ball", 10, 10),
 
+    GENE_ROCKETS_BACKGROUND("GeneRocketBackground", "background", 512, 910),
     GENE_ROCKETS_ROCKET("GeneRocketRocket", "rocket", 10, 50),
     GENE_ROCKETS_TARGET("GeneRocketTarget", "target", 10, 10),
+
+    LOADING_BACKGROUND("LoadingBackground", "background", 512, 910),
+    LOADING_GAME_LOGO("LoadingGameLogo", "gameLogo", 512, 512),
+    LOADING_HEX_FILLED("LoadingHexFilled", "hexFilled", 128, 128),
+    LOADING_HEX_OUTLINE("LoadingHexOutline", "hexOutline", 128, 128),
 
     VOID("Void", "void", 0, 0);
 

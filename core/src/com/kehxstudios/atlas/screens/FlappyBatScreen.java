@@ -35,18 +35,18 @@ public class FlappyBatScreen extends AScreen {
     private static final int WALL_COUNT = 3;
     private static final int WALL_WIDTH = 52;
     private static final int WALL_HEIGHT = 320;
-    private static final int WALL_FLUCTUATION = 150;
+    private static final int WALL_FLUCTUATION = 160;
     private static final int WALL_GAP = 100;
-    private static final int WALL_LOWEST_OPENING = 175;
+    private static final int WALL_LOWEST_OPENING = 155;
 
     private static final int GROUND_COUNT = 2;
-    private static final int GROUND_Y_OFFSET = 25;
+    private static final int GROUND_Y_OFFSET = 0;
     private static final int GROUND_WIDTH = 366;
     
     private static final float BAT_X_MOVEMENT = 100;
     private static final float BAT_Y_JUMP = 300;
 
-    private static final float GRAVITY = -15;
+    private static final float GRAVITY = -17;
 
     private Entity batEntity;
     private ArrayList<Entity> groundEntities;

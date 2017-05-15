@@ -173,6 +173,9 @@ public class GeneRocketsScreen extends AScreen {
 
         if (currentGenerationTime >= timePerGeneration) {
             nextGeneration();
+            for (int i = 0; i < rocketPopulationSize; i++) {
+                physicsComponents.get(i).setVelocity(geneRocketComponents.get(i).getGene(activeGeneNumber));
+            }
         }
 
         if (Math.floor(timePerGeneration) > activeGeneNumber) {
@@ -180,7 +183,6 @@ public class GeneRocketsScreen extends AScreen {
             for (int i = 0; i < rocketPopulationSize; i++) {
                 physicsComponents.get(i).setVelocity(geneRocketComponents.get(i).getGene(activeGeneNumber));
             }
-
         }
     }
     

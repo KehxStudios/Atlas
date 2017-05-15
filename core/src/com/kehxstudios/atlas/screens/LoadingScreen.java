@@ -9,29 +9,34 @@ import com.kehxstudios.atlas.type.ScreenType;
 public class LoadingScreen extends AScreen {
 
     private ScreenType loadingType;
+    private TextureAtlas textureAtlas;
+    private boolean finishedLoading;
 
     public LoadingScreen() {
         super(ScreenType.LOADING);
         loadingType = ScreenType.VOID;
+        finishedLoading = true;
     }
 
     public void finalizeSetup() {
         gm.getAssetManager().load(loadingType.getAtlasPath(), TextureAtlas.class);
+        finishedLoading = false;
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,1,1);
-        /*
-        if (checkAllFiles()) {
-            gm.finishedLoading();
-        } else {
-            super.render(delta);
-            gm.getAssetManager().update();
-
+        if (gm.getAssetManager().update()) {
+            ScreenManager.getInstance().finishedLoadingScreen();
+            finishedLoading = true;
         }
-        */
+        gm.getBatch().begin();
+        Gdx.gl.glClearColor(0,0,1,1);
+
+
+        gm.getBatch().end();
     }
+
+    public boolean isFinishedLoading() { return finishedLoading; }
 
     public void setLoadingType(ScreenType type) { loadingType = type; }
 
