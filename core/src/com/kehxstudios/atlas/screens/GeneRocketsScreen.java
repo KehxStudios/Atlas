@@ -19,9 +19,9 @@ import java.util.Random;
 public class GeneRocketsScreen extends AScreen {
 
     private int generationNumber;
-    private float timePerGeneration;
+    private float timePerGeneration = 400f;
     private float currentGenerationTime;
-    private int rocketPopulationSize;
+    private int rocketPopulationSize = 50;
     
     private ArrayList<Entity> rocketPopulation;
     private ArrayList<PhysicsComponent> physicsComponents;
@@ -38,8 +38,6 @@ public class GeneRocketsScreen extends AScreen {
     public GeneRocketsScreen() {
         super(ScreenType.GENE_ROCKETS);
 
-        timePerGeneration = 400f;
-        rocketPopulationSize = 50;
         numOfGenes = (int)Math.ceil(timePerGeneration);
 
         generationNumber = 0;
@@ -155,6 +153,7 @@ public class GeneRocketsScreen extends AScreen {
             rocket.setPosition(width/2, height/5);   
         }
 
+        measureRocketsFitness();
         populateMatingPool();
         destroyGeneRocketComponents();
         populateNewRockets();
@@ -164,12 +163,26 @@ public class GeneRocketsScreen extends AScreen {
         activeGeneNumber = 0;
     }
 
+    private void measureRocketsFitness() {
+        for (Entity rocketEntity : rocketPopulation) {
+            float distance = Math.pow((rocketEntity.getPosition.x-targetEntity.getPosition.x), 2)
+                            + Math.pow((rocketEntity.getPosition.y-targetEntity.getPosition.y), 2));
+            float fitness = 500f - distance;
+            CollisionComponent rocketCollision = (CollisionComponent)rocketEntity.getComponentOfType(ComponentType.COLLISION);
+            if (rocketCollision.isTriggered && distance != 0f) {
+                fitness -= 100f;
+                rocketCollision.setTriggered(false);
+            }
+            rocketEntity.setFitness(fitness);
+        }
+    }
+    
     @Override
     public void render(float delta) {
         // increase screenTime in super method
         super.render(delta);
 
-        timePerGeneration += delta;
+        currentGenerationTime += delta;
 
         if (currentGenerationTime >= timePerGeneration) {
             nextGeneration();
