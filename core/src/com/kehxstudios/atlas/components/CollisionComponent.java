@@ -51,6 +51,7 @@ public class CollisionComponent extends Component {
     public void setStaticPosition(boolean staticPosition) { this.staticPosition = staticPosition; }
     public void setSingleTrigger(boolean singleTrigger) { this.singleTrigger = singleTrigger; }
     public void setTriggered(boolean triggered) { this.triggered = triggered; }
+    public boolean isTriggered() { return triggered; }
     
     public void trigger() {
         if (!singleTrigger || singleTrigger && !triggered) {
