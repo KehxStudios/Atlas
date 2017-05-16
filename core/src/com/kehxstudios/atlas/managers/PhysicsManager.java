@@ -1,3 +1,22 @@
+/*******************************************************************************
+ * Copyright 2017 See AUTHORS file.
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
+ * associated documentation files (the "Software"), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial 
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ ******************************************************************************/
+
 package com.kehxstudios.atlas.managers;
 
 import com.kehxstudios.atlas.components.CollisionComponent;
@@ -10,7 +29,7 @@ import com.kehxstudios.atlas.type.ComponentType;
 import java.util.ArrayList;
 
 /**
- * Created by ReidC on 2017-04-06.
+ * Used to control any physics movement along with collisions
  */
 
 public class PhysicsManager extends Manager {
@@ -34,16 +53,16 @@ public class PhysicsManager extends Manager {
     // Constructor
     private PhysicsManager() {
         super();
-        setup();
+        init();
     }
     
     // Initalize @physicsComponents
     @Override
-    protected void setup() {
+    protected void init() {
         physicsComponents = new ArrayList<PhysicsComponent>();
         staticCollisionComponents = new ArrayList<CollisionComponent>();
         dynamicCollisionComponents = new ArrayList<CollisionComponent>();
-        DebugTool.log("PhysicsManager_setup: Complete");
+        DebugTool.log("PhysicsManager_init: Complete");
     }
     
     // Called to update all PhysicsComponents and then check for collision
@@ -85,25 +104,16 @@ public class PhysicsManager extends Manager {
     
     // Called when loading a new screen
     @Override
-    protected void loadScreenSettings() {
-         DebugTool.log("PhysicsManager_loadScreenSettings: Complete");
+    protected void loadSettings() {
+         DebugTool.log("PhysicsManager_loadSettings: Complete");
     }
 
     // Called when unloading the current screen
     @Override
-    protected void removeScreenSettings() {
-        DebugTool.log("PhysicsManager_removeScreenSettings: Complete");
+    protected void removeSettings() {
+        DebugTool.log("PhysicsManager_removeSettings: Complete");
     }
     
-    // Adds a physics to @physicsComponents
-    public void add(PhysicsComponent physics) {
-        if (!physicsComponents.contains(physics)) {
-            physicsComponents.add(physics);
-        } else {
-            ErrorTool.log("Failed to add physics to physicsComponents");
-        }
-    }
-
     public void add(Component component) {
         if (component.getType() == ComponentType.PHYSICS) {
             PhysicsComponent physics = (PhysicsComponent)component;
@@ -125,15 +135,22 @@ public class PhysicsManager extends Manager {
     }
 
     public void remove(Component component) {
-
-    }
-
-    // Removes a physics from @physicsComponents
-    public void remove(PhysicsComponent physics) {
-        if (physicsComponents.contains(physics)) {
-            physicsComponents.remove(physics);
-        } else {
-            ErrorTool.log("Failed to find physics in physicsComponents");
+        if (component.getType() == ComponentType.PHYSICS) {
+            PhysicsComponent physics = (PhysicsComponent)component;
+            if (physicsComponents.contains(physics)) {
+                physicsComponents.remove(physics);
+            }
+        } else if (component.getType() == ComponentType.COLLISION) {
+            CollisionComponent collision = (CollisionComponent)component;
+            if (collision.isStaticPosition()) {
+                if (staticCollisionComponents.contains(collision)) {
+                    staticCollisionComponents.remove(collision);
+                }
+            } else {
+                if (dynamicCollisionComponents.contains(collision)) {
+                    dynamicCollisionComponents.remove(collision);
+                }
+            }
         }
     }
 }

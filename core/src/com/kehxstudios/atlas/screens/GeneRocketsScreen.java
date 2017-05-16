@@ -1,6 +1,26 @@
+/*******************************************************************************
+ * Copyright 2017 See AUTHORS file.
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
+ * associated documentation files (the "Software"), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial 
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ ******************************************************************************/
+
 package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.math.Vector2;
+import com.kehxstudios.atlas.components.CollisionComponent;
 import com.kehxstudios.atlas.components.GeneRocketComponent;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.EntityManager;
@@ -10,11 +30,16 @@ import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
+import com.kehxstudios.atlas.type.ComponentType;
 import com.kehxstudios.atlas.type.ScreenType;
 import com.kehxstudios.atlas.type.TextureType;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+/**
+ * The Project of Gene Rockets
+ */
 
 public class GeneRocketsScreen extends AScreen {
 
@@ -80,6 +105,8 @@ public class GeneRocketsScreen extends AScreen {
 
         rocketPopulation = new ArrayList<Entity>(rocketPopulationSize);
         physicsComponents = new ArrayList<PhysicsComponent>(rocketPopulationSize);
+        geneRocketComponents = new ArrayList<GeneRocketComponent>(rocketPopulationSize);
+
         for (int i = 0; i < rocketPopulationSize; i++) {
             Entity rocketEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5));
             Factory.createComponent(rocketEntity, rocketGraphicsData);
@@ -96,7 +123,7 @@ public class GeneRocketsScreen extends AScreen {
         ArrayList<Vector2> genes = new ArrayList<Vector2>(numOfGenes);
 
         for (int i = 0; i < numOfGenes; i++) {
-            genes.set(i, new Vector2(random.nextFloat()*6-3, random.nextFloat()*6-3));
+            genes.add(new Vector2(random.nextFloat()*20-10, random.nextFloat()*200-100));
         }
 
         return genes;
@@ -164,16 +191,16 @@ public class GeneRocketsScreen extends AScreen {
     }
 
     private void measureRocketsFitness() {
-        for (Entity rocketEntity : rocketPopulation) {
-            float distance = Math.pow((rocketEntity.getPosition.x-targetEntity.getPosition.x), 2)
-                            + Math.pow((rocketEntity.getPosition.y-targetEntity.getPosition.y), 2));
+        for (int i = 0; i < rocketPopulationSize; i++) {
+            float distance = (float)(Math.pow((rocketPopulation.get(i).getPosition().x-targetEntity.getPosition().x), 2)
+                    + Math.pow((rocketPopulation.get(i).getPosition().y-targetEntity.getPosition().y), 2));
             float fitness = 500f - distance;
-            CollisionComponent rocketCollision = (CollisionComponent)rocketEntity.getComponentOfType(ComponentType.COLLISION);
-            if (rocketCollision.isTriggered && distance != 0f) {
+            CollisionComponent rocketCollision = (CollisionComponent)rocketPopulation.get(i).getComponentOfType(ComponentType.COLLISION);
+            if (rocketCollision.isTriggered() && distance != 0f) {
                 fitness -= 100f;
                 rocketCollision.setTriggered(false);
             }
-            rocketEntity.setFitness(fitness);
+            geneRocketComponents.get(i).setFitness(fitness);
         }
     }
     

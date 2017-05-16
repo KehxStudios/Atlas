@@ -1,3 +1,22 @@
+/*******************************************************************************
+ * Copyright 2017 See AUTHORS file.
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
+ * associated documentation files (the "Software"), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial 
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ ******************************************************************************/
+
 package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.ai.utils.Collision;
@@ -26,7 +45,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by ReidC on 2017-04-26.
+ * The Game of Flappy Bat
  */
 
 public class FlappyBatScreen extends AScreen {
@@ -40,7 +59,7 @@ public class FlappyBatScreen extends AScreen {
     private static final int WALL_LOWEST_OPENING = 155;
 
     private static final int GROUND_COUNT = 2;
-    private static final int GROUND_Y_OFFSET = 0;
+    private static final int GROUND_Y_OFFSET = 5;
     private static final int GROUND_WIDTH = 366;
     
     private static final float BAT_X_MOVEMENT = 100;
@@ -134,19 +153,19 @@ public class FlappyBatScreen extends AScreen {
         }
 
         scoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.floatingTextComponentData("Score", score+"", 1));
+                Templates.floatingTextComponentData("Score: ", score+"", 1));
         scoreText.setUsePositionAsOffset(true);
         scoreText.setPosition(0, -height/2 + 60);
 
 
         lowScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.floatingTextComponentData("Low-Score", lowScore+"", 1));
+                Templates.floatingTextComponentData("Low-Score: ", lowScore+"", 1));
         lowScoreText.setUsePositionAsOffset(true);
         lowScoreText.setPosition(0, -height/2 + 40);
 
 
         highScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.floatingTextComponentData("High-Score", highScore+"", 1));
+                Templates.floatingTextComponentData("High-Score: ", highScore+"", 1));
         highScoreText.setUsePositionAsOffset(true);
         highScoreText.setPosition(0, -height/2 + 20);
     }

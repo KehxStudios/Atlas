@@ -1,0 +1,4 @@
+May 16, 2017 [ 0.0.7.0516 ]
+  - Manager: Updated abstract methods, updated extended methods.
+  - License: Added MIT license, updated all java files with license
+  - Comments: Added simple comment to each class describing its use
