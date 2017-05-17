@@ -36,11 +36,11 @@ public class RecapJournalScreen extends AScreen {
 
     public RecapJournalScreen() {
         super(ScreenType.RECAP_JOURNAL);
-        
+        init();
     }
 
-    public void finalizeSetup() {
-        super.finalizeSetup();
+    protected void init() {
+        super.init();
     }
 
     @Override

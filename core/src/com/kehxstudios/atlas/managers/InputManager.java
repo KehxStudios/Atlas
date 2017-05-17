@@ -23,8 +23,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.kehxstudios.atlas.components.ClickableComponent;
+import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.ErrorTool;
+import com.kehxstudios.atlas.type.ComponentType;
 
 import java.util.ArrayList;
 
@@ -51,12 +53,12 @@ public class InputManager extends Manager {
     // Constructor
     public InputManager() {
         super();
-        setup();
+        init();
     }
     
     // Initalizes the @clickableComponents
     @Override
-    protected void setup() {
+    protected void init() {
         clickableComponents = new ArrayList<ClickableComponent>();
         clickedPosition = new Vector2(0,0);
         DebugTool.log("InputManager_setup: Complete");
@@ -86,34 +88,40 @@ public class InputManager extends Manager {
             clickedPosition.set(0, 0);
         }
     }
-    
+
     // Called when loading a new screen
     @Override
-    protected void loadScreenSettings() {
-        DebugTool.log("InputManager_loadScreenSettings: Complete");
+    protected void loadSettings() {
+        DebugTool.log("InputManager_loadSettings: Complete");
     }
     
     // Called when unloading the current screen
     @Override
-    protected void removeScreenSettings() {
-        DebugTool.log("InputManager_removeScreenSettings: Complete");
+    protected void removeSettings() {
+        DebugTool.log("InputManager_removeSettings: Complete");
     }
-    
-    // Called to add ClickableComponent to @clickableComponents
-    public void add(ClickableComponent clickable) {
-        if (!clickableComponents.contains(clickable)) {
-            clickableComponents.add(clickable);
-        } else {
-            ErrorTool.log("Failed to add clickable to clickableComponents");
+
+    @Override
+    public void add(Component component) {
+        if (component.getType() == ComponentType.CLICKABLE) {
+            ClickableComponent clickable = (ClickableComponent)component;
+            if (!clickableComponents.contains(clickable)) {
+                clickableComponents.add(clickable);
+            } else {
+                ErrorTool.log("Failed to add clickable to clickableComponents");
+            }
         }
     }
 
-    // Called to remove ClickableComponent from @clickableComponents
-    public void remove(ClickableComponent clickable) {
-        if (clickableComponents.contains(clickable)) {
-            clickableComponents.remove(clickable);
-        } else {
-            ErrorTool.log("Failed to remove clickable to clickableComponents");  
+    @Override
+    public void remove(Component component) {
+        if (component.getType() == ComponentType.CLICKABLE) {
+            ClickableComponent clickable = (ClickableComponent)component;
+            if (clickableComponents.contains(clickable)) {
+                clickableComponents.remove(clickable);
+            } else {
+                ErrorTool.log("Failed to add clickable to clickableComponents");
+            }
         }
     }
 

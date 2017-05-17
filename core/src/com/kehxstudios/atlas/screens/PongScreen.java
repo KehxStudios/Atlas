@@ -59,10 +59,12 @@ public class PongScreen extends AScreen {
 
         paddleSpeed = 5f;
         ballSpeed = 6f;
+
+        init();
     }
     
-    public void finalizeSetup() {
-        super.finalizeSetup();
+    protected void init() {
+        super.init();
         screenGraphics.setTextureType(TextureType.PONG_BACKGROUND);
         screenGraphics.setEnabled(true);
 

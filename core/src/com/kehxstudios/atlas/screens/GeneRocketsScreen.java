@@ -68,6 +68,8 @@ public class GeneRocketsScreen extends AScreen {
         generationNumber = 0;
         currentGenerationTime = 0f;
         activeGeneNumber = 0;
+
+        init();
     }
 
     public void reset() {
@@ -80,8 +82,8 @@ public class GeneRocketsScreen extends AScreen {
         generateRockets();
     }
 
-    public void finalizeSetup() {
-        super.finalizeSetup();
+    protected void init() {
+        super.init();
 
         rocketMatingPool = new ArrayList<Integer>();
 

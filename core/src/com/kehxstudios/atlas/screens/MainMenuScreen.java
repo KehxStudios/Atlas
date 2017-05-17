@@ -39,10 +39,11 @@ public class MainMenuScreen extends AScreen {
 
     public MainMenuScreen() {
         super(ScreenType.MAIN_MENU);
+        init();
     }
     
-    public void finalizeSetup() {
-        super.finalizeSetup();
+    protected void init() {
+        super.init();
         screenGraphics.setTextureType(TextureType.MAIN_MENU_BACKGROUND);
         screenGraphics.setEnabled(true);
 

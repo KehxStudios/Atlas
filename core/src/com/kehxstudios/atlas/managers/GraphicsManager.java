@@ -99,7 +99,7 @@ public class GraphicsManager extends Manager {
     // Called when loading a new screen
     @Override
     protected void loadSettings() {
-        setup();
+        init();
         loadTextureAtlas();
         DebugTool.log("GraphicsManager_loadSettings: Complete");
     }
@@ -156,7 +156,7 @@ public class GraphicsManager extends Manager {
     
     // Called to dispose of any resources
     public void dispose() {
-        removeScreenSettings();
+        removeSettings();
     }
 
     // Called to check if graphics is already contained in @graphicsComponents

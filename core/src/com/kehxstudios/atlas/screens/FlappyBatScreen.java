@@ -86,10 +86,12 @@ public class FlappyBatScreen extends AScreen {
         batCurrentX = batStartX;
         lowScore = highScores.getLowScore();
         highScore = highScores.getHighScore();
+
+        init();
     }
 
-    public void finalizeSetup() {
-        super.finalizeSetup();
+    protected void init() {
+        super.init();
         screenGraphics.setTextureType(TextureType.FLAPPY_BAT_BACKGROUND);
         screenGraphics.setEnabled(true);
 

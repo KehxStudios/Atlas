@@ -21,6 +21,7 @@ package com.kehxstudios.atlas.managers;
 
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.screens.AScreen;
 import com.kehxstudios.atlas.type.ScreenType;
 import com.kehxstudios.atlas.tools.DebugTool;
@@ -115,7 +116,6 @@ public class ScreenManager extends Manager {
         DebugTool.log("New Screen Loading: "+ newScreenType.getId());
         try {
             setScreen((AScreen)ClassReflection.newInstance(newScreenType.getLoaderClass()));
-            screen.finalizeSetup();
         } catch (ReflectionException e) {
             ErrorTool.log("Failed to load " + newScreenType.getId() + " screen, demanding Intro screen");
             e.printStackTrace();
@@ -136,7 +136,13 @@ public class ScreenManager extends Manager {
     private void resetScreen() {
         screen.reset();
     }
-    
-    public void add(Component component) {}
-    public void remove(Component component) {}
+
+
+    public void add(Component component) {
+
+    }
+
+    public void remove(Component component) {
+
+    }
 }

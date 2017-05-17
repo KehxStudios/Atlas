@@ -37,10 +37,11 @@ public class IntroScreen extends AScreen {
 
     public IntroScreen() {
         super(ScreenType.INTRO);
+        init();
     }
 
-    public void finalizeSetup() {
-        super.finalizeSetup();
+    protected void init() {
+        super.init();
         screenGraphics.setTextureType(TextureType.INTRO_DEV_LOGO);
         screenGraphics.setEnabled(true);
         finalLogo = false;

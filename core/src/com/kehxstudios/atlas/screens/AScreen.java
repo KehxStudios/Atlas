@@ -67,7 +67,7 @@ public abstract class AScreen implements Screen {
         score = 0;
     }
 
-    public void finalizeSetup() {
+    protected void init() {
         screenEntity = Factory.createEntity(Templates.createEntityData(width/2, height/2));
 
         screenCamera = (CameraComponent)Factory.createComponent(screenEntity,

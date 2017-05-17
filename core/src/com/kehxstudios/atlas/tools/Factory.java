@@ -91,7 +91,7 @@ public class Factory {
             entity.addComponent(createComponent(entity, UtilityTool.getComponentDataFromString(componentString)));
         }
 
-        EntityManager.getInstance().addEntity(entity);
+        EntityManager.getInstance().add(entity);
 
         return entity;
     }
@@ -109,7 +109,7 @@ public class Factory {
             }
             component.setEnabled(componentData.isEnabled());
 
-            EntityManager.getInstance().addComponent(entity, component);
+            EntityManager.getInstance().add(component);
 
             if (componentType == ComponentType.ANIMATION) {
                 AnimationComponent animation = (AnimationComponent)component;

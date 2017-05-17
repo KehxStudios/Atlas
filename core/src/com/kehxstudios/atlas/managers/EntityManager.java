@@ -85,7 +85,7 @@ public class EntityManager extends Manager {
     // Called when loading a new screen
     @Override
     protected void loadSettings() {
-        setup();
+        init();
         DebugTool.log("EntityManager_loadSettings: Complete");
     }
 
@@ -143,8 +143,8 @@ public class EntityManager extends Manager {
     // Adds a Component to @entity
     public void add(Component component) {
         if (entities.contains(component.getEntity())) {
-            if (!entities.contains(component.getEntity().hasComponent(component)) {
-                entities.contains(component.getEntity().getComponents().add(component);
+            if (!entities.contains(component.getEntity().hasComponent(component))) {
+                entities.contains(component.getEntity().getComponents().add(component));
             } else {
                 ErrorTool.log("entity already contains component");
             }
@@ -154,9 +154,9 @@ public class EntityManager extends Manager {
     }
 
     // Removed a Component from @entity
-    private void remove(Component component) {
+    public void remove(Component component) {
         if (entities.contains(component.getEntity())) {
-            if (entities.contains(component.getEntity().hasComponent(component)) {
+            if (entities.contains(component.getEntity().hasComponent(component))) {
                 if (component.getType() == ComponentType.ANIMATION) {
                     GraphicsManager.getInstance().remove(component);
                 } else if (component.getType() == ComponentType.CLICKABLE) {
@@ -180,7 +180,7 @@ public class EntityManager extends Manager {
                 } else if (component.getType() == ComponentType.SOUND) {
                     SoundManager.getInstance().remove(component);
                 }
-                entities.contains(component.getEntity().getComponents().remove(component);
+                entities.contains(component.getEntity().getComponents().remove(component));
             } else {
                 ErrorTool.log("Failed to find component in entity to remove");
             }

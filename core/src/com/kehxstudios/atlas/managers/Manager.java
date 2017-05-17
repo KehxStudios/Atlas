@@ -19,6 +19,7 @@
 
 package com.kehxstudios.atlas.managers;
 
+import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.screens.AScreen;
 
 /**

@@ -60,7 +60,7 @@ public class SoundManager extends Manager {
 
     public SoundManager() {
         super();
-        setup();
+        init();
     }
 
     public Music getMusic(MusicType type) {
@@ -77,13 +77,13 @@ public class SoundManager extends Manager {
     }
     
     @Override
-    protected void setup() {
+    protected void init() {
         soundComponents = new ArrayList<SoundComponent>();
         musicComponents = new ArrayList<MusicComponent>();
     }
     
     @Override
-    protected void loadScreenSettings() {
+    protected void loadSettings() {
         rootSounds = new HashMap<String, Sound>();
 
 
@@ -91,7 +91,7 @@ public class SoundManager extends Manager {
     }
     
     @Override
-    protected void removeScreenSettings() {
+    protected void removeSettings() {
         DebugTool.log("SoundManager_loadScreenSettings: Complete");
     }
     

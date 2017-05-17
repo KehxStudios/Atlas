@@ -40,7 +40,7 @@ public class LoadingScreen extends AScreen {
         finishedLoading = true;
     }
 
-    public void finalizeSetup() {
+    protected void init() {
         gm.getAssetManager().load(loadingType.getAtlasPath(), TextureAtlas.class);
         finishedLoading = false;
     }

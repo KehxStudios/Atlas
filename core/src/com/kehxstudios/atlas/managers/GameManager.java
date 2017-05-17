@@ -203,7 +203,6 @@ public class GameManager extends Game {
 		loadingScreenType = screenType;
 		loadingScreen.setLoadingType(loadingScreenType);
 		setScreen(loadingScreen);
-		loadingScreen.finalizeSetup();
 		gameState = GameState.Loading;
 	}
 	private void finishedLoading() {
