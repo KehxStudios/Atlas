@@ -44,11 +44,11 @@ public class PhysicsManager extends Manager {
     }
 
     // ArrayList for all PhysicsComponents created
-    private ArrayList<PhysicsComponent> physicsComponents;
+    private HashMap<int,PhysicsComponent> physicsComponents;
     
     // ArrayList's for all CollisionComponents created based on if static or dynamic position
-    private ArrayList<CollisionComponent> staticCollisionComponents;
-    private ArrayList<CollisionComponent> dynamicCollisionComponents;
+    private HashMap<int,CollisionComponent> staticCollisionComponents;
+    private HashMap<int,CollisionComponent> dynamicCollisionComponents;
 
     // Constructor
     private PhysicsManager() {
@@ -59,16 +59,16 @@ public class PhysicsManager extends Manager {
     // Initalize @physicsComponents
     @Override
     protected void init() {
-        physicsComponents = new ArrayList<PhysicsComponent>();
-        staticCollisionComponents = new ArrayList<CollisionComponent>();
-        dynamicCollisionComponents = new ArrayList<CollisionComponent>();
+        physicsComponents = new HashMap<int,PhysicsComponent>();
+        staticCollisionComponents = new HashMap<int,CollisionComponent>();
+        dynamicCollisionComponents = new HashMap<int,CollisionComponent>();
         DebugTool.log("PhysicsManager_init: Complete");
     }
     
     // Called to update all PhysicsComponents and then check for collision
     @Override
     public void tick(float delta) {
-        for (PhysicsComponent physics : physicsComponents) {
+        for (PhysicsComponent physics : physicsComponents.values()) {
             if (physics.isEnabled()) {
                 //physics.getVelocity().set(physics.getAcceleration());
                 //physics.getAcceleration().set(0,0);
@@ -79,10 +79,10 @@ public class PhysicsManager extends Manager {
             }
         }
         if (dynamicCollisionComponents.size() > 0) {
-            for (CollisionComponent collision : dynamicCollisionComponents) {
+            for (CollisionComponent collision : dynamicCollisionComponents.values()) {
                 if (collision.isEnabled()) {
                     if (staticCollisionComponents.size() > 0) {
-                        for (CollisionComponent staticCollision : staticCollisionComponents) {
+                        for (CollisionComponent staticCollision : staticCollisionComponents.values()) {
                             if (staticCollision.isEnabled() && collision.getBounds().overlaps(staticCollision.getBounds())) {
                                 DebugTool.log("Static Collision");
                                 collision.trigger();
@@ -90,7 +90,7 @@ public class PhysicsManager extends Manager {
                             }
                         }
                     }
-                    for (CollisionComponent dynamicCollision : dynamicCollisionComponents) {
+                    for (CollisionComponent dynamicCollision : dynamicCollisionComponents.values()) {
                         if (collision != dynamicCollision &&  dynamicCollision.isEnabled() &&
                                 collision.getBounds().overlaps(dynamicCollision.getBounds())) {
                             DebugTool.log("Dynamic Collision");
@@ -118,17 +118,17 @@ public class PhysicsManager extends Manager {
         if (component.getType() == ComponentType.PHYSICS) {
             PhysicsComponent physics = (PhysicsComponent)component;
             if (!physicsComponents.contains(physics)) {
-                physicsComponents.add(physics);
+                physicsComponents.put(physics.id, physics);
             }
         } else if (component.getType() == ComponentType.COLLISION) {
             CollisionComponent collision = (CollisionComponent)component;
             if (collision.isStaticPosition()) {
                 if (!staticCollisionComponents.contains(collision)) {
-                    staticCollisionComponents.add(collision);
+                    staticCollisionComponents.put(collision.id, collision);
                 }
             } else {
                 if (!dynamicCollisionComponents.contains(collision)) {
-                    dynamicCollisionComponents.add(collision);
+                    dynamicCollisionComponents.put(collision.id, collision);
                 }
             }
         }
@@ -138,17 +138,17 @@ public class PhysicsManager extends Manager {
         if (component.getType() == ComponentType.PHYSICS) {
             PhysicsComponent physics = (PhysicsComponent)component;
             if (physicsComponents.contains(physics)) {
-                physicsComponents.remove(physics);
+                physicsComponents.values().remove(physics);
             }
         } else if (component.getType() == ComponentType.COLLISION) {
             CollisionComponent collision = (CollisionComponent)component;
             if (collision.isStaticPosition()) {
                 if (staticCollisionComponents.contains(collision)) {
-                    staticCollisionComponents.remove(collision);
+                    staticCollisionComponents.values().remove(collision);
                 }
             } else {
                 if (dynamicCollisionComponents.contains(collision)) {
-                    dynamicCollisionComponents.remove(collision);
+                    dynamicCollisionComponents.values().remove(collision);
                 }
             }
         }
