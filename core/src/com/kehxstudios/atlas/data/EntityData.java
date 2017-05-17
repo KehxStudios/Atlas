@@ -27,36 +27,20 @@ import java.util.HashMap;
 
 public class EntityData {
 
-    public String id;
     public float x, y;
     public HashMap<String, String> data;
 
     public EntityData() {
+        x = 0;
+        y = 0;
         data = new HashMap<String, String>();
     }
 
-    public EntityData(String id, float x, float y) {
-        this.id = id;
+    public EntityData(float x, float y) {
         this.x = x;
         this.y = y;
         data = new HashMap<String, String>();
     }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String type) {
-        this.id = type;
-    }
-
-    public float getX() { return x; }
-
-    public void setX(float x) { this.x = x; }
-
-    public float getY() { return y; }
-
-    public void setY(float y) { this.y = y; }
 
     public void putFloat(String key, float value) {
         data.put(key, "" + value);
