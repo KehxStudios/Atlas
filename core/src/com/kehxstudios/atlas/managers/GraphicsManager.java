@@ -53,11 +53,10 @@ public class GraphicsManager extends Manager {
     // Maximum number of layers for @graphicsComponents
     private int MAX_LAYERS = 5;
 
-    // ArrayLists for all used components
-    private ArrayList<AnimationComponent> animationComponents;
-    private ArrayList<ArrayList<GraphicsComponent>> graphicComponents;
-    private ArrayList<FloatingTextComponent> floatingTextComponents;
-
+    private HashMap<int,AnimationComponent> animationComponents;
+    private ArrayList<HashMap<int,GraphicsComponent> graphicsComponents;
+    private HashMap<int,FloatingTextComponent> floatingTextComponents;
+    
     // TextureAtlas to load textures to and from
     private TextureAtlas textureAtlas;
     
@@ -74,12 +73,12 @@ public class GraphicsManager extends Manager {
     @Override
     protected void init() {
         textureAtlas = new TextureAtlas();
-        animationComponents = new ArrayList<AnimationComponent>();
-        graphicComponents = new ArrayList<ArrayList<GraphicsComponent>>();
+        animationComponents = new HashMap<int,AnimationComponent>();
+        graphicComponents = new ArrayList<HashMap<int,GraphicsComponent>>();
         for (int i = 0; i < MAX_LAYERS; i++) {
-            graphicComponents.add(new ArrayList<GraphicsComponent>());
+            graphicComponents.add(new HashMap<int,GraphicsComponent>());
         }
-        floatingTextComponents = new ArrayList<FloatingTextComponent>();
+        floatingTextComponents = new HashMap<int,FloatingTextComponent>();
         cameraComponent = null;
         DebugTool.log("GraphicsManager_init: Complete");
     }
@@ -88,7 +87,7 @@ public class GraphicsManager extends Manager {
     @Override
     public void tick(float delta) {
         if (animationComponents.size() > 0) {
-            for (AnimationComponent animation : animationComponents) {
+            for (AnimationComponent animation : animationComponents.values()) {
                 if (animation.isEnabled()) {
 
                 }
@@ -99,7 +98,6 @@ public class GraphicsManager extends Manager {
     // Called when loading a new screen
     @Override
     protected void loadSettings() {
-        init();
         loadTextureAtlas();
         DebugTool.log("GraphicsManager_loadSettings: Complete");
     }
@@ -119,30 +117,23 @@ public class GraphicsManager extends Manager {
         }
         batch.begin();
         batch.setProjectionMatrix(cameraComponent.getCamera().combined);
-        for (ArrayList<GraphicsComponent> layerList : graphicComponents) {
-            if (layerList.size() == 0) {
+        for (HashMap<int,GraphicsComponent> hashMap : graphicComponents) {
+            if (hashMap.size() == 0) {
                 continue;
             }
-            for (GraphicsComponent graphics : layerList) {
-                if (graphics.isEnabled() && graphics.getTextureType() != TextureType.VOID) {
-                    batch.draw(textureAtlas.findRegion(graphics.getTextureType().getFileName()), graphics.getPosition().x - graphics.getWidth() / 2,
+            for (GraphicsComponent graphics : hashMap.values()) {
+                if (graphics.isEnabled()) {
+                    batch.draw(graphics.texture, graphics.getPosition().x - graphics.getWidth() / 2,
                         graphics.getPosition().y - graphics.getHeight() / 2,
                         graphics.getWidth(), graphics.getHeight());
-                    /*
-                    batch.draw(graphics.getTexture(), graphics.getPosition().x - graphics.getWidth() / 2,
-                        graphics.getPosition().y - graphics.getHeight() / 2,
-                        graphics.getWidth(), graphics.getHeight());
-                     */
-
                 }
-
             }
         }
-        for (FloatingTextComponent floatingText : floatingTextComponents) {
+        for (FloatingTextComponent floatingText : floatingTextComponents.values()) {
             if (floatingText.isEnabled()) {
-                floatingText.getFont().draw(gm.getBatch(), floatingText.getLayout(),
-                        floatingText.getPosition().x - floatingText.getLayout().width / 2,
-                        floatingText.getPosition().y - floatingText.getLayout().height / 2);
+                floatingText.font.draw(gm.getBatch(), floatingText.layout(),
+                        floatingText.getPosition().x - floatingText.layout().width / 2,
+                        floatingText.getPosition().y - floatingText.layout().height / 2);
             }
         }
         batch.end();
@@ -161,10 +152,7 @@ public class GraphicsManager extends Manager {
 
     // Called to check if graphics is already contained in @graphicsComponents
     private boolean contained(GraphicsComponent graphics) {
-        if (graphicComponents.get(graphics.getLayer()).contains(graphics))
-            return true;
-        else
-            return false;
+        return graphicComponents.get(graphics.getLayer()).contains(graphics));
     }
     
     // Called to add component to corresponding ArrayList
@@ -172,7 +160,7 @@ public class GraphicsManager extends Manager {
         if (component.getType() == ComponentType.ANIMATION) {
             AnimationComponent animation = (AnimationComponent)component;
             if (!animationComponents.contains(animation)) {
-                animationComponents.add(animation);
+                animationComponents.put(animation.id, animation);
             }
         } else if (component.getType() == ComponentType.CAMERA) {
             CameraComponent camera = (CameraComponent)component;
@@ -183,12 +171,12 @@ public class GraphicsManager extends Manager {
         } else if (component.getType() == ComponentType.GRAPHICS) {
             GraphicsComponent graphics = (GraphicsComponent)component;
             if (!contained(graphics)) {
-                graphicComponents.get(graphics.getLayer()).add(graphics);
+                graphicComponents.get(graphics.getLayer()).put(graphics.id, graphics);
             }
         } else if (component.getType() == ComponentType.FLOATING_TEXT) {
             FloatingTextComponent floatingText = (FloatingTextComponent)component;
             if (!floatingTextComponents.contains(floatingText)) {
-                floatingTextComponents.add(floatingText);
+                floatingTextComponents.put(floatingText.id, floatingText);
             }
         }
     }
@@ -198,7 +186,7 @@ public class GraphicsManager extends Manager {
         if (component.getType() == ComponentType.ANIMATION) {
             AnimationComponent animation = (AnimationComponent)component;
             if (animationComponents.contains(animation)) {
-                animationComponents.remove(animation);
+                animationComponents.values().remove(animation);
         } else if (component.getType() == ComponentType.CAMERA) {
                 CameraComponent camera = (CameraComponent)component;
                 if (cameraComponent == camera) {
@@ -207,12 +195,12 @@ public class GraphicsManager extends Manager {
         } else if (component.getType() == ComponentType.GRAPHICS) {
                 GraphicsComponent graphics = (GraphicsComponent)component;
                 if (contained(graphics)) {
-                    graphicComponents.get(graphics.getLayer()).remove(graphics);
+                    graphicComponents.get(graphics.getLayer()).values().remove(graphics);
                 }
         } else if (component.getType() == ComponentType.FLOATING_TEXT) {
                 FloatingTextComponent floatingText = (FloatingTextComponent) component;
                 if (floatingTextComponents.contains(floatingText)) {
-                    floatingTextComponents.remove(floatingText);
+                    floatingTextComponents.values().remove(floatingText);
                 }
             }
         }
