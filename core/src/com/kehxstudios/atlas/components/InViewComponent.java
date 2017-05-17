@@ -27,15 +27,6 @@ import com.kehxstudios.atlas.actions.Action;
 
 public class InViewComponent extends Component {
 
-    private float width, height;
-    private Action action;
-
-    public float getWidth() { return width; }
-    public void setWidth(float width) { this.width = width; }
-
-    public float getHeight() { return height; }
-    public void setHeight(float height) { this.height = height; }
-
-    public Action getAction() { return action; }
-    public void setAction(Action action) { this.action = action; }
+    public float width, height;
+    public Action action;
 }
