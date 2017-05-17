@@ -30,7 +30,6 @@ import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.InViewComponent;
 import com.kehxstudios.atlas.components.MusicComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
-import com.kehxstudios.atlas.components.PointerDirectionComponent;
 import com.kehxstudios.atlas.components.SoundComponent;
 
 import java.util.HashMap;
@@ -51,7 +50,6 @@ public enum ComponentType {
     IN_VIEW("In_View", InViewComponent.class),
     MUSIC("Music", MusicComponent.class),
     PHYSICS("Physics", PhysicsComponent.class),
-    POINTER_DIRECTION("Pointer_Direction", PointerDirectionComponent.class),
     SOUND("Sound", SoundComponent.class),
     VOID("void", Component.class);
 
