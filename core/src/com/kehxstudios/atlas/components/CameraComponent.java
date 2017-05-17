@@ -19,9 +19,7 @@
 
 package com.kehxstudios.atlas.components;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector3;
 
 /**
  * Used to hold the active OrthographicCamera
@@ -29,28 +27,5 @@ import com.badlogic.gdx.math.Vector3;
 
 public class CameraComponent extends Component {
 
-  private OrthographicCamera camera;
-  private boolean flipped;
-
-  public CameraComponent() {
-    camera = new OrthographicCamera();
-  }
-
-  public OrthographicCamera getCamera() { return camera; }
-  public void setCamera(OrthographicCamera camera) { this.camera = camera; }
-
-  public float getWidth() { return camera.viewportWidth; }
-  public void setWidth(float width) { camera.viewportWidth = width; }
-
-  public float getHeight() { return camera.viewportHeight; }
-  public void setHeight(float height) { camera.viewportHeight = height; }
-
-  public boolean isFlipped() { return flipped; }
-  public void setFlipped(boolean flipped) { flipped = true; }
-  
-  public void update() {
-    camera.position.set(new Vector3(entity.getPosition().x,
-            entity.getPosition().y, 0));
-    camera.update(); 
-  }
+  public OrthographicCamera camera;
 }
