@@ -115,24 +115,19 @@ public class Templates {
     }
 
     
-    private static ComponentData componentData() {
-        ComponentData data = new ComponentData();
-        data.setUseComponentPosition(false);
-        data.setUsePositionAsOffset(false);
-        data.setEnabled(true);
+    private static ComponentData componentData(ComponentType type) {
+        ComponentData data = new ComponentData(type, true);
         return data;
     }
     
     public static ComponentData animationComponentData() {
-        ComponentData data = componentData();
-        data.setType(ComponentType.ANIMATION.getId());
-        
+        ComponentData data = componentData(ComponentType.ANIMATION);
+        // ADD ANIMATION DATA
         return data;
     }
     
     public static ComponentData cameraComponentData(float width, float height, boolean flipped) {
-        ComponentData data = componentData();
-        data.setType(ComponentType.CAMERA.getId());
+        ComponentData data = componentData(ComponentType.CAMERA);
         data.putFloat("width", width);
         data.putFloat("height", height);
         data.putBoolean("flipped", flipped);
@@ -140,8 +135,7 @@ public class Templates {
     }
 
     public static ComponentData clickableComponentData(float width, float height, boolean singleTrigger, ActionData actionData) {
-        ComponentData data = componentData();
-        data.setType(ComponentType.CLICKABLE.getId());
+        ComponentData data = componentData(ComponentType.CLICKABLE);
         data.putFloat("width", width);
         data.putFloat("height", height);
         data.putBoolean("singleTrigger", singleTrigger);
@@ -149,54 +143,52 @@ public class Templates {
         return data;
     }
     
-    public static ComponentData collisionComponentData(float width, float height, boolean staticPosition, boolean singleTrigger,
-                boolean triggered, ActionData actionData) {
-        ComponentData data = componentData();
-        data.setType(ComponentType.COLLISION.getId());
+    public static ComponentData collisionComponentData(float width, float height, boolean staticPosition,
+                boolean collided, ActionData actionData) {
+        ComponentData data = componentData(ComponentType.COLLISION);
         data.putFloat("width", width);
         data.putFloat("height", height);
         data.putBoolean("staticPosition", staticPosition);
-        data.putBoolean("singleTrigger", singleTrigger);
-        data.putBoolean("triggered", triggered);
+        data.putBoolean("collided", collided);
         data.putString("action", UtilityTool.getStringFromDataClass(actionData));
         return data; 
     }
     
     public static ComponentData floatingTextComponentData(String label, String text, float scale) {
-        ComponentData data = componentData();
-        data.setType(ComponentType.FLOATING_TEXT.getId());
+        ComponentData data = componentData(ComponentType.FLOATING_TEXT);
         data.putString("label", label);
         data.putString("text", text);
         data.putFloat("scale", scale);
         return data;
     }
 
-    public static ComponentData geneRocketComponentData() {
-        ComponentData data = componentData();
-        data.setType(ComponentType.GENE_ROCKET.getId());
+    public static ComponentData geneRocketComponentData(int numberOfGenes) {
+        ComponentData data = componentData(ComponentType.GENE_ROCKET);
+        data.putInt("numberOfGenes", numberOfGenes);
         return data;
     }
     
-    public static ComponentData graphicsComponentData(float width, float height, int layer, TextureType textureType) {
-        ComponentData data = componentData();
-        data.setType(ComponentType.GRAPHICS.getId());
+    public static ComponentData graphicsComponentData(float width, float height, int layer, float rotation,
+                                                      TextureType textureType) {
+        ComponentData data = componentData(ComponentType.GRAPHICS);
         data.putFloat("width", width);
         data.putFloat("height", height);
         data.putInt("layer", layer);
+        data.putFloat("rotation", rotation);
         data.putString("textureType", textureType.getId());
         return data;
     }
     
-    public static ComponentData inViewComponentData() {
-        ComponentData data = componentData();
-        data.setType(ComponentType.IN_VIEW.getId());
-        
+    public static ComponentData inViewComponentData(float width, float height, ActionData actionData) {
+        ComponentData data = componentData(ComponentType.IN_VIEW);
+        data.putFloat("width", width);
+        data.putFloat("height", height);
+        data.putString("action", UtilityTool.getStringFromDataClass(actionData));
         return data;
     }
     
     public static ComponentData musicComponentData(MusicType musicType, float volume) {
-        ComponentData data = componentData();
-        data.setType(ComponentType.MUSIC.getId());
+        ComponentData data = componentData(ComponentType.MUSIC);
         data.putString("musicType", musicType.getId());
         data.putFloat("volume", volume);
         return data;
@@ -204,35 +196,23 @@ public class Templates {
     
     public static ComponentData physicsComponentData(float maxAccelerationX, float maxAccelerationY,
                                                            float maxVelocityX, float maxVelocityY) {
-        ComponentData data = componentData();
-        data.setType(ComponentType.PHYSICS.getId());
+        ComponentData data = componentData(ComponentType.PHYSICS);
         data.putFloat("maxAccerlation_x", maxAccelerationX);
         data.putFloat("maxAcceleration_y", maxAccelerationY);
         data.putFloat("maxVeloity_x", maxVelocityX);
         data.putFloat("maxVelocity_y", maxVelocityY);
         return data;
     }
-
-    public static ComponentData pointerDirectionComponentData() {
-        ComponentData data = componentData();
-        data.setType(ComponentType.POINTER_DIRECTION.getId());
-        
-        return data;
-    }
     
     public static ComponentData soundComponentData(SoundType soundType, float volume) {
-        ComponentData data = componentData();
-        data.setType(ComponentType.SOUND.getId());
+        ComponentData data = componentData(ComponentType.SOUND);
         data.putString("soundType", soundType.getId());
         data.putFloat("volume", volume);
         return data;
     }
 
     public static EntityData createEntityData(float x, float y) {
-        EntityData data = new EntityData();
-        data.setX(x);
-        data.setY(y);
-
+        EntityData data = new EntityData(x, y);
         return data;
     }
 }
