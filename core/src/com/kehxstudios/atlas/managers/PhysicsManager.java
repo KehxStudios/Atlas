@@ -43,10 +43,10 @@ public class PhysicsManager extends Manager {
         return instance;
     }
 
-    // ArrayList for all PhysicsComponents created
+    // HashMap for all PhysicsComponents created
     private HashMap<int,PhysicsComponent> physicsComponents;
     
-    // ArrayList's for all CollisionComponents created based on if static or dynamic position
+    // HashMap's for all CollisionComponents created based on if static or dynamic position
     private HashMap<int,CollisionComponent> staticCollisionComponents;
     private HashMap<int,CollisionComponent> dynamicCollisionComponents;
 
@@ -69,21 +69,21 @@ public class PhysicsManager extends Manager {
     @Override
     public void tick(float delta) {
         for (PhysicsComponent physics : physicsComponents.values()) {
-            if (physics.isEnabled()) {
+            if (physics.enabled()) {
                 //physics.getVelocity().set(physics.getAcceleration());
                 //physics.getAcceleration().set(0,0);
-                physics.getVelocity().scl(delta);
-                physics.movePosition(physics.getVelocity().x, physics.getVelocity().y);
+                physics.velocity().scl(delta);
+                physics.movePosition(physics.velocity().x, physics.velocity().y);
                 //physics.setVelocity(0,0);
-                physics.getVelocity().scl(1 / delta);
+                physics.velocity().scl(1 / delta);
             }
         }
         if (dynamicCollisionComponents.size() > 0) {
             for (CollisionComponent collision : dynamicCollisionComponents.values()) {
-                if (collision.isEnabled()) {
+                if (collision.enabled()) {
                     if (staticCollisionComponents.size() > 0) {
                         for (CollisionComponent staticCollision : staticCollisionComponents.values()) {
-                            if (staticCollision.isEnabled() && collision.getBounds().overlaps(staticCollision.getBounds())) {
+                            if (staticCollision.enabled() && collision.bounds().overlaps(staticCollision.bounds())) {
                                 DebugTool.log("Static Collision");
                                 collision.trigger();
                                 staticCollision.trigger();
@@ -91,8 +91,8 @@ public class PhysicsManager extends Manager {
                         }
                     }
                     for (CollisionComponent dynamicCollision : dynamicCollisionComponents.values()) {
-                        if (collision != dynamicCollision &&  dynamicCollision.isEnabled() &&
-                                collision.getBounds().overlaps(dynamicCollision.getBounds())) {
+                        if (collision != dynamicCollision &&  dynamicCollision.enabled() &&
+                                collision.bounds().overlaps(dynamicCollision.bounds())) {
                             DebugTool.log("Dynamic Collision");
                             collision.trigger();
                         }
