@@ -30,36 +30,8 @@ import com.kehxstudios.atlas.tools.DebugTool;
 
 public class ClickableComponent extends Component {
 
-    private float width;
-    private float height;
-    private boolean singleTrigger;
-    private boolean triggered;
-    private Action action;
-
-    public float getWidth() { return width; }
-    public void setWidth(float width) { this.width = width; }
-
-    public float getHeight() { return height; }
-    public void setHeight(float height) { this.height = height; }
-
-    public boolean isSingleTrigger() {
-        return singleTrigger;
-    }
-    public void setSingleTrigger(boolean singleTrigger) { this.singleTrigger = singleTrigger; }
-
-    public boolean isTriggered() { return triggered; }
-    public void setTriggered(boolean triggered) { this.triggered = triggered; }
-
-    public Action getAction() { return action; }
-    public void setAction(Action action) { this.action = action;}
-
-    public void trigger() {
-        if (!singleTrigger || singleTrigger && !triggered) {
-            triggered = true;
-            DebugTool.log("Clickable Triggered");
-            action.trigger();
-        } else {
-            DebugTool.log("Failed to trigger", singleTrigger+"");
-        }
-    }
+    public Rectangle bounds;
+    public boolean singleTrigger;
+    public boolean triggered;
+    public Action action;
 }
