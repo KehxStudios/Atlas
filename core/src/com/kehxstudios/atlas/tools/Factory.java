@@ -84,11 +84,12 @@ public class Factory {
 
     public static Entity createEntity(EntityData entityData) {
         Entity entity = new Entity();
-        entity.setId("Entity_" + ++uniqueId);
-        entity.setPosition(entityData.getX(), entityData.getY());
+        entity.position.x = entityData.x;
+        entity.position.y = entityData.y;
+        entity.id = ++uniqueId;
 
         for (String componentString : entityData.data.values()) {
-            entity.addComponent(createComponent(entity, UtilityTool.getComponentDataFromString(componentString)));
+            createComponent(entity, UtilityTool.getComponentDataFromString(componentString));
         }
 
         EntityManager.getInstance().add(entity);
@@ -100,14 +101,10 @@ public class Factory {
         try {
             ComponentType componentType = ComponentType.getTypeById(componentData.getType());
             Component component = (Component) ClassReflection.newInstance(componentType.getLoaderClass());
-            component.setEntity(entity);
-            component.setType(componentType);
-            component.setUseComponentPosition(componentData.getUseComponentPosition());
-            component.setUsePositionAsOffset(componentData.getUsePositionAsOffset());
-            if (component.getUseComponentPosition() || component.getUsePositionAsOffset()) {
-                component.setPosition(componentData.getX(), componentData.getY());
-            }
-            component.setEnabled(componentData.isEnabled());
+            component.id = ++uniqueId;
+            component.entityId = entity.id;
+            component.type = componentType;
+            component.enabled = componentData.enabled;
 
             EntityManager.getInstance().add(component);
 
@@ -118,101 +115,92 @@ public class Factory {
                 return animation;
             } else if (componentType == ComponentType.CAMERA) {
                 CameraComponent camera = (CameraComponent)component;
-                camera.setWidth(componentData.getFloat("width", 0));
-                camera.setHeight(componentData.getFloat("height", 0));
-                camera.setFlipped(componentData.getBoolean("flipped", false));
-                camera.getCamera().setToOrtho(camera.isFlipped(), camera.getWidth(), camera.getHeight());
-                camera.update();
+                camera.camera.position = entity.position;
+                camera.camera.setToOrtho(componentData.getBoolean("flipped", false), 
+                                              componentData.getFloat("width", 0), 
+                                              componentData.getFloat("height", 0));
                 GraphicsManager.getInstance().add(camera);
                 return camera;
             } else if (componentType == ComponentType.CLICKABLE) {
                 ClickableComponent clickable = (ClickableComponent)component;
-                clickable.setWidth(componentData.getFloat("width", 0));
-                clickable.setHeight(componentData.getFloat("height", 0));
-                clickable.setSingleTrigger(componentData.getBoolean("singleTrigger", false));
-                clickable.setTriggered(false);
-                clickable.setAction(createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void"))));
+                float width = componentData.getFloat("width", 0);
+                float height = componentData.getFloat("height", 0);
+                clickable.bounds = new Rectangle(entity.position.x - width/2, entity.position.y - height/2, width, height);
+                clickable.singleTrigger(componentData.getBoolean("singleTrigger", false));
+                clickable.triggered(false);
+                clickable.action(createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void"))));
                 InputManager.getInstance().add(clickable);
                 return clickable;
             } else if (componentType == ComponentType.COLLISION) {
                 CollisionComponent collision = (CollisionComponent)component;
-                collision.setWidth(componentData.getFloat("width", 0));
-                collision.setHeight(componentData.getFloat("height", 0));
-                collision.setBounds(new Rectangle(collision.getPosition().x - collision.getWidth()/2,
-                        collision.getPosition().y - collision.getHeight()/2, collision.getWidth(), collision.getHeight()));
-                collision.setStaticPosition(componentData.getBoolean("staticPosition", true));
-                collision.setSingleTrigger(componentData.getBoolean("singleTrigger", false));
-                collision.setTriggered(componentData.getBoolean("triggered", false));
-                collision.setAction(createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void"))));
+                float width = componentData.getFloat("width", 0);
+                float height = componentData.getFloat("height", 0);
+                collision.bounds = new Rectangle(entity.position.x - width/2, entity.position.y - height/2, width, height);
+               
+                collision.staticPosition(componentData.getBoolean("staticPosition", true));
+                collision.collided = false;
+                collision.action(createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void"))));
                 PhysicsManager.getInstance().add(collision);
                 return collision;
             } else if (componentType == ComponentType.FLOATING_TEXT) {
                 FloatingTextComponent floatingText = (FloatingTextComponent)component;
-                floatingText.setFont(new BitmapFont());
-                floatingText.setScale(componentData.getFloat("scale", 1));
-                floatingText.setLabel(componentData.getString("label", "-"));
-                floatingText.setText(componentData.getString("text", "-"));
-                floatingText.setLayout(new GlyphLayout(floatingText.getFont(),
+                floatingText.font(new BitmapFont());
+                floatingText.scale(componentData.getFloat("scale", 1));
+                floatingText.label(componentData.getString("label", "-"));
+                floatingText.text(componentData.getString("text", "-"));
+                floatingText.layout(new GlyphLayout(floatingText.getFont(),
                         floatingText.getLabel() + floatingText.getText()));
-                floatingText.getLayout().setText(floatingText.getFont(),
-                        floatingText.getLabel() + floatingText.getText(),
+                floatingText.layout().setText(floatingText.font(),
+                        floatingText.label() + floatingText.text(),
                         Color.BLACK, 0, Align.left, true);
                 GraphicsManager.getInstance().add(floatingText);
                 return floatingText;
             } else if (componentType == ComponentType.GENE_ROCKET) {
                 GeneRocketComponent geneRocket = (GeneRocketComponent)component;
-                geneRocket.setFitness(0f);
+                geneRocket.genes = new ArrayList<Vector2>(componentData.getString("numberOfGenes", 0));
+                geneRocket.fitness(0f);
                 return geneRocket;
             }else if (componentType == ComponentType.GRAPHICS) {
                 GraphicsComponent graphics = (GraphicsComponent)component;
-                graphics.setWidth(componentData.getFloat("width", 0));
-                graphics.setHeight(componentData.getFloat("height", 0));
-                graphics.setLayer(componentData.getInt("layer", 0));
-                graphics.setTextureType(TextureType.getTypeFromId(componentData.getString("textureType", "Void")));
-                if (graphics.getWidth() == 0) {
-                    graphics.setWidth(graphics.getTextureType().getWidth());
-                }
-                if (graphics.getHeight() == 0) {
-                    graphics.setHeight(graphics.getTextureType().getHeight());
-                }
-                if (graphics.getTextureType() == TextureType.VOID) {
-                    graphics.setEnabled(false);
+                graphics.width(componentData.getFloat("width", 0));
+                graphics.height(componentData.getFloat("height", 0));
+                graphics.layer(componentData.getInt("layer", 0));
+                graphics.rotation(componentData.getFloat("rotation", 0));
+                graphics.textureType(TextureType.getTypeFromId(componentData.getString("textureType", "Void")));
+                if (graphics.textureType() == TextureType.VOID) {
+                    graphics.enabled(false);
                 }
                 GraphicsManager.getInstance().add(graphics);
                 return graphics;
             } else if (componentType == ComponentType.IN_VIEW) {
                 InViewComponent inView = (InViewComponent)component;
-                inView.setWidth(componentData.getFloat("width", 0));
-                inView.setHeight(componentData.getFloat("height", 0));
-                inView.setAction(createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void"))));
+                inView.width(componentData.getFloat("width", 0));
+                inView.height(componentData.getFloat("height", 0));
+                inView.action(createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void"))));
                 // ADD TO MANAGER
                 return inView;
             } else if (componentType == ComponentType.MUSIC) {
                 MusicComponent music = (MusicComponent)component;
-                music.setMusicType(MusicType.getTypeById(componentData.getString("musicType", "Void")));
-                music.setVolume(componentData.getFloat("volume", 0f));
+                music.musicType(MusicType.getTypeById(componentData.getString("musicType", "Void")));
+                music.volume(componentData.getFloat("volume", 0f));
                 SoundManager.getInstance().add(music);
                 return music;
             } else if (componentType == ComponentType.PHYSICS) {
                 PhysicsComponent physics = (PhysicsComponent)component;
-                physics.setAcceleration(componentData.getFloat("acceleraton_x", 0),
+                physics.acceleration(componentData.getFloat("acceleraton_x", 0),
                         componentData.getFloat("acceleration_y", 0));
-                physics.setMaxAcceleration(componentData.getFloat("maxAcceleration_x", 0),
+                physics.maxAcceleration(componentData.getFloat("maxAcceleration_x", 0),
                         componentData.getFloat("maxAcceleration_y", 0));
-                physics.setVelocity(componentData.getFloat("velocity_x", 0),
+                physics.velocity(componentData.getFloat("velocity_x", 0),
                         componentData.getFloat("velocity_y", 0));
-                physics.setMaxVelocity(componentData.getFloat("maxVelocity_x", 0),
+                physics.maxVelocity(componentData.getFloat("maxVelocity_x", 0),
                         componentData.getFloat("maxVelocity_y", 0));
                 PhysicsManager.getInstance().add(physics);
                 return physics;
-            } else if (componentType == ComponentType.POINTER_DIRECTION) {
-                PointerDirectionComponent pointerDirection = (PointerDirectionComponent)component;
-                // TO BE ADDED
-                return pointerDirection;
             } else if (componentType == ComponentType.SOUND) {
                 SoundComponent sound = (SoundComponent)component;
-                sound.setSoundType(SoundType.getTypeById(componentData.getString("soundType", "Void")));
-                sound.setVolume(componentData.getFloat("volume", 0f));
+                sound.soundType(SoundType.getTypeById(componentData.getString("soundType", "Void")));
+                sound.volume(componentData.getFloat("volume", 0f));
                 SoundManager.getInstance().add(sound);
                 return sound;
             }
