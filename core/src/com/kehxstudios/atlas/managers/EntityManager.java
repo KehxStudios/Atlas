@@ -46,13 +46,16 @@ public class EntityManager extends Manager {
         }
         return instance;
     }
-
-    // ArrayList for all Entities created
-    private ArrayList<Entity> entities;
-
-    // ArrayLists for Entities/Components to be removed on tick
-    private ArrayList<Entity> markedEntities;
-    private ArrayList<Component> markedComponents;
+    
+    // HashMap for all created Entity's
+    private HashMap<Integer, Entity> entities;
+    // HashMap for all created Component's
+    private HashMap<Integer, Component> components;
+    
+    // ArrayList for Entity Ids to be removed
+    private ArrayList<int> markedEntities;
+    // ArrayList for Component Ids to be removed
+    private ArrayList<int> markedComponents;
 
     // Constructor
     private EntityManager() {
@@ -63,9 +66,10 @@ public class EntityManager extends Manager {
     // Initalizes the ArrayLists
     @Override
     protected void init() {
-        entities = new ArrayList<Entity>();
-        markedEntities = new ArrayList<Entity>();
-        markedComponents = new ArrayList<Component>();
+        entities = new HashMap<Integer, Entity>();
+        components = new HashMap<Integer, Component>();
+        markedEntities = new ArrayList<int>();
+        markedComponents = new ArrayList<int>();
         DebugTool.log("EntityManager_init: Complete");
     }
     
@@ -73,11 +77,11 @@ public class EntityManager extends Manager {
     @Override
     public void tick(float delta) {
         while (markedComponents.size() > 0) {
-            remove(markedComponents.get(0));
+            remove(components.get(markedComponents.get(0)));
             markedComponents.remove(markedComponents.get(0));
         }
         while (markedEntities.size() > 0) {
-            remove(entities.get(0));
+            remove(entities.get(markedEntities.get(0)));
             markedEntities.remove(markedEntities.get(0));
         }
     }
@@ -85,7 +89,6 @@ public class EntityManager extends Manager {
     // Called when loading a new screen
     @Override
     protected void loadSettings() {
-        init();
         DebugTool.log("EntityManager_loadSettings: Complete");
     }
 
@@ -100,8 +103,8 @@ public class EntityManager extends Manager {
     
     // Called to mark an Entity to be removed on @tick()
     public void markEntityForRemoval(Entity entity) {
-        if (!markedEntities.contains(entity)) {
-            markedEntities.add(entity);
+        if (!markedEntities.contains(entity.id)) {
+            markedEntities.add(entity.id);
         } else {
             ErrorTool.log("Failed to mark entity, already marked");  
         }
@@ -109,8 +112,8 @@ public class EntityManager extends Manager {
 
     // Called to mark a Component to be removed on @tick()
     public void markComponentForRemoval(Component component) {
-        if (!markedComponents.contains(component)) {
-            markedComponents.add(component);
+        if (!markedComponents.contains(component.id)) {
+            markedComponents.add(component.id);
         } else {
             ErrorTool.log("Failed to mark component, already marked");  
         }
@@ -128,13 +131,13 @@ public class EntityManager extends Manager {
     // Removes an Entity from current @entities ArrayList including Components
     private void remove(Entity entity) {
         if (entities.contains(entity)) {
-            if (entity.getComponents().size() > 0) {
-                ArrayList<Component> components = entity.getComponents();
-                for (;components.size() > 0;) {
-                    remove(components.get(0));
+            if (entity.components.size() > 0) {
+                ArrayList<int> componentIds = entity.components.keySet();
+                for (;componentIds.size() > 0;) {
+                    remove(components.get(componentIds.get(0)));
                 }
             }
-            entities.remove(entity);
+            entities.values().remove(entity.id);
         } else {
             ErrorTool.log("Failed to find entity in entities");
         }
@@ -142,9 +145,10 @@ public class EntityManager extends Manager {
 
     // Adds a Component to @entity
     public void add(Component component) {
-        if (entities.contains(component.getEntity())) {
-            if (!entities.contains(component.getEntity().hasComponent(component))) {
-                entities.contains(component.getEntity().getComponents().add(component));
+        if (entities.contains(component.entityId)) {
+            if (!components.contains(component.id)) {
+                components.put(component.id, component);
+                entities.get(component.entityId).components.put(component.id, component.type);
             } else {
                 ErrorTool.log("entity already contains component");
             }
@@ -155,8 +159,8 @@ public class EntityManager extends Manager {
 
     // Removed a Component from @entity
     public void remove(Component component) {
-        if (entities.contains(component.getEntity())) {
-            if (entities.contains(component.getEntity().hasComponent(component))) {
+        if (entities.contains(component.entityId)) {
+            if (components.contains(component.id)) {
                 if (component.getType() == ComponentType.ANIMATION) {
                     GraphicsManager.getInstance().remove(component);
                 } else if (component.getType() == ComponentType.CLICKABLE) {
@@ -180,7 +184,8 @@ public class EntityManager extends Manager {
                 } else if (component.getType() == ComponentType.SOUND) {
                     SoundManager.getInstance().remove(component);
                 }
-                entities.contains(component.getEntity().getComponents().remove(component));
+                entities.get(component.entityId).componets.values().remove(component.id);
+                components.values().remove(component.id);
             } else {
                 ErrorTool.log("Failed to find component in entity to remove");
             }
