@@ -2,11 +2,13 @@ May 17, 2017 [ 0.0.7.0517 ]
   > Started to preform changes to a more true Entity Component System (ECS).
   > Main ECS changes involve making the Managers have all the methods and the Entity/Components to contain only variables.
   > Changes may take a few days to regain full functionality again but will help with cleanup the project structure
+  > Assets locations will be changing and will not longer be seperated by the ScreenType but rather by the type of asset.
   - Removed methods in Entity, Component & extended Components
   - removed/renamed some variables
   - Updated EntityData & ComponentData with new ECS changes.
   - Updated Templates & Factory with new ECS changes.
   - Updated EntityManager with new ECS changes.
+  - Updated remaining Managers with the exception of GameManager, Manager & ScreenManager with new ECS changes
 
 May 16, 2017 [ 0.0.7.0516 ]
   - Manager: Updated abstract methods, updated extended methods.
