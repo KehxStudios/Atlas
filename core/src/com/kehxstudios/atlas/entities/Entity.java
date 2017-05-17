@@ -31,51 +31,16 @@ import java.util.ArrayList;
 
 public class Entity {
 
-    protected String id;
-    protected Vector2 position;
-    protected ArrayList<Component> components;
-
+    // Unique identifier for Entity
+    public int id;
+    // Origin position for all linked @components
+    public Vector2 position;
+    // Hashmap of the Component's id and it's type
+    public HashMap<Integer, ComponentType> components;
+    
+    // Basic constructor to initalize @position and @components
     public Entity() {
         position = new Vector2();
-        components = new ArrayList<Component>();
+        components = new HashMap<Integer, ComponentType>();
     }
-
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
-    public Vector2 getPosition() { return position; }
-    public void setPosition(float x, float y) { position.set(x,y); }
-    public void movePosition(float x, float y) { position.add(x,y); }
-    public void setX(float x) { position.x = x; }
-    public void setY(float y) { position.y = y; }
-
-    public ArrayList<Component> getComponents() { return components; }
-    public Component getComponentOfType(ComponentType componentType) {
-        for (Component component : components) {
-            if (component.getType() == componentType) {
-                return component;
-            }
-        }
-        return null;
-    }
-    public ArrayList<Component> getAllComponentsOfType(ComponentType componentType) {
-        ArrayList<Component> allOfType = new ArrayList<Component>();
-        for (Component component : components) {
-            if (component.getType() == componentType) {
-                allOfType.add(component);
-            }
-        }
-        return allOfType;
-    }
-    public boolean hasComponent(Component component) { return components.contains(component); }
-    public boolean hasComponentOfType(ComponentType componentType) {
-        for (Component component : components) {
-            if (component.getType() == componentType) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public void addComponent(Component component) { components.add(component); }
-    public void removeComponent(Component component) { components.remove(component); }
 }
