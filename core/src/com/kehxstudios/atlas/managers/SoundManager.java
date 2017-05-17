@@ -53,10 +53,8 @@ public class SoundManager extends Manager {
         return instance;
     }
     
-    private ArrayList<SoundComponent> soundComponents;
-    private ArrayList<MusicComponent> musicComponents;
-
-    private HashMap<String, Sound> rootSounds;
+    private HashMap<int, SoundComponent> soundComponents;
+    private HashMap<int, MusicComponent> musicComponents;
 
     public SoundManager() {
         super();
@@ -78,15 +76,12 @@ public class SoundManager extends Manager {
     
     @Override
     protected void init() {
-        soundComponents = new ArrayList<SoundComponent>();
-        musicComponents = new ArrayList<MusicComponent>();
+        soundComponents = new HashMap<int, SoundComponent>();
+        musicComponents = new HashMap<int, MusicComponent>();
     }
     
     @Override
     protected void loadSettings() {
-        rootSounds = new HashMap<String, Sound>();
-
-
         DebugTool.log("SoundManager_loadScreenSettings: Complete");
     }
     
@@ -96,45 +91,45 @@ public class SoundManager extends Manager {
     }
     
     public void play(Component component) {
-        if (component.getType() == ComponentType.SOUND) {
+        if (component.type == ComponentType.SOUND) {
             SoundComponent sound = (SoundComponent)component;
             if (!soundComponents.contains(sound)) {
                 add(sound);
             }
-            sound.getSound().play(sound.getVolume());
-        } else if (component.getType() == ComponentType.MUSIC) {
+            sound.sound.play(sound.volume);
+        } else if (component.type == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
             if (!musicComponents.contains(music)) {
                 add(music);
             }
-            music.getMusic().setVolume(music.getVolume());
-            music.getMusic().play();
+            music.music.volume(music.volume);
+            music.music.play();
         }
     }
     
     public void stop(Component component) {
-        if (component.getType() == ComponentType.SOUND) {
+        if (component.type == ComponentType.SOUND) {
             SoundComponent sound = (SoundComponent)component;
             if (!soundComponents.contains(sound)) {
                 add(sound);
             }
-            sound.getSound().stop();
-        } else if (component.getType() == ComponentType.MUSIC) {
+            sound.sound.stop();
+        } else if (component.type == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
             if (!musicComponents.contains(music)) {
                 add(music);
             }
-            music.getMusic().stop();
+            music.music.stop();
         }
     }
     
     public void add(Component component) {
-        if (component.getType() == ComponentType.SOUND) {
+        if (component.type == ComponentType.SOUND) {
             SoundComponent sound = (SoundComponent)component;
             if (!soundComponents.contains(sound)) {
                 soundComponents.add(sound);
             }
-        } else if (component.getType() == ComponentType.MUSIC) {
+        } else if (component.type == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
             if (!musicComponents.contains(music)) {
                 musicComponents.add(music);
@@ -143,19 +138,19 @@ public class SoundManager extends Manager {
     }
     
     public void remove(Component component) {
-        if (component.getType() == ComponentType.SOUND) {
+        if (component.type == ComponentType.SOUND) {
             SoundComponent sound = (SoundComponent)component;
             if (soundComponents.contains(sound)) {
-                sound.getSound().stop();
-                sound.getSound().dispose();
-                soundComponents.remove(sound);
+                sound.sound.stop();
+                sound.sound.dispose();
+                soundComponents.values().remove(sound);
             }
-        } else if (component.getType() == ComponentType.MUSIC) {
+        } else if (component.type == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
             if (musicComponents.contains(music)) {
-                music.getMusic().stop();
-                music.getMusic().dispose();
-                musicComponents.remove(music);
+                music.music.stop();
+                music.music.dispose();
+                musicComponents.values().remove(music);
             }
         }
     }
