@@ -45,8 +45,8 @@ public class InputManager extends Manager {
         return instance;
     }
 
-    // ArrayList for all ClickableComponents created
-    private ArrayList<ClickableComponent> clickableComponents;
+    // HashMap for all ClickableComponents created
+    private HashMap<int, ClickableComponent> clickableComponents;
     
     private Vector2 clickedPosition;
 
@@ -59,7 +59,7 @@ public class InputManager extends Manager {
     // Initalizes the @clickableComponents
     @Override
     protected void init() {
-        clickableComponents = new ArrayList<ClickableComponent>();
+        clickableComponents = new HashMap<int,ClickableComponent>();
         clickedPosition = new Vector2(0,0);
         DebugTool.log("InputManager_setup: Complete");
     }
@@ -74,7 +74,7 @@ public class InputManager extends Manager {
                 screen.getCamera().viewportHeight/2;
             clickedPosition.set(x, y);
 
-            for (ClickableComponent clickable : clickableComponents) {
+            for (ClickableComponent clickable : clickableComponents.values()) {
                 if (clickable.isEnabled()) {
                     if (x > clickable.getPosition().x - clickable.getWidth() / 2 &&
                             x < clickable.getPosition().x + clickable.getWidth() / 2 &&
@@ -106,7 +106,7 @@ public class InputManager extends Manager {
         if (component.getType() == ComponentType.CLICKABLE) {
             ClickableComponent clickable = (ClickableComponent)component;
             if (!clickableComponents.contains(clickable)) {
-                clickableComponents.add(clickable);
+                clickableComponents.put(clickable.id, clickable);
             } else {
                 ErrorTool.log("Failed to add clickable to clickableComponents");
             }
@@ -118,7 +118,7 @@ public class InputManager extends Manager {
         if (component.getType() == ComponentType.CLICKABLE) {
             ClickableComponent clickable = (ClickableComponent)component;
             if (clickableComponents.contains(clickable)) {
-                clickableComponents.remove(clickable);
+                clickableComponents.values().remove(clickable);
             } else {
                 ErrorTool.log("Failed to add clickable to clickableComponents");
             }
