@@ -19,12 +19,7 @@
 
 package com.kehxstudios.atlas.components;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.managers.GraphicsManager;
-import com.kehxstudios.atlas.managers.PhysicsManager;
-import com.kehxstudios.atlas.tools.DebugTool;
 
 /**
  * Used to process any physics causing movement
@@ -36,9 +31,6 @@ public class PhysicsComponent extends Component {
     public Vector2 maxAcceleration;
     public Vector2 velocity;
     public Vector2 maxVelocity;
-    public Rectangle bounds;
-    public boolean collidable;
-    public boolean collided; // Reset to false on creation
 
     public PhysicsComponent() {
         acceleration = new Vector2();
@@ -46,40 +38,4 @@ public class PhysicsComponent extends Component {
         velocity = new Vector2();
         maxVelocity = new Vector2();
     }
-
-    public Vector2 getAcceleration() { return acceleration; }
-    public void setAcceleration(float x, float y) { acceleration.set(x,y); }
-    public void addAcceleration(float x, float y) { acceleration.add(x,y); }
-
-    public Vector2 getMaxAcceleration() { return maxAcceleration; }
-    public void setMaxAcceleration(float x, float y) { maxAcceleration.set(x,y); }
-
-    public Vector2 getVelocity() { return velocity; }
-    public void setVelocity(float x, float y) { velocity.set(x,y); }
-    public void setVelocity(Vector2 velocity) { this.velocity = velocity; }
-    public void addVelocity(float x, float y) { velocity.add(x,y); }
-    public void setXVelocity(float x) { velocity.x = x; }
-    public void setYVelocity(float y) { velocity.y = y; }
-    public void addXVelocity(float x) { velocity.x += x; }
-    public void addYVelocity(float y) { velocity.y += y; }
-
-    public Vector2 getMaxVelocity() { return maxVelocity; }
-    public void setMaxVelocity(float x, float y) { maxVelocity.set(x,y); }
-
-    public Rectangle getBounds() {
-        bounds.setX(getPosition().x - bounds.width/2);
-        bounds.setY(getPosition().y - bounds.height/2);
-        return bounds;
-    };
-    public void setBounds(Rectangle bounds) { this.bounds = bounds; }
-    public void moveBounds(float x, float y) {
-        bounds.setX(bounds.x + x);
-        bounds.setY(bounds.y + y);
-    }
-
-    public boolean isCollidable() { return collidable; }
-    public void setCollidable(boolean collidable) { this.collidable = collidable; }
-
-    public boolean hasCollided() { return collided; }
-    public void setCollided(boolean collided) { this.collided = collided; }
 }
