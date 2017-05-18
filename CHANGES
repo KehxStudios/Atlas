@@ -9,6 +9,9 @@ May 17, 2017 [ 0.0.7.0517 ]
   - Updated Templates & Factory with new ECS changes.
   - Updated EntityManager with new ECS changes.
   - Updated remaining Managers with the exception of GameManager, Manager & ScreenManager with new ECS changes
+  - Patched up from not having auto-complete earlier, still Screens left unfixed
+  - Reworked all Actions including inside the Templates & Factory, some changes still needed
+  - Created PositionManager that will help sync position among Components, not yet finished
 
 May 16, 2017 [ 0.0.7.0516 ]
   - Manager: Updated abstract methods, updated extended methods.
