@@ -42,8 +42,8 @@ public class IntroScreen extends AScreen {
 
     protected void init() {
         super.init();
-        screenGraphics.setTextureType(TextureType.INTRO_DEV_LOGO);
-        screenGraphics.setEnabled(true);
+        screenGraphics.textureType = TextureType.INTRO_DEV_LOGO;
+        screenGraphics.enabled = true;
         finalLogo = false;
         clickToContinue = false;
     }
@@ -55,7 +55,7 @@ public class IntroScreen extends AScreen {
         if (!clickToContinue) {
             // If index is not on last path
             if (!finalLogo && screenTime >= 2f || screenTime > 1f && Gdx.input.isTouched()) {
-                screenGraphics.setTextureType(TextureType.INTRO_GAME_LOGO);
+                screenGraphics.textureType = TextureType.INTRO_GAME_LOGO;
                 finalLogo = true;
 
             } else if (finalLogo && screenTime > 4f || screenTime > 2f && Gdx.input.isTouched()) {
@@ -68,10 +68,8 @@ public class IntroScreen extends AScreen {
     
     private void createFinalComponents() {
         // FloatingText
-        ComponentData floatingTextData = Templates.floatingTextComponentData("", "Click to Continue", 3);
-        floatingTextData.setUseComponentPosition(true);
-        floatingTextData.setX(width/2);
-        floatingTextData.setY(height/5);
+        ComponentData floatingTextData = Templates.floatingTextComponentData(width/2, height/5,
+                "", "Click to Continue", 3);
         Factory.createComponent(screenEntity, floatingTextData);
         
         // Clickable

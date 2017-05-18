@@ -19,6 +19,8 @@
 
 package com.kehxstudios.atlas.components;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.util.ArrayList;
 
 /**

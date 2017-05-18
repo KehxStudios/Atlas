@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -99,7 +100,7 @@ public class Factory {
 
     public static Component createComponent(Entity entity, ComponentData componentData) {
         try {
-            ComponentType componentType = ComponentType.getTypeById(componentData.getType());
+            ComponentType componentType = ComponentType.getTypeById(componentData.type);
             Component component = (Component) ClassReflection.newInstance(componentType.getLoaderClass());
             component.id = ++uniqueId;
             component.entityId = entity.id;
@@ -115,7 +116,7 @@ public class Factory {
                 return animation;
             } else if (componentType == ComponentType.CAMERA) {
                 CameraComponent camera = (CameraComponent)component;
-                camera.camera.position = entity.position;
+                //camera.camera.position = new Vector3(entity.position.x, entity.position.y, 0);
                 camera.camera.setToOrtho(componentData.getBoolean("flipped", false), 
                                               componentData.getFloat("width", 0), 
                                               componentData.getFloat("height", 0));

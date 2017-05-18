@@ -19,6 +19,8 @@
 
 package com.kehxstudios.atlas.data;
 
+import com.kehxstudios.atlas.type.ComponentType;
+
 import java.util.HashMap;
 
 /**

@@ -31,6 +31,8 @@ import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.ErrorTool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Used to hold all created Entity's and controls adding/removing of Component's 
@@ -53,9 +55,9 @@ public class EntityManager extends Manager {
     private HashMap<Integer, Component> components;
     
     // ArrayList for Entity Ids to be removed
-    private ArrayList<int> markedEntities;
+    private ArrayList<Integer> markedEntities;
     // ArrayList for Component Ids to be removed
-    private ArrayList<int> markedComponents;
+    private ArrayList<Integer> markedComponents;
 
     // Constructor
     private EntityManager() {
@@ -68,8 +70,8 @@ public class EntityManager extends Manager {
     protected void init() {
         entities = new HashMap<Integer, Entity>();
         components = new HashMap<Integer, Component>();
-        markedEntities = new ArrayList<int>();
-        markedComponents = new ArrayList<int>();
+        markedEntities = new ArrayList<Integer>();
+        markedComponents = new ArrayList<Integer>();
         DebugTool.log("EntityManager_init: Complete");
     }
     
@@ -102,27 +104,31 @@ public class EntityManager extends Manager {
     }
     
     // Called to mark an Entity to be removed on @tick()
-    public void markEntityForRemoval(Entity entity) {
-        if (!markedEntities.contains(entity.id)) {
-            markedEntities.add(entity.id);
+    public void markEntityForRemoval(int entityId) {
+        if (!markedEntities.contains(entityId) && entities.containsKey(entityId)) {
+            markedEntities.add(entityId);
         } else {
             ErrorTool.log("Failed to mark entity, already marked");  
         }
     }
 
     // Called to mark a Component to be removed on @tick()
-    public void markComponentForRemoval(Component component) {
-        if (!markedComponents.contains(component.id)) {
-            markedComponents.add(component.id);
+    public void markComponentForRemoval(int componentId) {
+        if (!markedComponents.contains(componentId) && components.containsKey(componentId)) {
+            markedComponents.add(componentId);
         } else {
             ErrorTool.log("Failed to mark component, already marked");  
         }
     }
 
+    public Component getComponentById(int id) {
+        return components.get(id);
+    }
+
     // Adds an Entity to current @entities ArrayList
     public void add(Entity entity) {
-        if (!entities.contains(entity)) {
-            entities.add(entity);
+        if (!entities.containsKey(entity)) {
+            entities.put(entity.id, entity);
         } else {
             ErrorTool.log("Failed to add entity to entities");
         }
@@ -130,11 +136,11 @@ public class EntityManager extends Manager {
 
     // Removes an Entity from current @entities ArrayList including Components
     private void remove(Entity entity) {
-        if (entities.contains(entity)) {
+        if (entities.containsKey(entity)) {
             if (entity.components.size() > 0) {
-                ArrayList<int> componentIds = entity.components.keySet();
-                for (;componentIds.size() > 0;) {
-                    remove(components.get(componentIds.get(0)));
+                Integer[] componentIds = (Integer[]) entity.components.keySet().toArray();
+                for (Integer componentId : componentIds) {
+                    remove(components.get(componentId));
                 }
             }
             entities.values().remove(entity.id);
@@ -145,8 +151,8 @@ public class EntityManager extends Manager {
 
     // Adds a Component to @entity
     public void add(Component component) {
-        if (entities.contains(component.entityId)) {
-            if (!components.contains(component.id)) {
+        if (entities.containsKey(component.entityId)) {
+            if (!components.containsKey(component.id)) {
                 components.put(component.id, component);
                 entities.get(component.entityId).components.put(component.id, component.type);
             } else {
@@ -159,32 +165,30 @@ public class EntityManager extends Manager {
 
     // Removed a Component from @entity
     public void remove(Component component) {
-        if (entities.contains(component.entityId)) {
-            if (components.contains(component.id)) {
-                if (component.getType() == ComponentType.ANIMATION) {
+        if (entities.containsKey(component.entityId)) {
+            if (components.containsKey(component.id)) {
+                if (component.type == ComponentType.ANIMATION) {
                     GraphicsManager.getInstance().remove(component);
-                } else if (component.getType() == ComponentType.CLICKABLE) {
+                } else if (component.type == ComponentType.CLICKABLE) {
                     InputManager.getInstance().remove((ClickableComponent)component);
-                } else if (component.getType() == ComponentType.COLLISION) {
+                } else if (component.type == ComponentType.COLLISION) {
                     PhysicsManager.getInstance().remove(component);
-                }else if (component.getType() == ComponentType.FLOATING_TEXT) {
+                }else if (component.type == ComponentType.FLOATING_TEXT) {
                     GraphicsManager.getInstance().remove(component);
-                } else if (component.getType() == ComponentType.GENE_ROCKET) {
+                } else if (component.type == ComponentType.GENE_ROCKET) {
 
-                } else if (component.getType() == ComponentType.GRAPHICS) {
+                } else if (component.type == ComponentType.GRAPHICS) {
                     GraphicsManager.getInstance().remove(component);
-                } else if (component.getType() == ComponentType.IN_VIEW) {
+                } else if (component.type == ComponentType.IN_VIEW) {
 
-                } else if (component.getType() == ComponentType.MUSIC) {
+                } else if (component.type == ComponentType.MUSIC) {
                     SoundManager.getInstance().remove(component);
-                } else if (component.getType() == ComponentType.PHYSICS) {
+                } else if (component.type == ComponentType.PHYSICS) {
                     PhysicsManager.getInstance().remove((PhysicsComponent)component);
-                } else if (component.getType() == ComponentType.POINTER_DIRECTION) {
-
-                } else if (component.getType() == ComponentType.SOUND) {
+                } else if (component.type == ComponentType.SOUND) {
                     SoundManager.getInstance().remove(component);
                 }
-                entities.get(component.entityId).componets.values().remove(component.id);
+                entities.get(component.entityId).components.values().remove(component.id);
                 components.values().remove(component.id);
             } else {
                 ErrorTool.log("Failed to find component in entity to remove");

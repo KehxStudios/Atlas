@@ -92,27 +92,27 @@ public class FlappyBatScreen extends AScreen {
 
     protected void init() {
         super.init();
-        screenGraphics.setTextureType(TextureType.FLAPPY_BAT_BACKGROUND);
-        screenGraphics.setEnabled(true);
+        screenGraphics.textureType = TextureType.FLAPPY_BAT_BACKGROUND;
+        screenGraphics.enabled = true;
 
         ActionData resetScreenData = Templates.resetScreenActionData();
 
         batEntity = Factory.createEntity(Templates.createEntityData(width/4, height/2));
-        ComponentData batGraphicsData = Templates.graphicsComponentData(0,0,2, TextureType.FLAPPY_BAT_BAT);
+        ComponentData batGraphicsData = Templates.graphicsComponentData(0,0,2, 0, TextureType.FLAPPY_BAT_BAT);
         GraphicsComponent batGraphics = (GraphicsComponent)Factory.createComponent(batEntity, batGraphicsData);
         ComponentData batPhysicsData = Templates.physicsComponentData(100, 300, 100, 300);
         batPhysics = (PhysicsComponent)Factory.createComponent(batEntity, batPhysicsData);
         ActionData batPhysicsAction = Templates.physicsActionData(0, BAT_Y_JUMP);
         ComponentData batCollisionData = Templates.collisionComponentData(TextureType.FLAPPY_BAT_BAT.getWidth(),
-                TextureType.FLAPPY_BAT_BAT.getHeight(), false, false, false, resetScreenData);
+                TextureType.FLAPPY_BAT_BAT.getHeight(), false, false, resetScreenData);
         Factory.createComponent(batEntity, batCollisionData);
         ComponentData batClickableData = Templates.clickableComponentData(width, height, false, batPhysicsAction);
         ClickableComponent batClickable = (ClickableComponent)Factory.createComponent(screenEntity, batClickableData);
-        ((PhysicsAction)batClickable.getAction()).setPhysicsComponent(batPhysics);
+        ((PhysicsAction)batClickable.action).physicsComponent = batPhysics;
 
-        ComponentData groundGraphicsData = Templates.graphicsComponentData(0, 0, 2, TextureType.FLAPPY_BAT_GROUND);
+        ComponentData groundGraphicsData = Templates.graphicsComponentData(0, 0, 2, 0, TextureType.FLAPPY_BAT_GROUND);
         ComponentData groundCollisionData = Templates.collisionComponentData(TextureType.FLAPPY_BAT_GROUND.getWidth(),
-                TextureType.FLAPPY_BAT_GROUND.getHeight(), true, false, false, resetScreenData);
+                TextureType.FLAPPY_BAT_GROUND.getHeight(), true, false, resetScreenData);
 
         groundEntities = new ArrayList<Entity>();
 
@@ -123,72 +123,59 @@ public class FlappyBatScreen extends AScreen {
             groundEntities.add(groundEntity);
         }
 
-        ComponentData wallGraphicsData = Templates.graphicsComponentData(0, 0, 1, TextureType.FLAPPY_BAT_WALL);
+        ComponentData wallGraphicsData = Templates.graphicsComponentData(0, 0, 1, 0, TextureType.FLAPPY_BAT_WALL);
         ComponentData wallCollisionData = Templates.collisionComponentData(TextureType.FLAPPY_BAT_WALL.getWidth(),
-                TextureType.FLAPPY_BAT_WALL.getHeight(), true, false, false, resetScreenData);
+                TextureType.FLAPPY_BAT_WALL.getHeight(), true, false, resetScreenData);
 
         wallEntities = new ArrayList<Entity>();
 
         for (int i = 0; i < WALL_COUNT; i++) {
             Entity wallEntity = Factory.createEntity(Templates.createEntityData(
-                    screenEntity.getPosition().x + 80 + i * WALL_SPACING, wallRandomY()));
+                    screenEntity.position.x + 80 + i * WALL_SPACING, wallRandomY()));
 
             GraphicsComponent wallTopGraphics = (GraphicsComponent)Factory.createComponent(wallEntity, wallGraphicsData);
-            wallTopGraphics.setUsePositionAsOffset(true);
-            wallTopGraphics.setPosition(0, WALL_GAP/2 + WALL_HEIGHT/2);
 
             GraphicsComponent wallBottomGraphics = (GraphicsComponent)Factory.createComponent(wallEntity, wallGraphicsData);
-            wallBottomGraphics.setUsePositionAsOffset(true);
-            wallBottomGraphics.setPosition(0, -(WALL_GAP/2 + WALL_HEIGHT/2));
 
             CollisionComponent wallTopCollision= (CollisionComponent)Factory.createComponent(wallEntity, wallCollisionData);
-            wallTopCollision.setUsePositionAsOffset(true);
-            wallTopCollision.setPosition(0, WALL_GAP/2 + WALL_HEIGHT/2);
-            wallTopCollision.updateBounds();
 
             CollisionComponent wallBottomCollision= (CollisionComponent)Factory.createComponent(wallEntity, wallCollisionData);
-            wallBottomCollision.setUsePositionAsOffset(true);
-            wallBottomCollision.setPosition(0, -(WALL_GAP/2 + WALL_HEIGHT/2));
-            wallBottomCollision.updateBounds();
 
             wallEntities.add(wallEntity);
         }
 
         scoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
                 Templates.floatingTextComponentData("Score: ", score+"", 1));
-        scoreText.setUsePositionAsOffset(true);
-        scoreText.setPosition(0, -height/2 + 60);
+        scoreText.position.set(0, -height/2 + 60);
 
 
         lowScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
                 Templates.floatingTextComponentData("Low-Score: ", lowScore+"", 1));
-        lowScoreText.setUsePositionAsOffset(true);
-        lowScoreText.setPosition(0, -height/2 + 40);
+        lowScoreText.position.set(0, -height/2 + 40);
 
 
         highScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
                 Templates.floatingTextComponentData("High-Score: ", highScore+"", 1));
-        highScoreText.setUsePositionAsOffset(true);
-        highScoreText.setPosition(0, -height/2 + 20);
+        highScoreText.position.set(0, -height/2 + 20);
     }
 
     @Override
     public void render(float delta) {
-        if (batPhysics.hasCollided() || batEntity.getPosition().y > height) {
+        if (batEntity.position.y > height) {
             reset();
         }
 
-        screenEntity.setPosition(batEntity.getPosition().x + 80, height/2);
-        batPhysics.setXVelocity(BAT_X_MOVEMENT);
-        batPhysics.addYVelocity(GRAVITY);
+        screenEntity.position.set(batEntity.position.x + 80, height/2);
+        batPhysics.velocity.x = BAT_X_MOVEMENT;
+        batPhysics.velocity.y += GRAVITY;
 
         updateGroundEntities();
         updateWallEntities();
 
-        batCurrentX = batEntity.getPosition().x;
+        batCurrentX = batEntity.position.x;
         score = (int)(batCurrentX - batStartX);
-        scoreText.setText(score+"");
-        scoreText.getLayout().setText(scoreText.getFont(), scoreText.getLabel() + scoreText.getText(),
+        scoreText.text = score+"";
+        scoreText.layout.setText(scoreText.font, scoreText.label + scoreText.text,
             Color.BLACK, 0, Align.left, true);
 
         super.render(delta);
@@ -203,54 +190,57 @@ public class FlappyBatScreen extends AScreen {
         if (score > lowScore) {
             highScores.addToHighScores("Test",score);
             lowScore = highScores.getLowScore();
-            lowScoreText.setText(lowScore+"");
-            lowScoreText.getLayout().setText(lowScoreText.getFont(), lowScoreText.getLabel() + lowScoreText.getText(),
+            lowScoreText.text = lowScore+"";
+            lowScoreText.layout.setText(lowScoreText.font, lowScoreText.label + lowScoreText.text,
                     Color.BLACK, 0, Align.left, true);
             if (highScore != highScores.getHighScore()) {
                 highScore = highScores.getHighScore();
-                highScoreText.setText(highScore+"");
-                highScoreText.getLayout().setText(highScoreText.getFont(), highScoreText.getLabel() + highScoreText.getText(),
+                highScoreText.text = highScore+"";
+                highScoreText.layout.setText(highScoreText.font, highScoreText.label + highScoreText.text,
                     Color.BLACK, 0, Align.left, true);
             }
         }
-        batEntity.setPosition(width/4, height/2);
-        batPhysics.setVelocity(0,0);
-        batPhysics.setCollided(false);
+        batEntity.position.set(width/4, height/2);
+        batPhysics.velocity.set(0,0);
         for (int i = 0; i < GROUND_COUNT; i++) {
-            groundEntities.get(i).setPosition(i * GROUND_WIDTH, GROUND_Y_OFFSET);
-            ((CollisionComponent)groundEntities.get(i).getComponentOfType(ComponentType.COLLISION)).updateBounds();
+            groundEntities.get(i).position.set(i * GROUND_WIDTH, GROUND_Y_OFFSET);
+            //((CollisionComponent)groundEntities.get(i).getComponentOfType(ComponentType.COLLISION)).updateBounds();
         }
         updateGroundEntities();
         for (int i = 0; i < WALL_COUNT; i++) {
-            wallEntities.get(i).setPosition(screenEntity.getPosition().x + 80 + i * WALL_SPACING, wallRandomY());
-            for (Component component : wallEntities.get(i).getAllComponentsOfType(ComponentType.COLLISION)) {
-                ((CollisionComponent)component).updateBounds();
-            }
+            wallEntities.get(i).position.set(screenEntity.position.x + 80 + i * WALL_SPACING, wallRandomY());
+            //for (Component component : wallEntities.get(i).getAllComponentsOfType(ComponentType.COLLISION)) {
+            //    ((CollisionComponent)component).updateBounds();
+            //}
         }
         updateWallEntities();
 
-        batStartX = batEntity.getPosition().x;
+        batStartX = batEntity.position.x;
         batCurrentX = batStartX;
         score = 0;
     }
 
     private void updateWallEntities() {
         for (Entity wallEntity : wallEntities) {
+            /*
             if (screenEntity.getPosition().x - width / 2 > wallEntity.getPosition().x + WALL_WIDTH/2) {
                 wallEntity.setPosition(wallEntity.getPosition().x + WALL_SPACING * WALL_COUNT, wallRandomY());
                 for (Component component : wallEntity.getAllComponentsOfType(ComponentType.COLLISION)) {
                     ((CollisionComponent)component).updateBounds();
                 }
             }
+            */
         }
     }
 
     private void updateGroundEntities() {
         for (Entity groundEntity : groundEntities) {
+            /*
             if(screenEntity.getPosition().x - (width / 2) > groundEntity.getPosition().x + GROUND_WIDTH/2) {
                 groundEntity.movePosition(GROUND_WIDTH * GROUND_COUNT, 0);
                 ((CollisionComponent)groundEntity.getComponentOfType(ComponentType.COLLISION)).updateBounds();
             }
+            */
         }
     }
 

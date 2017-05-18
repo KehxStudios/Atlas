@@ -27,10 +27,7 @@ import com.kehxstudios.atlas.type.ActionType;
 
 public abstract class Action {
 
-    protected ActionType type;
-
-    public ActionType getType() { return type; }
-    public void setType(ActionType type) { this.type = type; }
+    public ActionType type;
 
     public abstract void trigger();
 }

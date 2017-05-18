@@ -30,19 +30,6 @@ public class ActionData {
     public String type;
     public HashMap<String, String> data;
 
-    public ActionData(String type) {
-        this.type = type;
-        data = new HashMap<String, String>();
-    }
-
-    public ActionData() {
-        data = new HashMap<String, String>();
-    }
-
-    public void setType(String type) { this.type = type; }
-
-    public String getType() { return type;}
-
     public void putFloat(String key, float value) {
         data.put(key, "" + value);
     }

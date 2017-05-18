@@ -28,12 +28,7 @@ import com.kehxstudios.atlas.data.EntityData;
 
 public class SpawnEntityAction extends Action {
 
-    private EntityData entityData;
-
-    public EntityData getEntityData() { return entityData; }
-    public void setEntityData(EntityData entityData) {
-        this.entityData = entityData;
-    }
+    public EntityData entityData;
 
     @Override
     public void trigger() {

@@ -32,6 +32,7 @@ import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.type.ScreenType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Used to construct Entity/Component/Action data classes from variables
@@ -39,55 +40,55 @@ import java.util.ArrayList;
 
 public class Templates {
 
+    public static ActionData createActionData(ActionType actionType) {
+        ActionData data = new ActionData();
+        data.type = actionType.getId();
+        data.data = new HashMap<String, String>();
+        return data;
+    }
+
     public static ActionData destroyEntityActionData(Entity entity) {
-        ActionData data = new ActionData();   
-        data.type = ActionType.DESTROY_ENTITY.getId();
-        data.putString("entityId", entity.getId());
+        ActionData data = createActionData(ActionType.DESTROY_ENTITY);
+        data.putInt("entityId", entity.id);
         return data;
     }
     
     public static ActionData followActionData(boolean vertical, boolean horizontal) {
-        ActionData data = new ActionData();
-        data.type = ActionType.FOLLOW.getId();   
+        ActionData data = createActionData(ActionType.FOLLOW);
         data.putBoolean("vertical", vertical);
         data.putBoolean("horizontal", horizontal);
         return data;
     }
     
     public static ActionData highScoreResetActionData(ScreenType screenType){
-        ActionData data = new ActionData();
-        data.type = ActionType.HIGH_SCORE_RESET.getId();
+        ActionData data = createActionData(ActionType.HIGH_SCORE_RESET);
         data.putString("screenType", screenType.getId());
         return data;
     }
     
     public static ActionData launchScreenActionData(ScreenType screenType) {
-        ActionData data = new ActionData();
-        data.type = ActionType.LAUNCH_SCREEN.getId();
+        ActionData data = createActionData(ActionType.LAUNCH_SCREEN);
         data.putString("screenType", screenType.getId());
         return data;
     }
     
     public static ActionData multiActionData(ArrayList<ActionData> actionsData) {
-        ActionData data = new ActionData();
-        data.type = ActionType.MULTI.getId();
+        ActionData data = createActionData(ActionType.MULTI);
         for (ActionData action : actionsData) {
-            data.putString(data.getType(), UtilityTool.getStringFromDataClass(action));
+            data.putString(data.type, UtilityTool.getStringFromDataClass(action));
         }
         return data;
     }
 
     public static ActionData physicsActionData(float x, float y) {
-        ActionData data = new ActionData();
-        data.setType(ActionType.PHYSICS.getId());
+        ActionData data = createActionData(ActionType.PHYSICS);
         data.putFloat("actionValue_x", x);
         data.putFloat("actionValue_y", y);
         return data;
     }
 
     public static ActionData repositionActionData(float x, float y, boolean teleport) {
-        ActionData data = new ActionData();
-        data.setType(ActionType.REPOSITION.getId());
+        ActionData data = createActionData(ActionType.REPOSITION);
         data.putFloat("actionValue_x", x);
         data.putFloat("actionValue_y", y);
         data.putBoolean("teleport", teleport);
@@ -95,21 +96,18 @@ public class Templates {
     }
 
     public static ActionData resetScreenActionData() {
-        ActionData data = new ActionData();
-        data.setType(ActionType.RESET_SCREEN.getId());
+        ActionData data = createActionData(ActionType.RESET_SCREEN);
         return data;
     }
 
     public static ActionData scoreActionData(int score) {
-        ActionData data = new ActionData();
-        data.setType(ActionType.SCORE.getId());
+        ActionData data = createActionData(ActionType.SCORE);
         data.putInt("actionValue", score);
         return data;
     }
 
     public static ActionData spawnEntityActionData(EntityData entityData) {
-        ActionData data = new ActionData();
-        data.setType(ActionType.SPAWN_ENTITY.getId());
+        ActionData data = createActionData(ActionType.SPAWN_ENTITY);
         data.putString("entityData", UtilityTool.getStringFromDataClass(entityData));
         return data;
     }
@@ -154,8 +152,10 @@ public class Templates {
         return data; 
     }
     
-    public static ComponentData floatingTextComponentData(String label, String text, float scale) {
+    public static ComponentData floatingTextComponentData(float x, float y, String label, String text, float scale) {
         ComponentData data = componentData(ComponentType.FLOATING_TEXT);
+        data.putFloat("x", x);
+        data.putFloat("y", y);
         data.putString("label", label);
         data.putString("text", text);
         data.putFloat("scale", scale);

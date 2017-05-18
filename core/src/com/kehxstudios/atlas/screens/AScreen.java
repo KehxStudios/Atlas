@@ -72,26 +72,25 @@ public abstract class AScreen implements Screen {
 
         screenCamera = (CameraComponent)Factory.createComponent(screenEntity,
                 Templates.cameraComponentData(width, height, false));
-        screenCamera.getCamera().setToOrtho(false, width, height);
-        screenCamera.update();
+        screenCamera.camera.setToOrtho(false, width, height);
+        screenCamera.camera.update();
 
         screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity,
-                Templates.graphicsComponentData(0, 0, 0, TextureType.VOID));
+                Templates.graphicsComponentData(0, 0, 0, 0, TextureType.VOID));
 
         MusicComponent screenMusic = (MusicComponent)Factory.createComponent(screenEntity,
                 Templates.musicComponentData(MusicType.getTypeById(type.getId()), 0.5f));
-        screenMusic.getMusic().play();
+        screenMusic.music.play();
     }
 
     public void reset() {
-        screenEntity.setPosition(width/2, height/2);
-        screenCamera.update();
+        screenEntity.position.set(width/2, height/2);
+        screenCamera.camera.update();
     }
     
     @Override
     public void render(float delta) {
         screenTime += delta;
-        screenCamera.update();
     }
 
     @Override
@@ -127,7 +126,7 @@ public abstract class AScreen implements Screen {
 
     public ScreenType getType() { return type; }
 
-    public OrthographicCamera getCamera() { return screenCamera.getCamera(); }
+    public OrthographicCamera getCamera() { return screenCamera.camera; }
 
     public float getWidth() { return width; }
 

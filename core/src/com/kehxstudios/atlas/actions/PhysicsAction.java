@@ -28,22 +28,11 @@ import com.kehxstudios.atlas.components.PhysicsComponent;
 
 public class PhysicsAction extends Action {
 
-    private PhysicsComponent physicsComponent;
-    private Vector2 triggerValue;
-
-    public PhysicsAction() {
-        triggerValue = new Vector2();
-    }
-
-    public PhysicsComponent getPhysicsComponent() { return physicsComponent; }
-    public void setPhysicsComponent(PhysicsComponent physicsComponent) { this.physicsComponent = physicsComponent; }
-
-    public Vector2 getTriggerValue() { return triggerValue; }
-    public void setTriggerValue(float x, float y) { triggerValue.set(x,y); }
-    public void addTriggerValue(float x, float y) { triggerValue.add(x,y); }
+    public PhysicsComponent physicsComponent;
+    public Vector2 triggerValue;
 
     @Override
     public void trigger() {
-        physicsComponent.setVelocity(triggerValue.x, triggerValue.y);
+        physicsComponent.velocity = new Vector2(triggerValue.x, triggerValue.y);
     }
 }

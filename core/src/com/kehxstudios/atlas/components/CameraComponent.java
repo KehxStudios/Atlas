@@ -27,5 +27,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class CameraComponent extends Component {
 
-  public OrthographicCamera camera;
+    public OrthographicCamera camera;
+
+
 }

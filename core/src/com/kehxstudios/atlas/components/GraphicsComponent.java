@@ -20,6 +20,7 @@
 package com.kehxstudios.atlas.components;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.kehxstudios.atlas.type.TextureType;
 
 /**
@@ -30,7 +31,7 @@ public class GraphicsComponent extends Component {
 
     public TextureType textureType;
     public Texture texture;
-    public float width, height;
+    public Rectangle bounds;
     public int layer;
     public float rotation;
 }

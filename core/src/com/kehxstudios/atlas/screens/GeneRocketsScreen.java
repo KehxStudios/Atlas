@@ -87,9 +87,9 @@ public class GeneRocketsScreen extends AScreen {
 
         rocketMatingPool = new ArrayList<Integer>();
 
-        ComponentData targetGraphicsData = Templates.graphicsComponentData(0,0,1, TextureType.GENE_ROCKETS_TARGET);
+        ComponentData targetGraphicsData = Templates.graphicsComponentData(0,0,1,0, TextureType.GENE_ROCKETS_TARGET);
         ComponentData targetCollisionData = Templates.collisionComponentData(TextureType.GENE_ROCKETS_TARGET.getWidth(),
-                TextureType.GENE_ROCKETS_TARGET.getHeight(), true, false, false, Templates.scoreActionData(10));
+                TextureType.GENE_ROCKETS_TARGET.getHeight(), true, false, Templates.scoreActionData(10));
 
         targetEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5*4));
         Factory.createComponent(targetEntity, targetGraphicsData);
@@ -99,11 +99,11 @@ public class GeneRocketsScreen extends AScreen {
     }
     
     private void generateRockets() {
-        ComponentData rocketGraphicsData = Templates.graphicsComponentData(0,0,2, TextureType.GENE_ROCKETS_ROCKET);
+        ComponentData rocketGraphicsData = Templates.graphicsComponentData(0,0,2,0, TextureType.GENE_ROCKETS_ROCKET);
         ComponentData rocketPhysicsData = Templates.physicsComponentData(10, 10, 10, 10);
         ComponentData rocketCollisionData = Templates.collisionComponentData(TextureType.GENE_ROCKETS_ROCKET.getWidth(),
-                TextureType.GENE_ROCKETS_ROCKET.getHeight(), false, false, false, Templates.scoreActionData(10));
-        ComponentData rocketGeneData = Templates.geneRocketComponentData();
+                TextureType.GENE_ROCKETS_ROCKET.getHeight(), false, false, Templates.scoreActionData(10));
+        ComponentData rocketGeneData = Templates.geneRocketComponentData(numOfGenes);
 
         rocketPopulation = new ArrayList<Entity>(rocketPopulationSize);
         physicsComponents = new ArrayList<PhysicsComponent>(rocketPopulationSize);
@@ -115,7 +115,7 @@ public class GeneRocketsScreen extends AScreen {
             physicsComponents.add(i, (PhysicsComponent)Factory.createComponent(rocketEntity, rocketPhysicsData));
             Factory.createComponent(rocketEntity, rocketCollisionData);
             GeneRocketComponent rocketGenes = (GeneRocketComponent)Factory.createComponent(rocketEntity, rocketGeneData);
-            rocketGenes.setGenes(randomGenes());
+            rocketGenes.genes = randomGenes();
             geneRocketComponents.add(i, rocketGenes);
             rocketPopulation.add(i, rocketEntity);
         }
@@ -133,7 +133,7 @@ public class GeneRocketsScreen extends AScreen {
 
     private void destroyGeneRocketComponents() {
         for (GeneRocketComponent geneRocketComponent : geneRocketComponents) {
-            EntityManager.getInstance().markComponentForRemoval(geneRocketComponent);
+            EntityManager.getInstance().markComponentForRemoval(geneRocketComponent.id);
         }
         EntityManager.getInstance().tick(0);
         geneRocketComponents = null;
@@ -141,7 +141,7 @@ public class GeneRocketsScreen extends AScreen {
 
     private void populateMatingPool() {
         for (int i = 0; i < geneRocketComponents.size(); i++) {
-            int matingScore = (int)(geneRocketComponents.get(i).getFitness() / 100);
+            int matingScore = (int)(geneRocketComponents.get(i).fitness / 100);
             for (int j = 0; j < matingScore; j++) {
                 rocketMatingPool.add(i);
             }
@@ -152,7 +152,7 @@ public class GeneRocketsScreen extends AScreen {
     private void populateNewRockets() {
         geneRocketComponents = new ArrayList<GeneRocketComponent>(rocketPopulationSize);
 
-        ComponentData rocketGeneData = Templates.geneRocketComponentData();
+        ComponentData rocketGeneData = Templates.geneRocketComponentData(numOfGenes);
 
         for (int i = 0; i < rocketPopulationSize; i++) {
             int parentA = rocketMatingPool.get(random.nextInt(rocketMatingPool.size()));
@@ -164,13 +164,13 @@ public class GeneRocketsScreen extends AScreen {
             ArrayList<Vector2> genes = new ArrayList<Vector2>(numOfGenes);
             for (int j = 0; j < numOfGenes; j++) {
                 if (random.nextBoolean()) {
-                    genes.set(j, geneMatingPool.get(parentA).getGene(j));
+                    genes.set(j, geneMatingPool.get(parentA).genes.get(j));
                 } else {
-                    genes.set(j, geneMatingPool.get(parentB).getGene(j));
+                    genes.set(j, geneMatingPool.get(parentB).genes.get(j));
                 }
             }
             GeneRocketComponent geneRocket = (GeneRocketComponent)Factory.createComponent(rocketPopulation.get(i), rocketGeneData);
-            geneRocket.setGenes(genes);
+            geneRocket.genes = genes;
             geneRocketComponents.set(i, geneRocket);
         }
 
@@ -179,7 +179,7 @@ public class GeneRocketsScreen extends AScreen {
     
     private void nextGeneration() {
         for (Entity rocket : rocketPopulation) {
-            rocket.setPosition(width/2, height/5);   
+            rocket.position.set(width/2, height/5);
         }
 
         measureRocketsFitness();
@@ -194,15 +194,15 @@ public class GeneRocketsScreen extends AScreen {
 
     private void measureRocketsFitness() {
         for (int i = 0; i < rocketPopulationSize; i++) {
-            float distance = (float)(Math.pow((rocketPopulation.get(i).getPosition().x-targetEntity.getPosition().x), 2)
-                    + Math.pow((rocketPopulation.get(i).getPosition().y-targetEntity.getPosition().y), 2));
+            float distance = (float)(Math.pow((rocketPopulation.get(i).position.x-targetEntity.position.x), 2)
+                    + Math.pow((rocketPopulation.get(i).position.y-targetEntity.position.y), 2));
             float fitness = 500f - distance;
             CollisionComponent rocketCollision = (CollisionComponent)rocketPopulation.get(i).getComponentOfType(ComponentType.COLLISION);
-            if (rocketCollision.isTriggered() && distance != 0f) {
+            if (rocketCollision.collided && distance != 0f) {
                 fitness -= 100f;
-                rocketCollision.setTriggered(false);
+                rocketCollision.collided = false;
             }
-            geneRocketComponents.get(i).setFitness(fitness);
+            geneRocketComponents.get(i).fitness = fitness;
         }
     }
     
@@ -216,14 +216,14 @@ public class GeneRocketsScreen extends AScreen {
         if (currentGenerationTime >= timePerGeneration) {
             nextGeneration();
             for (int i = 0; i < rocketPopulationSize; i++) {
-                physicsComponents.get(i).setVelocity(geneRocketComponents.get(i).getGene(activeGeneNumber));
+                physicsComponents.get(i).velocity.set(geneRocketComponents.get(i).genes.get(activeGeneNumber));
             }
         }
 
         if (Math.floor(timePerGeneration) > activeGeneNumber) {
             activeGeneNumber++;
             for (int i = 0; i < rocketPopulationSize; i++) {
-                physicsComponents.get(i).setVelocity(geneRocketComponents.get(i).getGene(activeGeneNumber));
+                physicsComponents.get(i).velocity.set(geneRocketComponents.get(i).genes.get(activeGeneNumber));
             }
         }
     }

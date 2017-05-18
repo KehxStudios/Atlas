@@ -21,9 +21,15 @@ package com.kehxstudios.atlas.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.components.Component;
+import com.kehxstudios.atlas.managers.EntityManager;
 import com.kehxstudios.atlas.type.ComponentType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * The main holder class for attached Components
@@ -42,5 +48,14 @@ public class Entity {
     public Entity() {
         position = new Vector2();
         components = new HashMap<Integer, ComponentType>();
+    }
+
+    public Component getComponentOfType(ComponentType componentType) {
+        for (Map.Entry<Integer, ComponentType> hash : components.entrySet()) {
+            if (componentType == hash.getValue()) {
+                return EntityManager.getInstance().getComponentById(hash.getKey());
+            }
+        }
+        return null;
     }
 }

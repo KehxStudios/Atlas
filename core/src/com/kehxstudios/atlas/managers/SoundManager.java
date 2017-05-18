@@ -53,8 +53,8 @@ public class SoundManager extends Manager {
         return instance;
     }
     
-    private HashMap<int, SoundComponent> soundComponents;
-    private HashMap<int, MusicComponent> musicComponents;
+    private HashMap<Integer, SoundComponent> soundComponents;
+    private HashMap<Integer, MusicComponent> musicComponents;
 
     public SoundManager() {
         super();
@@ -76,8 +76,8 @@ public class SoundManager extends Manager {
     
     @Override
     protected void init() {
-        soundComponents = new HashMap<int, SoundComponent>();
-        musicComponents = new HashMap<int, MusicComponent>();
+        soundComponents = new HashMap<Integer, SoundComponent>();
+        musicComponents = new HashMap<Integer, MusicComponent>();
     }
     
     @Override
@@ -93,16 +93,16 @@ public class SoundManager extends Manager {
     public void play(Component component) {
         if (component.type == ComponentType.SOUND) {
             SoundComponent sound = (SoundComponent)component;
-            if (!soundComponents.contains(sound)) {
+            if (!soundComponents.containsKey(sound.id)) {
                 add(sound);
             }
             sound.sound.play(sound.volume);
         } else if (component.type == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
-            if (!musicComponents.contains(music)) {
+            if (!musicComponents.containsKey(music.id)) {
                 add(music);
             }
-            music.music.volume(music.volume);
+            music.music.setVolume(music.volume);
             music.music.play();
         }
     }
@@ -110,13 +110,13 @@ public class SoundManager extends Manager {
     public void stop(Component component) {
         if (component.type == ComponentType.SOUND) {
             SoundComponent sound = (SoundComponent)component;
-            if (!soundComponents.contains(sound)) {
+            if (!soundComponents.containsKey(sound.id)) {
                 add(sound);
             }
             sound.sound.stop();
         } else if (component.type == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
-            if (!musicComponents.contains(music)) {
+            if (!musicComponents.containsKey(music.id)) {
                 add(music);
             }
             music.music.stop();
@@ -126,13 +126,13 @@ public class SoundManager extends Manager {
     public void add(Component component) {
         if (component.type == ComponentType.SOUND) {
             SoundComponent sound = (SoundComponent)component;
-            if (!soundComponents.contains(sound)) {
-                soundComponents.add(sound);
+            if (!soundComponents.containsKey(sound.id)) {
+                soundComponents.put(sound.id, sound);
             }
         } else if (component.type == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
-            if (!musicComponents.contains(music)) {
-                musicComponents.add(music);
+            if (!musicComponents.containsKey(music.id)) {
+                musicComponents.put(music.id, music);
             }
         }
     }
@@ -140,14 +140,14 @@ public class SoundManager extends Manager {
     public void remove(Component component) {
         if (component.type == ComponentType.SOUND) {
             SoundComponent sound = (SoundComponent)component;
-            if (soundComponents.contains(sound)) {
+            if (soundComponents.containsKey(sound.id)) {
                 sound.sound.stop();
                 sound.sound.dispose();
                 soundComponents.values().remove(sound);
             }
         } else if (component.type == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
-            if (musicComponents.contains(music)) {
+            if (musicComponents.containsKey(music.id)) {
                 music.music.stop();
                 music.music.dispose();
                 musicComponents.values().remove(music);

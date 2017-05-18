@@ -28,10 +28,7 @@ import com.kehxstudios.atlas.data.HighScores;
 
 public class HighScoreResetAction extends Action {
 
-    private ScreenType screenType;
-
-    public ScreenType getScreenType() { return screenType; }
-    public void setScreenType(ScreenType screenType) { this.screenType = screenType; }
+    public ScreenType screenType;
 
     @Override
     public void trigger() {

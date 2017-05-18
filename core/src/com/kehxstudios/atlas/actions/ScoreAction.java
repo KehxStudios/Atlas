@@ -27,18 +27,8 @@ import com.kehxstudios.atlas.screens.AScreen;
 
 public class ScoreAction extends Action {
 
-    private AScreen screen;
-    private int scoreValue;
-
-    public AScreen getScreen() { return screen; }
-    public void setScreen(AScreen screen) {
-        this.screen = screen;
-    }
-
-    public int getScoreValue() { return scoreValue; }
-    public void setScoreValue(int scoreValue) {
-        this.scoreValue = scoreValue;
-    }
+    public AScreen screen;
+    public int scoreValue;
 
     @Override
     public void trigger() {

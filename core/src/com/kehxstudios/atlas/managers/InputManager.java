@@ -29,6 +29,7 @@ import com.kehxstudios.atlas.tools.ErrorTool;
 import com.kehxstudios.atlas.type.ComponentType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Used to control all user input
@@ -46,7 +47,7 @@ public class InputManager extends Manager {
     }
 
     // HashMap for all ClickableComponents created
-    private HashMap<int, ClickableComponent> clickableComponents;
+    private HashMap<Integer, ClickableComponent> clickableComponents;
     
     private Vector2 clickedPosition;
 
@@ -59,7 +60,7 @@ public class InputManager extends Manager {
     // Initalizes the @clickableComponents
     @Override
     protected void init() {
-        clickableComponents = new HashMap<int,ClickableComponent>();
+        clickableComponents = new HashMap<Integer,ClickableComponent>();
         clickedPosition = new Vector2(0,0);
         DebugTool.log("InputManager_setup: Complete");
     }
@@ -75,12 +76,10 @@ public class InputManager extends Manager {
             clickedPosition.set(x, y);
 
             for (ClickableComponent clickable : clickableComponents.values()) {
-                if (clickable.isEnabled()) {
-                    if (x > clickable.getPosition().x - clickable.getWidth() / 2 &&
-                            x < clickable.getPosition().x + clickable.getWidth() / 2 &&
-                            y > clickable.getPosition().y - clickable.getHeight() / 2 &&
-                            y < clickable.getPosition().y + clickable.getHeight() / 2) {
-                        clickable.trigger();
+                if (clickable.enabled) {
+                    if (x > clickable.bounds.x && x < clickable.bounds.x + clickable.bounds.width &&
+                            y > clickable.bounds.y && y < clickable.bounds.y + clickable.bounds.height) {
+                        clickable.action.trigger();
                     }
                 }
             }
@@ -103,9 +102,9 @@ public class InputManager extends Manager {
 
     @Override
     public void add(Component component) {
-        if (component.getType() == ComponentType.CLICKABLE) {
+        if (component.type == ComponentType.CLICKABLE) {
             ClickableComponent clickable = (ClickableComponent)component;
-            if (!clickableComponents.contains(clickable)) {
+            if (!clickableComponents.containsKey(clickable.id)) {
                 clickableComponents.put(clickable.id, clickable);
             } else {
                 ErrorTool.log("Failed to add clickable to clickableComponents");
@@ -115,9 +114,9 @@ public class InputManager extends Manager {
 
     @Override
     public void remove(Component component) {
-        if (component.getType() == ComponentType.CLICKABLE) {
+        if (component.type == ComponentType.CLICKABLE) {
             ClickableComponent clickable = (ClickableComponent)component;
-            if (clickableComponents.contains(clickable)) {
+            if (clickableComponents.containsKey(clickable.id)) {
                 clickableComponents.values().remove(clickable);
             } else {
                 ErrorTool.log("Failed to add clickable to clickableComponents");

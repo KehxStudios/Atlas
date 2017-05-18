@@ -30,9 +30,6 @@ public class LaunchScreenAction extends Action {
 
     private ScreenType screenType;
 
-    public ScreenType getScreenType() { return screenType; }
-    public void setScreenType(ScreenType screenType) { this.screenType = screenType; }
-
     @Override
     public void trigger() {
         ScreenManager.getInstance().requestNewScreen(screenType);

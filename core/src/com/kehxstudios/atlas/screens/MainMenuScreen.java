@@ -44,10 +44,10 @@ public class MainMenuScreen extends AScreen {
     
     protected void init() {
         super.init();
-        screenGraphics.setTextureType(TextureType.MAIN_MENU_BACKGROUND);
-        screenGraphics.setEnabled(true);
+        screenGraphics.textureType = TextureType.MAIN_MENU_BACKGROUND;
+        screenGraphics.enabled = true;
 
-        ComponentData borderGraphics = Templates.graphicsComponentData(0, 0, 3, TextureType.MAIN_MENU_BORDER);
+        ComponentData borderGraphics = Templates.graphicsComponentData(0, 0, 3, 0, TextureType.MAIN_MENU_BORDER);
         
         Entity flappyBirdEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5*4));
         Factory.createComponent(flappyBirdEntity, borderGraphics);

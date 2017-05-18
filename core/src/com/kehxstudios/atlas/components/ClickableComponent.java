@@ -19,6 +19,7 @@
 
 package com.kehxstudios.atlas.components;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.InputManager;

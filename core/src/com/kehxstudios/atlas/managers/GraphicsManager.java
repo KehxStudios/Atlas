@@ -34,6 +34,7 @@ import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.tools.DebugTool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Used to control anything graphic related, including Animations, Textures & Text
@@ -53,9 +54,9 @@ public class GraphicsManager extends Manager {
     // Maximum number of layers for @graphicsComponents
     private int MAX_LAYERS = 5;
 
-    private HashMap<int,AnimationComponent> animationComponents;
-    private ArrayList<HashMap<int,GraphicsComponent> graphicsComponents;
-    private HashMap<int,FloatingTextComponent> floatingTextComponents;
+    private HashMap<Integer,AnimationComponent> animationComponents;
+    private ArrayList<HashMap<Integer,GraphicsComponent>> graphicsComponents;
+    private HashMap<Integer,FloatingTextComponent> floatingTextComponents;
     
     // TextureAtlas to load textures to and from
     private TextureAtlas textureAtlas;
@@ -73,12 +74,12 @@ public class GraphicsManager extends Manager {
     @Override
     protected void init() {
         textureAtlas = new TextureAtlas();
-        animationComponents = new HashMap<int,AnimationComponent>();
-        graphicComponents = new ArrayList<HashMap<int,GraphicsComponent>>();
+        animationComponents = new HashMap<Integer,AnimationComponent>();
+        graphicsComponents = new ArrayList<HashMap<Integer,GraphicsComponent>>();
         for (int i = 0; i < MAX_LAYERS; i++) {
-            graphicComponents.add(new HashMap<int,GraphicsComponent>());
+            graphicsComponents.add(new HashMap<Integer,GraphicsComponent>());
         }
-        floatingTextComponents = new HashMap<int,FloatingTextComponent>();
+        floatingTextComponents = new HashMap<Integer,FloatingTextComponent>();
         cameraComponent = null;
         DebugTool.log("GraphicsManager_init: Complete");
     }
@@ -88,7 +89,7 @@ public class GraphicsManager extends Manager {
     public void tick(float delta) {
         if (animationComponents.size() > 0) {
             for (AnimationComponent animation : animationComponents.values()) {
-                if (animation.isEnabled()) {
+                if (animation.enabled) {
 
                 }
             }
@@ -116,24 +117,23 @@ public class GraphicsManager extends Manager {
             return;
         }
         batch.begin();
-        batch.setProjectionMatrix(cameraComponent.getCamera().combined);
-        for (HashMap<int,GraphicsComponent> hashMap : graphicComponents) {
+        batch.setProjectionMatrix(cameraComponent.camera.combined);
+        for (HashMap<Integer,GraphicsComponent> hashMap : graphicsComponents) {
             if (hashMap.size() == 0) {
                 continue;
             }
             for (GraphicsComponent graphics : hashMap.values()) {
-                if (graphics.isEnabled()) {
-                    batch.draw(graphics.texture, graphics.getPosition().x - graphics.getWidth() / 2,
-                        graphics.getPosition().y - graphics.getHeight() / 2,
-                        graphics.getWidth(), graphics.getHeight());
+                if (graphics.enabled) {
+                    batch.draw(graphics.texture, graphics.bounds.x, graphics.bounds.y,
+                        graphics.bounds.width, graphics.bounds.height);
                 }
             }
         }
         for (FloatingTextComponent floatingText : floatingTextComponents.values()) {
-            if (floatingText.isEnabled()) {
-                floatingText.font.draw(gm.getBatch(), floatingText.layout(),
-                        floatingText.getPosition().x - floatingText.layout().width / 2,
-                        floatingText.getPosition().y - floatingText.layout().height / 2);
+            if (floatingText.enabled) {
+                floatingText.font.draw(gm.getBatch(), floatingText.layout,
+                        floatingText.position.x - floatingText.layout.width / 2,
+                        floatingText.position.y - floatingText.layout.height / 2);
             }
         }
         batch.end();
@@ -152,30 +152,31 @@ public class GraphicsManager extends Manager {
 
     // Called to check if graphics is already contained in @graphicsComponents
     private boolean contained(GraphicsComponent graphics) {
-        return graphicComponents.get(graphics.getLayer()).contains(graphics));
+        return graphicsComponents.get(graphics.layer).containsKey(graphics.id);
     }
     
     // Called to add component to corresponding ArrayList
     public void add(Component component) {
-        if (component.getType() == ComponentType.ANIMATION) {
+        if (component.type == ComponentType.ANIMATION) {
             AnimationComponent animation = (AnimationComponent)component;
-            if (!animationComponents.contains(animation)) {
+            if (!animationComponents.containsKey(animation.id)) {
                 animationComponents.put(animation.id, animation);
             }
-        } else if (component.getType() == ComponentType.CAMERA) {
+        } else if (component.type == ComponentType.CAMERA) {
             CameraComponent camera = (CameraComponent)component;
             if (cameraComponent != null) {
                 EntityManager.getInstance().markComponentForRemoval(cameraComponent);
+                EntityManager.getInstance().tick(0);
             }
             cameraComponent = camera;
-        } else if (component.getType() == ComponentType.GRAPHICS) {
+        } else if (component.type == ComponentType.GRAPHICS) {
             GraphicsComponent graphics = (GraphicsComponent)component;
             if (!contained(graphics)) {
-                graphicComponents.get(graphics.getLayer()).put(graphics.id, graphics);
+                graphicsComponents.get(graphics.layer).put(graphics.id, graphics);
             }
-        } else if (component.getType() == ComponentType.FLOATING_TEXT) {
+        } else if (component.type == ComponentType.FLOATING_TEXT) {
             FloatingTextComponent floatingText = (FloatingTextComponent)component;
-            if (!floatingTextComponents.contains(floatingText)) {
+            if (!floatingTextComponents.containsKey(floatingText.id)) {
                 floatingTextComponents.put(floatingText.id, floatingText);
             }
         }
@@ -183,23 +184,23 @@ public class GraphicsManager extends Manager {
              
     // Called to remove component from corresponding ArrayList   
     public void remove(Component component) {
-        if (component.getType() == ComponentType.ANIMATION) {
+        if (component.type == ComponentType.ANIMATION) {
             AnimationComponent animation = (AnimationComponent)component;
-            if (animationComponents.contains(animation)) {
+            if (animationComponents.containsKey(animation.id)) {
                 animationComponents.values().remove(animation);
-        } else if (component.getType() == ComponentType.CAMERA) {
+        } else if (component.type == ComponentType.CAMERA) {
                 CameraComponent camera = (CameraComponent)component;
                 if (cameraComponent == camera) {
                     cameraComponent = null;
                 }
-        } else if (component.getType() == ComponentType.GRAPHICS) {
+        } else if (component.type == ComponentType.GRAPHICS) {
                 GraphicsComponent graphics = (GraphicsComponent)component;
                 if (contained(graphics)) {
-                    graphicComponents.get(graphics.getLayer()).values().remove(graphics);
+                    graphicsComponents.get(graphics.layer).values().remove(graphics);
                 }
-        } else if (component.getType() == ComponentType.FLOATING_TEXT) {
+        } else if (component.type == ComponentType.FLOATING_TEXT) {
                 FloatingTextComponent floatingText = (FloatingTextComponent) component;
-                if (floatingTextComponents.contains(floatingText)) {
+                if (floatingTextComponents.containsKey(floatingText.id)) {
                     floatingTextComponents.values().remove(floatingText);
                 }
             }
@@ -209,7 +210,7 @@ public class GraphicsManager extends Manager {
     // Called to get the current camera
     public OrthographicCamera getCamera() {
         if (cameraComponent != null) {
-            return cameraComponent.getCamera();
+            return cameraComponent.camera;
         }
         return null;
     }

@@ -29,24 +29,8 @@ import com.kehxstudios.atlas.type.ActionType;
 
 public class FollowAction extends Action {
 
-    private Vector2 position;
-    private boolean verticalAllowed, horizontalAllowed;
-
-    public FollowAction() {
-        type = ActionType.FOLLOW;
-    }
-
-    public void setPosition(Vector2 position) {
-        this.position = position;
-    }
-
-    public void setVerticalAllowed(boolean value) {
-        verticalAllowed = value;
-    }
-
-    public void setHorizontalAllowed(boolean value) {
-        horizontalAllowed = value;
-    }
+    public Vector2 position;
+    public boolean verticalAllowed, horizontalAllowed;
 
     public void trigger() {
         Vector2 clicked = InputManager.getInstance().getClickedPosition();

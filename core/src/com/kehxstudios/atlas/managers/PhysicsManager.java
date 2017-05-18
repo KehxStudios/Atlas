@@ -27,6 +27,7 @@ import com.kehxstudios.atlas.tools.ErrorTool;
 import com.kehxstudios.atlas.type.ComponentType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Used to control any physics movement along with collisions
@@ -44,11 +45,11 @@ public class PhysicsManager extends Manager {
     }
 
     // HashMap for all PhysicsComponents created
-    private HashMap<int,PhysicsComponent> physicsComponents;
+    private HashMap<Integer,PhysicsComponent> physicsComponents;
     
     // HashMap's for all CollisionComponents created based on if static or dynamic position
-    private HashMap<int,CollisionComponent> staticCollisionComponents;
-    private HashMap<int,CollisionComponent> dynamicCollisionComponents;
+    private HashMap<Integer,CollisionComponent> staticCollisionComponents;
+    private HashMap<Integer,CollisionComponent> dynamicCollisionComponents;
 
     // Constructor
     private PhysicsManager() {
@@ -59,9 +60,9 @@ public class PhysicsManager extends Manager {
     // Initalize @physicsComponents
     @Override
     protected void init() {
-        physicsComponents = new HashMap<int,PhysicsComponent>();
-        staticCollisionComponents = new HashMap<int,CollisionComponent>();
-        dynamicCollisionComponents = new HashMap<int,CollisionComponent>();
+        physicsComponents = new HashMap<Integer,PhysicsComponent>();
+        staticCollisionComponents = new HashMap<Integer,CollisionComponent>();
+        dynamicCollisionComponents = new HashMap<Integer,CollisionComponent>();
         DebugTool.log("PhysicsManager_init: Complete");
     }
     
@@ -69,32 +70,32 @@ public class PhysicsManager extends Manager {
     @Override
     public void tick(float delta) {
         for (PhysicsComponent physics : physicsComponents.values()) {
-            if (physics.enabled()) {
+            if (physics.enabled) {
                 //physics.getVelocity().set(physics.getAcceleration());
                 //physics.getAcceleration().set(0,0);
-                physics.velocity().scl(delta);
-                physics.movePosition(physics.velocity().x, physics.velocity().y);
+                physics.velocity.scl(delta);
+                //physics.movePosition(physics.velocity().x, physics.velocity().y); ADD BACK IN
                 //physics.setVelocity(0,0);
-                physics.velocity().scl(1 / delta);
+                physics.velocity.scl(1 / delta);
             }
         }
         if (dynamicCollisionComponents.size() > 0) {
             for (CollisionComponent collision : dynamicCollisionComponents.values()) {
-                if (collision.enabled()) {
+                if (collision.enabled) {
                     if (staticCollisionComponents.size() > 0) {
                         for (CollisionComponent staticCollision : staticCollisionComponents.values()) {
-                            if (staticCollision.enabled() && collision.bounds().overlaps(staticCollision.bounds())) {
+                            if (staticCollision.enabled && collision.bounds.overlaps(staticCollision.bounds)) {
                                 DebugTool.log("Static Collision");
-                                collision.trigger();
-                                staticCollision.trigger();
+                                collision.action.trigger();
+                                staticCollision.action.trigger();
                             }
                         }
                     }
                     for (CollisionComponent dynamicCollision : dynamicCollisionComponents.values()) {
-                        if (collision != dynamicCollision &&  dynamicCollision.enabled() &&
-                                collision.bounds().overlaps(dynamicCollision.bounds())) {
+                        if (collision != dynamicCollision &&  dynamicCollision.enabled &&
+                                collision.bounds.overlaps(dynamicCollision.bounds)) {
                             DebugTool.log("Dynamic Collision");
-                            collision.trigger();
+                            collision.action.trigger();
                         }
                     }
                 }
@@ -115,19 +116,19 @@ public class PhysicsManager extends Manager {
     }
     
     public void add(Component component) {
-        if (component.getType() == ComponentType.PHYSICS) {
+        if (component.type == ComponentType.PHYSICS) {
             PhysicsComponent physics = (PhysicsComponent)component;
-            if (!physicsComponents.contains(physics)) {
+            if (!physicsComponents.containsKey(physics.id)) {
                 physicsComponents.put(physics.id, physics);
             }
-        } else if (component.getType() == ComponentType.COLLISION) {
+        } else if (component.type == ComponentType.COLLISION) {
             CollisionComponent collision = (CollisionComponent)component;
-            if (collision.isStaticPosition()) {
-                if (!staticCollisionComponents.contains(collision)) {
+            if (collision.staticPosition) {
+                if (!staticCollisionComponents.containsKey(collision.id)) {
                     staticCollisionComponents.put(collision.id, collision);
                 }
             } else {
-                if (!dynamicCollisionComponents.contains(collision)) {
+                if (!dynamicCollisionComponents.containsKey(collision.id)) {
                     dynamicCollisionComponents.put(collision.id, collision);
                 }
             }
@@ -135,19 +136,19 @@ public class PhysicsManager extends Manager {
     }
 
     public void remove(Component component) {
-        if (component.getType() == ComponentType.PHYSICS) {
+        if (component.type == ComponentType.PHYSICS) {
             PhysicsComponent physics = (PhysicsComponent)component;
-            if (physicsComponents.contains(physics)) {
+            if (physicsComponents.containsKey(physics.id)) {
                 physicsComponents.values().remove(physics);
             }
-        } else if (component.getType() == ComponentType.COLLISION) {
+        } else if (component.type == ComponentType.COLLISION) {
             CollisionComponent collision = (CollisionComponent)component;
-            if (collision.isStaticPosition()) {
-                if (staticCollisionComponents.contains(collision)) {
+            if (collision.staticPosition) {
+                if (staticCollisionComponents.containsKey(collision.id)) {
                     staticCollisionComponents.values().remove(collision);
                 }
             } else {
-                if (dynamicCollisionComponents.contains(collision)) {
+                if (dynamicCollisionComponents.containsKey(collision.id)) {
                     dynamicCollisionComponents.values().remove(collision);
                 }
             }
