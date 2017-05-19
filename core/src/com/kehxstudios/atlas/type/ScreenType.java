@@ -26,7 +26,6 @@ import com.kehxstudios.atlas.screens.IntroScreen;
 import com.kehxstudios.atlas.screens.LoadingScreen;
 import com.kehxstudios.atlas.screens.MainMenuScreen;
 import com.kehxstudios.atlas.screens.PongScreen;
-import com.kehxstudios.atlas.screens.RecapJournalScreen;
 
 import java.util.HashMap;
 
@@ -41,7 +40,6 @@ public enum ScreenType {
     FLAPPY_BAT("Flappy Bat", "flappyBat/flappyBat.atlas", 240, 400, FlappyBatScreen.class),
     GENE_ROCKETS("Gene Rockets", "geneRockets/geneRockets.atlas", 512, 910, GeneRocketsScreen.class),
     PONG("Pong", "pong/pong.atlas", 512, 910, PongScreen.class),
-    RECAP_JOURNAL("Recap Journal", "recapJournal/recapJournal.atlas", 512, 910, RecapJournalScreen.class),
     LOADING("Loading", "loading/loading.atlas", 512, 910, LoadingScreen.class),
     VOID("Void", "", 0, 0, AScreen.class);
 

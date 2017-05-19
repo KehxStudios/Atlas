@@ -165,7 +165,7 @@ public class GraphicsManager extends Manager {
         } else if (component.type == ComponentType.CAMERA) {
             CameraComponent camera = (CameraComponent)component;
             if (cameraComponent != null) {
-                EntityManager.getInstance().markComponentForRemoval(cameraComponent);
+                EntityManager.getInstance().markComponentForRemoval(cameraComponent.id);
                 EntityManager.getInstance().tick(0);
             }
             cameraComponent = camera;

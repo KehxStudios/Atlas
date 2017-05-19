@@ -65,12 +65,12 @@ public class PongScreen extends AScreen {
     
     protected void init() {
         super.init();
-        screenGraphics.setTextureType(TextureType.PONG_BACKGROUND);
-        screenGraphics.setEnabled(true);
+        screenGraphics.textureType = TextureType.PONG_BACKGROUND;
+        screenGraphics.enabled = true;
 
         player2Score = 0;
         
-        ComponentData paddleGraphicsData = Templates.graphicsComponentData(0, 0, 3, TextureType.PONG_PADDLE);
+        ComponentData paddleGraphicsData = Templates.graphicsComponentData(0, 0, 3, 0, TextureType.PONG_PADDLE);
         ComponentData paddlePhysicsData = Templates.physicsComponentData(0, paddleSpeed, 0, paddleSpeed);
         
         player1Entity = Factory.createEntity(Templates.createEntityData(paddleWidth, height/2));
@@ -82,7 +82,7 @@ public class PongScreen extends AScreen {
         player2Physics = (PhysicsComponent)Factory.createComponent(player2Entity, paddlePhysicsData);
         
         
-        ComponentData ballGraphicsData = Templates.graphicsComponentData(0, 0, 3, TextureType.PONG_BALL);
+        ComponentData ballGraphicsData = Templates.graphicsComponentData(0, 0, 3, 0, TextureType.PONG_BALL);
         ComponentData ballPhysicsData = Templates.physicsComponentData(ballSpeed, ballSpeed, ballSpeed, ballSpeed);
         
         ballEntity = Factory.createEntity(Templates.createEntityData(width/2, height/2));
@@ -95,33 +95,33 @@ public class PongScreen extends AScreen {
         // increase screenTime in super method
         super.render(delta);
     
-        if (ballEntity.getPosition().x + ballWidth/2 > width) {
+        if (ballEntity.position.x + ballWidth/2 > width) {
             score++;
             roundReset();
-        } else if (ballEntity.getPosition().x - ballWidth/2 < 0) {
+        } else if (ballEntity.position.x - ballWidth/2 < 0) {
             player2Score++;
             roundReset();
         }
         
-        if (ballEntity.getPosition().y + ballHeight/2 > height || ballEntity.getPosition().y - ballHeight/2 < 0) {
-            ballPhysics.setYVelocity(-ballPhysics.getVelocity().y);
+        if (ballEntity.position.y + ballHeight/2 > height || ballEntity.position.y - ballHeight/2 < 0) {
+            ballPhysics.velocity.y *= -1;
         }
         
-        if (player1Entity.getPosition().y + paddleHeight/2 > height) {
-            player1Entity.setY(height - paddleHeight/2);
-        } else if (player1Entity.getPosition().y - paddleHeight/2 < 0) {
-            player1Entity.setY(paddleHeight/2);
+        if (player1Entity.position.y + paddleHeight/2 > height) {
+            player1Entity.position.y = height - paddleHeight/2;
+        } else if (player1Entity.position.y - paddleHeight/2 < 0) {
+            player1Entity.position.y = paddleHeight/2;
         }
         
-        if (player2Entity.getPosition().y + paddleHeight/2 > height) {
-            player2Entity.setY(height - paddleHeight/2);
-        } else if (player2Entity.getPosition().y - paddleHeight/2 < 0) {
-            player2Entity.setY(paddleHeight/2);
+        if (player2Entity.position.y + paddleHeight/2 > height) {
+            player2Entity.position.y = height - paddleHeight/2;
+        } else if (player2Entity.position.y - paddleHeight/2 < 0) {
+            player2Entity.position.y = paddleHeight/2;
         }
     }
     
     private void roundReset() {
-        ballEntity.setPosition(width/2, height/2);
+        ballEntity.position.set(width/2, height/2);
     }
     
     private void gameReset() {
@@ -129,10 +129,10 @@ public class PongScreen extends AScreen {
         screenTime = 0f;
         score = 0;
         player2Score = 0;
-        player1Entity.setPosition(paddleWidth, height/2);
-        player1Physics.setVelocity(0,0);
-        player2Entity.setPosition(width - paddleWidth, height/2);
-        player2Physics.setVelocity(0,0);
+        player1Entity.position.set(paddleWidth, height/2);
+        player1Physics.velocity.set(0,0);
+        player2Entity.position.set(width - paddleWidth, height/2);
+        player2Physics.velocity.set(0,0);
     }
 
     @Override
