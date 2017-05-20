@@ -35,11 +35,11 @@ import java.util.HashMap;
 
 public enum ScreenType {
 
-    INTRO("Intro", "intro/intro.atlas", 512, 910, IntroScreen.class),
-    MAIN_MENU("Main Menu", "mainMenu/mainMenu.atlas", 1440, 2560, MainMenuScreen.class),
-    FLAPPY_BAT("Flappy Bat", "flappyBat/flappyBat.atlas", 240, 400, FlappyBatScreen.class),
-    GENE_ROCKETS("Gene Rockets", "geneRockets/geneRockets.atlas", 512, 910, GeneRocketsScreen.class),
-    PONG("Pong", "pong/pong.atlas", 512, 910, PongScreen.class),
+    INTRO("Intro", "atlas/intro.atlas", 512, 910, IntroScreen.class),
+    MAIN_MENU("Main Menu", "atlas/mainMenu.atlas", 1440, 2560, MainMenuScreen.class),
+    FLAPPY_BAT("Flappy Bat", "atlas/flappyBird.atlas", 240, 400, FlappyBatScreen.class),
+    GENE_ROCKETS("Gene Rockets", "atlas/geneRockets.atlas", 512, 910, GeneRocketsScreen.class),
+    PONG("Pong", "atlas/pong.atlas", 512, 910, PongScreen.class),
     LOADING("Loading", "loading/loading.atlas", 512, 910, LoadingScreen.class),
     VOID("Void", "", 0, 0, AScreen.class);
 

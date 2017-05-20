@@ -27,11 +27,11 @@ import java.util.HashMap;
 
 public enum MusicType {
 
-    INTRO("Intro", "music.mp3", "intro/"),
-    MAIN_MENU("Main Menu", "music.mp3", "mainMenu/"),
-    FLAPPY_BAT("Flappy Bat", "music.mp3", "flappyBat/"),
+    INTRO("Intro", "intro.mp3", "music/"),
+    MAIN_MENU("Main Menu", "mainMenu.mp3", "music/"),
+    FLAPPY_BAT("Flappy Bat", "flappyBird.mp3", "music/"),
     LOADING("Loading", "music.mp3", "loading/"),
-    GENE_ROCKETS("Gene Rockets", "music.mp3", "geneRockets/"),
+    GENE_ROCKETS("Gene Rockets", "geneRockets.mp3", "music/"),
 
     VOID("Void", "music.mp3", "intro/");
 
