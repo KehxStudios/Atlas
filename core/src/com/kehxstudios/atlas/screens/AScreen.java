@@ -22,6 +22,8 @@ package com.kehxstudios.atlas.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.components.MusicComponent;
 import com.kehxstudios.atlas.data.ComponentData;
@@ -68,6 +70,12 @@ public abstract class AScreen implements Screen {
     }
 
     protected void init() {
+        DebugTool.log("AScreen.init() Start");
+
+        DebugTool.log("AScreen.init() End");
+    }
+
+    public void createEntities() {
         screenEntity = Factory.createEntity(Templates.createEntityData(width/2, height/2));
 
         screenCamera = (CameraComponent)Factory.createComponent(screenEntity,

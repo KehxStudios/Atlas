@@ -173,6 +173,8 @@ public class Factory {
                 graphics.textureType = TextureType.getTypeFromId(componentData.getString("textureType", "Void"));
                 if (graphics.textureType == TextureType.VOID) {
                     graphics.enabled = false;
+                } else {
+                    graphics.texture = GraphicsManager.getInstance().getTexture(graphics.textureType);
                 }
                 GraphicsManager.getInstance().add(graphics);
                 return graphics;

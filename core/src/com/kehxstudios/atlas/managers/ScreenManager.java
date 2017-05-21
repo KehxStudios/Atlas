@@ -116,6 +116,7 @@ public class ScreenManager extends Manager {
         DebugTool.log("New Screen Loading: "+ newScreenType.getId());
         try {
             setScreen((AScreen)ClassReflection.newInstance(newScreenType.getLoaderClass()));
+            screen.createEntities();
         } catch (ReflectionException e) {
             ErrorTool.log("Failed to load " + newScreenType.getId() + " screen, demanding Intro screen");
             e.printStackTrace();

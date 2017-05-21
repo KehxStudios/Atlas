@@ -22,6 +22,7 @@ package com.kehxstudios.atlas.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.kehxstudios.atlas.managers.ScreenManager;
+import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.type.ScreenType;
 
 /**
@@ -47,9 +48,12 @@ public class LoadingScreen extends AScreen {
 
     @Override
     public void render(float delta) {
+        DebugTool.log("LoadingScreen.render");
         if (gm.getAssetManager().update()) {
+            DebugTool.log("LoadingScreen finished loading screen");
             ScreenManager.getInstance().finishedLoadingScreen();
             finishedLoading = true;
+            DebugTool.log("LoadingScreen finished, returning");
             return;
         }
         gm.getBatch().begin();

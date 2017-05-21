@@ -21,6 +21,8 @@ package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.kehxstudios.atlas.data.ComponentData;
+import com.kehxstudios.atlas.managers.GraphicsManager;
+import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
 import com.kehxstudios.atlas.type.TextureType;
@@ -42,10 +44,17 @@ public class IntroScreen extends AScreen {
 
     protected void init() {
         super.init();
-        screenGraphics.textureType = TextureType.INTRO_DEV_LOGO;
-        screenGraphics.enabled = true;
+        DebugTool.log("IntroScreen.init() Start");
         finalLogo = false;
         clickToContinue = false;
+        DebugTool.log("IntroScreen.init() End");
+    }
+
+    public void createEntities() {
+        super.createEntities();
+        screenGraphics.textureType = TextureType.INTRO_DEV_LOGO;
+        screenGraphics.texture = GraphicsManager.getInstance().getTexture(screenGraphics.textureType);
+        screenGraphics.enabled = true;
     }
 
     @Override
@@ -56,6 +65,7 @@ public class IntroScreen extends AScreen {
             // If index is not on last path
             if (!finalLogo && screenTime >= 2f || screenTime > 1f && Gdx.input.isTouched()) {
                 screenGraphics.textureType = TextureType.INTRO_GAME_LOGO;
+                screenGraphics.texture = GraphicsManager.getInstance().getTexture(screenGraphics.textureType);
                 finalLogo = true;
 
             } else if (finalLogo && screenTime > 4f || screenTime > 2f && Gdx.input.isTouched()) {

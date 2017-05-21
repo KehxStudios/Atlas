@@ -212,6 +212,7 @@ public class GameManager extends Game {
 		loadingScreen.setLoadingType(loadingScreenType);
 		setScreen(loadingScreen);
 		gameState = GameState.Loading;
+		DebugTool.log("startLoading - Complete");
 	}
 
 	public AssetManager getAssetManager() { return assetManager; }

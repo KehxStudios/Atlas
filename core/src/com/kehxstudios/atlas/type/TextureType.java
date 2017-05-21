@@ -27,8 +27,7 @@ import java.util.HashMap;
 
 public enum TextureType {
 
-    INTRO_BACKGROUND("IntroBackground", "background", 512, 910),
-    INTRO_DEV_LOGO("IntroDevLogo", "devLogo", 700, 200),
+    INTRO_DEV_LOGO("IntroDevLogo", "devLogo", 512, 512),
     INTRO_GAME_LOGO("IntroGameLogo","gameLogo", 512, 512),
 
     MAIN_MENU_BACKGROUND("MainMenuBackground", "background", 1440, 2560),
