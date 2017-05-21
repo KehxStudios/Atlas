@@ -36,7 +36,7 @@ import com.kehxstudios.atlas.type.ComponentType;
  */
 
 public class CyroTool {
-
+    /*
     public static EntityData freezeEntity(Entity entity) {
         EntityData entityData = new EntityData();
         entityData.setId(entity.getId());
@@ -107,4 +107,5 @@ public class CyroTool {
         }
         return actionData;
     }
+    */
 }

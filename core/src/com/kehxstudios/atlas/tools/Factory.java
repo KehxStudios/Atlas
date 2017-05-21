@@ -20,6 +20,7 @@
 package com.kehxstudios.atlas.tools;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
@@ -59,7 +60,6 @@ import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.InViewComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
-import com.kehxstudios.atlas.components.PointerDirectionComponent;
 import com.kehxstudios.atlas.data.EntityData;
 import com.kehxstudios.atlas.type.MusicType;
 import com.kehxstudios.atlas.type.SoundType;
@@ -118,7 +118,8 @@ public class Factory {
                 return animation;
             } else if (componentType == ComponentType.CAMERA) {
                 CameraComponent camera = (CameraComponent)component;
-                //camera.camera.position = new Vector3(entity.position.x, entity.position.y, 0);
+                camera.camera = new OrthographicCamera();
+                camera.camera.position.set(entity.position.x, entity.position.y, 0);
                 camera.camera.setToOrtho(componentData.getBoolean("flipped", false), 
                                               componentData.getFloat("width", 0), 
                                               componentData.getFloat("height", 0));
@@ -160,13 +161,13 @@ public class Factory {
                 return floatingText;
             } else if (componentType == ComponentType.GENE_ROCKET) {
                 GeneRocketComponent geneRocket = (GeneRocketComponent)component;
-                geneRocket.genes = new ArrayList<Vector2>(componentData.getString("numberOfGenes", 0));
+                geneRocket.genes = new ArrayList<Vector2>(componentData.getInt("numberOfGenes", 0));
                 geneRocket.fitness = 0f;
                 return geneRocket;
             }else if (componentType == ComponentType.GRAPHICS) {
                 GraphicsComponent graphics = (GraphicsComponent)component;
-                graphics.width = componentData.getFloat("width", 0);
-                graphics.height = componentData.getFloat("height", 0);
+                graphics.bounds = new Rectangle(entity.position.x, entity.position.y,
+                        componentData.getFloat("width", 0), componentData.getFloat("height", 0));
                 graphics.layer = componentData.getInt("layer", 0);
                 graphics.rotation = componentData.getFloat("rotation", 0);
                 graphics.textureType = TextureType.getTypeFromId(componentData.getString("textureType", "Void"));
@@ -177,33 +178,34 @@ public class Factory {
                 return graphics;
             } else if (componentType == ComponentType.IN_VIEW) {
                 InViewComponent inView = (InViewComponent)component;
-                inView.width = componentData.getFloat("width", 0);
-                inView.height = componentData.getFloat("height", 0);
+                inView.bounds = new Rectangle(entity.position.x, entity.position.y,
+                        componentData.getFloat("width", 0), componentData.getFloat("height", 0));
                 inView.action = createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void")));
                 // ADD TO MANAGER
                 return inView;
             } else if (componentType == ComponentType.MUSIC) {
                 MusicComponent music = (MusicComponent)component;
                 music.musicType = MusicType.getTypeById(componentData.getString("musicType", "Void"));
+                music.music = SoundManager.getInstance().getMusic(music.musicType);
                 music.volume = componentData.getFloat("volume", 0f);
                 SoundManager.getInstance().add(music);
                 return music;
             } else if (componentType == ComponentType.PHYSICS) {
                 PhysicsComponent physics = (PhysicsComponent)component;
-                physics.acceleration(componentData.getFloat("acceleraton_x", 0),
+                physics.acceleration.set(componentData.getFloat("acceleraton_x", 0),
                         componentData.getFloat("acceleration_y", 0));
-                physics.maxAcceleration(componentData.getFloat("maxAcceleration_x", 0),
+                physics.maxAcceleration.set(componentData.getFloat("maxAcceleration_x", 0),
                         componentData.getFloat("maxAcceleration_y", 0));
-                physics.velocity(componentData.getFloat("velocity_x", 0),
+                physics.velocity.set(componentData.getFloat("velocity_x", 0),
                         componentData.getFloat("velocity_y", 0));
-                physics.maxVelocity(componentData.getFloat("maxVelocity_x", 0),
+                physics.maxVelocity.set(componentData.getFloat("maxVelocity_x", 0),
                         componentData.getFloat("maxVelocity_y", 0));
                 PhysicsManager.getInstance().add(physics);
                 return physics;
             } else if (componentType == ComponentType.SOUND) {
                 SoundComponent sound = (SoundComponent)component;
-                sound.soundType(SoundType.getTypeById(componentData.getString("soundType", "Void")));
-                sound.volume(componentData.getFloat("volume", 0f));
+                sound.soundType = SoundType.getTypeById(componentData.getString("soundType", "Void"));
+                sound.volume = componentData.getFloat("volume", 0f);
                 SoundManager.getInstance().add(sound);
                 return sound;
             }
@@ -215,58 +217,58 @@ public class Factory {
 
     public static Action createAction(Entity entity, ActionData actionData) {
         try {
-            ActionType actionType = ActionType.getTypeById(actionData.getType());
+            ActionType actionType = ActionType.getTypeById(actionData.type);
             Action action = (Action) ClassReflection.newInstance(actionType.getLoaderClass());
-            action.setType(actionType);
+            action.type = actionType;
 
             if (actionType == ActionType.DESTROY_ENTITY) {
                 DestroyEntityAction destroyEntity = (DestroyEntityAction)action;
-                destroyEntity.setEntity(entity);
+                destroyEntity.entityId = entity.id;
                 return destroyEntity;
             } else if (actionType == ActionType.FOLLOW) {
                 FollowAction follow = (FollowAction)action;
-                follow.setVerticalAllowed(actionData.getBoolean("veritical", false));
-                follow.setHorizontalAllowed(actionData.getBoolean("horizontal", false));
-                follow.setPosition(entity.getPosition());
+                follow.verticalAllowed = (actionData.getBoolean("veritical", false));
+                follow.horizontalAllowed = actionData.getBoolean("horizontal", false);
+                follow.position.set(entity.position);
                 return follow;
             } else if (actionType == ActionType.HIGH_SCORE_RESET) {
                 HighScoreResetAction highScoreReset = (HighScoreResetAction)action;
-                highScoreReset.setScreenType(ScreenType.getTypeById(actionData.getString("screenType", "Void")));
+                highScoreReset.screenType = ScreenType.getTypeById(actionData.getString("screenType", "Void"));
                 return highScoreReset;
             } else if (actionType == ActionType.LAUNCH_SCREEN) {
                 LaunchScreenAction launchScreen = (LaunchScreenAction)action;
-                launchScreen.setScreenType(ScreenType.getTypeById(actionData.getString("screenType", "Void")));
+                launchScreen.screenType = ScreenType.getTypeById(actionData.getString("screenType", "Void"));
                 return launchScreen;
             } else if (actionType == ActionType.MULTI) {
                 MultiAction multi = (MultiAction)action;
                 for (String data : actionData.data.values()) {
-                    multi.addAction(createAction(entity, UtilityTool.getActionDataFromString(data)),99);
+                    multi.actions.add(createAction(entity, UtilityTool.getActionDataFromString(data)));
                 }
                 return multi;
             } else if (actionType == ActionType.PHYSICS) {
                 PhysicsAction physics = (PhysicsAction)action;
-                physics.setTriggerValue(actionData.getFloat("actionValue_x", 0),
+                physics.triggerValue.set(actionData.getFloat("actionValue_x", 0),
                         actionData.getFloat("actionValue_y", 0));
-                physics.setPhysicsComponent((PhysicsComponent)entity.getComponentOfType(ComponentType.PHYSICS));
+                physics.physicsComponent = (PhysicsComponent)entity.getComponentOfType(ComponentType.PHYSICS);
                 return physics;
             } else if (actionType == ActionType.REPOSITION) {
                 RepositionAction reposition = (RepositionAction)action;
-                reposition.setPosition(entity.getPosition());
-                reposition.setActionValue(actionData.getFloat("actionValue_x", 0),
+                reposition.position = entity.position;
+                reposition.actionValue.set(actionData.getFloat("actionValue_x", 0),
                         actionData.getFloat("actionValue_y", 0));
-                reposition.setTeleportToActionValue(actionData.getBoolean("teleport", false));
+                reposition.teleportToActionValue = actionData.getBoolean("teleport", false);
                 return reposition;
             } else if (actionType == ActionType.RESET_SCREEN) {
                 ResetScreenAction resetScreen = (ResetScreenAction)action;
                 return resetScreen;
             } else if (actionType == ActionType.SCORE) {
                 ScoreAction score = (ScoreAction)action;
-                score.setScoreValue(actionData.getInt("actionValue", 0));
-                score.setScreen((AScreen)GameManager.getInstance().getScreen());
+                score.scoreValue = actionData.getInt("actionValue", 0);
+                score.screen = (AScreen)GameManager.getInstance().getScreen();
                 return score;
             } else if (actionType == ActionType.SPAWN_ENTITY) {
                 SpawnEntityAction spawnEntity = (SpawnEntityAction)action;
-                spawnEntity.setEntityData(UtilityTool.getEntityDataFromString(actionData.getString("entityData", "Void")));
+                spawnEntity.entityData = UtilityTool.getEntityDataFromString(actionData.getString("entityData", "Void"));
                 return action;
             }
         } catch (ReflectionException e) {

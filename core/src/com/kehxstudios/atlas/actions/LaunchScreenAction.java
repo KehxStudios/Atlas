@@ -28,7 +28,7 @@ import com.kehxstudios.atlas.type.ScreenType;
 
 public class LaunchScreenAction extends Action {
 
-    private ScreenType screenType;
+    public ScreenType screenType;
 
     @Override
     public void trigger() {

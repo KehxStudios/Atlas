@@ -96,7 +96,7 @@ public class GameManager extends Game {
 		loadingScreen = new LoadingScreen();
 
 		// Demand a new Screen be started now
-        	screenManager.demandNewScreen(ScreenType.INTRO);
+		screenManager.demandNewScreen(ScreenType.INTRO);
 		
 		DebugTool.log("GameManager.create() complete");
 	}
@@ -148,10 +148,11 @@ public class GameManager extends Game {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		// render the Screen that is set allowing screen functions
-		super.render();
 
 		if (gameState == GameState.Running) {
+			// render the Screen that is set allowing screen functions
+			super.render();
+
 			// Get the current delta time to pass to Managers
 			float delta = Gdx.graphics.getDeltaTime();
 
@@ -172,12 +173,17 @@ public class GameManager extends Game {
 
 			// tick ScreenManager to check if screen change is needed
 			screenManager.tick(delta);
+		} else {
+			// render the Screen that is set allowing screen functions
+			super.render();
 		}
 	}
 
 	public void setScreen(Screen screen) {
 		super.setScreen(screen);
-		finishedLoading();
+        if (screen != loadingScreen) {
+			gameState = GameState.Running;
+        }
 	}
 
 	// Dispose of everything that might need disposal
@@ -198,6 +204,8 @@ public class GameManager extends Game {
 	public SpriteBatch getBatch() {
 		return batch;
 	}
+
+	public void setBatch(SpriteBatch batch) { this.batch = batch; }
 	
 	public void startLoading(ScreenType screenType) {
 		loadingScreenType = screenType;
@@ -205,13 +213,6 @@ public class GameManager extends Game {
 		setScreen(loadingScreen);
 		gameState = GameState.Loading;
 	}
-	private void finishedLoading() {
-		gameState = GameState.Running;
-	}
-
-	public void setBatch(SpriteBatch batch) { this.batch = batch; }
 
 	public AssetManager getAssetManager() { return assetManager; }
-
-	public ScreenManager getScreenManager() { return screenManager; }
 }

@@ -145,18 +145,13 @@ public class FlappyBatScreen extends AScreen {
         }
 
         scoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.floatingTextComponentData("Score: ", score+"", 1));
-        scoreText.position.set(0, -height/2 + 60);
-
+                Templates.floatingTextComponentData(0, -height/2 +60, "Score: ", score+"", 1));
 
         lowScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.floatingTextComponentData("Low-Score: ", lowScore+"", 1));
-        lowScoreText.position.set(0, -height/2 + 40);
-
+                Templates.floatingTextComponentData(0, -height/2 + 40, "Low-Score: ", lowScore+"", 1));
 
         highScoreText = (FloatingTextComponent)Factory.createComponent(screenEntity,
-                Templates.floatingTextComponentData("High-Score: ", highScore+"", 1));
-        highScoreText.position.set(0, -height/2 + 20);
+                Templates.floatingTextComponentData(0, -height/2 + 20, "High-Score: ", highScore+"", 1));
     }
 
     @Override
@@ -268,5 +263,4 @@ public class FlappyBatScreen extends AScreen {
     public void hide() {
         super.hide();
     }
-
 }

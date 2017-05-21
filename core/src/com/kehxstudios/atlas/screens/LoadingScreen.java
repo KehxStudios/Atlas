@@ -40,7 +40,7 @@ public class LoadingScreen extends AScreen {
         finishedLoading = true;
     }
 
-    protected void init() {
+    protected void startLoading() {
         gm.getAssetManager().load(loadingType.getAtlasPath(), TextureAtlas.class);
         finishedLoading = false;
     }
@@ -50,17 +50,22 @@ public class LoadingScreen extends AScreen {
         if (gm.getAssetManager().update()) {
             ScreenManager.getInstance().finishedLoadingScreen();
             finishedLoading = true;
+            return;
         }
         gm.getBatch().begin();
-        Gdx.gl.glClearColor(0,0,1,1);
 
+        // DRAW LOADING GRAPHICS
 
         gm.getBatch().end();
     }
 
     public boolean isFinishedLoading() { return finishedLoading; }
 
-    public void setLoadingType(ScreenType type) { loadingType = type; }
+    public void setLoadingType(ScreenType type) {
+        loadingType = type;
+        startLoading();
+
+    }
 
     @Override
     public void show() {

@@ -72,7 +72,6 @@ public abstract class AScreen implements Screen {
 
         screenCamera = (CameraComponent)Factory.createComponent(screenEntity,
                 Templates.cameraComponentData(width, height, false));
-        screenCamera.camera.setToOrtho(false, width, height);
         screenCamera.camera.update();
 
         screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity,

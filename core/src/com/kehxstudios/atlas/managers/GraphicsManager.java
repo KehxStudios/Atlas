@@ -107,7 +107,6 @@ public class GraphicsManager extends Manager {
     @Override
     protected void removeSettings() {
         textureAtlas.dispose();
-        textureAtlas = new TextureAtlas();
         DebugTool.log("GraphicsManager_removeSettings: Complete");
     }
 
@@ -116,8 +115,8 @@ public class GraphicsManager extends Manager {
         if (cameraComponent == null) {
             return;
         }
-        batch.begin();
         batch.setProjectionMatrix(cameraComponent.camera.combined);
+        batch.begin();
         for (HashMap<Integer,GraphicsComponent> hashMap : graphicsComponents) {
             if (hashMap.size() == 0) {
                 continue;
