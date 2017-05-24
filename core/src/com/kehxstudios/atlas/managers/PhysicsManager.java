@@ -106,7 +106,10 @@ public class PhysicsManager extends Manager {
     // Called when loading a new screen
     @Override
     protected void loadSettings() {
-         DebugTool.log("PhysicsManager_loadSettings: Complete");
+        physicsComponents = new HashMap<Integer, PhysicsComponent>();
+        staticCollisionComponents = new HashMap<Integer, CollisionComponent>();
+        dynamicCollisionComponents = new HashMap<Integer, CollisionComponent>();
+        DebugTool.log("PhysicsManager_loadSettings: Complete");
     }
 
     // Called when unloading the current screen

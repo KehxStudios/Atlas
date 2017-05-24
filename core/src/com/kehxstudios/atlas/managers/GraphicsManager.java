@@ -100,6 +100,8 @@ public class GraphicsManager extends Manager {
     @Override
     protected void loadSettings() {
         loadTextureAtlas();
+        graphicsComponents = new ArrayList<HashMap<Integer, GraphicsComponent>>();
+        floatingTextComponents = new HashMap<Integer, FloatingTextComponent>();
         DebugTool.log("GraphicsManager_loadSettings: Complete");
     }
 
@@ -123,14 +125,15 @@ public class GraphicsManager extends Manager {
             }
             for (GraphicsComponent graphics : hashMap.values()) {
                 if (graphics.enabled) {
-                    batch.draw(graphics.texture, graphics.bounds.x, graphics.bounds.y,
-                        graphics.bounds.width, graphics.bounds.height);
+                    batch.draw(graphics.texture, graphics.bounds.x - graphics.bounds.width/2,
+                            graphics.bounds.y - graphics.bounds.height/2,
+                            graphics.bounds.width, graphics.bounds.height);
                 }
             }
         }
         for (FloatingTextComponent floatingText : floatingTextComponents.values()) {
             if (floatingText.enabled) {
-                floatingText.font.draw(gm.getBatch(), floatingText.layout,
+                floatingText.font.draw(batch, floatingText.layout,
                         floatingText.position.x - floatingText.layout.width / 2,
                         floatingText.position.y - floatingText.layout.height / 2);
             }

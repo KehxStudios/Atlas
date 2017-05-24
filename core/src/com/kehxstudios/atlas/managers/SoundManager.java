@@ -82,6 +82,9 @@ public class SoundManager extends Manager {
     
     @Override
     protected void loadSettings() {
+
+        soundComponents = new HashMap<Integer, SoundComponent>();
+        musicComponents = new HashMap<Integer, MusicComponent>();
         DebugTool.log("SoundManager_loadScreenSettings: Complete");
     }
     

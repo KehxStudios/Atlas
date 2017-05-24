@@ -64,10 +64,11 @@ public class IntroScreen extends AScreen {
         if (!clickToContinue) {
             // If index is not on last path
             if (!finalLogo && screenTime >= 2f || screenTime > 1f && Gdx.input.isTouched()) {
+                DebugTool.log("Starting graphics change");
                 screenGraphics.textureType = TextureType.INTRO_GAME_LOGO;
                 screenGraphics.texture = GraphicsManager.getInstance().getTexture(screenGraphics.textureType);
                 finalLogo = true;
-
+                DebugTool.log("Finished graphics change");
             } else if (finalLogo && screenTime > 4f || screenTime > 2f && Gdx.input.isTouched()) {
                 createFinalComponents();
                 clickToContinue = true;

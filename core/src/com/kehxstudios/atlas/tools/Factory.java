@@ -148,6 +148,7 @@ public class Factory {
                 return collision;
             } else if (componentType == ComponentType.FLOATING_TEXT) {
                 FloatingTextComponent floatingText = (FloatingTextComponent)component;
+                floatingText.position = entity.position;
                 floatingText.font = new BitmapFont();
                 floatingText.scale = componentData.getFloat("scale", 1);
                 floatingText.label = componentData.getString("label", "-");
@@ -166,8 +167,10 @@ public class Factory {
                 return geneRocket;
             }else if (componentType == ComponentType.GRAPHICS) {
                 GraphicsComponent graphics = (GraphicsComponent)component;
+                float width = componentData.getFloat("width", 0);
+                float height = componentData.getFloat("height", 0);
                 graphics.bounds = new Rectangle(entity.position.x, entity.position.y,
-                        componentData.getFloat("width", 0), componentData.getFloat("height", 0));
+                        width, height);
                 graphics.layer = componentData.getInt("layer", 0);
                 graphics.rotation = componentData.getFloat("rotation", 0);
                 graphics.textureType = TextureType.getTypeFromId(componentData.getString("textureType", "Void"));

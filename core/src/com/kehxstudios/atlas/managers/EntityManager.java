@@ -92,12 +92,17 @@ public class EntityManager extends Manager {
     @Override
     protected void loadSettings() {
         DebugTool.log("EntityManager_loadSettings: Complete");
+        entities = new HashMap<Integer, Entity>();
+        components = new HashMap<Integer, Component>();
+        markedEntities = new ArrayList<Integer>();
+        markedComponents = new ArrayList<Integer>();
     }
 
     // Called when unloading the current screen
     @Override
     protected void removeSettings() {
-        while (entities.size() > 0) {
+        while (entities.size() > 0 && false) {
+            DebugTool.log("Removing Entities{0} in removeSettings");
             remove(entities.get(0));
         }
         DebugTool.log("EntityManager_removeSettings: Complete");
@@ -136,7 +141,7 @@ public class EntityManager extends Manager {
 
     // Removes an Entity from current @entities ArrayList including Components
     private void remove(Entity entity) {
-        if (entities.containsKey(entity)) {
+        if (entities.containsKey(entity.id)) {
             if (entity.components.size() > 0) {
                 Integer[] componentIds = (Integer[]) entity.components.keySet().toArray();
                 for (Integer componentId : componentIds) {

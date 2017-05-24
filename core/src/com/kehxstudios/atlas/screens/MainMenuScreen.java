@@ -44,18 +44,23 @@ public class MainMenuScreen extends AScreen {
     
     protected void init() {
         super.init();
+    }
+
+    public void createEntities() {
+        super.createEntities();
+
         screenGraphics.textureType = TextureType.MAIN_MENU_BACKGROUND;
         screenGraphics.enabled = true;
 
         ComponentData borderGraphics = Templates.graphicsComponentData(0, 0, 3, 0, TextureType.MAIN_MENU_BORDER);
-        
+
         Entity flappyBirdEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5*4));
         Factory.createComponent(flappyBirdEntity, borderGraphics);
         Factory.createComponent(flappyBirdEntity, Templates.floatingTextComponentData(flappyBirdEntity.position.x,
                 flappyBirdEntity.position.y, "", "Flappy Bird", 4));
         Factory.createComponent(flappyBirdEntity, Templates.clickableComponentData(TextureType.MAIN_MENU_BORDER.getWidth(),
                 TextureType.MAIN_MENU_BORDER.getHeight(), true, Templates.launchScreenActionData(ScreenType.FLAPPY_BAT)));
-        
+
         Entity pongEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5*3));
         Factory.createComponent(pongEntity, borderGraphics);
         Factory.createComponent(pongEntity, Templates.floatingTextComponentData(pongEntity.position.x,
@@ -69,7 +74,7 @@ public class MainMenuScreen extends AScreen {
                 geneRocketsEntity.position.y, "", "Gene Rockets", 4));
         Factory.createComponent(geneRocketsEntity, Templates.clickableComponentData(TextureType.MAIN_MENU_BORDER.getWidth(),
                 TextureType.MAIN_MENU_BORDER.getHeight(), true, Templates.launchScreenActionData(ScreenType.GENE_ROCKETS)));
-        
+
         Entity highScoreResetEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5));
         Factory.createComponent(highScoreResetEntity, borderGraphics);
         Factory.createComponent(highScoreResetEntity, Templates.clickableComponentData(
