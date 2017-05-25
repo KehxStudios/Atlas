@@ -27,7 +27,6 @@ import com.kehxstudios.atlas.components.CollisionComponent;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GeneRocketComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.components.InViewComponent;
 import com.kehxstudios.atlas.components.MusicComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.components.SoundComponent;
@@ -47,7 +46,6 @@ public enum ComponentType {
     FLOATING_TEXT("Floating_Text", FloatingTextComponent.class),
     GENE_ROCKET("Gene Rocket", GeneRocketComponent.class),
     GRAPHICS("Graphics", GraphicsComponent.class),
-    IN_VIEW("In_View", InViewComponent.class),
     MUSIC("Music", MusicComponent.class),
     PHYSICS("Physics", PhysicsComponent.class),
     SOUND("Sound", SoundComponent.class),

@@ -44,7 +44,7 @@ public class PongScreen extends AScreen {
     Entity player1Entity, player2Entity, ballEntity;
     PhysicsComponent player1Physics, player2Physics, ballPhysics;
 
-    private int player2Score;
+    private int score, player2Score;
     
     private Random random = new Random();
 
@@ -65,9 +65,8 @@ public class PongScreen extends AScreen {
     
     protected void init() {
         super.init();
-        screenGraphics.textureType = TextureType.PONG_BACKGROUND;
-        screenGraphics.enabled = true;
 
+        score = 0;
         player2Score = 0;
         
         ComponentData paddleGraphicsData = Templates.graphicsComponentData(0, 0, 3, 0, TextureType.PONG_PADDLE);

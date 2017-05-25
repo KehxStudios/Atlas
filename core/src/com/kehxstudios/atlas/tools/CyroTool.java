@@ -19,18 +19,6 @@
 
 package com.kehxstudios.atlas.tools;
 
-import com.kehxstudios.atlas.actions.Action;
-import com.kehxstudios.atlas.components.ClickableComponent;
-import com.kehxstudios.atlas.components.Component;
-import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.components.InViewComponent;
-import com.kehxstudios.atlas.data.ActionData;
-import com.kehxstudios.atlas.data.ComponentData;
-import com.kehxstudios.atlas.data.EntityData;
-import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.type.ActionType;
-import com.kehxstudios.atlas.type.ComponentType;
-
 /**
  * Used to turn an Entity/Component/Action into the respected Data class
  */

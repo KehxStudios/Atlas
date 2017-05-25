@@ -25,11 +25,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.google.gwt.user.server.Util;
 import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.actions.FollowAction;
 import com.kehxstudios.atlas.actions.ResetScreenAction;
@@ -58,7 +56,6 @@ import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.type.ComponentType;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.components.InViewComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.data.EntityData;
 import com.kehxstudios.atlas.type.MusicType;
@@ -98,6 +95,78 @@ public class Factory {
         EntityManager.getInstance().add(entity);
 
         return entity;
+    }
+
+    public static Entity createEntity(float x, float y) {
+        Entity entity = new Entity();
+        entity.id = ++uniqueId;
+        entity.position = new Vector2(x,y);
+        EntityManager.getInstance().add(entity);
+        return entity;
+    }
+
+    public static GraphicsComponent createGraphicsComponent(Entity entity, int layer, TextureType textureType) {
+        GraphicsComponent graphics = new GraphicsComponent();
+        graphics.entityId = entity.id;
+        graphics.id = ++uniqueId;
+        graphics.type = ComponentType.GRAPHICS;
+        graphics.enabled = true;
+        graphics.rotation = 0;
+        graphics.layer = layer;
+        graphics.textureType = textureType;
+        graphics.texture = GraphicsManager.getInstance().getTexture(textureType);
+        graphics.bounds = new Rectangle(0,0, textureType.getWidth(), textureType.getHeight());
+        graphics.bounds.setCenter(entity.position);
+        EntityManager.getInstance().add(graphics);
+        GraphicsManager.getInstance().add(graphics);
+        return graphics;
+    }
+
+    public static FloatingTextComponent createFloatingTextComponent(Entity entity, float scale, String label,
+                                                                    String text, Color color) {
+        FloatingTextComponent floatingText = new FloatingTextComponent();
+        floatingText.entityId = entity.id;
+        floatingText.id = ++uniqueId;
+        floatingText.type = ComponentType.FLOATING_TEXT;
+        floatingText.enabled = true;
+        floatingText.position = entity.position;
+        floatingText.font = new BitmapFont();
+        floatingText.scale = scale;
+        floatingText.font.getData().setScale(scale, scale);
+        floatingText.label = label;
+        floatingText.text = text;
+        floatingText.layout = new GlyphLayout(floatingText.font,
+                floatingText.label + floatingText.text);
+        floatingText.layout.setText(floatingText.font,
+                floatingText.label + floatingText.text,
+                color, 0, Align.left, true);
+        EntityManager.getInstance().add(floatingText);
+        GraphicsManager.getInstance().add(floatingText);
+        return floatingText;
+    }
+
+    public static ClickableComponent createClickableComponent(Entity entity, float width, float height,
+                                                              boolean singleTrigger, boolean triggered, Action action) {
+        ClickableComponent clickable = new ClickableComponent();
+        clickable.entityId = entity.id;
+        clickable.id = ++uniqueId;
+        clickable.type = ComponentType.CLICKABLE;
+        clickable.enabled = true;
+        clickable.bounds = new Rectangle(0, 0, width, height);
+        clickable.bounds.setCenter(entity.position);
+        clickable.singleTrigger = singleTrigger;
+        clickable.triggered = triggered;
+        clickable.action = action;
+        EntityManager.getInstance().add(clickable);
+        InputManager.getInstance().add(clickable);
+        return clickable;
+    }
+
+    public static LaunchScreenAction createLaunchScreenAction(ScreenType screenType) {
+        LaunchScreenAction launchScreen = new LaunchScreenAction();
+        launchScreen.type = ActionType.LAUNCH_SCREEN;
+        launchScreen.screenType = screenType;
+        return launchScreen;
     }
 
     public static Component createComponent(Entity entity, ComponentData componentData) {
@@ -169,8 +238,8 @@ public class Factory {
                 GraphicsComponent graphics = (GraphicsComponent)component;
                 float width = componentData.getFloat("width", 0);
                 float height = componentData.getFloat("height", 0);
-                graphics.bounds = new Rectangle(entity.position.x, entity.position.y,
-                        width, height);
+                graphics.bounds = new Rectangle(0 ,0 , width, height);
+                graphics.bounds.setCenter(entity.position);
                 graphics.layer = componentData.getInt("layer", 0);
                 graphics.rotation = componentData.getFloat("rotation", 0);
                 graphics.textureType = TextureType.getTypeFromId(componentData.getString("textureType", "Void"));
@@ -181,13 +250,6 @@ public class Factory {
                 }
                 GraphicsManager.getInstance().add(graphics);
                 return graphics;
-            } else if (componentType == ComponentType.IN_VIEW) {
-                InViewComponent inView = (InViewComponent)component;
-                inView.bounds = new Rectangle(entity.position.x, entity.position.y,
-                        componentData.getFloat("width", 0), componentData.getFloat("height", 0));
-                inView.action = createAction(entity, UtilityTool.getActionDataFromString(componentData.getString("action", "Void")));
-                // ADD TO MANAGER
-                return inView;
             } else if (componentType == ComponentType.MUSIC) {
                 MusicComponent music = (MusicComponent)component;
                 music.musicType = MusicType.getTypeById(componentData.getString("musicType", "Void"));

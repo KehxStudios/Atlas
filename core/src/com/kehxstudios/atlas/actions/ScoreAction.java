@@ -32,6 +32,6 @@ public class ScoreAction extends Action {
 
     @Override
     public void trigger() {
-        screen.addScore(scoreValue);
+        //screen.addScore(scoreValue);
     }
 }

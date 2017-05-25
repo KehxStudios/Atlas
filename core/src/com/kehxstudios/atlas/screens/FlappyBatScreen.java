@@ -31,6 +31,7 @@ import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
+import com.kehxstudios.atlas.data.HighScores;
 import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.tools.Templates;
@@ -77,6 +78,9 @@ public class FlappyBatScreen extends AScreen {
     private int lowScore, highScore;
     private FloatingTextComponent scoreText, lowScoreText, highScoreText;
 
+    private HighScores highScores;
+    private int score;
+
     private Random random = new Random();
 
     public FlappyBatScreen() {
@@ -84,6 +88,10 @@ public class FlappyBatScreen extends AScreen {
 
         batStartX = width/4;
         batCurrentX = batStartX;
+
+        highScores = new HighScores(ScreenType.FLAPPY_BAT);
+        score = 0;
+
         lowScore = highScores.getLowScore();
         highScore = highScores.getHighScore();
 
@@ -92,8 +100,6 @@ public class FlappyBatScreen extends AScreen {
 
     protected void init() {
         super.init();
-        screenGraphics.textureType = TextureType.FLAPPY_BAT_BACKGROUND;
-        screenGraphics.enabled = true;
 
         ActionData resetScreenData = Templates.resetScreenActionData();
 

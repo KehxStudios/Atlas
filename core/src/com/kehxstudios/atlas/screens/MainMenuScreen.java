@@ -19,6 +19,7 @@
 
 package com.kehxstudios.atlas.screens;
 
+import com.badlogic.gdx.graphics.Color;
 import com.kehxstudios.atlas.actions.LaunchScreenAction;
 import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.data.ComponentData;
@@ -49,39 +50,34 @@ public class MainMenuScreen extends AScreen {
     public void createEntities() {
         super.createEntities();
 
-        screenGraphics.textureType = TextureType.MAIN_MENU_BACKGROUND;
-        screenGraphics.enabled = true;
+        float borderWidth = TextureType.MAIN_MENU_BORDER.getWidth();
+        float borderHeight = TextureType.MAIN_MENU_BORDER.getHeight();
 
-        ComponentData borderGraphics = Templates.graphicsComponentData(0, 0, 3, 0, TextureType.MAIN_MENU_BORDER);
+        Factory.createGraphicsComponent(screenEntity, 0, TextureType.MAIN_MENU_BACKGROUND);
 
-        Entity flappyBirdEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5*4));
-        Factory.createComponent(flappyBirdEntity, borderGraphics);
-        Factory.createComponent(flappyBirdEntity, Templates.floatingTextComponentData(flappyBirdEntity.position.x,
-                flappyBirdEntity.position.y, "", "Flappy Bird", 4));
-        Factory.createComponent(flappyBirdEntity, Templates.clickableComponentData(TextureType.MAIN_MENU_BORDER.getWidth(),
-                TextureType.MAIN_MENU_BORDER.getHeight(), true, Templates.launchScreenActionData(ScreenType.FLAPPY_BAT)));
+        Entity flappyBirdEntity = Factory.createEntity(width/2, height/5*4);
+        Factory.createGraphicsComponent(flappyBirdEntity, 1, TextureType.MAIN_MENU_BORDER);
+        Factory.createFloatingTextComponent(flappyBirdEntity, 3, "", "Flappy Bird", Color.BLUE);
+        Factory.createClickableComponent(flappyBirdEntity, borderWidth, borderHeight, true, false,
+                Factory.createLaunchScreenAction(ScreenType.FLAPPY_BAT));
 
-        Entity pongEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5*3));
-        Factory.createComponent(pongEntity, borderGraphics);
-        Factory.createComponent(pongEntity, Templates.floatingTextComponentData(pongEntity.position.x,
-                pongEntity.position.y, "", "Pong", 4));
-        Factory.createComponent(pongEntity, Templates.clickableComponentData(TextureType.MAIN_MENU_BORDER.getWidth(),
-                TextureType.MAIN_MENU_BORDER.getHeight(), true, Templates.launchScreenActionData(ScreenType.INTRO)));
+        Entity pongEntity = Factory.createEntity(width/2, height/5*3);
+        Factory.createGraphicsComponent(pongEntity, 1, TextureType.MAIN_MENU_BORDER);
+        Factory.createFloatingTextComponent(pongEntity, 3, "", "Pong", Color.BLUE);
+        Factory.createClickableComponent(pongEntity, borderWidth, borderHeight, true, false,
+                Factory.createLaunchScreenAction(ScreenType.PONG));
 
-        Entity geneRocketsEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5*2));
-        Factory.createComponent(geneRocketsEntity, borderGraphics);
-        Factory.createComponent(geneRocketsEntity, Templates.floatingTextComponentData(geneRocketsEntity.position.x,
-                geneRocketsEntity.position.y, "", "Gene Rockets", 4));
-        Factory.createComponent(geneRocketsEntity, Templates.clickableComponentData(TextureType.MAIN_MENU_BORDER.getWidth(),
-                TextureType.MAIN_MENU_BORDER.getHeight(), true, Templates.launchScreenActionData(ScreenType.GENE_ROCKETS)));
+        Entity geneRocketsEntity = Factory.createEntity(width/2, height/5*2);
+        Factory.createGraphicsComponent(geneRocketsEntity, 1, TextureType.MAIN_MENU_BORDER);
+        Factory.createFloatingTextComponent(geneRocketsEntity, 3, "", "Gene Rockets", Color.BLUE);
+        Factory.createClickableComponent(geneRocketsEntity, borderWidth, borderHeight, true, false,
+                Factory.createLaunchScreenAction(ScreenType.GENE_ROCKETS));
 
-        Entity highScoreResetEntity = Factory.createEntity(Templates.createEntityData(width/2, height/5));
-        Factory.createComponent(highScoreResetEntity, borderGraphics);
-        Factory.createComponent(highScoreResetEntity, Templates.clickableComponentData(
-                TextureType.MAIN_MENU_BORDER.getWidth(), TextureType.MAIN_MENU_BORDER.getHeight(),
-                false, Templates.highScoreResetActionData(ScreenType.FLAPPY_BAT)));
-        Factory.createComponent(highScoreResetEntity, Templates.floatingTextComponentData(highScoreResetEntity.position.x,
-                highScoreResetEntity.position.y, "", "High-Score Reset", 4));
+        Entity highScoreResetEntity = Factory.createEntity(width/2, height/5);
+        Factory.createGraphicsComponent(highScoreResetEntity, 1, TextureType.MAIN_MENU_BORDER);
+        Factory.createFloatingTextComponent(highScoreResetEntity, 3, "", "Reset", Color.BLUE);
+        Factory.createClickableComponent(highScoreResetEntity, borderWidth, borderHeight, true, false,
+                Factory.createLaunchScreenAction(ScreenType.INTRO));
     }
 
     @Override

@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.kehxstudios.atlas.components.AnimationComponent;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.components.Component;
@@ -101,6 +102,9 @@ public class GraphicsManager extends Manager {
     protected void loadSettings() {
         loadTextureAtlas();
         graphicsComponents = new ArrayList<HashMap<Integer, GraphicsComponent>>();
+        for (int i = 0; i < MAX_LAYERS; i++) {
+            graphicsComponents.add(new HashMap<Integer,GraphicsComponent>());
+        }
         floatingTextComponents = new HashMap<Integer, FloatingTextComponent>();
         DebugTool.log("GraphicsManager_loadSettings: Complete");
     }
@@ -125,8 +129,7 @@ public class GraphicsManager extends Manager {
             }
             for (GraphicsComponent graphics : hashMap.values()) {
                 if (graphics.enabled) {
-                    batch.draw(graphics.texture, graphics.bounds.x - graphics.bounds.width/2,
-                            graphics.bounds.y - graphics.bounds.height/2,
+                    batch.draw(graphics.texture, graphics.bounds.x, graphics.bounds.y,
                             graphics.bounds.width, graphics.bounds.height);
                 }
             }
@@ -218,7 +221,7 @@ public class GraphicsManager extends Manager {
     }
 
     // Called to get the texture from the @textureAtlas
-    public Texture getTexture(TextureType textureType) {
-        return textureAtlas.findRegion(textureType.getFileName()).getTexture();
+    public TextureRegion getTexture(TextureType textureType) {
+        return textureAtlas.findRegion(textureType.getFileName());
     }
 }

@@ -184,8 +184,6 @@ public class EntityManager extends Manager {
 
                 } else if (component.type == ComponentType.GRAPHICS) {
                     GraphicsManager.getInstance().remove(component);
-                } else if (component.type == ComponentType.IN_VIEW) {
-
                 } else if (component.type == ComponentType.MUSIC) {
                     SoundManager.getInstance().remove(component);
                 } else if (component.type == ComponentType.PHYSICS) {

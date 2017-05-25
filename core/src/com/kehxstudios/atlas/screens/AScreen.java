@@ -21,6 +21,7 @@ package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -53,20 +54,16 @@ public abstract class AScreen implements Screen {
 
     protected Entity screenEntity;
     protected CameraComponent screenCamera;
-    protected GraphicsComponent screenGraphics;
+    protected MusicComponent screenMusic;
 
     protected float screenTime;
-    protected HighScores highScores;
-    protected int score;
     
     public AScreen(ScreenType type) {
         this.type = type;
         gm = GameManager.getInstance();
         width = type.getWidth();
         height = type.getHeight();
-        highScores = new HighScores(type);
         screenTime = 0f;
-        score = 0;
     }
 
     protected void init() {
@@ -76,16 +73,13 @@ public abstract class AScreen implements Screen {
     }
 
     public void createEntities() {
-        screenEntity = Factory.createEntity(Templates.createEntityData(width/2, height/2));
+        screenEntity = Factory.createEntity(width/2, height/2);
 
         screenCamera = (CameraComponent)Factory.createComponent(screenEntity,
                 Templates.cameraComponentData(width, height, false));
         screenCamera.camera.update();
 
-        screenGraphics = (GraphicsComponent)Factory.createComponent(screenEntity,
-                Templates.graphicsComponentData(0, 0, 0, 0, TextureType.VOID));
-
-        MusicComponent screenMusic = (MusicComponent)Factory.createComponent(screenEntity,
+        screenMusic = (MusicComponent)Factory.createComponent(screenEntity,
                 Templates.musicComponentData(MusicType.getTypeById(type.getId()), 0.5f));
         screenMusic.music.play();
     }
@@ -94,7 +88,7 @@ public abstract class AScreen implements Screen {
         screenEntity.position.set(width/2, height/2);
         screenCamera.camera.update();
     }
-    
+
     @Override
     public void render(float delta) {
         screenTime += delta;
@@ -102,7 +96,7 @@ public abstract class AScreen implements Screen {
 
     @Override
     public void dispose() {
-        highScores.dispose();
+        screenMusic.music.stop();
         DebugTool.log("SCREEN_DISPOSAL");
     }
     
@@ -142,10 +136,4 @@ public abstract class AScreen implements Screen {
     public float getScaleWidth() { return Gdx.graphics.getWidth() / width; }
 
     public float getScaleHeight() { return Gdx.graphics.getHeight() / height; }
-
-    public int getScore() { return score; }
-
-    public void addScore(int value) { score += value; }
-
-    public void setScore(int score) { this.score = score; }
 }

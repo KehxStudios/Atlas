@@ -178,15 +178,7 @@ public class Templates {
         data.putString("textureType", textureType.getId());
         return data;
     }
-    
-    public static ComponentData inViewComponentData(float width, float height, ActionData actionData) {
-        ComponentData data = componentData(ComponentType.IN_VIEW);
-        data.putFloat("width", width);
-        data.putFloat("height", height);
-        data.putString("action", UtilityTool.getStringFromDataClass(actionData));
-        return data;
-    }
-    
+
     public static ComponentData musicComponentData(MusicType musicType, float volume) {
         ComponentData data = componentData(ComponentType.MUSIC);
         data.putString("musicType", musicType.getId());

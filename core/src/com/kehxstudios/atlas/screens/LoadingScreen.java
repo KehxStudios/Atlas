@@ -67,8 +67,8 @@ public class LoadingScreen extends AScreen {
 
     public void setLoadingType(ScreenType type) {
         loadingType = type;
+        finishedLoading = false;
         startLoading();
-
     }
 
     @Override
