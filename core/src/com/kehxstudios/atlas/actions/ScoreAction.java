@@ -27,7 +27,7 @@ import com.kehxstudios.atlas.screens.AScreen;
 
 public class ScoreAction extends Action {
 
-    public AScreen screen;
+    public ScreenType screenType;
     public int scoreValue;
 
     @Override
