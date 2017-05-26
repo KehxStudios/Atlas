@@ -27,7 +27,6 @@ import com.kehxstudios.atlas.actions.LaunchScreenAction;
 import com.kehxstudios.atlas.actions.MultiAction;
 import com.kehxstudios.atlas.actions.PhysicsAction;
 import com.kehxstudios.atlas.actions.RepositionAction;
-import com.kehxstudios.atlas.actions.ResetScreenAction;
 import com.kehxstudios.atlas.actions.ScoreAction;
 import com.kehxstudios.atlas.actions.SpawnEntityAction;
 
@@ -46,7 +45,6 @@ public enum ActionType {
     MULTI("Multi", MultiAction.class), // TO BE USED
     PHYSICS("Physics", PhysicsAction.class),
     REPOSITION("Reposition", RepositionAction.class),
-    RESET_SCREEN("Reset Screen", ResetScreenAction.class),
     SCORE("Score", ScoreAction.class),
     SPAWN_ENTITY("Spawn Entity", SpawnEntityAction.class),
     VOID("Void", Action.class);

@@ -21,6 +21,7 @@ package com.kehxstudios.atlas.managers;
 
 import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.screens.AScreen;
+import com.kehxstudios.atlas.type.ScreenType;
 
 /**
  * Abstract class used by all Managers, excluding the GameManager.
@@ -29,11 +30,11 @@ import com.kehxstudios.atlas.screens.AScreen;
 public abstract class Manager {
 
     protected GameManager gm;
-    protected AScreen screen;
+    protected ScreenType screenType;
 
     public Manager() {
         gm = GameManager.getInstance();
-        screen = null;
+        screenType = ScreenType.VOID;
     }
 
     public abstract void tick(float delta);
@@ -43,12 +44,11 @@ public abstract class Manager {
     protected abstract void init();
     protected abstract void loadSettings();
     protected abstract void removeSettings();
-    
-    public void setScreen(AScreen newScreen) { 
-        if (screen != null) {
+
+    public void setScreenType(ScreenType type) {
+        if (screenType != ScreenType.VOID)
             removeSettings();
-        }
-        screen = newScreen;
+        screenType = type;
         loadSettings();
     }
 }

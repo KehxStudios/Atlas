@@ -69,10 +69,11 @@ public class InputManager extends Manager {
     @Override
     public void tick(float delta) {
         if (Gdx.input.justTouched() && clickableComponents.size() > 0) {
-            float x = screen.getWidth() - Gdx.input.getX() / screen.getScaleWidth() + screen.getCamera().position.x - 
-                screen.getCamera().viewportWidth/2;
-            float y = screen.getHeight() - Gdx.input.getY() / screen.getScaleHeight() + screen.getCamera().position.y - 
-                screen.getCamera().viewportHeight/2;
+
+            Vector3 clicked = GraphicsManager.getInstance().getCamera().unproject(new Vector3(Gdx.input.getX(),
+                    Gdx.input.getY(), 0));
+            float x = clicked.x;
+            float y = clicked.y;
             clickedPosition.set(x, y);
 
             for (ClickableComponent clickable : clickableComponents.values()) {

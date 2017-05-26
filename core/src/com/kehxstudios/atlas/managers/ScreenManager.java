@@ -47,8 +47,6 @@ public class ScreenManager extends Manager {
     // Used to start new screen on @tick()
     private boolean screenRequested;
 
-    private boolean resetRequested;
-
     // Constructor
     private ScreenManager() {
         super();
@@ -60,7 +58,6 @@ public class ScreenManager extends Manager {
     protected void init() {
         newScreenType = ScreenType.VOID;
         screenRequested = false;
-        resetRequested = false;
         DebugTool.log("ScreenManager_init: Complete");
     }
 
@@ -71,20 +68,15 @@ public class ScreenManager extends Manager {
             startLoadingScreen();
             screenRequested = false;
         }
-        if (resetRequested) {
-            resetScreen();
-            resetRequested = false;
-        }
     }
 
     // Called when loading a new screen
     @Override
     protected void loadSettings() {
-        EntityManager.getInstance().setScreen(screen);
-        GraphicsManager.getInstance().setScreen(screen);
-        InputManager.getInstance().setScreen(screen);
-        PhysicsManager.getInstance().setScreen(screen);
-        GameManager.getInstance().setScreen(screen);
+        EntityManager.getInstance().setScreenType(screenType);
+        GraphicsManager.getInstance().setScreenType(screenType);
+        InputManager.getInstance().setScreenType(screenType);
+        PhysicsManager.getInstance().setScreenType(screenType);
         DebugTool.log("ScreenManager_loadSettings: Complete");
     }
 
@@ -115,29 +107,16 @@ public class ScreenManager extends Manager {
     public void finishedLoadingScreen() {
         DebugTool.log("New Screen Loading: "+ newScreenType.getId());
         try {
-            setScreen((AScreen)ClassReflection.newInstance(newScreenType.getLoaderClass()));
-            screen.createEntities();
+            screenType = newScreenType;
+            loadSettings();
+            AScreen screen = (AScreen)ClassReflection.newInstance(screenType.getLoaderClass());
+            GameManager.getInstance().setScreen(screen);
         } catch (ReflectionException e) {
             ErrorTool.log("Failed to load " + newScreenType.getId() + " screen, demanding Intro screen");
             e.printStackTrace();
             demandNewScreen(ScreenType.INTRO);
         }
     }
-
-    public void requestScreenReset() {
-        resetRequested = true;
-        DebugTool.log("ScreenManager_requestScreenReset");
-    }
-
-    public void demandScreenReset() {
-        resetScreen();
-        DebugTool.log("ScreenManager_demandScreenReset");
-    }
-
-    private void resetScreen() {
-        screen.reset();
-    }
-
 
     public void add(Component component) {
 

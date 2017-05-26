@@ -21,6 +21,7 @@ package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.ai.utils.Collision;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.components.CollisionComponent;
 import com.kehxstudios.atlas.components.Component;
@@ -101,16 +102,14 @@ public class FlappyBatScreen extends AScreen {
     protected void init() {
         super.init();
 
-        ActionData resetScreenData = Templates.resetScreenActionData();
+        batEntity = Factory.createEntity(width/4, height/2);
+        Factory.createGraphicsComponent(batEntity, 2, TextureType.FLAPPY_BAT_BAT);
+        Factory.createPhysicsComponent(batEntity, new Vector2(100, 300), new Vector2(100,300));
 
-        batEntity = Factory.createEntity(Templates.createEntityData(width/4, height/2));
-        ComponentData batGraphicsData = Templates.graphicsComponentData(0,0,2, 0, TextureType.FLAPPY_BAT_BAT);
-        GraphicsComponent batGraphics = (GraphicsComponent)Factory.createComponent(batEntity, batGraphicsData);
-        ComponentData batPhysicsData = Templates.physicsComponentData(100, 300, 100, 300);
-        batPhysics = (PhysicsComponent)Factory.createComponent(batEntity, batPhysicsData);
+
         ActionData batPhysicsAction = Templates.physicsActionData(0, BAT_Y_JUMP);
         ComponentData batCollisionData = Templates.collisionComponentData(TextureType.FLAPPY_BAT_BAT.getWidth(),
-                TextureType.FLAPPY_BAT_BAT.getHeight(), false, false, resetScreenData);
+                TextureType.FLAPPY_BAT_BAT.getHeight(), false, false, null);
         Factory.createComponent(batEntity, batCollisionData);
         ComponentData batClickableData = Templates.clickableComponentData(width, height, false, batPhysicsAction);
         ClickableComponent batClickable = (ClickableComponent)Factory.createComponent(screenEntity, batClickableData);
@@ -118,7 +117,7 @@ public class FlappyBatScreen extends AScreen {
 
         ComponentData groundGraphicsData = Templates.graphicsComponentData(0, 0, 2, 0, TextureType.FLAPPY_BAT_GROUND);
         ComponentData groundCollisionData = Templates.collisionComponentData(TextureType.FLAPPY_BAT_GROUND.getWidth(),
-                TextureType.FLAPPY_BAT_GROUND.getHeight(), true, false, resetScreenData);
+                TextureType.FLAPPY_BAT_GROUND.getHeight(), true, false, null);
 
         groundEntities = new ArrayList<Entity>();
 
@@ -131,7 +130,7 @@ public class FlappyBatScreen extends AScreen {
 
         ComponentData wallGraphicsData = Templates.graphicsComponentData(0, 0, 1, 0, TextureType.FLAPPY_BAT_WALL);
         ComponentData wallCollisionData = Templates.collisionComponentData(TextureType.FLAPPY_BAT_WALL.getWidth(),
-                TextureType.FLAPPY_BAT_WALL.getHeight(), true, false, resetScreenData);
+                TextureType.FLAPPY_BAT_WALL.getHeight(), true, false, null);
 
         wallEntities = new ArrayList<Entity>();
 

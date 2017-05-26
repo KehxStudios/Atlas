@@ -57,12 +57,8 @@ public class IntroScreen extends AScreen {
         super.init();
         finalLogo = false;
         clickToContinue = false;
-    }
 
-    public void createEntities() {
-        super.createEntities();
         devLogoGraphics = Factory.createGraphicsComponent(screenEntity, 1, TextureType.INTRO_DEV_LOGO);
-
         textEntity = Factory.createEntity(width/2, height/5);
     }
 

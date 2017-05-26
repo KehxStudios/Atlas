@@ -30,7 +30,6 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.actions.FollowAction;
-import com.kehxstudios.atlas.actions.ResetScreenAction;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.components.CollisionComponent;
 import com.kehxstudios.atlas.components.GeneRocketComponent;
@@ -122,6 +121,22 @@ public class Factory {
         return graphics;
     }
 
+    public static PhysicsComponent createPhysicsComponent(Entity entity, Vector2 maxAcceleration,
+                                                          Vector2 maxVelocity) {
+        PhysicsComponent physics = new PhysicsComponent();
+        physics.entityId = entity.id;
+        physics.id = ++uniqueId;
+        physics.type = ComponentType.PHYSICS;
+        physics.enabled = true;
+        physics.acceleration = new Vector2(0,0);
+        physics.maxAcceleration = maxAcceleration;
+        physics.velocity = new Vector2(0,0);
+        physics.maxVelocity = maxVelocity;
+        EntityManager.getInstance().add(physics);
+        PhysicsManager.getInstance().add(physics);
+        return physics;
+    }
+
     public static FloatingTextComponent createFloatingTextComponent(Entity entity, float scale, String label,
                                                                     String text, Color color) {
         FloatingTextComponent floatingText = new FloatingTextComponent();
@@ -143,6 +158,22 @@ public class Factory {
         EntityManager.getInstance().add(floatingText);
         GraphicsManager.getInstance().add(floatingText);
         return floatingText;
+    }
+
+    public static CollisionComponent createCollisionComponent(Entity entity, float width, float height,
+                                                              boolean staticPosition, boolean collided,
+                                                              Action action) {
+        CollisionComponent collision = new CollisionComponent();
+        collision.entityId = entity.id;
+        collision.id = ++uniqueId;
+        collision.type = ComponentType.CLICKABLE;
+        collision.enabled = true;
+        collision.bounds = new Rectangle(0, 0, width, height);
+        collision.bounds.setCenter(entity.position);
+        collision.staticPosition = staticPosition;
+        collision.collided = collided;
+        collision.action = action;
+        return collision;
     }
 
     public static ClickableComponent createClickableComponent(Entity entity, float width, float height,
@@ -325,9 +356,6 @@ public class Factory {
                         actionData.getFloat("actionValue_y", 0));
                 reposition.teleportToActionValue = actionData.getBoolean("teleport", false);
                 return reposition;
-            } else if (actionType == ActionType.RESET_SCREEN) {
-                ResetScreenAction resetScreen = (ResetScreenAction)action;
-                return resetScreen;
             } else if (actionType == ActionType.SCORE) {
                 ScoreAction score = (ScoreAction)action;
                 score.scoreValue = actionData.getInt("actionValue", 0);

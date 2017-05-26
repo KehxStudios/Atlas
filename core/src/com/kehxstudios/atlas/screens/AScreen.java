@@ -67,12 +67,6 @@ public abstract class AScreen implements Screen {
     }
 
     protected void init() {
-        DebugTool.log("AScreen.init() Start");
-
-        DebugTool.log("AScreen.init() End");
-    }
-
-    public void createEntities() {
         screenEntity = Factory.createEntity(width/2, height/2);
 
         screenCamera = (CameraComponent)Factory.createComponent(screenEntity,

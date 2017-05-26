@@ -95,11 +95,6 @@ public class Templates {
         return data;
     }
 
-    public static ActionData resetScreenActionData() {
-        ActionData data = createActionData(ActionType.RESET_SCREEN);
-        return data;
-    }
-
     public static ActionData scoreActionData(int score) {
         ActionData data = createActionData(ActionType.SCORE);
         data.putInt("actionValue", score);

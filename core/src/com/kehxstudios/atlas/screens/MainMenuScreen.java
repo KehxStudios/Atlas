@@ -45,10 +45,6 @@ public class MainMenuScreen extends AScreen {
     
     protected void init() {
         super.init();
-    }
-
-    public void createEntities() {
-        super.createEntities();
 
         float borderWidth = TextureType.MAIN_MENU_BORDER.getWidth();
         float borderHeight = TextureType.MAIN_MENU_BORDER.getHeight();
