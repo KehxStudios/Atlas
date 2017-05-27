@@ -28,15 +28,15 @@ import com.badlogic.gdx.math.Vector2;
 public class RepositionAction extends Action {
 
     public Vector2 position;
-    public Vector2 actionValue;
-    public boolean teleportToActionValue;
+    public Vector2 triggerValue;
+    public boolean teleport;
 
     @Override
     public void trigger() {
-        if (teleportToActionValue) {
-            position.set(actionValue);
+        if (teleport) {
+            position.set(triggerValue);
         } else {
-            position.add(actionValue);
+            position.add(triggerValue);
         }
     }
 }

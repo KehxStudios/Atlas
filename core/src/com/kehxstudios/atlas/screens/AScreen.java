@@ -21,25 +21,16 @@ package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.components.MusicComponent;
-import com.kehxstudios.atlas.data.ComponentData;
-import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.managers.GraphicsManager;
-import com.kehxstudios.atlas.managers.ScreenManager;
+import com.kehxstudios.atlas.managers.PositionManager;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.Factory;
-import com.kehxstudios.atlas.tools.Templates;
 import com.kehxstudios.atlas.type.MusicType;
-import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.data.EntityData;
 import com.kehxstudios.atlas.managers.GameManager;
-import com.kehxstudios.atlas.data.HighScores;
 import com.kehxstudios.atlas.type.ScreenType;
 
 /**
@@ -69,18 +60,15 @@ public abstract class AScreen implements Screen {
     protected void init() {
         screenEntity = Factory.createEntity(width/2, height/2);
 
-        screenCamera = (CameraComponent)Factory.createComponent(screenEntity,
-                Templates.cameraComponentData(width, height, false));
+        screenCamera = Factory.createCameraComponent(screenEntity, width, height, false);
         screenCamera.camera.update();
 
-        screenMusic = (MusicComponent)Factory.createComponent(screenEntity,
-                Templates.musicComponentData(MusicType.getTypeById(type.getId()), 0.5f));
+        screenMusic = Factory.createMusicComponent(screenEntity, MusicType.INTRO, 0.2f);
         screenMusic.music.play();
     }
 
     public void reset() {
-        screenEntity.position.set(width/2, height/2);
-        screenCamera.camera.update();
+        PositionManager.getInstance().setPosition(screenEntity.id, new Vector2(width/2, height/2));
     }
 
     @Override

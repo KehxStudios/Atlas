@@ -20,6 +20,7 @@
 package com.kehxstudios.atlas.actions;
 
 import com.kehxstudios.atlas.screens.AScreen;
+import com.kehxstudios.atlas.type.ScreenType;
 
 /**
  * Used to add score when triggered

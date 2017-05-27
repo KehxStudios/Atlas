@@ -175,19 +175,24 @@ public class EntityManager extends Manager {
                 if (component.type == ComponentType.ANIMATION) {
                     GraphicsManager.getInstance().remove(component);
                 } else if (component.type == ComponentType.CLICKABLE) {
-                    InputManager.getInstance().remove((ClickableComponent)component);
+                    InputManager.getInstance().remove(component);
+                    PositionManager.getInstance().remove(component);
                 } else if (component.type == ComponentType.COLLISION) {
                     PhysicsManager.getInstance().remove(component);
+                    PositionManager.getInstance().remove(component);
                 }else if (component.type == ComponentType.FLOATING_TEXT) {
                     GraphicsManager.getInstance().remove(component);
+                    PositionManager.getInstance().remove(component);
                 } else if (component.type == ComponentType.GENE_ROCKET) {
 
                 } else if (component.type == ComponentType.GRAPHICS) {
                     GraphicsManager.getInstance().remove(component);
+                    PositionManager.getInstance().remove(component);
                 } else if (component.type == ComponentType.MUSIC) {
                     SoundManager.getInstance().remove(component);
                 } else if (component.type == ComponentType.PHYSICS) {
-                    PhysicsManager.getInstance().remove((PhysicsComponent)component);
+                    PhysicsManager.getInstance().remove(component);
+                    PositionManager.getInstance().remove(component);
                 } else if (component.type == ComponentType.SOUND) {
                     SoundManager.getInstance().remove(component);
                 }
@@ -199,5 +204,13 @@ public class EntityManager extends Manager {
         } else {
             ErrorTool.log("Failed to find entity in entities to remove component_2");
         }
+    }
+
+    public void setEntityPosition(int entityId, float x, float y) {
+        entities.get(entityId).position.set(x, y);
+    }
+
+    public void moveEntityPosition(int entityId, float x, float y) {
+        entities.get(entityId).position.add(x, y);
     }
 }

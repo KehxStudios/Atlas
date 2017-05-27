@@ -42,10 +42,13 @@ public class ScreenManager extends Manager {
         return instance;
     }
 
+    private AScreen screen;
+
     // ScreenType for the next screen to be loaded
     private ScreenType newScreenType;
     // Used to start new screen on @tick()
     private boolean screenRequested;
+    private boolean resetRequested;
 
     // Constructor
     private ScreenManager() {
@@ -58,6 +61,7 @@ public class ScreenManager extends Manager {
     protected void init() {
         newScreenType = ScreenType.VOID;
         screenRequested = false;
+        resetRequested = false;
         DebugTool.log("ScreenManager_init: Complete");
     }
 
@@ -67,7 +71,13 @@ public class ScreenManager extends Manager {
         if (screenRequested) {
             startLoadingScreen();
             screenRequested = false;
+        } else if (resetRequested) {
+            screen.reset();
         }
+    }
+
+    public void reqestScreenReset() {
+        resetRequested = true;
     }
 
     // Called when loading a new screen
@@ -109,7 +119,7 @@ public class ScreenManager extends Manager {
         try {
             screenType = newScreenType;
             loadSettings();
-            AScreen screen = (AScreen)ClassReflection.newInstance(screenType.getLoaderClass());
+            screen = (AScreen)ClassReflection.newInstance(screenType.getLoaderClass());
             GameManager.getInstance().setScreen(screen);
         } catch (ReflectionException e) {
             ErrorTool.log("Failed to load " + newScreenType.getId() + " screen, demanding Intro screen");

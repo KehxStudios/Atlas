@@ -19,6 +19,7 @@
 
 package com.kehxstudios.atlas.managers;
 
+import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.components.CollisionComponent;
 import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.PhysicsComponent;
@@ -73,10 +74,13 @@ public class PhysicsManager extends Manager {
             if (physics.enabled) {
                 //physics.getVelocity().set(physics.getAcceleration());
                 //physics.getAcceleration().set(0,0);
-                physics.velocity.scl(delta);
-                //physics.movePosition(physics.velocity().x, physics.velocity().y); ADD BACK IN
-                //physics.setVelocity(0,0);
-                physics.velocity.scl(1 / delta);
+                if (!physics.velocity.isZero()) {
+                    physics.velocity.scl(delta);
+                    PositionManager.getInstance().movePosition(physics.entityId, physics.velocity.x,
+                            physics.velocity.y);
+                    //physics.setVelocity(0,0);
+                    physics.velocity.scl(1 / delta);
+                }
             }
         }
         if (dynamicCollisionComponents.size() > 0) {

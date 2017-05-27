@@ -21,18 +21,10 @@ package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.kehxstudios.atlas.components.ClickableComponent;
-import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
-import com.kehxstudios.atlas.components.MusicComponent;
-import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.EntityManager;
-import com.kehxstudios.atlas.managers.GraphicsManager;
-import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.Factory;
-import com.kehxstudios.atlas.tools.Templates;
-import com.kehxstudios.atlas.type.MusicType;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.type.ScreenType;
 

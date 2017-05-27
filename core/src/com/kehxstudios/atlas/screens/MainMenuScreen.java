@@ -20,13 +20,8 @@
 package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.graphics.Color;
-import com.kehxstudios.atlas.actions.LaunchScreenAction;
-import com.kehxstudios.atlas.components.ClickableComponent;
-import com.kehxstudios.atlas.data.ComponentData;
-import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.tools.Factory;
-import com.kehxstudios.atlas.tools.Templates;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.type.ScreenType;

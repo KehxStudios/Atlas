@@ -20,12 +20,10 @@
 package com.kehxstudios.atlas.screens;
 
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.data.ComponentData;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.tools.Factory;
-import com.kehxstudios.atlas.tools.Templates;
 import com.kehxstudios.atlas.type.ScreenType;
 import com.kehxstudios.atlas.type.TextureType;
 
@@ -68,7 +66,7 @@ public class PongScreen extends AScreen {
 
         score = 0;
         player2Score = 0;
-        
+        /*
         ComponentData paddleGraphicsData = Templates.graphicsComponentData(0, 0, 3, 0, TextureType.PONG_PADDLE);
         ComponentData paddlePhysicsData = Templates.physicsComponentData(0, paddleSpeed, 0, paddleSpeed);
         
@@ -87,6 +85,7 @@ public class PongScreen extends AScreen {
         ballEntity = Factory.createEntity(Templates.createEntityData(width/2, height/2));
         GraphicsComponent ballGraphics = (GraphicsComponent)Factory.createComponent(ballEntity, ballGraphicsData);
         ballPhysics = (PhysicsComponent)Factory.createComponent(ballEntity, ballPhysicsData);
+        */
     }
 
     @Override

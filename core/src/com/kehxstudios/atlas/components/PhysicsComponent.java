@@ -27,15 +27,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class PhysicsComponent extends Component {
 
+    public Vector2 position;
     public Vector2 acceleration;
     public Vector2 maxAcceleration;
     public Vector2 velocity;
     public Vector2 maxVelocity;
-
-    public PhysicsComponent() {
-        acceleration = new Vector2();
-        maxAcceleration = new Vector2();
-        velocity = new Vector2();
-        maxVelocity = new Vector2();
-    }
 }

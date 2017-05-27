@@ -28,7 +28,6 @@ import com.kehxstudios.atlas.actions.MultiAction;
 import com.kehxstudios.atlas.actions.PhysicsAction;
 import com.kehxstudios.atlas.actions.RepositionAction;
 import com.kehxstudios.atlas.actions.ScoreAction;
-import com.kehxstudios.atlas.actions.SpawnEntityAction;
 
 import java.util.HashMap;
 
@@ -46,7 +45,6 @@ public enum ActionType {
     PHYSICS("Physics", PhysicsAction.class),
     REPOSITION("Reposition", RepositionAction.class),
     SCORE("Score", ScoreAction.class),
-    SPAWN_ENTITY("Spawn Entity", SpawnEntityAction.class),
     VOID("Void", Action.class);
 
     private static HashMap<String, ActionType> actionTypes;
