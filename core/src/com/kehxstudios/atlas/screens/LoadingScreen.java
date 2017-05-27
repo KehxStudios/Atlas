@@ -20,6 +20,11 @@
 package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.tools.DebugTool;
@@ -33,41 +38,43 @@ public class LoadingScreen extends AScreen {
 
     private ScreenType loadingType;
     private TextureAtlas textureAtlas;
-    private boolean finishedLoading;
+    private SpriteBatch batch;
+    private OrthographicCamera camera;
+    private Sprite hexSprite;
 
     public LoadingScreen() {
         super(ScreenType.LOADING);
         loadingType = ScreenType.VOID;
-        finishedLoading = true;
-    }
-
-    protected void startLoading() {
-        gm.getAssetManager().load(loadingType.getAtlasPath(), TextureAtlas.class);
-        finishedLoading = false;
+        batch = gm.getBatch();
+        camera = new OrthographicCamera();
+        camera.position.set(width/2, height/2, 0);
+        camera.setToOrtho(false, width, height);
+        hexSprite = new Sprite(new Texture(Gdx.files.internal("loading/hexagon_filled.png")));
+        hexSprite.setCenter(width/2, height/2);
     }
 
     @Override
     public void render(float delta) {
         if (gm.getAssetManager().update()) {
-            DebugTool.log("LoadingScreen finished loading screen");
             ScreenManager.getInstance().finishedLoadingScreen();
-            finishedLoading = true;
-            DebugTool.log("LoadingScreen finished, returning");
             return;
         }
-        gm.getBatch().begin();
+        // Clear the current graphics
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // DRAW LOADING GRAPHICS
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
 
-        gm.getBatch().end();
+        hexSprite.draw(batch);
+        hexSprite.rotate(10f);
+
+        batch.end();
     }
 
-    public boolean isFinishedLoading() { return finishedLoading; }
-
-    public void setLoadingType(ScreenType type) {
+    public void startLoadingScreen(ScreenType type) {
         loadingType = type;
-        finishedLoading = false;
-        startLoading();
+        gm.getAssetManager().load(loadingType.getAtlasPath(), TextureAtlas.class);
     }
 
     @Override

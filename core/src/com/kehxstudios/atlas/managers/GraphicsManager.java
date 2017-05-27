@@ -19,6 +19,8 @@
 
 package com.kehxstudios.atlas.managers;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -121,6 +123,10 @@ public class GraphicsManager extends Manager {
         if (cameraComponent == null) {
             return;
         }
+        // Clear the current graphics
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         batch.setProjectionMatrix(cameraComponent.camera.combined);
         batch.begin();
         for (HashMap<Integer,GraphicsComponent> hashMap : graphicsComponents) {

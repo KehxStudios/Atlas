@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.screens.AScreen;
+import com.kehxstudios.atlas.screens.LoadingScreen;
 import com.kehxstudios.atlas.type.ScreenType;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.ErrorTool;
@@ -50,6 +51,8 @@ public class ScreenManager extends Manager {
     private boolean screenRequested;
     private boolean resetRequested;
 
+    private LoadingScreen loadingScreen;
+
     // Constructor
     private ScreenManager() {
         super();
@@ -62,6 +65,7 @@ public class ScreenManager extends Manager {
         newScreenType = ScreenType.VOID;
         screenRequested = false;
         resetRequested = false;
+        loadingScreen = new LoadingScreen();
         DebugTool.log("ScreenManager_init: Complete");
     }
 
@@ -73,6 +77,7 @@ public class ScreenManager extends Manager {
             screenRequested = false;
         } else if (resetRequested) {
             screen.reset();
+            resetRequested = false;
         }
     }
 
@@ -111,7 +116,8 @@ public class ScreenManager extends Manager {
     }
 
     private void startLoadingScreen() {
-        gm.startLoading(newScreenType);
+        loadingScreen.startLoadingScreen(newScreenType);
+        gm.setScreen(loadingScreen);
     }
 
     public void finishedLoadingScreen() {
@@ -120,7 +126,7 @@ public class ScreenManager extends Manager {
             screenType = newScreenType;
             loadSettings();
             screen = (AScreen)ClassReflection.newInstance(screenType.getLoaderClass());
-            GameManager.getInstance().setScreen(screen);
+            gm.setScreen(screen);
         } catch (ReflectionException e) {
             ErrorTool.log("Failed to load " + newScreenType.getId() + " screen, demanding Intro screen");
             e.printStackTrace();

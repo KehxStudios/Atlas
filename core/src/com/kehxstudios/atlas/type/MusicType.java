@@ -32,6 +32,7 @@ public enum MusicType {
     FLAPPY_BAT("Flappy Bat", "flappyBird.mp3", "music/"),
     LOADING("Loading", "music.mp3", "loading/"),
     GENE_ROCKETS("Gene Rockets", "geneRockets.mp3", "music/"),
+    PHONE_INFORMATION("Phone Information", "intro.mp3", "music/"),
 
     VOID("Void", "music.mp3", "intro/");
 

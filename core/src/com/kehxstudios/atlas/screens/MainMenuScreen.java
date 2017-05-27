@@ -46,27 +46,33 @@ public class MainMenuScreen extends AScreen {
 
         Factory.createGraphicsComponent(screenEntity, 0, TextureType.MAIN_MENU_BACKGROUND);
 
-        Entity flappyBirdEntity = Factory.createEntity(width/2, height/5*4);
+        Entity flappyBirdEntity = Factory.createEntity(width/2, height/6*5);
         Factory.createGraphicsComponent(flappyBirdEntity, 1, TextureType.MAIN_MENU_BORDER);
-        Factory.createFloatingTextComponent(flappyBirdEntity, 3, "", "Flappy Bird", Color.BLUE);
+        Factory.createFloatingTextComponent(flappyBirdEntity, 3, "", "Flappy Bird", Color.BLACK);
         Factory.createClickableComponent(flappyBirdEntity, borderWidth, borderHeight, true, false,
                 Factory.createLaunchScreenAction(ScreenType.FLAPPY_BAT));
 
-        Entity pongEntity = Factory.createEntity(width/2, height/5*3);
+        Entity pongEntity = Factory.createEntity(width/2, height/6*4);
         Factory.createGraphicsComponent(pongEntity, 1, TextureType.MAIN_MENU_BORDER);
-        Factory.createFloatingTextComponent(pongEntity, 3, "", "Pong", Color.BLUE);
+        Factory.createFloatingTextComponent(pongEntity, 3, "", "Pong", Color.BLACK);
         Factory.createClickableComponent(pongEntity, borderWidth, borderHeight, true, false,
                 Factory.createLaunchScreenAction(ScreenType.PONG));
 
-        Entity geneRocketsEntity = Factory.createEntity(width/2, height/5*2);
+        Entity geneRocketsEntity = Factory.createEntity(width/2, height/6*3);
         Factory.createGraphicsComponent(geneRocketsEntity, 1, TextureType.MAIN_MENU_BORDER);
-        Factory.createFloatingTextComponent(geneRocketsEntity, 3, "", "Gene Rockets", Color.BLUE);
+        Factory.createFloatingTextComponent(geneRocketsEntity, 3, "", "Gene Rockets", Color.BLACK);
         Factory.createClickableComponent(geneRocketsEntity, borderWidth, borderHeight, true, false,
                 Factory.createLaunchScreenAction(ScreenType.GENE_ROCKETS));
 
-        Entity highScoreResetEntity = Factory.createEntity(width/2, height/5);
+        Entity phoneInformationEntity = Factory.createEntity(width/2, height/6*2);
+        Factory.createGraphicsComponent(phoneInformationEntity, 1, TextureType.MAIN_MENU_BORDER);
+        Factory.createFloatingTextComponent(phoneInformationEntity, 3, "", "Phone Information", Color.BLACK);
+        Factory.createClickableComponent(phoneInformationEntity, borderWidth, borderHeight, true, false,
+                Factory.createLaunchScreenAction(ScreenType.PHONE_INFORMATION));
+
+        Entity highScoreResetEntity = Factory.createEntity(width/2, height/6);
         Factory.createGraphicsComponent(highScoreResetEntity, 1, TextureType.MAIN_MENU_BORDER);
-        Factory.createFloatingTextComponent(highScoreResetEntity, 3, "", "Reset", Color.BLUE);
+        Factory.createFloatingTextComponent(highScoreResetEntity, 3, "", "Reset", Color.BLACK);
         Factory.createClickableComponent(highScoreResetEntity, borderWidth, borderHeight, true, false,
                 Factory.createLaunchScreenAction(ScreenType.INTRO));
     }

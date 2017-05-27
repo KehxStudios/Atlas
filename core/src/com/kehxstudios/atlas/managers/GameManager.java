@@ -56,17 +56,21 @@ public class GameManager extends Game {
 	private OrthographicCamera camera;
 	
 	private GameState gameState;
-	private LoadingScreen loadingScreen;
-	private ScreenType loadingScreenType;
 
 	// Used for Desktop window size, will later update for size options
 	public static final float D_WIDTH = 480, D_HEIGHT = 800;
 
 	@Override
 	public void create () {
-		DebugTool.log("GameManager.create() started");
 		// Set instance to the current one created
 		instance = this;
+
+		// Setup Camera and Batch
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera.update();
+		batch = new SpriteBatch();
+		batch.setProjectionMatrix(camera.combined);
 
 		// Setup instances of each Manager including AssetManager
 		screenManager = ScreenManager.getInstance();
@@ -77,57 +81,8 @@ public class GameManager extends Game {
 		assetManager = new AssetManager();
 		Texture.setAssetManager(assetManager);
 
-		// If running on the Desktop set title, window size and lock, will update for size options later
-		if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
-			Gdx.app.getGraphics().setTitle("Atlas");
-			Gdx.graphics.setWindowedMode((int)D_WIDTH, (int)D_HEIGHT);
-			Gdx.graphics.setResizable(false);
-		}
-
-		// Setup Camera and Batch
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.update();
-		batch = new SpriteBatch();
-		batch.setProjectionMatrix(camera.combined);
-
-		gameState = GameState.Running;
-		
-		loadingScreen = new LoadingScreen();
-
 		// Demand a new Screen be started now
 		screenManager.demandNewScreen(ScreenType.INTRO);
-		
-		DebugTool.log("GameManager.create() complete");
-	}
-
-	public void reload() {
-		// Set instance to the current one created
-		instance = this;
-
-		// Setup instances of each Manager including AssetManager
-		screenManager = ScreenManager.getInstance();
-		entityManager = EntityManager.getInstance();
-		graphicsManager = GraphicsManager.getInstance();
-		inputManager = InputManager.getInstance();
-		physicsManager = PhysicsManager.getInstance();
-		assetManager = new AssetManager();
-
-		// If running on the Desktop set title, window size and lock, will update for size options later
-		if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
-			Gdx.app.getGraphics().setTitle("Atlas");
-			Gdx.graphics.setWindowedMode((int)D_WIDTH, (int)D_HEIGHT);
-			Gdx.graphics.setResizable(false);
-		}
-
-		// Setup Camera and Batch
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.update();
-		batch = new SpriteBatch();
-		batch.setProjectionMatrix(camera.combined);
-
-		DebugTool.log("GameManager.reload() complete");
 	}
 
 	@Override
@@ -138,42 +93,34 @@ public class GameManager extends Game {
 
 	@Override
 	public void resume() {
-		DebugTool.log("GAME_RESUME");
+		super.resume();
 		gameState = GameState.Running;
 	}
 
 	@Override
 	public void render () {
-		// Clear the current graphics
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		// Get the current delta time to pass to Managers
+		float delta = Gdx.graphics.getDeltaTime();
 
-
+		if (delta <= 0 || gameState == GameState.Paused) {
+			return;
+		}
 		if (gameState == GameState.Running) {
 			// render the Screen that is set allowing screen functions
 			super.render();
-
-			// Get the current delta time to pass to Managers
-			float delta = Gdx.graphics.getDeltaTime();
-
 			// tick InputManager to check for input changes
 			inputManager.tick(delta);
-
 			// tick PhysicsManager to change any locations by the means of physics
 			physicsManager.tick(delta);
-
 			// tick EntityManager to check if anything needs to be removed
 			entityManager.tick(delta);
-
 			// tick GraphicsManager to check if any animations require changing
 			graphicsManager.tick(delta);
-
 			// render everything inside of GraphicsManager
 			graphicsManager.render(batch);
-
 			// tick ScreenManager to check if screen change is needed
 			screenManager.tick(delta);
-		} else {
+		} else if (gameState == GameState.Loading){
 			// render the Screen that is set allowing screen functions
 			super.render();
 		}
@@ -181,9 +128,11 @@ public class GameManager extends Game {
 
 	public void setScreen(Screen screen) {
 		super.setScreen(screen);
-        if (screen != loadingScreen) {
+        if (((AScreen)screen).getType() != ScreenType.LOADING) {
 			gameState = GameState.Running;
-        }
+        } else {
+			gameState = GameState.Loading;
+		}
 	}
 
 	// Dispose of everything that might need disposal
@@ -197,22 +146,12 @@ public class GameManager extends Game {
 		Gdx.app.error("Disposal", "COMPLETED");
 	}
 	
-	public enum GameState {
+	private enum GameState {
 		Running, Paused, Loading
 	}
 
 	public SpriteBatch getBatch() {
 		return batch;
-	}
-
-	public void setBatch(SpriteBatch batch) { this.batch = batch; }
-	
-	public void startLoading(ScreenType screenType) {
-		loadingScreenType = screenType;
-		loadingScreen.setLoadingType(loadingScreenType);
-		setScreen(loadingScreen);
-		gameState = GameState.Loading;
-		DebugTool.log("startLoading - Complete");
 	}
 
 	public AssetManager getAssetManager() { return assetManager; }

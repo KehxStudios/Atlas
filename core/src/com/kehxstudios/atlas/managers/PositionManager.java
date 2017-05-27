@@ -107,9 +107,9 @@ public class PositionManager extends Manager {
                 } else if (component.type == ComponentType.COLLISION) {
                     ((CollisionComponent)component).bounds.setCenter(position);
                 } else if (component.type == ComponentType.FLOATING_TEXT) {
-                    ((FloatingTextComponent)component).position = position;
+                    ((FloatingTextComponent)component).position = new Vector2(position);
                 } else if (component.type == ComponentType.PHYSICS) {
-                    ((PhysicsComponent)component).position = position;
+                    ((PhysicsComponent)component).position = new Vector2(position);
                 }
             }
         }

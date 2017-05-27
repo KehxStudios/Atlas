@@ -90,8 +90,12 @@ public class PhysicsManager extends Manager {
                         for (CollisionComponent staticCollision : staticCollisionComponents.values()) {
                             if (staticCollision.enabled && collision.bounds.overlaps(staticCollision.bounds)) {
                                 DebugTool.log("Static Collision");
-                                collision.action.trigger();
-                                staticCollision.action.trigger();
+                                //collision.action.trigger();
+                                //staticCollision.action.trigger();
+                                DebugTool.log("collision, x:" + collision.bounds.x + ", y:" + collision.bounds.y + ", w:" +
+                                        collision.bounds.width + ", h:" + collision.bounds.height);
+                                DebugTool.log("staticCollision, x:" + staticCollision.bounds.x + ", y:" + staticCollision.bounds.y + ", w:" +
+                                        staticCollision.bounds.width + ", h:" + staticCollision.bounds.height);
                             }
                         }
                     }

@@ -103,7 +103,7 @@ public class Factory {
         physics.id = getUniqueId();
         physics.type = ComponentType.PHYSICS;
         physics.enabled = true;
-        physics.position = entity.position;
+        physics.position = new Vector2(entity.position);
         physics.acceleration = new Vector2(0,0);
         physics.maxAcceleration = maxAcceleration;
         physics.velocity = new Vector2(0,0);
@@ -121,12 +121,13 @@ public class Factory {
         floatingText.id = getUniqueId();
         floatingText.type = ComponentType.FLOATING_TEXT;
         floatingText.enabled = true;
-        floatingText.position = entity.position;
+        floatingText.position = new Vector2(entity.position);
         floatingText.font = new BitmapFont();
         floatingText.scale = scale;
         floatingText.font.getData().setScale(scale, scale);
         floatingText.label = label;
         floatingText.text = text;
+        floatingText.color = color;
         floatingText.layout = new GlyphLayout(floatingText.font,
                 floatingText.label + floatingText.text);
         floatingText.layout.setText(floatingText.font,
@@ -184,6 +185,7 @@ public class Factory {
         camera.camera = new OrthographicCamera();
         camera.camera.position.set(entity.position.x, entity.position.y, 0);
         camera.camera.setToOrtho(flipped, width, height);
+        camera.camera.update();
         EntityManager.getInstance().add(camera);
         GraphicsManager.getInstance().add(camera);
         PositionManager.getInstance().add(camera);
@@ -199,6 +201,8 @@ public class Factory {
         music.musicType = musicType;
         music.music = SoundManager.getInstance().getMusic(musicType);
         music.volume = volume;
+        music.music.setVolume(volume);
+        music.music.setLooping(true);
         EntityManager.getInstance().add(music);
         SoundManager.getInstance().add(music);
         return music;

@@ -35,7 +35,7 @@ public enum TextureType {
 
     FLAPPY_BAT_BACKGROUND("FlappyBatBackground", "background", 288, 512),
     FLAPPY_BAT_BAT("FlappyBatBat", "bat", 34, 24),
-    FLAPPY_BAT_WALL("FlappyBatWall",  "wall", 32, 320),
+    FLAPPY_BAT_WALL("FlappyBatWall",  "wall", 52, 320),
     FLAPPY_BAT_GROUND("FlappyBatGround", "ground", 366, 112),
     
     PONG_BACKGROUND("PongBackground", "background", 512, 910),

@@ -61,9 +61,8 @@ public abstract class AScreen implements Screen {
         screenEntity = Factory.createEntity(width/2, height/2);
 
         screenCamera = Factory.createCameraComponent(screenEntity, width, height, false);
-        screenCamera.camera.update();
 
-        screenMusic = Factory.createMusicComponent(screenEntity, MusicType.INTRO, 0.2f);
+        screenMusic = Factory.createMusicComponent(screenEntity, MusicType.getTypeById(type.getId()), 0.2f);
         screenMusic.music.play();
     }
 
@@ -109,13 +108,7 @@ public abstract class AScreen implements Screen {
 
     public ScreenType getType() { return type; }
 
-    public OrthographicCamera getCamera() { return screenCamera.camera; }
-
     public float getWidth() { return width; }
 
     public float getHeight() { return height; }
-
-    public float getScaleWidth() { return Gdx.graphics.getWidth() / width; }
-
-    public float getScaleHeight() { return Gdx.graphics.getHeight() / height; }
 }
