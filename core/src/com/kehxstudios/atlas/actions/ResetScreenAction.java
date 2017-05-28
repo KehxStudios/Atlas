@@ -31,6 +31,6 @@ public class ResetScreenAction extends Action {
 
     @Override
     public void trigger() {
-        screenManager.reqestScreenReset();
+        screenManager.requestScreenReset();
     }
 }

@@ -42,7 +42,7 @@ import java.util.Random;
 public class FlappyBatScreen extends AScreen {
 
     private static final int WALL_SPACING = 125;
-    private static final int WALL_COUNT = 4;
+    private static final int WALL_COUNT = 3;
     private static final int WALL_WIDTH = 52;
     private static final int WALL_HEIGHT = 320;
     private static final int WALL_FLUCTUATION = 160;
@@ -117,13 +117,13 @@ public class FlappyBatScreen extends AScreen {
         float wallHeight = TextureType.FLAPPY_BAT_WALL.getHeight();
         wallEntities = new ArrayList<Entity>();
         for (int i = 0; i < WALL_COUNT; i++) {
-            Entity topWallEntity = buildManager.createEntity(screenEntity.position.x + 80 + i * WALL_SPACING, wallRandomY());
+            Entity topWallEntity = buildManager.createEntity(screenEntity.position.x + 80 + i * WALL_SPACING + WALL_WIDTH, wallRandomY());
             buildManager.createGraphicsComponent(topWallEntity, 0, TextureType.FLAPPY_BAT_WALL);
             buildManager.createCollisionComponent(topWallEntity, wallWidth, wallHeight, true, false,
                     buildManager.createResetScreenAction());
             wallEntities.add(topWallEntity);
 
-            Entity bottomWallEntity = buildManager.createEntity(topWallEntity.position.x, topWallEntity.position.y + WALL_GAP + WALL_HEIGHT/2);
+            Entity bottomWallEntity = buildManager.createEntity(topWallEntity.position.x, topWallEntity.position.y + WALL_GAP + WALL_HEIGHT);
             buildManager.createGraphicsComponent(bottomWallEntity, 0, TextureType.FLAPPY_BAT_WALL);
             buildManager.createCollisionComponent(bottomWallEntity, wallWidth, wallHeight, true, false,
                     buildManager.createResetScreenAction());
@@ -145,7 +145,7 @@ public class FlappyBatScreen extends AScreen {
     public void render(float delta) {
         super.render(delta);
         if (batEntity.position.y > height) {
-            screenManager.reqestScreenReset();
+            screenManager.requestScreenReset();
             return;
         }
         positionManager.setPosition(screenEntity.id, new Vector2(batEntity.position.x + 80, height/2));
@@ -166,7 +166,7 @@ public class FlappyBatScreen extends AScreen {
     }
     
     public float wallRandomY() {
-        return random.nextFloat() * WALL_FLUCTUATION + WALL_LOWEST_OPENING - WALL_HEIGHT/2;
+        return random.nextFloat() * WALL_FLUCTUATION + WALL_LOWEST_OPENING - WALL_HEIGHT;
     }
 
     public void reset() {
@@ -200,7 +200,7 @@ public class FlappyBatScreen extends AScreen {
             positionManager.setPosition(topId, new Vector2(
                     screenEntity.position.x + 80 + i * WALL_SPACING, wallRandomY()));
             positionManager.setPosition(bottomId, new Vector2(
-                    wallEntities.get(i).position.x, wallEntities.get(i).position.y + WALL_GAP + WALL_HEIGHT/2));
+                    wallEntities.get(i).position.x, wallEntities.get(i).position.y + WALL_GAP + WALL_HEIGHT));
         }
 
         batStartX = batEntity.position.x;
@@ -216,10 +216,11 @@ public class FlappyBatScreen extends AScreen {
             }
         }
         if (resetWalls.size() == 2) {
-            positionManager.movePosition(resetWalls.get(0).id, WALL_SPACING * WALL_COUNT,
-                    wallRandomY());
-            positionManager.movePosition(resetWalls.get(1).id, resetWalls.get(0).position.x,
-                    resetWalls.get(0).position.y + WALL_GAP + WALL_HEIGHT/2);
+            float newX = resetWalls.get(0).position.x + WALL_SPACING * WALL_COUNT;
+            float newY = wallRandomY();
+            positionManager.setPosition(resetWalls.get(0).id, new Vector2(newX, newY));
+            positionManager.setPosition(resetWalls.get(1).id, new Vector2(newX,
+                    newY + WALL_GAP + WALL_HEIGHT));
         }
     }
 

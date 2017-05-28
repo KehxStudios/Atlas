@@ -74,7 +74,7 @@ public class ScreenManager extends Manager {
         }
     }
 
-    public void reqestScreenReset() {
+    public void requestScreenReset() {
         resetRequested = true;
     }
 
@@ -116,11 +116,10 @@ public class ScreenManager extends Manager {
     public void finishedLoadingScreen() {
         DebugTool.log("New Screen Loading: "+ newScreenType.getId());
         try {
-            screenType = newScreenType;
-            loadSettings();
+            setScreenType(newScreenType);
             screen = (AScreen)ClassReflection.newInstance(screenType.getLoaderClass());
             gm.setScreen(screen);
-        } catch (ReflectionException e) {
+        } catch (Exception e) {
             ErrorTool.log("Failed to load " + newScreenType.getId() + " screen, demanding Intro screen");
             e.printStackTrace();
             demandNewScreen(ScreenType.INTRO);
