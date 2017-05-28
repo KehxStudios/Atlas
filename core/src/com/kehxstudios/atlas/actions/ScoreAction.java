@@ -19,6 +19,7 @@
 
 package com.kehxstudios.atlas.actions;
 
+import com.kehxstudios.atlas.data.HighScores;
 import com.kehxstudios.atlas.screens.AScreen;
 import com.kehxstudios.atlas.type.ScreenType;
 
@@ -28,7 +29,7 @@ import com.kehxstudios.atlas.type.ScreenType;
 
 public class ScoreAction extends Action {
 
-    public ScreenType screenType;
+    public HighScores highScores;
     public int scoreValue;
 
     @Override

@@ -45,15 +45,6 @@ import java.util.HashMap;
 
 public class GraphicsManager extends Manager {
 
-    // Holds instance of class, create new if not set
-    private static GraphicsManager instance;
-    public static GraphicsManager getInstance() {
-        if (instance == null) {
-            instance = new GraphicsManager();
-        }
-        return instance;
-    }
-
     // Maximum number of layers for @graphicsComponents
     private int MAX_LAYERS = 5;
 
@@ -68,14 +59,16 @@ public class GraphicsManager extends Manager {
     private CameraComponent cameraComponent;
 
     // Constructor
-    private GraphicsManager() {
-        super();
-        init();
+    public GraphicsManager(GameManager gm) {
+        super(gm);
+        DebugTool.log("GraphicsManager: Constructed");
     }
     
     // Setup ArrayLists and other variables
     @Override
     protected void init() {
+        DebugTool.log("GraphicsManager_init: Starting...");
+        super.init();
         textureAtlas = new TextureAtlas();
         animationComponents = new HashMap<Integer,AnimationComponent>();
         graphicsComponents = new ArrayList<HashMap<Integer,GraphicsComponent>>();
@@ -176,8 +169,7 @@ public class GraphicsManager extends Manager {
         } else if (component.type == ComponentType.CAMERA) {
             CameraComponent camera = (CameraComponent)component;
             if (cameraComponent != null) {
-                EntityManager.getInstance().markComponentForRemoval(cameraComponent.id);
-                EntityManager.getInstance().tick(0);
+                gm.getEntityManager().markComponentForRemoval(cameraComponent.id);
             }
             cameraComponent = camera;
         } else if (component.type == ComponentType.GRAPHICS) {

@@ -43,19 +43,4 @@ public class Entity {
     public Vector2 position;
     // Hashmap of the Component's id and it's type
     public HashMap<Integer, ComponentType> components;
-    
-    // Basic constructor to initalize @position and @components
-    public Entity() {
-        position = new Vector2();
-        components = new HashMap<Integer, ComponentType>();
-    }
-
-    public Component getComponentOfType(ComponentType componentType) {
-        for (Map.Entry<Integer, ComponentType> hash : components.entrySet()) {
-            if (componentType == hash.getValue()) {
-                return EntityManager.getInstance().getComponentById(hash.getKey());
-            }
-        }
-        return null;
-    }
 }

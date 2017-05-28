@@ -27,8 +27,10 @@ import com.kehxstudios.atlas.managers.ScreenManager;
 
 public class ResetScreenAction extends Action {
 
+    public ScreenManager screenManager;
+
     @Override
     public void trigger() {
-        ScreenManager.getInstance().reqestScreenReset();
+        screenManager.reqestScreenReset();
     }
 }

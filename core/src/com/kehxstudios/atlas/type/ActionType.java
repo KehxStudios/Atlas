@@ -27,6 +27,7 @@ import com.kehxstudios.atlas.actions.LaunchScreenAction;
 import com.kehxstudios.atlas.actions.MultiAction;
 import com.kehxstudios.atlas.actions.PhysicsAction;
 import com.kehxstudios.atlas.actions.RepositionAction;
+import com.kehxstudios.atlas.actions.ResetScreenAction;
 import com.kehxstudios.atlas.actions.ScoreAction;
 
 import java.util.HashMap;
@@ -45,6 +46,7 @@ public enum ActionType {
     PHYSICS("Physics", PhysicsAction.class),
     REPOSITION("Reposition", RepositionAction.class),
     SCORE("Score", ScoreAction.class),
+    RESET_SCREEN("Reset Screen", ResetScreenAction.class),
     VOID("Void", Action.class);
 
     private static HashMap<String, ActionType> actionTypes;

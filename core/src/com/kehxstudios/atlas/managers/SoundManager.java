@@ -43,22 +43,20 @@ import java.util.HashMap;
 public class SoundManager extends Manager {
 
     // SUPPORTS WAV, MP3 and OGG AUDIO FORMATS
-
-    // Holds instance of class, create new if not set
-    private static SoundManager instance;
-    public static SoundManager getInstance() {
-        if (instance == null) {
-            instance = new SoundManager();
-        }
-        return instance;
-    }
-    
     private HashMap<Integer, SoundComponent> soundComponents;
     private HashMap<Integer, MusicComponent> musicComponents;
 
-    public SoundManager() {
-        super();
-        init();
+    public SoundManager(GameManager gm) {
+        super(gm);
+        DebugTool.log("SoundManager: Constructed");
+    }
+
+    protected void init() {
+        DebugTool.log("SoundManager_init: Starting...");
+        super.init();
+        soundComponents = new HashMap<Integer, SoundComponent>();
+        musicComponents = new HashMap<Integer, MusicComponent>();
+        DebugTool.log("SoundManager_init: Complete");
     }
 
     public Music getMusic(MusicType type) {
@@ -73,17 +71,11 @@ public class SoundManager extends Manager {
     public void tick(float delta) {
         
     }
-    
-    @Override
-    protected void init() {
-        soundComponents = new HashMap<Integer, SoundComponent>();
-        musicComponents = new HashMap<Integer, MusicComponent>();
-    }
-    
+
     @Override
     protected void loadSettings() {
-        soundComponents = new HashMap<Integer, SoundComponent>();
-        musicComponents = new HashMap<Integer, MusicComponent>();
+        soundComponents.clear();
+        musicComponents.clear();
         DebugTool.log("SoundManager_loadScreenSettings: Complete");
     }
     

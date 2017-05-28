@@ -28,10 +28,11 @@ import com.kehxstudios.atlas.type.ScreenType;
 
 public class LaunchScreenAction extends Action {
 
+    public ScreenManager screenManager;
     public ScreenType screenType;
 
     @Override
     public void trigger() {
-        ScreenManager.getInstance().requestNewScreen(screenType);
+        screenManager.requestNewScreen(screenType);
     }
 }

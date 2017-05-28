@@ -28,6 +28,7 @@ import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
+import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.type.ComponentType;
 
 import java.util.ArrayList;
@@ -39,25 +40,19 @@ import java.util.HashMap;
 
 public class PositionManager extends Manager {
 
-    private static PositionManager instance;
-    public static PositionManager getInstance() {
-        if (instance == null) {
-            instance = new PositionManager();
-        }
-        return instance;
-    }
-
     private HashMap<Integer,ArrayList<Component>> positionHashMap;
-    private ArrayList<Integer> positionsToUpdate;
 
-    private PositionManager() {
-        super();
-        init();
+    public PositionManager(GameManager gm) {
+        super(gm);
+        DebugTool.log("PositionManager: Constructed");
     }
 
     @Override
     protected void init() {
+        DebugTool.log("PositionManager_init: Starting");
+        super.init();
         positionHashMap = new HashMap<Integer, ArrayList<Component>>();
+        DebugTool.log("PositionManager_init: Complete");
     }
 
     @Override
@@ -94,7 +89,7 @@ public class PositionManager extends Manager {
 
     public void setPosition(int entityId, Vector2 position) {
         if (positionHashMap.containsKey(entityId)) {
-            EntityManager.getInstance().setEntityPosition(entityId, position.x, position.y);
+            gm.getEntityManager().setEntityPosition(entityId, position.x, position.y);
             for (Component component : positionHashMap.get(entityId)) {
                 if (component.type == ComponentType.GRAPHICS) {
                     ((GraphicsComponent)component).bounds.setCenter(position);
@@ -116,7 +111,7 @@ public class PositionManager extends Manager {
     }
     public void movePosition(int entityId, float x, float y) {
         if (positionHashMap.containsKey(entityId)) {
-            EntityManager.getInstance().moveEntityPosition(entityId, x, y);
+            gm.getEntityManager().moveEntityPosition(entityId, x, y);
             for (Component component : positionHashMap.get(entityId)) {
                 if (component.type == ComponentType.GRAPHICS) {
                     GraphicsComponent graphics = ((GraphicsComponent)component);
@@ -127,9 +122,9 @@ public class PositionManager extends Manager {
                     camera.camera.position.add(new Vector3(x, y, 0));
                     camera.camera.update();
                 } else if (component.type == ComponentType.CLICKABLE) {
-                    ClickableComponent clickableComponent = ((ClickableComponent)component);
-                    clickableComponent.bounds.x += x;
-                    clickableComponent.bounds.y += y;
+                    ClickableComponent clickable = ((ClickableComponent)component);
+                    clickable.bounds.x += x;
+                    clickable.bounds.y += y;
                 } else if (component.type == ComponentType.COLLISION) {
                     CollisionComponent collision = ((CollisionComponent)component);
                     collision.bounds.x += x;

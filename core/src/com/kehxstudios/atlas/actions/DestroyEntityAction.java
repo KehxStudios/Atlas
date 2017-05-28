@@ -28,10 +28,11 @@ import com.kehxstudios.atlas.managers.EntityManager;
 
 public class DestroyEntityAction extends Action {
 
+    public EntityManager entityManager;
     public int entityId;
 
     @Override
     public void trigger() {
-        EntityManager.getInstance().markEntityForRemoval(entityId);
+        entityManager.markEntityForRemoval(entityId);
     }
 }

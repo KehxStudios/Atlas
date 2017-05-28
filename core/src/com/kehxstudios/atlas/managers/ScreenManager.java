@@ -34,15 +34,6 @@ import com.kehxstudios.atlas.tools.ErrorTool;
 
 public class ScreenManager extends Manager {
 
-    // Holds instance of class, create new if not set
-    private static ScreenManager instance;
-    public static ScreenManager getInstance() {
-        if (instance == null) {
-            instance = new ScreenManager();
-        }
-        return instance;
-    }
-
     private AScreen screen;
 
     // ScreenType for the next screen to be loaded
@@ -54,14 +45,16 @@ public class ScreenManager extends Manager {
     private LoadingScreen loadingScreen;
 
     // Constructor
-    private ScreenManager() {
-        super();
-        init();
+    public ScreenManager(GameManager gm) {
+        super(gm);
+        DebugTool.log("ScreenManager: Constructed");
     }
     
     // Set the default variables
     @Override
     protected void init() {
+        DebugTool.log("ScreenManager_init: Starting...");
+        super.init();
         newScreenType = ScreenType.VOID;
         screenRequested = false;
         resetRequested = false;
@@ -88,10 +81,10 @@ public class ScreenManager extends Manager {
     // Called when loading a new screen
     @Override
     protected void loadSettings() {
-        EntityManager.getInstance().setScreenType(screenType);
-        GraphicsManager.getInstance().setScreenType(screenType);
-        InputManager.getInstance().setScreenType(screenType);
-        PhysicsManager.getInstance().setScreenType(screenType);
+        gm.getEntityManager().setScreenType(screenType);
+        gm.getGraphicsManager().setScreenType(screenType);
+        gm.getInputManager().setScreenType(screenType);
+        gm.getPhysicsManager().setScreenType(screenType);
         DebugTool.log("ScreenManager_loadSettings: Complete");
     }
 

@@ -25,9 +25,9 @@ import com.kehxstudios.atlas.type.ActionType;
  * Abstract class used by all Actions
  */
 
-public abstract class Action {
+public class Action {
 
     public ActionType type;
 
-    public abstract void trigger();
+    public void trigger() {}
 }

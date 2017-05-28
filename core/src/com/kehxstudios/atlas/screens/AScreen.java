@@ -19,15 +19,19 @@
 
 package com.kehxstudios.atlas.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.components.MusicComponent;
+import com.kehxstudios.atlas.managers.EntityManager;
+import com.kehxstudios.atlas.managers.GraphicsManager;
+import com.kehxstudios.atlas.managers.InputManager;
+import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.managers.PositionManager;
+import com.kehxstudios.atlas.managers.ScreenManager;
+import com.kehxstudios.atlas.managers.SoundManager;
 import com.kehxstudios.atlas.tools.DebugTool;
-import com.kehxstudios.atlas.tools.Factory;
+import com.kehxstudios.atlas.managers.BuildManager;
 import com.kehxstudios.atlas.type.MusicType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.GameManager;
@@ -43,6 +47,15 @@ public abstract class AScreen implements Screen {
     protected ScreenType type;
     protected float width, height;
 
+    protected BuildManager buildManager;
+    protected EntityManager entityManager;
+    protected GraphicsManager graphicsManager;
+    protected InputManager inputManager;
+    protected PhysicsManager physicsManager;
+    protected PositionManager positionManager;
+    protected ScreenManager screenManager;
+    protected SoundManager soundManager;
+
     protected Entity screenEntity;
     protected CameraComponent screenCamera;
     protected MusicComponent screenMusic;
@@ -52,22 +65,30 @@ public abstract class AScreen implements Screen {
     public AScreen(ScreenType type) {
         this.type = type;
         gm = GameManager.getInstance();
+        buildManager = gm.getBuildManager();
+        entityManager = gm.getEntityManager();
+        graphicsManager = gm.getGraphicsManager();
+        inputManager = gm.getInputManager();
+        physicsManager = gm.getPhysicsManager();
+        positionManager = gm.getPositionManager();
+        screenManager = gm.getScreenManager();
+        soundManager = gm.getSoundManager();
         width = type.getWidth();
         height = type.getHeight();
         screenTime = 0f;
     }
 
     protected void init() {
-        screenEntity = Factory.createEntity(width/2, height/2);
+        screenEntity = buildManager.createEntity(width/2, height/2);
 
-        screenCamera = Factory.createCameraComponent(screenEntity, width, height, false);
+        screenCamera = buildManager.createCameraComponent(screenEntity, width, height, false);
 
-        screenMusic = Factory.createMusicComponent(screenEntity, MusicType.getTypeById(type.getId()), 0.2f);
+        screenMusic = buildManager.createMusicComponent(screenEntity, MusicType.getTypeById(type.getId()), 0.2f);
         screenMusic.music.play();
     }
 
     public void reset() {
-        PositionManager.getInstance().setPosition(screenEntity.id, new Vector2(width/2, height/2));
+        gm.getPositionManager().setPosition(screenEntity.id, new Vector2(width/2, height/2));
     }
 
     @Override

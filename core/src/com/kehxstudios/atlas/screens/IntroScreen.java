@@ -23,8 +23,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.managers.EntityManager;
-import com.kehxstudios.atlas.tools.Factory;
+import com.kehxstudios.atlas.managers.BuildManager;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.type.ScreenType;
 
@@ -50,8 +49,8 @@ public class IntroScreen extends AScreen {
         finalLogo = false;
         clickToContinue = false;
 
-        devLogoGraphics = Factory.createGraphicsComponent(screenEntity, 1, TextureType.INTRO_DEV_LOGO);
-        textEntity = Factory.createEntity(width/2, height/5);
+        devLogoGraphics = buildManager.createGraphicsComponent(screenEntity, 1, TextureType.INTRO_DEV_LOGO);
+        textEntity = buildManager.createEntity(width/2, height/5);
     }
 
     @Override
@@ -61,13 +60,13 @@ public class IntroScreen extends AScreen {
         if (!clickToContinue) {
             // If index is not on last path
             if (!finalLogo && screenTime >= 2f || screenTime > 1f && Gdx.input.isTouched()) {
-                EntityManager.getInstance().remove(devLogoGraphics);
-                Factory.createGraphicsComponent(screenEntity, 1, TextureType.INTRO_GAME_LOGO);
+                entityManager.remove(devLogoGraphics);
+                buildManager.createGraphicsComponent(screenEntity, 1, TextureType.INTRO_GAME_LOGO);
                 finalLogo = true;
             } else if (finalLogo && screenTime > 4f || screenTime > 2f && Gdx.input.isTouched()) {
-                Factory.createFloatingTextComponent(textEntity, 2, "", "Click to Continue", Color.BLUE);
-                Factory.createClickableComponent(screenEntity, width, height, true, false,
-                        Factory.createLaunchScreenAction(ScreenType.MAIN_MENU));
+                buildManager.createFloatingTextComponent(textEntity, 2, "", "Click to Continue", Color.BLUE);
+                buildManager.createClickableComponent(screenEntity, width, height, true, false,
+                        buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
                 clickToContinue = true;
             }
         }

@@ -20,8 +20,7 @@
 package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.graphics.Color;
-import com.kehxstudios.atlas.managers.ScreenManager;
-import com.kehxstudios.atlas.tools.Factory;
+import com.kehxstudios.atlas.managers.BuildManager;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.type.ScreenType;
@@ -44,45 +43,45 @@ public class MainMenuScreen extends AScreen {
         float borderWidth = TextureType.MAIN_MENU_BORDER.getWidth();
         float borderHeight = TextureType.MAIN_MENU_BORDER.getHeight();
 
-        Factory.createGraphicsComponent(screenEntity, 0, TextureType.MAIN_MENU_BACKGROUND);
+        buildManager.createGraphicsComponent(screenEntity, 0, TextureType.MAIN_MENU_BACKGROUND);
 
-        Entity flappyBirdEntity = Factory.createEntity(width/2, height/6*5);
-        Factory.createGraphicsComponent(flappyBirdEntity, 1, TextureType.MAIN_MENU_BORDER);
-        Factory.createFloatingTextComponent(flappyBirdEntity, 3, "", "Flappy Bird", Color.BLACK);
-        Factory.createClickableComponent(flappyBirdEntity, borderWidth, borderHeight, true, false,
-                Factory.createLaunchScreenAction(ScreenType.FLAPPY_BAT));
+        Entity flappyBirdEntity = buildManager.createEntity(width/2, height/6*5);
+        buildManager.createGraphicsComponent(flappyBirdEntity, 1, TextureType.MAIN_MENU_BORDER);
+        buildManager.createFloatingTextComponent(flappyBirdEntity, 3, "", "Flappy Bird", Color.BLACK);
+        buildManager.createClickableComponent(flappyBirdEntity, borderWidth, borderHeight, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.FLAPPY_BAT));
 
-        Entity pongEntity = Factory.createEntity(width/2, height/6*4);
-        Factory.createGraphicsComponent(pongEntity, 1, TextureType.MAIN_MENU_BORDER);
-        Factory.createFloatingTextComponent(pongEntity, 3, "", "Pong", Color.BLACK);
-        Factory.createClickableComponent(pongEntity, borderWidth, borderHeight, true, false,
-                Factory.createLaunchScreenAction(ScreenType.PONG));
+        Entity pongEntity = buildManager.createEntity(width/2, height/6*4);
+        buildManager.createGraphicsComponent(pongEntity, 1, TextureType.MAIN_MENU_BORDER);
+        buildManager.createFloatingTextComponent(pongEntity, 3, "", "Pong", Color.BLACK);
+        buildManager.createClickableComponent(pongEntity, borderWidth, borderHeight, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.PONG));
 
-        Entity geneRocketsEntity = Factory.createEntity(width/2, height/6*3);
-        Factory.createGraphicsComponent(geneRocketsEntity, 1, TextureType.MAIN_MENU_BORDER);
-        Factory.createFloatingTextComponent(geneRocketsEntity, 3, "", "Gene Rockets", Color.BLACK);
-        Factory.createClickableComponent(geneRocketsEntity, borderWidth, borderHeight, true, false,
-                Factory.createLaunchScreenAction(ScreenType.GENE_ROCKETS));
+        Entity geneRocketsEntity = buildManager.createEntity(width/2, height/6*3);
+        buildManager.createGraphicsComponent(geneRocketsEntity, 1, TextureType.MAIN_MENU_BORDER);
+        buildManager.createFloatingTextComponent(geneRocketsEntity, 3, "", "Gene Rockets", Color.BLACK);
+        buildManager.createClickableComponent(geneRocketsEntity, borderWidth, borderHeight, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.GENE_ROCKETS));
 
-        Entity phoneInformationEntity = Factory.createEntity(width/2, height/6*2);
-        Factory.createGraphicsComponent(phoneInformationEntity, 1, TextureType.MAIN_MENU_BORDER);
-        Factory.createFloatingTextComponent(phoneInformationEntity, 3, "", "Phone Information", Color.BLACK);
-        Factory.createClickableComponent(phoneInformationEntity, borderWidth, borderHeight, true, false,
-                Factory.createLaunchScreenAction(ScreenType.PHONE_INFORMATION));
+        Entity phoneInformationEntity = buildManager.createEntity(width/2, height/6*2);
+        buildManager.createGraphicsComponent(phoneInformationEntity, 1, TextureType.MAIN_MENU_BORDER);
+        buildManager.createFloatingTextComponent(phoneInformationEntity, 3, "", "Phone Information", Color.BLACK);
+        buildManager.createClickableComponent(phoneInformationEntity, borderWidth, borderHeight, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.PHONE_INFORMATION));
 
-        Entity highScoreResetEntity = Factory.createEntity(width/2, height/6);
-        Factory.createGraphicsComponent(highScoreResetEntity, 1, TextureType.MAIN_MENU_BORDER);
-        Factory.createFloatingTextComponent(highScoreResetEntity, 3, "", "Reset", Color.BLACK);
-        Factory.createClickableComponent(highScoreResetEntity, borderWidth, borderHeight, true, false,
-                Factory.createLaunchScreenAction(ScreenType.INTRO));
+        Entity highScoreResetEntity = buildManager.createEntity(width/2, height/6);
+        buildManager.createGraphicsComponent(highScoreResetEntity, 1, TextureType.MAIN_MENU_BORDER);
+        buildManager.createFloatingTextComponent(highScoreResetEntity, 3, "", "Reset", Color.BLACK);
+        buildManager.createClickableComponent(highScoreResetEntity, borderWidth, borderHeight, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.INTRO));
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         
-        if (screenTime >= 10f) {
-            ScreenManager.getInstance().requestNewScreen(ScreenType.INTRO);
+        if (screenTime >= 180f) {
+            screenManager.requestNewScreen(ScreenType.INTRO);
         }
     }
 

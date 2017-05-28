@@ -30,10 +30,18 @@ import com.kehxstudios.atlas.type.ScreenType;
 public abstract class Manager {
 
     protected GameManager gm;
+    protected BuildManager buildManager;
+    protected EntityManager entityManager;
+    protected GraphicsManager graphicsManager;
+    protected InputManager inputManager;
+    protected PhysicsManager physicsManager;
+    protected PositionManager positionManager;
+    protected ScreenManager screenManager;
+    protected SoundManager soundManager;
     protected ScreenType screenType;
 
-    public Manager() {
-        gm = GameManager.getInstance();
+    protected Manager(GameManager gm) {
+        this.gm = gm;
         screenType = ScreenType.VOID;
     }
 
@@ -41,7 +49,16 @@ public abstract class Manager {
     public abstract void add(Component component);
     public abstract void remove(Component component);
     
-    protected abstract void init();
+    protected void init() {
+        buildManager = gm.getBuildManager();
+        entityManager = gm.getEntityManager();
+        graphicsManager = gm.getGraphicsManager();
+        inputManager = gm.getInputManager();
+        physicsManager = gm.getPhysicsManager();
+        positionManager = gm.getPositionManager();
+        screenManager = gm.getScreenManager();
+        soundManager = gm.getSoundManager();
+    }
     protected abstract void loadSettings();
     protected abstract void removeSettings();
 

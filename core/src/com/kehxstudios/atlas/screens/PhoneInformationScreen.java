@@ -25,7 +25,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.tools.Factory;
+import com.kehxstudios.atlas.managers.BuildManager;
 import com.kehxstudios.atlas.type.ScreenType;
 
 /**
@@ -45,32 +45,32 @@ public class PhoneInformationScreen extends AScreen {
 
     protected void init() {
         super.init();
-        Entity rotationEntity = Factory.createEntity(screenEntity.position.x, screenEntity.position.y - 120);
-        rotationFloatingText = Factory.createFloatingTextComponent(rotationEntity, 2,
+        Entity rotationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 120);
+        rotationFloatingText = buildManager.createFloatingTextComponent(rotationEntity, 2,
                 "Rotation: ", "", Color.BLACK);
 
-        Entity orientationEntity = Factory.createEntity(screenEntity.position.x, screenEntity.position.y - 80);
-        orientationFloatingText = Factory.createFloatingTextComponent(orientationEntity, 2,
+        Entity orientationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 80);
+        orientationFloatingText = buildManager.createFloatingTextComponent(orientationEntity, 2,
                 "Orientation: ", "", Color.BLUE);
 
-        Entity resolutionEntity = Factory.createEntity(screenEntity.position.x, screenEntity.position.y - 40);
-        resolutionFloatingText = Factory.createFloatingTextComponent(resolutionEntity, 2,
+        Entity resolutionEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 40);
+        resolutionFloatingText = buildManager.createFloatingTextComponent(resolutionEntity, 2,
                 "Resolution: ", "", Color.BLACK);
 
-        Entity accelerationEntity = Factory.createEntity(screenEntity.position.x, screenEntity.position.y);
-        yAxisAccelerationFloatingText = Factory.createFloatingTextComponent(accelerationEntity, 2,
+        Entity accelerationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y);
+        yAxisAccelerationFloatingText = buildManager.createFloatingTextComponent(accelerationEntity, 2,
                 "Y-Axis Acceleration: ", "", Color.BLUE);
 
-        Entity azmuthEntity = Factory.createEntity(screenEntity.position.x, screenEntity.position.y + 40);
-        azmuthFloatingText = Factory.createFloatingTextComponent(azmuthEntity, 2,
+        Entity azmuthEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 40);
+        azmuthFloatingText = buildManager.createFloatingTextComponent(azmuthEntity, 2,
                 "Azmuth: ", "", Color.BLACK);
 
-        Entity pitchEntity = Factory.createEntity(screenEntity.position.x, screenEntity.position.y + 80);
-        pitchFloatingText = Factory.createFloatingTextComponent(pitchEntity, 2,
+        Entity pitchEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 80);
+        pitchFloatingText = buildManager.createFloatingTextComponent(pitchEntity, 2,
                 "Pitch: ", "", Color.BLUE);
 
-        Entity rollEntity = Factory.createEntity(screenEntity.position.x, screenEntity.position.y + 120);
-        rollFloatingText = Factory.createFloatingTextComponent(rollEntity, 2,
+        Entity rollEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 120);
+        rollFloatingText = buildManager.createFloatingTextComponent(rollEntity, 2,
                 "Roll: ", "", Color.BLACK);
     }
 
@@ -88,11 +88,11 @@ public class PhoneInformationScreen extends AScreen {
                 orientationFloatingText.text = "Portrait";
             }
             resolutionFloatingText.text = Gdx.graphics.getWidth() + " x " + Gdx.graphics.getHeight();
-            yAxisAccelerationFloatingText.text = Gdx.input.getAccelerometerY() + "";
+            yAxisAccelerationFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getAccelerometerY());
             if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Compass)) {
-                azmuthFloatingText.text = Gdx.input.getAzimuth() + "";
-                pitchFloatingText.text = Gdx.input.getPitch() + "";
-                rollFloatingText.text = Gdx.input.getRoll() + "";
+                azmuthFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getAzimuth());
+                pitchFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getPitch());
+                rollFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getRoll());
             }
             updateFloatingText();
             screenTime = 0f;

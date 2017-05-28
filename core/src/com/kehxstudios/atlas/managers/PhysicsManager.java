@@ -36,15 +36,6 @@ import java.util.HashMap;
 
 public class PhysicsManager extends Manager {
 
-    // Holds instance of class, create new if not set
-    private static PhysicsManager instance;
-    public static PhysicsManager getInstance() {
-        if (instance == null) {
-            instance = new PhysicsManager();
-        }
-        return instance;
-    }
-
     // HashMap for all PhysicsComponents created
     private HashMap<Integer,PhysicsComponent> physicsComponents;
     
@@ -53,14 +44,16 @@ public class PhysicsManager extends Manager {
     private HashMap<Integer,CollisionComponent> dynamicCollisionComponents;
 
     // Constructor
-    private PhysicsManager() {
-        super();
-        init();
+    public PhysicsManager(GameManager gm) {
+        super(gm);
+        DebugTool.log("PhysicsManager: Constructed");
     }
     
     // Initalize @physicsComponents
     @Override
     protected void init() {
+        DebugTool.log("PhysicsManager_init: Starting");
+        super.init();
         physicsComponents = new HashMap<Integer,PhysicsComponent>();
         staticCollisionComponents = new HashMap<Integer,CollisionComponent>();
         dynamicCollisionComponents = new HashMap<Integer,CollisionComponent>();
@@ -76,7 +69,7 @@ public class PhysicsManager extends Manager {
                 //physics.getAcceleration().set(0,0);
                 if (!physics.velocity.isZero()) {
                     physics.velocity.scl(delta);
-                    PositionManager.getInstance().movePosition(physics.entityId, physics.velocity.x,
+                    gm.getPositionManager().movePosition(physics.entityId, physics.velocity.x,
                             physics.velocity.y);
                     //physics.setVelocity(0,0);
                     physics.velocity.scl(1 / delta);

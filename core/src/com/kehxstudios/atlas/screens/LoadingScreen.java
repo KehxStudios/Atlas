@@ -56,7 +56,7 @@ public class LoadingScreen extends AScreen {
     @Override
     public void render(float delta) {
         if (gm.getAssetManager().update()) {
-            ScreenManager.getInstance().finishedLoadingScreen();
+            screenManager.finishedLoadingScreen();
             return;
         }
         // Clear the current graphics

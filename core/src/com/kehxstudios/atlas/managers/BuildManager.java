@@ -17,7 +17,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-package com.kehxstudios.atlas.tools;
+package com.kehxstudios.atlas.managers;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -30,9 +30,12 @@ import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.actions.ResetScreenAction;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.components.CollisionComponent;
+import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.components.GeneRocketComponent;
 import com.kehxstudios.atlas.components.MusicComponent;
 import com.kehxstudios.atlas.components.SoundComponent;
+import com.kehxstudios.atlas.data.HighScores;
+import com.kehxstudios.atlas.managers.GameManager;
 import com.kehxstudios.atlas.managers.PositionManager;
 import com.kehxstudios.atlas.managers.SoundManager;
 import com.kehxstudios.atlas.type.ActionType;
@@ -59,26 +62,64 @@ import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.type.ScreenType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Used to turn Entity/Component/Action data classes to their full active class
  */
 
-public class Factory {
+public class BuildManager extends Manager {
 
-    static { uniqueId = 0; }
-    private static int uniqueId;
-    private static int getUniqueId() { return ++uniqueId; }
+    private int uniqueId;
 
-    public static Entity createEntity(float x, float y) {
+    public BuildManager(GameManager gm) {
+        super(gm);
+        init();
+    }
+
+    @Override
+    public void tick(float delta) {
+
+    }
+
+    @Override
+    public void add(Component component) {
+
+    }
+
+    @Override
+    public void remove(Component component) {
+
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        uniqueId = 0;
+    }
+
+    @Override
+    protected void loadSettings() {
+        uniqueId = 0;
+    }
+
+    @Override
+    protected void removeSettings() {
+
+    }
+
+    private int getUniqueId() { return ++uniqueId; }
+
+    public Entity createEntity(float x, float y) {
         Entity entity = new Entity();
         entity.id = getUniqueId();
         entity.position = new Vector2(x,y);
-        EntityManager.getInstance().add(entity);
+        entity.components = new HashMap<Integer, ComponentType>();
+        entityManager.add(entity);
         return entity;
     }
 
-    public static GraphicsComponent createGraphicsComponent(Entity entity, int layer, TextureType textureType) {
+    public GraphicsComponent createGraphicsComponent(Entity entity, int layer, TextureType textureType) {
         GraphicsComponent graphics = new GraphicsComponent();
         graphics.entityId = entity.id;
         graphics.id = getUniqueId();
@@ -87,16 +128,16 @@ public class Factory {
         graphics.rotation = 0;
         graphics.layer = layer;
         graphics.textureType = textureType;
-        graphics.texture = GraphicsManager.getInstance().getTexture(textureType);
+        graphics.texture = graphicsManager.getTexture(textureType);
         graphics.bounds = new Rectangle(0,0, textureType.getWidth(), textureType.getHeight());
         graphics.bounds.setCenter(entity.position);
-        EntityManager.getInstance().add(graphics);
-        GraphicsManager.getInstance().add(graphics);
-        PositionManager.getInstance().add(graphics);
+        entityManager.add(graphics);
+        graphicsManager.add(graphics);
+        positionManager.add(graphics);
         return graphics;
     }
 
-    public static PhysicsComponent createPhysicsComponent(Entity entity, Vector2 maxAcceleration,
+    public PhysicsComponent createPhysicsComponent(Entity entity, Vector2 maxAcceleration,
                                                           Vector2 maxVelocity) {
         PhysicsComponent physics = new PhysicsComponent();
         physics.entityId = entity.id;
@@ -108,13 +149,13 @@ public class Factory {
         physics.maxAcceleration = maxAcceleration;
         physics.velocity = new Vector2(0,0);
         physics.maxVelocity = maxVelocity;
-        EntityManager.getInstance().add(physics);
-        PhysicsManager.getInstance().add(physics);
-        PositionManager.getInstance().add(physics);
+        entityManager.add(physics);
+        physicsManager.add(physics);
+        positionManager.add(physics);
         return physics;
     }
 
-    public static FloatingTextComponent createFloatingTextComponent(Entity entity, float scale, String label,
+    public FloatingTextComponent createFloatingTextComponent(Entity entity, float scale, String label,
                                                                     String text, Color color) {
         FloatingTextComponent floatingText = new FloatingTextComponent();
         floatingText.entityId = entity.id;
@@ -133,13 +174,13 @@ public class Factory {
         floatingText.layout.setText(floatingText.font,
                 floatingText.label + floatingText.text,
                 color, 0, Align.left, true);
-        EntityManager.getInstance().add(floatingText);
-        GraphicsManager.getInstance().add(floatingText);
-        PositionManager.getInstance().add(floatingText);
+        entityManager.add(floatingText);
+        graphicsManager.add(floatingText);
+        positionManager.add(floatingText);
         return floatingText;
     }
 
-    public static CollisionComponent createCollisionComponent(Entity entity, float width, float height,
+    public CollisionComponent createCollisionComponent(Entity entity, float width, float height,
                                                               boolean staticPosition, boolean collided,
                                                               Action action) {
         CollisionComponent collision = new CollisionComponent();
@@ -152,13 +193,13 @@ public class Factory {
         collision.staticPosition = staticPosition;
         collision.collided = collided;
         collision.action = action;
-        EntityManager.getInstance().add(collision);
-        PhysicsManager.getInstance().add(collision);
-        PositionManager.getInstance().add(collision);
+        entityManager.add(collision);
+        physicsManager.add(collision);
+        positionManager.add(collision);
         return collision;
     }
 
-    public static ClickableComponent createClickableComponent(Entity entity, float width, float height,
+    public ClickableComponent createClickableComponent(Entity entity, float width, float height,
                                                               boolean singleTrigger, boolean triggered, Action action) {
         ClickableComponent clickable = new ClickableComponent();
         clickable.entityId = entity.id;
@@ -170,13 +211,13 @@ public class Factory {
         clickable.singleTrigger = singleTrigger;
         clickable.triggered = triggered;
         clickable.action = action;
-        EntityManager.getInstance().add(clickable);
-        InputManager.getInstance().add(clickable);
-        PositionManager.getInstance().add(clickable);
+        entityManager.add(clickable);
+        inputManager.add(clickable);
+        positionManager.add(clickable);
         return clickable;
     }
     
-    public static CameraComponent createCameraComponent(Entity entity, float width, float height, boolean flipped) {
+    public CameraComponent createCameraComponent(Entity entity, float width, float height, boolean flipped) {
         CameraComponent camera = new CameraComponent();
         camera.entityId = entity.id;
         camera.id = getUniqueId();
@@ -186,43 +227,44 @@ public class Factory {
         camera.camera.position.set(entity.position.x, entity.position.y, 0);
         camera.camera.setToOrtho(flipped, width, height);
         camera.camera.update();
-        EntityManager.getInstance().add(camera);
-        GraphicsManager.getInstance().add(camera);
-        PositionManager.getInstance().add(camera);
+        entityManager.add(camera);
+        graphicsManager.add(camera);
+        inputManager.add(camera);
+        positionManager.add(camera);
         return camera;
     }
     
-    public static MusicComponent createMusicComponent(Entity entity, MusicType musicType, float volume) {
+    public MusicComponent createMusicComponent(Entity entity, MusicType musicType, float volume) {
         MusicComponent music = new MusicComponent();
         music.entityId = entity.id;
         music.id = getUniqueId();
         music.type = ComponentType.MUSIC;
         music.enabled = true;
         music.musicType = musicType;
-        music.music = SoundManager.getInstance().getMusic(musicType);
+        music.music = soundManager.getMusic(musicType);
         music.volume = volume;
         music.music.setVolume(volume);
         music.music.setLooping(true);
-        EntityManager.getInstance().add(music);
-        SoundManager.getInstance().add(music);
+        entityManager.add(music);
+        soundManager.add(music);
         return music;
     }
     
-    public static SoundComponent createSoundComponent(Entity entity, SoundType soundType, float volume) {
+    public SoundComponent createSoundComponent(Entity entity, SoundType soundType, float volume) {
         SoundComponent sound = new SoundComponent();
         sound.entityId = entity.id;
         sound.id = getUniqueId();
         sound.type = ComponentType.SOUND;
         sound.enabled = true;
         sound.soundType = soundType;
-        sound.sound = SoundManager.getInstance().getSound(soundType);
+        sound.sound = soundManager.getSound(soundType);
         sound.volume = volume;
-        EntityManager.getInstance().add(sound);
-        SoundManager.getInstance().add(sound);
+        entityManager.add(sound);
+        soundManager.add(sound);
         return sound;
     }
     
-    public static GeneRocketComponent createGeneRocketComponent(Entity entity, ArrayList<Vector2> genes) {
+    public GeneRocketComponent createGeneRocketComponent(Entity entity, ArrayList<Vector2> genes) {
         GeneRocketComponent geneRocket = new GeneRocketComponent();
         geneRocket.id = getUniqueId();
         geneRocket.entityId = entity.id;
@@ -230,32 +272,33 @@ public class Factory {
         geneRocket.enabled = true;
         geneRocket.genes = genes;
         geneRocket.fitness = 0f;
-        EntityManager.getInstance().add(geneRocket);
+        entityManager.add(geneRocket);
         return geneRocket;
     }
     
-    public static DestroyEntityAction createDestroyEntityAction(Entity entity) {
+    public DestroyEntityAction createDestroyEntityAction(Entity entity) {
         DestroyEntityAction destroyEntity = new DestroyEntityAction();
+        destroyEntity.entityManager = entityManager;
         destroyEntity.type = ActionType.DESTROY_ENTITY;
         destroyEntity.entityId = entity.id;
         return destroyEntity;
     }
     
-    public static HighScoreResetAction createHighScoreResetAction(ScreenType screenType) {
+    public HighScoreResetAction createHighScoreResetAction(ScreenType screenType) {
         HighScoreResetAction highScoreReset = new HighScoreResetAction();
         highScoreReset.type = ActionType.HIGH_SCORE_RESET;
         highScoreReset.screenType = screenType;
         return highScoreReset;
     }
     
-    public static MultiAction createMultiAction() {
+    public MultiAction createMultiAction() {
         MultiAction multi = new MultiAction();
         multi.type = ActionType.MULTI;
         // Add array or hashmap
         return multi;
     }
     
-    public static PhysicsAction createPhysicsAction(PhysicsComponent physicsComponent, Vector2 triggerValue) {
+    public PhysicsAction createPhysicsAction(PhysicsComponent physicsComponent, Vector2 triggerValue) {
         PhysicsAction physics = new PhysicsAction();
         physics.type = ActionType.PHYSICS;
         physics.triggerValue = triggerValue;
@@ -263,32 +306,36 @@ public class Factory {
         return physics;
     }
     
-    public static RepositionAction createRepositionAction(Entity entity, Vector2 triggerValue, boolean teleport) {
+    public RepositionAction createRepositionAction(int entityId, Vector2 triggerValue, boolean teleport) {
         RepositionAction reposition = new RepositionAction();
         reposition.type = ActionType.REPOSITION;
-        reposition.position = entity.position;
+        reposition.positionManager = positionManager;
+        reposition.entityId = entityId;
         reposition.triggerValue = triggerValue;
         reposition.teleport = teleport;
         return reposition;
     }
     
-    public static ScoreAction createScoreAction(ScreenType screenType, int scoreValue) {
+    public ScoreAction createScoreAction(HighScores highScores, int scoreValue) {
         ScoreAction score = new ScoreAction();
         score.type = ActionType.SCORE;
-        score.screenType = screenType;
+        score.highScores = highScores;
         score.scoreValue = scoreValue;
         return score;
     }
     
-    public static LaunchScreenAction createLaunchScreenAction(ScreenType screenType) {
+    public LaunchScreenAction createLaunchScreenAction(ScreenType screenType) {
         LaunchScreenAction launchScreen = new LaunchScreenAction();
         launchScreen.type = ActionType.LAUNCH_SCREEN;
+        launchScreen.screenManager = screenManager;
         launchScreen.screenType = screenType;
         return launchScreen;
     }
 
-    public static ResetScreenAction createResetScreenAction() {
+    public ResetScreenAction createResetScreenAction() {
         ResetScreenAction resetScreen = new ResetScreenAction();
+        resetScreen.type = ActionType.RESET_SCREEN;
+        resetScreen.screenManager = screenManager;
         return resetScreen;
     }
 

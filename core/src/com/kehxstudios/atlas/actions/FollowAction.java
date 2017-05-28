@@ -29,11 +29,12 @@ import com.kehxstudios.atlas.type.ActionType;
 
 public class FollowAction extends Action {
 
+    public InputManager inputManager;
     public Vector2 position;
     public boolean verticalAllowed, horizontalAllowed;
 
     public void trigger() {
-        Vector2 clicked = InputManager.getInstance().getClickedPosition();
+        Vector2 clicked = inputManager.getClickedPosition();
         if (verticalAllowed && horizontalAllowed) {
             position.set(clicked.x, clicked.y);
         } else if (verticalAllowed) {

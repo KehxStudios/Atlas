@@ -20,6 +20,7 @@
 package com.kehxstudios.atlas.actions;
 
 import com.badlogic.gdx.math.Vector2;
+import com.kehxstudios.atlas.managers.PositionManager;
 
 /**
  * Used to reposition an Entity when triggered
@@ -27,16 +28,17 @@ import com.badlogic.gdx.math.Vector2;
 
 public class RepositionAction extends Action {
 
-    public Vector2 position;
+    public PositionManager positionManager;
+    public int entityId;
     public Vector2 triggerValue;
     public boolean teleport;
 
     @Override
     public void trigger() {
         if (teleport) {
-            position.set(triggerValue);
+            positionManager.setPosition(entityId, triggerValue);
         } else {
-            position.add(triggerValue);
+            positionManager.movePosition(entityId, triggerValue.x, triggerValue.y);
         }
     }
 }

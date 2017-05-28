@@ -20,8 +20,10 @@
 package com.kehxstudios.atlas.managers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.components.ClickableComponent;
 import com.kehxstudios.atlas.components.Component;
 import com.kehxstudios.atlas.tools.DebugTool;
@@ -37,40 +39,35 @@ import java.util.HashMap;
 
 public class InputManager extends Manager {
 
-    // Holds instance of class, create new if not set
-    private static InputManager instance;
-    public static InputManager getInstance() {
-        if (instance == null) {
-            instance = new InputManager();
-        }
-        return instance;
-    }
-
     // HashMap for all ClickableComponents created
     private HashMap<Integer, ClickableComponent> clickableComponents;
-    
+
+    private OrthographicCamera camera;
     private Vector2 clickedPosition;
 
     // Constructor
-    public InputManager() {
-        super();
-        init();
+    public InputManager(GameManager gm) {
+        super(gm);
+        DebugTool.log("InputManager: Constructed");
     }
     
     // Initalizes the @clickableComponents
     @Override
     protected void init() {
+        DebugTool.log("InputManager_init: Starting");
+        super.init();
         clickableComponents = new HashMap<Integer,ClickableComponent>();
         clickedPosition = new Vector2(0,0);
-        DebugTool.log("InputManager_setup: Complete");
+        DebugTool.log("InputManager_init: Complete");
     }
 
     // Called to check if any clickableComponents were touched
     @Override
     public void tick(float delta) {
+        if (camera == null)
+            return;
         if (Gdx.input.justTouched() && clickableComponents.size() > 0) {
-
-            Vector3 clicked = GraphicsManager.getInstance().getCamera().unproject(new Vector3(Gdx.input.getX(),
+            Vector3 clicked = camera.unproject(new Vector3(Gdx.input.getX(),
                     Gdx.input.getY(), 0));
             float x = clicked.x;
             float y = clicked.y;
@@ -111,6 +108,9 @@ public class InputManager extends Manager {
             } else {
                 ErrorTool.log("Failed to add clickable to clickableComponents");
             }
+        } else if (component.type == ComponentType.CAMERA) {
+            CameraComponent camera = (CameraComponent) component;
+            this.camera = camera.camera;
         }
     }
 
@@ -123,6 +123,8 @@ public class InputManager extends Manager {
             } else {
                 ErrorTool.log("Failed to add clickable to clickableComponents");
             }
+        } else if (component.type == ComponentType.CAMERA) {
+            camera = null;
         }
     }
 

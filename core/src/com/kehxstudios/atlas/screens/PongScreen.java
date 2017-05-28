@@ -20,10 +20,7 @@
 package com.kehxstudios.atlas.screens;
 
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.data.ComponentData;
-import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
-import com.kehxstudios.atlas.tools.Factory;
 import com.kehxstudios.atlas.type.ScreenType;
 import com.kehxstudios.atlas.type.TextureType;
 
@@ -70,21 +67,21 @@ public class PongScreen extends AScreen {
         ComponentData paddleGraphicsData = Templates.graphicsComponentData(0, 0, 3, 0, TextureType.PONG_PADDLE);
         ComponentData paddlePhysicsData = Templates.physicsComponentData(0, paddleSpeed, 0, paddleSpeed);
         
-        player1Entity = Factory.createEntity(Templates.createEntityData(paddleWidth, height/2));
-        GraphicsComponent player1Graphics = (GraphicsComponent)Factory.createComponent(player1Entity, paddleGraphicsData);
-        player1Physics = (PhysicsComponent)Factory.createComponent(player1Entity, paddlePhysicsData);
+        player1Entity = BuildManager.createEntity(Templates.createEntityData(paddleWidth, height/2));
+        GraphicsComponent player1Graphics = (GraphicsComponent)BuildManager.createComponent(player1Entity, paddleGraphicsData);
+        player1Physics = (PhysicsComponent)BuildManager.createComponent(player1Entity, paddlePhysicsData);
         
-        player2Entity = Factory.createEntity(Templates.createEntityData(width - paddleWidth, height/2));
-        GraphicsComponent player2Graphics = (GraphicsComponent)Factory.createComponent(player2Entity, paddleGraphicsData);
-        player2Physics = (PhysicsComponent)Factory.createComponent(player2Entity, paddlePhysicsData);
+        player2Entity = BuildManager.createEntity(Templates.createEntityData(width - paddleWidth, height/2));
+        GraphicsComponent player2Graphics = (GraphicsComponent)BuildManager.createComponent(player2Entity, paddleGraphicsData);
+        player2Physics = (PhysicsComponent)BuildManager.createComponent(player2Entity, paddlePhysicsData);
         
         
         ComponentData ballGraphicsData = Templates.graphicsComponentData(0, 0, 3, 0, TextureType.PONG_BALL);
         ComponentData ballPhysicsData = Templates.physicsComponentData(ballSpeed, ballSpeed, ballSpeed, ballSpeed);
         
-        ballEntity = Factory.createEntity(Templates.createEntityData(width/2, height/2));
-        GraphicsComponent ballGraphics = (GraphicsComponent)Factory.createComponent(ballEntity, ballGraphicsData);
-        ballPhysics = (PhysicsComponent)Factory.createComponent(ballEntity, ballPhysicsData);
+        ballEntity = BuildManager.createEntity(Templates.createEntityData(width/2, height/2));
+        GraphicsComponent ballGraphics = (GraphicsComponent)BuildManager.createComponent(ballEntity, ballGraphicsData);
+        ballPhysics = (PhysicsComponent)BuildManager.createComponent(ballEntity, ballPhysicsData);
         */
     }
 

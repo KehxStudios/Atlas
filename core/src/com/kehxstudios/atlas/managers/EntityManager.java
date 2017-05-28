@@ -40,15 +40,6 @@ import java.util.Set;
 
 public class EntityManager extends Manager {
 
-    // Holds instance of class, create new if not set
-    private static EntityManager instance;
-    public static EntityManager getInstance() {
-        if (instance == null) {
-            instance = new EntityManager();
-        }
-        return instance;
-    }
-    
     // HashMap for all created Entity's
     private HashMap<Integer, Entity> entities;
     // HashMap for all created Component's
@@ -60,14 +51,16 @@ public class EntityManager extends Manager {
     private ArrayList<Integer> markedComponents;
 
     // Constructor
-    private EntityManager() {
-        super();
-        init();
+    public EntityManager(GameManager gm) {
+        super(gm);
+        DebugTool.log("EntityManager: Constructed");
     }
     
     // Initalizes the ArrayLists
     @Override
     protected void init() {
+        DebugTool.log("EntityManager_init: Starting...");
+        super.init();
         entities = new HashMap<Integer, Entity>();
         components = new HashMap<Integer, Component>();
         markedEntities = new ArrayList<Integer>();
@@ -173,28 +166,28 @@ public class EntityManager extends Manager {
         if (entities.containsKey(component.entityId)) {
             if (components.containsKey(component.id)) {
                 if (component.type == ComponentType.ANIMATION) {
-                    GraphicsManager.getInstance().remove(component);
+                    gm.getGraphicsManager().remove(component);
                 } else if (component.type == ComponentType.CLICKABLE) {
-                    InputManager.getInstance().remove(component);
-                    PositionManager.getInstance().remove(component);
+                    gm.getInputManager().remove(component);
+                    gm.getPositionManager().remove(component);
                 } else if (component.type == ComponentType.COLLISION) {
-                    PhysicsManager.getInstance().remove(component);
-                    PositionManager.getInstance().remove(component);
+                    gm.getPhysicsManager().remove(component);
+                    gm.getPositionManager().remove(component);
                 }else if (component.type == ComponentType.FLOATING_TEXT) {
-                    GraphicsManager.getInstance().remove(component);
-                    PositionManager.getInstance().remove(component);
+                    gm.getGraphicsManager().remove(component);
+                    gm.getPositionManager().remove(component);
                 } else if (component.type == ComponentType.GENE_ROCKET) {
 
                 } else if (component.type == ComponentType.GRAPHICS) {
-                    GraphicsManager.getInstance().remove(component);
-                    PositionManager.getInstance().remove(component);
+                    gm.getGraphicsManager().remove(component);
+                    gm.getPositionManager().remove(component);
                 } else if (component.type == ComponentType.MUSIC) {
-                    SoundManager.getInstance().remove(component);
+                    gm.getSoundManager().remove(component);
                 } else if (component.type == ComponentType.PHYSICS) {
-                    PhysicsManager.getInstance().remove(component);
-                    PositionManager.getInstance().remove(component);
+                    gm.getPhysicsManager().remove(component);
+                    gm.getPositionManager().remove(component);
                 } else if (component.type == ComponentType.SOUND) {
-                    SoundManager.getInstance().remove(component);
+                    gm.getSoundManager().remove(component);
                 }
                 entities.get(component.entityId).components.values().remove(component.id);
                 components.values().remove(component.id);

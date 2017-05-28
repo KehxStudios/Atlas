@@ -33,6 +33,8 @@ import com.kehxstudios.atlas.screens.LoadingScreen;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.type.ScreenType;
 
+import java.util.ArrayList;
+
 /**
  * Main game class that handles the main game loop
  */
@@ -44,11 +46,14 @@ public class GameManager extends Game {
 		return instance;
 	}
 
+	private BuildManager buildManager;
 	private ScreenManager screenManager;
 	private EntityManager entityManager;
 	private GraphicsManager graphicsManager;
 	private InputManager inputManager;
 	private PhysicsManager physicsManager;
+	private PositionManager positionManager;
+	private SoundManager soundManager;
 
 	private AssetManager assetManager;
 
@@ -72,18 +77,34 @@ public class GameManager extends Game {
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
 
-		// Setup instances of each Manager including AssetManager
-		screenManager = ScreenManager.getInstance();
-		entityManager = EntityManager.getInstance();
-		graphicsManager = GraphicsManager.getInstance();
-		inputManager = InputManager.getInstance();
-		physicsManager = PhysicsManager.getInstance();
-		assetManager = new AssetManager();
-		Texture.setAssetManager(assetManager);
+        setupManagers();
 
 		// Demand a new Screen be started now
 		screenManager.demandNewScreen(ScreenType.INTRO);
 	}
+
+	private void setupManagers() {
+        // Setup instances of each Manager including AssetManager
+        buildManager = new BuildManager(this);
+        screenManager = new ScreenManager(this);
+        entityManager = new EntityManager(this);
+        graphicsManager = new GraphicsManager(this);
+        inputManager = new InputManager(this);
+        physicsManager = new PhysicsManager(this);
+        positionManager = new PositionManager(this);
+        soundManager = new SoundManager(this);
+        assetManager = new AssetManager();
+
+        buildManager.init();
+        screenManager.init();
+        entityManager.init();
+        graphicsManager.init();
+        inputManager.init();
+        physicsManager.init();
+        positionManager.init();
+        soundManager.init();
+        Texture.setAssetManager(assetManager);
+    }
 
 	@Override
 	public void pause() {
@@ -155,4 +176,13 @@ public class GameManager extends Game {
 	}
 
 	public AssetManager getAssetManager() { return assetManager; }
+
+    public BuildManager getBuildManager() { return buildManager; }
+	public ScreenManager getScreenManager() { return screenManager; }
+	public EntityManager getEntityManager() { return entityManager; }
+	public GraphicsManager getGraphicsManager() { return graphicsManager; }
+	public InputManager getInputManager() { return inputManager; }
+	public PhysicsManager getPhysicsManager() { return physicsManager; }
+	public PositionManager getPositionManager() { return positionManager; }
+	public SoundManager getSoundManager() { return soundManager; }
 }
