@@ -19,8 +19,10 @@
 
 package com.kehxstudios.atlas.screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Peripheral;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Align;
 import com.google.gwt.geolocation.client.Geolocation;
@@ -51,8 +53,19 @@ import java.util.List;
 public class DeviceInformationScreen extends AScreen {
 
     private FloatingTextComponent rotationFloatingText, orientationFloatingText,
-        resolutionFloatingText, yAxisAccelerationFloatingText, azmuthFloatingText,
-        pitchFloatingText, rollFloatingText, selfIPFloatingText, networkIPFloatingText;
+        resolutionFloatingText, yAxisAccelerationFloatingText;
+
+    // Angles
+    private FloatingTextComponent azmuthFloatingText, pitchFloatingText, rollFloatingText;
+    // Accelerometer
+    private FloatingTextComponent acceleromterXFloatingText, acceleromterYFloatingText,
+            accelerometerZFloatingText;
+
+    // Gyroscope
+    private FloatingTextComponent gyroscopeXFloatingText, gyroscopeYFloatingText,
+            gyroscopeZFloatingText;
+    // Networking
+    private FloatingTextComponent networkIPFloatingText, externalIPFloatingText;
 
     public DeviceInformationScreen() {
         super(ScreenType.DEVICE_INFORMATION);
@@ -61,6 +74,10 @@ public class DeviceInformationScreen extends AScreen {
 
     protected void init() {
         super.init();
+
+        buildManager.createClickableComponent(screenEntity, width, height, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.INTRO));
+
         Entity rotationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 120);
         rotationFloatingText = buildManager.createFloatingTextComponent(rotationEntity, 2,
                 "Rotation: ", "", Color.BLACK);
@@ -89,17 +106,13 @@ public class DeviceInformationScreen extends AScreen {
         rollFloatingText = buildManager.createFloatingTextComponent(rollEntity, 2,
                 "Roll: ", "", Color.BLACK);
 
-        Entity selfIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 160);
-        selfIPFloatingText = buildManager.createFloatingTextComponent(selfIPEntity, 2,
-                "Self-IP: ", "", Color.BLUE);
-
-        Entity networkIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 200);
+        Entity networkIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 160);
         networkIPFloatingText = buildManager.createFloatingTextComponent(networkIPEntity, 2,
-                "Network-IP: ", "", Color.BLACK);
+                "Network IP: ", "", Color.BLUE);
 
-        buildManager.createClickableComponent(screenEntity, width, height, false, false,
-                buildManager.createLaunchWebsiteAction("http://www.KehxStudios.com"));
-
+        Entity externalIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 200);
+        externalIPFloatingText = buildManager.createFloatingTextComponent(externalIPEntity, 2,
+                "External IP: ", "", Color.BLACK);
         network();
     }
 
@@ -135,13 +148,21 @@ public class DeviceInformationScreen extends AScreen {
         } catch(IOException e) {
             e.printStackTrace();
         }
-        selfIPFloatingText.text = addresses.get(1);
-        networkIPFloatingText.text = externalIP;
-        DebugTool.log("IPs",ipAddress);
-        selfIPFloatingText.layout.setText(selfIPFloatingText.font, selfIPFloatingText.label +
-                selfIPFloatingText.text, selfIPFloatingText.color, 0, Align.left, true);
-        networkIPFloatingText.layout.setText(networkIPFloatingText.font, networkIPFloatingText.label +
-                networkIPFloatingText.text, networkIPFloatingText.color, 0, Align.left, true);
+        if (addresses.size() > 1) {
+            networkIPFloatingText.text = addresses.get(1);
+            externalIPFloatingText.text = externalIP;
+            DebugTool.log("IPs",ipAddress);
+            networkIPFloatingText.layout.setText(networkIPFloatingText.font, networkIPFloatingText.label +
+                    networkIPFloatingText.text, networkIPFloatingText.color, 0, Align.left, true);
+            externalIPFloatingText.layout.setText(externalIPFloatingText.font, externalIPFloatingText.label +
+                    externalIPFloatingText.text, externalIPFloatingText.color, 0, Align.left, true);
+            if (Gdx.app.getType() == Application.ApplicationType.Android) {
+                DebugTool.log(gm.getGpsTracker().getLocation());
+            }
+        } else {
+            networkIPFloatingText.text = "Not Connected";
+            externalIPFloatingText.text = "Not Connected";
+        }
     }
 
     public void reset() {
@@ -150,40 +171,102 @@ public class DeviceInformationScreen extends AScreen {
 
     public void render(float delta) {
         super.render(delta);
-        if (screenTime > 0.3f) {
-            rotationFloatingText.text = Gdx.input.getRotation() + "";
-            if (Gdx.input.getNativeOrientation() == Input.Orientation.Landscape) {
-                orientationFloatingText.text = "Landscape";
-            } else {
-                orientationFloatingText.text = "Portrait";
-            }
-            resolutionFloatingText.text = Gdx.graphics.getWidth() + " x " + Gdx.graphics.getHeight();
-            yAxisAccelerationFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getAccelerometerY());
-            if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Compass)) {
-                azmuthFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getAzimuth());
-                pitchFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getPitch());
-                rollFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getRoll());
-            }
+        if (screenTime > 0.5f) {
+            displayUpdate();
+            gyroscopeUpdate();
+            compassUdate();
+            anglesUpdate();
             updateFloatingText();
             screenTime = 0f;
         }
     }
 
-    private void updateFloatingText() {
-        rotationFloatingText.layout.setText(rotationFloatingText.font, rotationFloatingText.label +
-                rotationFloatingText.text, rotationFloatingText.color, 0, Align.left, true);
+    public void displayUpdate() {
+        if (Gdx.input.getNativeOrientation() == Input.Orientation.Landscape) {
+            orientationFloatingText.text = "Landscape";
+        } else if (Gdx.input.getNativeOrientation() == Input.Orientation.Portrait){
+            orientationFloatingText.text = "Portrait";
+        } else {
+            orientationFloatingText.text = "Not Available";
+        }
+        resolutionFloatingText.text = Gdx.graphics.getWidth() + " x " + Gdx.graphics.getHeight();
+
         orientationFloatingText.layout.setText(orientationFloatingText.font, orientationFloatingText.label +
                 orientationFloatingText.text, orientationFloatingText.color, 0, Align.left, true);
         resolutionFloatingText.layout.setText(resolutionFloatingText.font, resolutionFloatingText.label +
                 resolutionFloatingText.text, resolutionFloatingText.color, 0, Align.left, true);
-        yAxisAccelerationFloatingText.layout.setText(yAxisAccelerationFloatingText.font, yAxisAccelerationFloatingText.label +
-                yAxisAccelerationFloatingText.text, yAxisAccelerationFloatingText.color, 0, Align.left, true);
+    }
+
+    public void gyroscopeUpdate() {
+        if (Gdx.input.isPeripheralAvailable(Peripheral.Gyroscope)) {
+            gyroscopeXFloatingText.text = String.format(java.util.Locale.US,"%.3f",
+                    Gdx.input.getGyroscopeX());
+            gyroscopeYFloatingText.text = String.format(java.util.Locale.US,"%.3f",
+                    Gdx.input.getGyroscopeY());
+            gyroscopeZFloatingText.text = String.format(java.util.Locale.US,"%.3f",
+                    Gdx.input.getGyroscopeZ());
+        } else {
+            gyroscopeXFloatingText.text = "Not Available";
+            gyroscopeYFloatingText.text = "Not Available";
+            gyroscopeZFloatingText.text = "Not Available";
+        }
+        gyroscopeXFloatingText.layout.setText(gyroscopeXFloatingText.font, gyroscopeXFloatingText.label +
+                gyroscopeXFloatingText.text, gyroscopeXFloatingText.color, 0, Align.left, true);
+        gyroscopeYFloatingText.layout.setText(gyroscopeYFloatingText.font, gyroscopeYFloatingText.label +
+                gyroscopeYFloatingText.text, gyroscopeYFloatingText.color, 0, Align.left, true);
+        gyroscopeZFloatingText.layout.setText(gyroscopeZFloatingText.font, gyroscopeZFloatingText.label +
+                gyroscopeZFloatingText.text, gyroscopeZFloatingText.color, 0, Align.left, true);
+    }
+
+    public void compassUdate() {
+        if (Gdx.input.isPeripheralAvailable(Peripheral.Compass)) {
+            azmuthFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getAzimuth());
+            pitchFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getPitch());
+            rollFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getRoll());
+        } else {
+            azmuthFloatingText.text = "Not Available";
+            pitchFloatingText.text = "Not Available";
+            rollFloatingText.text = "Not Available";
+        }
         azmuthFloatingText.layout.setText(azmuthFloatingText.font, azmuthFloatingText.label +
                 azmuthFloatingText.text, azmuthFloatingText.color, 0, Align.left, true);
         pitchFloatingText.layout.setText(pitchFloatingText.font, pitchFloatingText.label +
                 pitchFloatingText.text, pitchFloatingText.color, 0, Align.left, true);
         rollFloatingText.layout.setText(rollFloatingText.font, rollFloatingText.label +
                 rollFloatingText.text, rollFloatingText.color, 0, Align.left, true);
+    }
+
+    public void acceleromterUpdate() {
+        if (Gdx.input.isPeripheralAvailable(Peripheral.Accelerometer)) {
+            azmuthFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getGyroscopeZ());
+            pitchFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getGyroscopeY());
+            rollFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getGyroscopeX());
+        } else {
+            azmuthFloatingText.text = "Not Available";
+            pitchFloatingText.text = "Not Available";
+            rollFloatingText.text = "Not Available";
+        }
+        azmuthFloatingText.layout.setText(azmuthFloatingText.font, azmuthFloatingText.label +
+                azmuthFloatingText.text, azmuthFloatingText.color, 0, Align.left, true);
+        pitchFloatingText.layout.setText(pitchFloatingText.font, pitchFloatingText.label +
+                pitchFloatingText.text, pitchFloatingText.color, 0, Align.left, true);
+        rollFloatingText.layout.setText(rollFloatingText.font, rollFloatingText.label +
+                rollFloatingText.text, rollFloatingText.color, 0, Align.left, true);
+    }
+
+    public void accelerometerUpdate() {
+        if (Gdx.input.isPeripheralAvailable(Peripheral.Accelerometer)) {
+            yAxisAccelerationFloatingText.text = String.format(java.util.Locale.US, "%.2f", Gdx.input.getAccelerometerY());
+        } else {
+            yAxisAccelerationFloatingText.text = "Not Available";
+        }
+        yAxisAccelerationFloatingText.layout.setText(yAxisAccelerationFloatingText.font, yAxisAccelerationFloatingText.label +
+                yAxisAccelerationFloatingText.text, yAxisAccelerationFloatingText.color, 0, Align.left, true);
+    }
+
+    private void updateFloatingText() {
+        rotationFloatingText.layout.setText(rotationFloatingText.font, rotationFloatingText.label +
+                rotationFloatingText.text, rotationFloatingText.color, 0, Align.left, true);
     }
 
     public void dispose() { super.dispose(); }

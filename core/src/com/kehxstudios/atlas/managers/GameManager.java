@@ -62,6 +62,7 @@ public class GameManager extends Game {
 	public static final float D_WIDTH = 480, D_HEIGHT = 800;
 
 	public GPSTracker gpsTracker;
+	public GPSTracker getGpsTracker() { return gpsTracker; }
 
 	public GameManager(GPSTracker gpsTracker) {
 		this.gpsTracker = gpsTracker;
