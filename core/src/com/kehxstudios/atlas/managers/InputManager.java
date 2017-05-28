@@ -89,7 +89,6 @@ public class InputManager extends Manager {
     // Called when loading a new screen
     @Override
     protected void loadSettings() {
-        clickableComponents = new HashMap<Integer, ClickableComponent>();
         DebugTool.log("InputManager_loadSettings: Complete");
     }
     

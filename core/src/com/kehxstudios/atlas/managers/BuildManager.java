@@ -27,6 +27,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.actions.Action;
+import com.kehxstudios.atlas.actions.LaunchWebsiteAction;
 import com.kehxstudios.atlas.actions.ResetScreenAction;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.components.CollisionComponent;
@@ -330,6 +331,13 @@ public class BuildManager extends Manager {
         launchScreen.screenManager = screenManager;
         launchScreen.screenType = screenType;
         return launchScreen;
+    }
+
+    public LaunchWebsiteAction createLaunchWebsiteAction(String site) {
+        LaunchWebsiteAction launchWebsite = new LaunchWebsiteAction();
+        launchWebsite.type = ActionType.LAUNCH_WEBSITE;
+        launchWebsite.site = site;
+        return launchWebsite;
     }
 
     public ResetScreenAction createResetScreenAction() {

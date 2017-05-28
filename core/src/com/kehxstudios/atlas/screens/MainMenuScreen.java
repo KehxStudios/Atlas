@@ -63,11 +63,11 @@ public class MainMenuScreen extends AScreen {
         buildManager.createClickableComponent(geneRocketsEntity, borderWidth, borderHeight, true, false,
                 buildManager.createLaunchScreenAction(ScreenType.GENE_ROCKETS));
 
-        Entity phoneInformationEntity = buildManager.createEntity(width/2, height/6*2);
-        buildManager.createGraphicsComponent(phoneInformationEntity, 1, TextureType.MAIN_MENU_BORDER);
-        buildManager.createFloatingTextComponent(phoneInformationEntity, 3, "", "Phone Information", Color.BLACK);
-        buildManager.createClickableComponent(phoneInformationEntity, borderWidth, borderHeight, true, false,
-                buildManager.createLaunchScreenAction(ScreenType.PHONE_INFORMATION));
+        Entity deviceInformationEntity = buildManager.createEntity(width/2, height/6*2);
+        buildManager.createGraphicsComponent(deviceInformationEntity, 1, TextureType.MAIN_MENU_BORDER);
+        buildManager.createFloatingTextComponent(deviceInformationEntity, 3, "", "Device Information", Color.BLACK);
+        buildManager.createClickableComponent(deviceInformationEntity, borderWidth, borderHeight, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.DEVICE_INFORMATION));
 
         Entity highScoreResetEntity = buildManager.createEntity(width/2, height/6);
         buildManager.createGraphicsComponent(highScoreResetEntity, 1, TextureType.MAIN_MENU_BORDER);

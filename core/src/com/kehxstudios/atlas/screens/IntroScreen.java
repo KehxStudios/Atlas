@@ -59,8 +59,9 @@ public class IntroScreen extends AScreen {
         super.render(delta);
         if (!clickToContinue) {
             // If index is not on last path
-            if (!finalLogo && screenTime >= 2f || screenTime > 1f && Gdx.input.isTouched()) {
+            if (!finalLogo && (screenTime >= 2f || screenTime > 1f && Gdx.input.isTouched())) {
                 entityManager.remove(devLogoGraphics);
+                devLogoGraphics = null;
                 buildManager.createGraphicsComponent(screenEntity, 1, TextureType.INTRO_GAME_LOGO);
                 finalLogo = true;
             } else if (finalLogo && screenTime > 4f || screenTime > 2f && Gdx.input.isTouched()) {

@@ -24,6 +24,7 @@ import com.kehxstudios.atlas.actions.DestroyEntityAction;
 import com.kehxstudios.atlas.actions.HighScoreResetAction;
 import com.kehxstudios.atlas.actions.FollowAction;
 import com.kehxstudios.atlas.actions.LaunchScreenAction;
+import com.kehxstudios.atlas.actions.LaunchWebsiteAction;
 import com.kehxstudios.atlas.actions.MultiAction;
 import com.kehxstudios.atlas.actions.PhysicsAction;
 import com.kehxstudios.atlas.actions.RepositionAction;
@@ -42,6 +43,7 @@ public enum ActionType {
     HIGH_SCORE_RESET("High-Score Reset", HighScoreResetAction.class),
     FOLLOW("Follow", FollowAction.class),
     LAUNCH_SCREEN("Launch Screen", LaunchScreenAction.class),
+    LAUNCH_WEBSITE("Launch Website", LaunchWebsiteAction.class),
     MULTI("Multi", MultiAction.class), // TO BE USED
     PHYSICS("Physics", PhysicsAction.class),
     REPOSITION("Reposition", RepositionAction.class),

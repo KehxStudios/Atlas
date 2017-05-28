@@ -19,21 +19,17 @@
 
 package com.kehxstudios.atlas.managers;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kehxstudios.atlas.screens.AScreen;
-import com.kehxstudios.atlas.screens.LoadingScreen;
 import com.kehxstudios.atlas.tools.DebugTool;
+import com.kehxstudios.atlas.tools.GPSTracker;
 import com.kehxstudios.atlas.type.ScreenType;
-
-import java.util.ArrayList;
 
 /**
  * Main game class that handles the main game loop
@@ -64,6 +60,12 @@ public class GameManager extends Game {
 
 	// Used for Desktop window size, will later update for size options
 	public static final float D_WIDTH = 480, D_HEIGHT = 800;
+
+	public GPSTracker gpsTracker;
+
+	public GameManager(GPSTracker gpsTracker) {
+		this.gpsTracker = gpsTracker;
+	}
 
 	@Override
 	public void create () {

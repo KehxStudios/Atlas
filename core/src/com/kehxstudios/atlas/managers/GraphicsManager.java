@@ -26,6 +26,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.kehxstudios.atlas.components.AnimationComponent;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.components.Component;
@@ -96,11 +97,6 @@ public class GraphicsManager extends Manager {
     @Override
     protected void loadSettings() {
         loadTextureAtlas();
-        graphicsComponents = new ArrayList<HashMap<Integer, GraphicsComponent>>();
-        for (int i = 0; i < MAX_LAYERS; i++) {
-            graphicsComponents.add(new HashMap<Integer,GraphicsComponent>());
-        }
-        floatingTextComponents = new HashMap<Integer, FloatingTextComponent>();
         DebugTool.log("GraphicsManager_loadSettings: Complete");
     }
 
@@ -155,8 +151,15 @@ public class GraphicsManager extends Manager {
     }
 
     // Called to check if graphics is already contained in @graphicsComponents
-    private boolean contained(GraphicsComponent graphics) {
-        return graphicsComponents.get(graphics.layer).containsKey(graphics.id);
+    private boolean contained(int graphicsId) {
+        for (HashMap<Integer, GraphicsComponent> hashMap : graphicsComponents) {
+            for (Integer id : hashMap.keySet()) {
+                if (id == graphicsId) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
     // Called to add component to corresponding ArrayList
@@ -174,8 +177,10 @@ public class GraphicsManager extends Manager {
             cameraComponent = camera;
         } else if (component.type == ComponentType.GRAPHICS) {
             GraphicsComponent graphics = (GraphicsComponent)component;
-            if (!contained(graphics)) {
+            if (!contained(graphics.id)) {
                 graphicsComponents.get(graphics.layer).put(graphics.id, graphics);
+            } else {
+                DebugTool.log("Graphics not added!");
             }
         } else if (component.type == ComponentType.FLOATING_TEXT) {
             FloatingTextComponent floatingText = (FloatingTextComponent)component;
@@ -191,21 +196,21 @@ public class GraphicsManager extends Manager {
             AnimationComponent animation = (AnimationComponent)component;
             if (animationComponents.containsKey(animation.id)) {
                 animationComponents.values().remove(animation);
+            }
         } else if (component.type == ComponentType.CAMERA) {
-                CameraComponent camera = (CameraComponent)component;
-                if (cameraComponent == camera) {
-                    cameraComponent = null;
-                }
+            CameraComponent camera = (CameraComponent)component;
+            if (cameraComponent == camera) {
+                cameraComponent = null;
+            }
         } else if (component.type == ComponentType.GRAPHICS) {
-                GraphicsComponent graphics = (GraphicsComponent)component;
-                if (contained(graphics)) {
-                    graphicsComponents.get(graphics.layer).values().remove(graphics);
-                }
+            GraphicsComponent graphics = (GraphicsComponent)component;
+            if (contained(graphics.id)) {
+                graphicsComponents.get(graphics.layer).remove(graphics.id);
+            }
         } else if (component.type == ComponentType.FLOATING_TEXT) {
-                FloatingTextComponent floatingText = (FloatingTextComponent) component;
-                if (floatingTextComponents.containsKey(floatingText.id)) {
-                    floatingTextComponents.values().remove(floatingText);
-                }
+            FloatingTextComponent floatingText = (FloatingTextComponent) component;
+            if (floatingTextComponents.containsKey(floatingText.id)) {
+                floatingTextComponents.values().remove(floatingText);
             }
         }
     }

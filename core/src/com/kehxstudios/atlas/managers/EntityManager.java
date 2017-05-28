@@ -85,18 +85,17 @@ public class EntityManager extends Manager {
     @Override
     protected void loadSettings() {
         DebugTool.log("EntityManager_loadSettings: Complete");
-        entities = new HashMap<Integer, Entity>();
-        components = new HashMap<Integer, Component>();
-        markedEntities = new ArrayList<Integer>();
-        markedComponents = new ArrayList<Integer>();
     }
 
     // Called when unloading the current screen
     @Override
     protected void removeSettings() {
-        while (entities.size() > 0 && false) {
-            DebugTool.log("Removing Entities{0} in removeSettings");
-            remove(entities.get(0));
+        if (entities.size() == 0) {
+            return;
+        }
+        for (Entity entity : entities.values()) {
+            DebugTool.log("Removing Entity #" + entity.id);
+            remove(entity);
         }
         DebugTool.log("EntityManager_removeSettings: Complete");
     }
@@ -136,9 +135,12 @@ public class EntityManager extends Manager {
     private void remove(Entity entity) {
         if (entities.containsKey(entity.id)) {
             if (entity.components.size() > 0) {
-                Integer[] componentIds = (Integer[]) entity.components.keySet().toArray();
-                for (Integer componentId : componentIds) {
-                    remove(components.get(componentId));
+                ArrayList<Integer> keys = new ArrayList<Integer>();
+                for (Integer componentId : entity.components.keySet()) {
+                    keys.add(componentId);
+                }
+                for (int key : keys) {
+                    remove(components.get(key));
                 }
             }
             entities.values().remove(entity.id);
@@ -166,31 +168,35 @@ public class EntityManager extends Manager {
         if (entities.containsKey(component.entityId)) {
             if (components.containsKey(component.id)) {
                 if (component.type == ComponentType.ANIMATION) {
-                    gm.getGraphicsManager().remove(component);
+                    graphicsManager.remove(component);
                 } else if (component.type == ComponentType.CLICKABLE) {
-                    gm.getInputManager().remove(component);
-                    gm.getPositionManager().remove(component);
+                    inputManager.remove(component);
+                    positionManager.remove(component);
                 } else if (component.type == ComponentType.COLLISION) {
-                    gm.getPhysicsManager().remove(component);
-                    gm.getPositionManager().remove(component);
-                }else if (component.type == ComponentType.FLOATING_TEXT) {
-                    gm.getGraphicsManager().remove(component);
-                    gm.getPositionManager().remove(component);
+                    physicsManager.remove(component);
+                    positionManager.remove(component);
+                } else if (component.type == ComponentType.CAMERA) {
+                    graphicsManager.remove(component);
+                    inputManager.remove(component);
+                    positionManager.remove(component);
+                } else if (component.type == ComponentType.FLOATING_TEXT) {
+                    graphicsManager.remove(component);
+                    positionManager.remove(component);
                 } else if (component.type == ComponentType.GENE_ROCKET) {
 
                 } else if (component.type == ComponentType.GRAPHICS) {
-                    gm.getGraphicsManager().remove(component);
-                    gm.getPositionManager().remove(component);
+                    graphicsManager.remove(component);
+                    positionManager.remove(component);
                 } else if (component.type == ComponentType.MUSIC) {
-                    gm.getSoundManager().remove(component);
+                    soundManager.remove(component);
                 } else if (component.type == ComponentType.PHYSICS) {
-                    gm.getPhysicsManager().remove(component);
-                    gm.getPositionManager().remove(component);
+                    physicsManager.remove(component);
+                    positionManager.remove(component);
                 } else if (component.type == ComponentType.SOUND) {
-                    gm.getSoundManager().remove(component);
+                    soundManager.remove(component);
                 }
-                entities.get(component.entityId).components.values().remove(component.id);
-                components.values().remove(component.id);
+                entities.get(component.entityId).components.remove(component.id);
+                components.remove(component.id);
             } else {
                 ErrorTool.log("Failed to find component in entity to remove");
             }

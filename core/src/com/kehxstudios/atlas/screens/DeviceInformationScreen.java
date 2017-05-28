@@ -23,23 +23,39 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Align;
+import com.google.gwt.geolocation.client.Geolocation;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.BuildManager;
+import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.type.ScreenType;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  * Shows information from phone sensors
  */
 
-public class PhoneInformationScreen extends AScreen {
+public class DeviceInformationScreen extends AScreen {
 
     private FloatingTextComponent rotationFloatingText, orientationFloatingText,
         resolutionFloatingText, yAxisAccelerationFloatingText, azmuthFloatingText,
-        pitchFloatingText, rollFloatingText;
+        pitchFloatingText, rollFloatingText, selfIPFloatingText, networkIPFloatingText;
 
-    public PhoneInformationScreen() {
-        super(ScreenType.PHONE_INFORMATION);
+    public DeviceInformationScreen() {
+        super(ScreenType.DEVICE_INFORMATION);
         init();
     }
 
@@ -72,6 +88,60 @@ public class PhoneInformationScreen extends AScreen {
         Entity rollEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 120);
         rollFloatingText = buildManager.createFloatingTextComponent(rollEntity, 2,
                 "Roll: ", "", Color.BLACK);
+
+        Entity selfIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 160);
+        selfIPFloatingText = buildManager.createFloatingTextComponent(selfIPEntity, 2,
+                "Self-IP: ", "", Color.BLUE);
+
+        Entity networkIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 200);
+        networkIPFloatingText = buildManager.createFloatingTextComponent(networkIPEntity, 2,
+                "Network-IP: ", "", Color.BLACK);
+
+        buildManager.createClickableComponent(screenEntity, width, height, false, false,
+                buildManager.createLaunchWebsiteAction("http://www.KehxStudios.com"));
+
+        network();
+    }
+
+    private void network() {
+        List<String> addresses = new ArrayList<String>();
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            for(NetworkInterface ni : Collections.list(interfaces)){
+                for(InetAddress address : Collections.list(ni.getInetAddresses()))
+                {
+                    if(address instanceof Inet4Address){
+                        addresses.add(address.getHostAddress());
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+            DebugTool.log("Network Issue");
+        }
+
+        // Print the contents of our array to a string.  Yeah, should have used StringBuilder
+        String ipAddress = new String("");
+        for(String str:addresses)
+        {
+            ipAddress = ipAddress + str + "\n";
+        }
+        String externalIP = "";
+        try {
+            URL whatismyip = new URL("http://checkip.amazonaws.com");
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    whatismyip.openStream()));
+            externalIP = in.readLine(); //you get the IP as a String
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        selfIPFloatingText.text = addresses.get(1);
+        networkIPFloatingText.text = externalIP;
+        DebugTool.log("IPs",ipAddress);
+        selfIPFloatingText.layout.setText(selfIPFloatingText.font, selfIPFloatingText.label +
+                selfIPFloatingText.text, selfIPFloatingText.color, 0, Align.left, true);
+        networkIPFloatingText.layout.setText(networkIPFloatingText.font, networkIPFloatingText.label +
+                networkIPFloatingText.text, networkIPFloatingText.color, 0, Align.left, true);
     }
 
     public void reset() {
@@ -80,7 +150,7 @@ public class PhoneInformationScreen extends AScreen {
 
     public void render(float delta) {
         super.render(delta);
-        if (screenTime > 0.5f) {
+        if (screenTime > 0.3f) {
             rotationFloatingText.text = Gdx.input.getRotation() + "";
             if (Gdx.input.getNativeOrientation() == Input.Orientation.Landscape) {
                 orientationFloatingText.text = "Landscape";

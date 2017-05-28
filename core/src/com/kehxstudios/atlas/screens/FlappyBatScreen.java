@@ -24,10 +24,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
+import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.data.HighScores;
 import com.kehxstudios.atlas.managers.BuildManager;
+import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.type.ScreenType;
@@ -41,16 +43,17 @@ import java.util.Random;
 
 public class FlappyBatScreen extends AScreen {
 
-    private static final int WALL_SPACING = 125;
+    private static final int WALL_SPACING = 160;
     private static final int WALL_COUNT = 3;
     private static final int WALL_WIDTH = 52;
     private static final int WALL_HEIGHT = 320;
-    private static final int WALL_FLUCTUATION = 160;
+    private static final int WALL_FLUCTUATION = 140;
     private static final int WALL_GAP = 100;
-    private static final int WALL_LOWEST_OPENING = 155;
+    private static final int WALL_Y_START = 510;
+    private static final int WALL_X_START = 150;
 
     private static final int GROUND_COUNT = 2;
-    private static final int GROUND_Y_OFFSET = 5;
+    private static final int GROUND_Y_OFFSET = 20;
     private static final int GROUND_WIDTH = 366;
     
     private static final float BAT_X_MOVEMENT = 100;
@@ -75,6 +78,11 @@ public class FlappyBatScreen extends AScreen {
 
     public FlappyBatScreen() {
         super(ScreenType.FLAPPY_BAT);
+        init();
+    }
+
+    protected void init() {
+        super.init();
 
         batStartX = width/4;
         batCurrentX = batStartX;
@@ -85,17 +93,12 @@ public class FlappyBatScreen extends AScreen {
         lowScore = highScores.getLowScore();
         highScore = highScores.getHighScore();
 
-        init();
-    }
-
-    protected void init() {
-        super.init();
         buildManager.createGraphicsComponent(screenEntity, 0, TextureType.FLAPPY_BAT_BACKGROUND);
 
         float batWidth = TextureType.FLAPPY_BAT_BAT.getWidth();
         float batHeight = TextureType.FLAPPY_BAT_BAT.getHeight();
         batEntity = buildManager.createEntity(width/4, height/2);
-        buildManager.createGraphicsComponent(batEntity, 2, TextureType.FLAPPY_BAT_BAT);
+        buildManager.createGraphicsComponent(batEntity, 3, TextureType.FLAPPY_BAT_BAT);
         batPhysics = buildManager.createPhysicsComponent(batEntity, new Vector2(100, 300), new Vector2(100,300));
         buildManager.createCollisionComponent(batEntity, batWidth, batHeight, false, false,
                 buildManager.createResetScreenAction());
@@ -107,7 +110,7 @@ public class FlappyBatScreen extends AScreen {
         groundEntities = new ArrayList<Entity>();
         for (int i = 0; i < GROUND_COUNT; i++) {
             Entity groundEntity = buildManager.createEntity(i * GROUND_WIDTH, GROUND_Y_OFFSET);
-            buildManager.createGraphicsComponent(groundEntity, 1, TextureType.FLAPPY_BAT_GROUND);
+            buildManager.createGraphicsComponent(groundEntity, 2, TextureType.FLAPPY_BAT_GROUND);
             buildManager.createCollisionComponent(groundEntity, groundWidth, groundHeight, true, false,
                     buildManager.createResetScreenAction());
             groundEntities.add(groundEntity);
@@ -117,38 +120,48 @@ public class FlappyBatScreen extends AScreen {
         float wallHeight = TextureType.FLAPPY_BAT_WALL.getHeight();
         wallEntities = new ArrayList<Entity>();
         for (int i = 0; i < WALL_COUNT; i++) {
-            Entity topWallEntity = buildManager.createEntity(screenEntity.position.x + 80 + i * WALL_SPACING + WALL_WIDTH, wallRandomY());
-            buildManager.createGraphicsComponent(topWallEntity, 0, TextureType.FLAPPY_BAT_WALL);
-            buildManager.createCollisionComponent(topWallEntity, wallWidth, wallHeight, true, false,
-                    buildManager.createResetScreenAction());
+            float topWallX = WALL_X_START + i * WALL_SPACING;
+            float topWallY = wallRandomY();
+            Entity topWallEntity = buildManager.createEntity(topWallX, topWallY);
+            buildManager.createGraphicsComponent(topWallEntity, 1, TextureType.FLAPPY_BAT_WALL);
+            buildManager.createCollisionComponent(topWallEntity, wallWidth, wallHeight, true, false, new Action());
             wallEntities.add(topWallEntity);
 
-            Entity bottomWallEntity = buildManager.createEntity(topWallEntity.position.x, topWallEntity.position.y + WALL_GAP + WALL_HEIGHT);
-            buildManager.createGraphicsComponent(bottomWallEntity, 0, TextureType.FLAPPY_BAT_WALL);
-            buildManager.createCollisionComponent(bottomWallEntity, wallWidth, wallHeight, true, false,
-                    buildManager.createResetScreenAction());
+            Entity bottomWallEntity = buildManager.createEntity(topWallX, topWallY - WALL_GAP - WALL_HEIGHT);
+            buildManager.createGraphicsComponent(bottomWallEntity, 1, TextureType.FLAPPY_BAT_WALL);
+            buildManager.createCollisionComponent(bottomWallEntity, wallWidth, wallHeight, true, false, new Action());
             wallEntities.add(bottomWallEntity);
         }
 
-        Entity scoreEntity = buildManager.createEntity(0, -height/2 + 60);
+        Entity scoreEntity = buildManager.createEntity(0, 54);
         scoreText = buildManager.createFloatingTextComponent(scoreEntity, 1, "Score: ", "",Color.BLACK);
 
-        Entity lowScoreEntity = buildManager.createEntity(0, -height/2 + 40);
+        Entity lowScoreEntity = buildManager.createEntity(0, 36);
         lowScoreText = buildManager.createFloatingTextComponent(lowScoreEntity, 1, "Low-Score: ", "", Color.BLACK);
+        lowScore = highScores.getLowScore();
+        lowScoreText.text = lowScore+"";
+        lowScoreText.layout.setText(lowScoreText.font, lowScoreText.label + lowScoreText.text,
+                Color.BLACK, 0, Align.left, true);
 
-        Entity highScoreEntity = buildManager.createEntity(0, -height/2 + 20);
+        Entity highScoreEntity = buildManager.createEntity(0, 18);
         highScoreText = buildManager.createFloatingTextComponent(highScoreEntity, 1, "High-Score: ", "", Color.BLACK);
-
+        highScore = highScores.getHighScore();
+        highScoreText.text = highScore+"";
+        highScoreText.layout.setText(highScoreText.font, highScoreText.label + highScoreText.text,
+                Color.BLACK, 0, Align.left, true);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        if (batEntity.position.y > height) {
+        if (batEntity.position.y > height || batEntity.position.y < 20) {
             screenManager.requestScreenReset();
             return;
         }
         positionManager.setPosition(screenEntity.id, new Vector2(batEntity.position.x + 80, height/2));
+        positionManager.setPosition(scoreText.entityId, new Vector2(batEntity.position.x + 80, 54));
+        positionManager.setPosition(lowScoreText.entityId, new Vector2(batEntity.position.x + 80, 36));
+        positionManager.setPosition(highScoreText.entityId, new Vector2(batEntity.position.x + 80, 18));
         batPhysics.velocity.x = BAT_X_MOVEMENT;
         batPhysics.velocity.y += GRAVITY;
 
@@ -166,7 +179,7 @@ public class FlappyBatScreen extends AScreen {
     }
     
     public float wallRandomY() {
-        return random.nextFloat() * WALL_FLUCTUATION + WALL_LOWEST_OPENING - WALL_HEIGHT;
+        return WALL_Y_START - random.nextFloat() * WALL_FLUCTUATION;
     }
 
     public void reset() {
@@ -194,13 +207,15 @@ public class FlappyBatScreen extends AScreen {
             positionManager.setPosition(groundEntities.get(i).id, new Vector2(
                     i * GROUND_WIDTH, GROUND_Y_OFFSET));
         }
+        int j = 0;
         for (int i = 0; i < WALL_COUNT * 2; i+=2) {
             int topId = wallEntities.get(i).id;
             int bottomId = wallEntities.get(i + 1).id;
-            positionManager.setPosition(topId, new Vector2(
-                    screenEntity.position.x + 80 + i * WALL_SPACING, wallRandomY()));
+            float topWallX = WALL_X_START + j++ * WALL_SPACING;
+            float topWallY = wallRandomY();
+            positionManager.setPosition(topId, new Vector2(topWallX, topWallY));
             positionManager.setPosition(bottomId, new Vector2(
-                    wallEntities.get(i).position.x, wallEntities.get(i).position.y + WALL_GAP + WALL_HEIGHT));
+                    topWallX, topWallY - WALL_GAP - WALL_HEIGHT));
         }
 
         batStartX = batEntity.position.x;
@@ -216,11 +231,12 @@ public class FlappyBatScreen extends AScreen {
             }
         }
         if (resetWalls.size() == 2) {
-            float newX = resetWalls.get(0).position.x + WALL_SPACING * WALL_COUNT;
-            float newY = wallRandomY();
-            positionManager.setPosition(resetWalls.get(0).id, new Vector2(newX, newY));
-            positionManager.setPosition(resetWalls.get(1).id, new Vector2(newX,
-                    newY + WALL_GAP + WALL_HEIGHT));
+            DebugTool.log("WALL RESETTING");
+            float topWallX = resetWalls.get(0).position.x + WALL_COUNT * WALL_SPACING;
+            float topWallY = wallRandomY();
+            positionManager.setPosition(resetWalls.get(0).id, new Vector2(topWallX, topWallY));
+            positionManager.setPosition(resetWalls.get(1).id, new Vector2(topWallX,
+                    topWallY - WALL_GAP - WALL_HEIGHT));
         }
     }
 

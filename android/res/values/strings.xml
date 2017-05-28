@@ -2,5 +2,6 @@
 <resources>
 
     <string name="app_name">Atlas</string>
+    <string name="app_id">456456452</string>
 
 </resources>

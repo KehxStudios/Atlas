@@ -25,7 +25,7 @@ import com.kehxstudios.atlas.screens.GeneRocketsScreen;
 import com.kehxstudios.atlas.screens.IntroScreen;
 import com.kehxstudios.atlas.screens.LoadingScreen;
 import com.kehxstudios.atlas.screens.MainMenuScreen;
-import com.kehxstudios.atlas.screens.PhoneInformationScreen;
+import com.kehxstudios.atlas.screens.DeviceInformationScreen;
 import com.kehxstudios.atlas.screens.PongScreen;
 
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public enum ScreenType {
     GENE_ROCKETS("Gene Rockets", "atlas/geneRockets.atlas", 512, 910, GeneRocketsScreen.class),
     PONG("Pong", "atlas/pong.atlas", 512, 910, PongScreen.class),
     LOADING("Loading", "loading/loading.atlas", 512, 910, LoadingScreen.class),
-    PHONE_INFORMATION("Phone Information", "atlas/phoneInformation.atlas", 512, 910, PhoneInformationScreen.class),
+    DEVICE_INFORMATION("Device Information", "atlas/deviceInformation.atlas", 512, 910, DeviceInformationScreen.class),
     VOID("Void", "", 0, 0, AScreen.class);
 
     private String id, atlasPath;

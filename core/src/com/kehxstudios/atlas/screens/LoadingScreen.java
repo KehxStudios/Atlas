@@ -20,15 +20,21 @@
 package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.type.ScreenType;
+
+import java.awt.Font;
 
 /**
  * The loading screen used when loading assets
@@ -42,6 +48,11 @@ public class LoadingScreen extends AScreen {
     private OrthographicCamera camera;
     private Sprite hexSprite;
 
+    private BitmapFont loadingFont;
+    private float loadingFontScale = 2f;
+    private GlyphLayout loadingLayout;
+    private String loadingText = "Loading...";
+
     public LoadingScreen() {
         super(ScreenType.LOADING);
         loadingType = ScreenType.VOID;
@@ -51,6 +62,10 @@ public class LoadingScreen extends AScreen {
         camera.setToOrtho(false, width, height);
         hexSprite = new Sprite(new Texture(Gdx.files.internal("loading/hexagon_filled.png")));
         hexSprite.setCenter(width/2, height/2);
+        loadingFont = new BitmapFont();
+        loadingFont.getData().setScale(loadingFontScale, loadingFontScale);
+        loadingLayout = new GlyphLayout(loadingFont, loadingText);
+        loadingLayout.setText(loadingFont, loadingText, Color.BLUE, 0, Align.center, false);
     }
 
     @Override
@@ -66,8 +81,9 @@ public class LoadingScreen extends AScreen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
+        loadingFont.draw(batch, loadingLayout, width/2, height/4);
+        hexSprite.rotate(5f);
         hexSprite.draw(batch);
-        hexSprite.rotate(10f);
 
         batch.end();
     }

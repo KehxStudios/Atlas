@@ -74,17 +74,12 @@ public class SoundManager extends Manager {
 
     @Override
     protected void loadSettings() {
-        soundComponents.clear();
-        musicComponents.clear();
         DebugTool.log("SoundManager_loadScreenSettings: Complete");
     }
     
     @Override
     protected void removeSettings() {
         DebugTool.log("SoundManager_loadScreenSettings: Complete");
-        for (MusicComponent music : musicComponents.values()) {
-            music.music.stop();
-        }
     }
     
     public void play(Component component) {

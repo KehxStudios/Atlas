@@ -30,11 +30,11 @@ public enum MusicType {
     INTRO("Intro", "intro.mp3", "music/"),
     MAIN_MENU("Main Menu", "mainMenu.mp3", "music/"),
     FLAPPY_BAT("Flappy Bat", "flappyBird.mp3", "music/"),
-    LOADING("Loading", "music.mp3", "loading/"),
+    LOADING("Loading", "loading.mp3", "music/"),
     GENE_ROCKETS("Gene Rockets", "geneRockets.mp3", "music/"),
-    PHONE_INFORMATION("Phone Information", "intro.mp3", "music/"),
+    DEVICE_INFORMATION("Device Information", "intro.mp3", "music/"),
 
-    VOID("Void", "music.mp3", "intro/");
+    VOID("Void", "intro.mp3", "music/");
 
     private String id, fileName, filePath;
 

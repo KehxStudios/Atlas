@@ -81,10 +81,12 @@ public class ScreenManager extends Manager {
     // Called when loading a new screen
     @Override
     protected void loadSettings() {
-        gm.getEntityManager().setScreenType(screenType);
-        gm.getGraphicsManager().setScreenType(screenType);
-        gm.getInputManager().setScreenType(screenType);
-        gm.getPhysicsManager().setScreenType(screenType);
+        entityManager.setScreenType(screenType);
+        graphicsManager.setScreenType(screenType);
+        inputManager.setScreenType(screenType);
+        physicsManager.setScreenType(screenType);
+        soundManager.setScreenType(screenType);
+        buildManager.setScreenType(screenType);
         DebugTool.log("ScreenManager_loadSettings: Complete");
     }
 
