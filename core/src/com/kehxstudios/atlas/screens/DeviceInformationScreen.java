@@ -52,20 +52,20 @@ import java.util.List;
 
 public class DeviceInformationScreen extends AScreen {
 
-    private FloatingTextComponent rotationFloatingText, orientationFloatingText,
-        resolutionFloatingText, yAxisAccelerationFloatingText;
-
-    // Angles
+    // Display
+    private FloatingTextComponent orientationFloatingText, resolutionFloatingText;
+    // Compass
     private FloatingTextComponent azmuthFloatingText, pitchFloatingText, rollFloatingText;
     // Accelerometer
-    private FloatingTextComponent acceleromterXFloatingText, acceleromterYFloatingText,
+    private FloatingTextComponent accelerometerXFloatingText, accelerometerYFloatingText,
             accelerometerZFloatingText;
-
     // Gyroscope
     private FloatingTextComponent gyroscopeXFloatingText, gyroscopeYFloatingText,
             gyroscopeZFloatingText;
     // Networking
     private FloatingTextComponent networkIPFloatingText, externalIPFloatingText;
+
+    private float networkTick;
 
     public DeviceInformationScreen() {
         super(ScreenType.DEVICE_INFORMATION);
@@ -74,49 +74,58 @@ public class DeviceInformationScreen extends AScreen {
 
     protected void init() {
         super.init();
+        //buildManager.createClickableComponent(screenEntity, width, height, true, false, buildManager.createLaunchScreenAction(ScreenType.INTRO));
 
-        buildManager.createClickableComponent(screenEntity, width, height, true, false,
-                buildManager.createLaunchScreenAction(ScreenType.INTRO));
-
-        Entity rotationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 120);
-        rotationFloatingText = buildManager.createFloatingTextComponent(rotationEntity, 2,
-                "Rotation: ", "", Color.BLACK);
-
-        Entity orientationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 80);
+        Entity orientationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 240);
         orientationFloatingText = buildManager.createFloatingTextComponent(orientationEntity, 2,
                 "Orientation: ", "", Color.BLUE);
-
-        Entity resolutionEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 40);
+        Entity resolutionEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 210);
         resolutionFloatingText = buildManager.createFloatingTextComponent(resolutionEntity, 2,
                 "Resolution: ", "", Color.BLACK);
 
-        Entity accelerationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y);
-        yAxisAccelerationFloatingText = buildManager.createFloatingTextComponent(accelerationEntity, 2,
-                "Y-Axis Acceleration: ", "", Color.BLUE);
-
-        Entity azmuthEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 40);
+        Entity azmuthEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 150);
         azmuthFloatingText = buildManager.createFloatingTextComponent(azmuthEntity, 2,
                 "Azmuth: ", "", Color.BLACK);
-
-        Entity pitchEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 80);
+        Entity pitchEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 120);
         pitchFloatingText = buildManager.createFloatingTextComponent(pitchEntity, 2,
                 "Pitch: ", "", Color.BLUE);
-
-        Entity rollEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 120);
+        Entity rollEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 90);
         rollFloatingText = buildManager.createFloatingTextComponent(rollEntity, 2,
                 "Roll: ", "", Color.BLACK);
 
-        Entity networkIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 160);
+        Entity accelerometerXEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 30);
+        accelerometerXFloatingText = buildManager.createFloatingTextComponent(accelerometerXEntity, 2,
+                "Accelerometer X: ", "", Color.BLUE);
+        Entity accelerationYEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y);
+        accelerometerYFloatingText = buildManager.createFloatingTextComponent(accelerationYEntity, 2,
+                "Accelerometer Y: ", "", Color.BLUE);
+        Entity accelerationZEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 30);
+        accelerometerZFloatingText = buildManager.createFloatingTextComponent(accelerationZEntity, 2,
+                "Accelerometer Z: ", "", Color.BLUE);
+
+        Entity gyroscopeXEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 90);
+        gyroscopeXFloatingText = buildManager.createFloatingTextComponent(gyroscopeXEntity, 2,
+                "Gyroscope X: ", "", Color.BLUE);
+        Entity gyroscopeYEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 120);
+        gyroscopeYFloatingText  = buildManager.createFloatingTextComponent(gyroscopeYEntity, 2,
+                "Gyroscope Y: ", "", Color.BLUE);
+        Entity gyroscopeZEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 150);
+        gyroscopeZFloatingText  = buildManager.createFloatingTextComponent(gyroscopeZEntity, 2,
+                "Gyroscope Z: ", "", Color.BLUE);
+
+        Entity networkIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 210);
         networkIPFloatingText = buildManager.createFloatingTextComponent(networkIPEntity, 2,
                 "Network IP: ", "", Color.BLUE);
-
-        Entity externalIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 200);
+        Entity externalIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 240);
         externalIPFloatingText = buildManager.createFloatingTextComponent(externalIPEntity, 2,
                 "External IP: ", "", Color.BLACK);
-        network();
+
+        networkTick = 30;
+
+        displayUpdate();
     }
 
-    private void network() {
+    private void networkUpdate() {
         List<String> addresses = new ArrayList<String>();
         try {
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
@@ -128,41 +137,44 @@ public class DeviceInformationScreen extends AScreen {
                     }
                 }
             }
+            for(String ip : addresses) { DebugTool.log("IP: ",ip); }
         } catch (SocketException e) {
             e.printStackTrace();
-            DebugTool.log("Network Issue");
-        }
-
-        // Print the contents of our array to a string.  Yeah, should have used StringBuilder
-        String ipAddress = new String("");
-        for(String str:addresses)
-        {
-            ipAddress = ipAddress + str + "\n";
-        }
-        String externalIP = "";
-        try {
-            URL whatismyip = new URL("http://checkip.amazonaws.com");
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    whatismyip.openStream()));
-            externalIP = in.readLine(); //you get the IP as a String
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-        if (addresses.size() > 1) {
-            networkIPFloatingText.text = addresses.get(1);
-            externalIPFloatingText.text = externalIP;
-            DebugTool.log("IPs",ipAddress);
+            networkIPFloatingText.text = "Not Connected";
+            externalIPFloatingText.text = "Not Connected";
             networkIPFloatingText.layout.setText(networkIPFloatingText.font, networkIPFloatingText.label +
                     networkIPFloatingText.text, networkIPFloatingText.color, 0, Align.left, true);
             externalIPFloatingText.layout.setText(externalIPFloatingText.font, externalIPFloatingText.label +
                     externalIPFloatingText.text, externalIPFloatingText.color, 0, Align.left, true);
-            if (Gdx.app.getType() == Application.ApplicationType.Android) {
-                DebugTool.log(gm.getGpsTracker().getLocation());
-            }
+            return;
+        }
+
+        if (addresses.size() > 1) {
+            networkIPFloatingText.text = addresses.get(1);
         } else {
             networkIPFloatingText.text = "Not Connected";
             externalIPFloatingText.text = "Not Connected";
+            networkIPFloatingText.layout.setText(networkIPFloatingText.font, networkIPFloatingText.label +
+                    networkIPFloatingText.text, networkIPFloatingText.color, 0, Align.left, true);
+            externalIPFloatingText.layout.setText(externalIPFloatingText.font, externalIPFloatingText.label +
+                    externalIPFloatingText.text, externalIPFloatingText.color, 0, Align.left, true);
+            return;
         }
+
+        String externalIP = "";
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(new
+                    URL("http://checkip.amazonaws.com").openStream()));
+            externalIP = in.readLine(); //you get the IP as a String
+            externalIPFloatingText.text = externalIP;
+        } catch(IOException e) {
+            e.printStackTrace();
+            externalIPFloatingText.text = "Not Connected";
+        }
+        networkIPFloatingText.layout.setText(networkIPFloatingText.font, networkIPFloatingText.label +
+                networkIPFloatingText.text, networkIPFloatingText.color, 0, Align.left, true);
+        externalIPFloatingText.layout.setText(externalIPFloatingText.font, externalIPFloatingText.label +
+                externalIPFloatingText.text, externalIPFloatingText.color, 0, Align.left, true);
     }
 
     public void reset() {
@@ -171,13 +183,19 @@ public class DeviceInformationScreen extends AScreen {
 
     public void render(float delta) {
         super.render(delta);
-        if (screenTime > 0.5f) {
-            displayUpdate();
+        networkTick += delta;
+        if (screenTime > .3f) {
             gyroscopeUpdate();
-            compassUdate();
-            anglesUpdate();
-            updateFloatingText();
+            compassUpdate();
+            accelerometerUpdate();
             screenTime = 0f;
+        }
+        if (networkTick > 30f) {
+            networkUpdate();
+            networkTick = 0;
+            if (Gdx.app.getType() == Application.ApplicationType.Android) {
+                //DebugTool.log(gm.getGpsTracker().getLocation());
+            }
         }
     }
 
@@ -218,7 +236,7 @@ public class DeviceInformationScreen extends AScreen {
                 gyroscopeZFloatingText.text, gyroscopeZFloatingText.color, 0, Align.left, true);
     }
 
-    public void compassUdate() {
+    public void compassUpdate() {
         if (Gdx.input.isPeripheralAvailable(Peripheral.Compass)) {
             azmuthFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getAzimuth());
             pitchFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getPitch());
@@ -236,37 +254,22 @@ public class DeviceInformationScreen extends AScreen {
                 rollFloatingText.text, rollFloatingText.color, 0, Align.left, true);
     }
 
-    public void acceleromterUpdate() {
-        if (Gdx.input.isPeripheralAvailable(Peripheral.Accelerometer)) {
-            azmuthFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getGyroscopeZ());
-            pitchFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getGyroscopeY());
-            rollFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getGyroscopeX());
-        } else {
-            azmuthFloatingText.text = "Not Available";
-            pitchFloatingText.text = "Not Available";
-            rollFloatingText.text = "Not Available";
-        }
-        azmuthFloatingText.layout.setText(azmuthFloatingText.font, azmuthFloatingText.label +
-                azmuthFloatingText.text, azmuthFloatingText.color, 0, Align.left, true);
-        pitchFloatingText.layout.setText(pitchFloatingText.font, pitchFloatingText.label +
-                pitchFloatingText.text, pitchFloatingText.color, 0, Align.left, true);
-        rollFloatingText.layout.setText(rollFloatingText.font, rollFloatingText.label +
-                rollFloatingText.text, rollFloatingText.color, 0, Align.left, true);
-    }
-
     public void accelerometerUpdate() {
         if (Gdx.input.isPeripheralAvailable(Peripheral.Accelerometer)) {
-            yAxisAccelerationFloatingText.text = String.format(java.util.Locale.US, "%.2f", Gdx.input.getAccelerometerY());
+            accelerometerXFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getGyroscopeZ());
+            accelerometerYFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getGyroscopeY());
+            accelerometerZFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getGyroscopeX());
         } else {
-            yAxisAccelerationFloatingText.text = "Not Available";
+            accelerometerXFloatingText.text = "Not Available";
+            accelerometerYFloatingText.text = "Not Available";
+            accelerometerZFloatingText.text = "Not Available";
         }
-        yAxisAccelerationFloatingText.layout.setText(yAxisAccelerationFloatingText.font, yAxisAccelerationFloatingText.label +
-                yAxisAccelerationFloatingText.text, yAxisAccelerationFloatingText.color, 0, Align.left, true);
-    }
-
-    private void updateFloatingText() {
-        rotationFloatingText.layout.setText(rotationFloatingText.font, rotationFloatingText.label +
-                rotationFloatingText.text, rotationFloatingText.color, 0, Align.left, true);
+        accelerometerXFloatingText.layout.setText(accelerometerXFloatingText.font, accelerometerXFloatingText.label +
+                accelerometerXFloatingText.text, accelerometerXFloatingText.color, 0, Align.left, true);
+        accelerometerYFloatingText.layout.setText(accelerometerYFloatingText.font, accelerometerYFloatingText.label +
+                accelerometerYFloatingText.text, accelerometerYFloatingText.color, 0, Align.left, true);
+        accelerometerZFloatingText.layout.setText(accelerometerZFloatingText.font, accelerometerZFloatingText.label +
+                accelerometerZFloatingText.text, accelerometerZFloatingText.color, 0, Align.left, true);
     }
 
     public void dispose() { super.dispose(); }
@@ -275,7 +278,10 @@ public class DeviceInformationScreen extends AScreen {
     public void show() { super.show(); }
 
     @Override
-    public void resize(int width, int height) { super.resize(width, height); }
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        displayUpdate();
+    }
 
     @Override
     public void pause() { super.pause(); }

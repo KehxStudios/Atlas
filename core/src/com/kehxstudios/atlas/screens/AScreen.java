@@ -45,6 +45,7 @@ public abstract class AScreen implements Screen {
 
     protected GameManager gm;
     protected ScreenType type;
+    protected boolean orientationChangeAllowed;
     protected float width, height;
 
     protected BuildManager buildManager;
@@ -110,6 +111,11 @@ public abstract class AScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         DebugTool.log("SCREEN_RESIZE");
+        if (orientationChangeAllowed) {
+            DebugTool.log("SCREEN_RESIZE: Processed");
+            this.width = width;
+            this.height = height;
+        }
     }
 
     @Override
