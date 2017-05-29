@@ -46,7 +46,7 @@ public class LoadingScreen extends AScreen {
     private TextureAtlas textureAtlas;
     private SpriteBatch batch;
     private OrthographicCamera camera;
-    private Sprite hexSprite;
+    private Sprite hexSprite1, hexSprite2;
 
     private BitmapFont loadingFont;
     private float loadingFontScale = 2f;
@@ -60,8 +60,10 @@ public class LoadingScreen extends AScreen {
         camera = new OrthographicCamera();
         camera.position.set(width/2, height/2, 0);
         camera.setToOrtho(false, width, height);
-        hexSprite = new Sprite(new Texture(Gdx.files.internal("loading/hexagon_filled.png")));
-        hexSprite.setCenter(width/2, height/2);
+        hexSprite1 = new Sprite(new Texture(Gdx.files.internal("loading/hexagon_filled.png")));
+        hexSprite1.setCenter(width/4, height/2);
+        hexSprite2 = new Sprite(new Texture(Gdx.files.internal("loading/hexagon_filled.png")));
+        hexSprite2.setCenter(width/4*3, height/2);
         loadingFont = new BitmapFont();
         loadingFont.getData().setScale(loadingFontScale, loadingFontScale);
         loadingLayout = new GlyphLayout(loadingFont, loadingText);
@@ -82,9 +84,12 @@ public class LoadingScreen extends AScreen {
         batch.begin();
 
         loadingFont.draw(batch, loadingLayout, width/4, height/4);
-        loadingFont.draw(batch, loadingLayout, width/4*3, height/4);
-        hexSprite.rotate(5f);
-        hexSprite.draw(batch);
+        
+        hexSprite1.rotate(5f);
+        hexSprite1.draw(batch);
+        
+        hexSprite2.rotate(-5f);
+        hexSprite2.draw(batch);
 
         batch.end();
     }
