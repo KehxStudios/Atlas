@@ -20,9 +20,6 @@
 package com.kehxstudios.atlas.tools;
 
 import com.badlogic.gdx.utils.Json;
-import com.kehxstudios.atlas.data.ActionData;
-import com.kehxstudios.atlas.data.ComponentData;
-import com.kehxstudios.atlas.data.EntityData;
 
 /**
  * Used to convert back and forth from Entity/Component/Action data class to json String
@@ -30,7 +27,7 @@ import com.kehxstudios.atlas.data.EntityData;
 
 public class UtilityTool {
 
-
+    /*
     private static Json json = new Json();
 
     // Transforms EntityData, ComponentData to string in json format
@@ -49,4 +46,5 @@ public class UtilityTool {
     public static ActionData getActionDataFromString(String jsonString) {
         return json.fromJson(ActionData.class, jsonString);
     }
+    */
 }

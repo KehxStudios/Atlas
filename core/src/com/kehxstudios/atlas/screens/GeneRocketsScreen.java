@@ -76,6 +76,10 @@ public class GeneRocketsScreen extends AScreen {
     protected void init() {
         super.init();
 
+        Entity mainMenuLaunchEntity = buildManager.createEntity(50, height-50);
+        buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
+
         geneMatingPool = new ArrayList<Integer>();
 
         float targetWidth = TextureType.GENE_ROCKETS_TARGET.getWidth();

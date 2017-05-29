@@ -84,6 +84,10 @@ public class FlappyBatScreen extends AScreen {
     protected void init() {
         super.init();
 
+        Entity mainMenuLaunchEntity = buildManager.createEntity(50, height-50);
+        buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
+
         batStartX = width/4;
         batCurrentX = batStartX;
 

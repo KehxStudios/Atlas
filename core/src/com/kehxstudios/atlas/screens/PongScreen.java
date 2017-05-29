@@ -32,9 +32,9 @@ import java.util.Random;
 
 public class PongScreen extends AScreen {
 
-    private final float paddleWidth, paddleHeight, paddleSpeed;
+    private float paddleWidth, paddleHeight, paddleSpeed;
     
-    private final float ballWidth, ballHeight, ballSpeed;
+    private float ballWidth, ballHeight, ballSpeed;
 
     Entity player1Entity, player2Entity, ballEntity;
     PhysicsComponent player1Physics, player2Physics, ballPhysics;
@@ -45,24 +45,27 @@ public class PongScreen extends AScreen {
 
     public PongScreen() {
         super(ScreenType.PONG);
-
-        paddleWidth = TextureType.PONG_PADDLE.getWidth();
-        paddleHeight = TextureType.PONG_PADDLE.getHeight();
-        
-        ballWidth = TextureType.PONG_BALL.getWidth();
-        ballHeight = TextureType.PONG_BALL.getHeight();
-
-        paddleSpeed = 5f;
-        ballSpeed = 6f;
-
         init();
     }
     
     protected void init() {
         super.init();
 
+        paddleWidth = TextureType.PONG_PADDLE.getWidth();
+        paddleHeight = TextureType.PONG_PADDLE.getHeight();
+
+        ballWidth = TextureType.PONG_BALL.getWidth();
+        ballHeight = TextureType.PONG_BALL.getHeight();
+
+        paddleSpeed = 5f;
+        ballSpeed = 6f;
+
         score = 0;
         player2Score = 0;
+
+        Entity mainMenuLaunchEntity = buildManager.createEntity(50, height-50);
+        buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
         /*
         ComponentData paddleGraphicsData = Templates.graphicsComponentData(0, 0, 3, 0, TextureType.PONG_PADDLE);
         ComponentData paddlePhysicsData = Templates.physicsComponentData(0, paddleSpeed, 0, paddleSpeed);
@@ -89,7 +92,7 @@ public class PongScreen extends AScreen {
     public void render(float delta) {
         // increase screenTime in super method
         super.render(delta);
-    
+        /*
         if (ballEntity.position.x + ballWidth/2 > width) {
             score++;
             roundReset();
@@ -113,6 +116,7 @@ public class PongScreen extends AScreen {
         } else if (player2Entity.position.y - paddleHeight/2 < 0) {
             player2Entity.position.y = paddleHeight/2;
         }
+        */
     }
     
     private void roundReset() {

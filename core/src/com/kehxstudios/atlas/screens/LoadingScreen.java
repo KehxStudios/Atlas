@@ -81,7 +81,8 @@ public class LoadingScreen extends AScreen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
-        loadingFont.draw(batch, loadingLayout, width/2, height/4);
+        loadingFont.draw(batch, loadingLayout, width/4, height/4);
+        loadingFont.draw(batch, loadingLayout, width/4*3, height/4);
         hexSprite.rotate(5f);
         hexSprite.draw(batch);
 

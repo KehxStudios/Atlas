@@ -65,6 +65,7 @@ public class DeviceInformationScreen extends AScreen {
     // Networking
     private FloatingTextComponent networkIPFloatingText, externalIPFloatingText;
 
+    private float sensorTick;
     private float networkTick;
 
     public DeviceInformationScreen() {
@@ -74,24 +75,26 @@ public class DeviceInformationScreen extends AScreen {
 
     protected void init() {
         super.init();
-        //buildManager.createClickableComponent(screenEntity, width, height, true, false, buildManager.createLaunchScreenAction(ScreenType.INTRO));
+        Entity mainMenuLaunchEntity = buildManager.createEntity(50, height-50);
+        buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
 
         Entity orientationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 240);
         orientationFloatingText = buildManager.createFloatingTextComponent(orientationEntity, 2,
                 "Orientation: ", "", Color.BLUE);
         Entity resolutionEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 210);
         resolutionFloatingText = buildManager.createFloatingTextComponent(resolutionEntity, 2,
-                "Resolution: ", "", Color.BLACK);
+                "Resolution: ", "", Color.BLUE);
 
         Entity azmuthEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 150);
         azmuthFloatingText = buildManager.createFloatingTextComponent(azmuthEntity, 2,
-                "Azmuth: ", "", Color.BLACK);
+                "Azmuth: ", "", Color.BLUE);
         Entity pitchEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 120);
         pitchFloatingText = buildManager.createFloatingTextComponent(pitchEntity, 2,
                 "Pitch: ", "", Color.BLUE);
         Entity rollEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 90);
         rollFloatingText = buildManager.createFloatingTextComponent(rollEntity, 2,
-                "Roll: ", "", Color.BLACK);
+                "Roll: ", "", Color.BLUE);
 
         Entity accelerometerXEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 30);
         accelerometerXFloatingText = buildManager.createFloatingTextComponent(accelerometerXEntity, 2,
@@ -118,10 +121,10 @@ public class DeviceInformationScreen extends AScreen {
                 "Network IP: ", "", Color.BLUE);
         Entity externalIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 240);
         externalIPFloatingText = buildManager.createFloatingTextComponent(externalIPEntity, 2,
-                "External IP: ", "", Color.BLACK);
+                "External IP: ", "", Color.BLUE);
 
-        networkTick = 30;
-
+        networkTick = 30f;
+        sensorTick = .3f;
         displayUpdate();
     }
 
@@ -184,13 +187,14 @@ public class DeviceInformationScreen extends AScreen {
     public void render(float delta) {
         super.render(delta);
         networkTick += delta;
-        if (screenTime > .3f) {
+        sensorTick += delta;
+        if (sensorTick >= .3f) {
             gyroscopeUpdate();
             compassUpdate();
             accelerometerUpdate();
-            screenTime = 0f;
+            sensorTick = 0f;
         }
-        if (networkTick > 30f) {
+        if (networkTick >= 30f) {
             networkUpdate();
             networkTick = 0;
             if (Gdx.app.getType() == Application.ApplicationType.Android) {
@@ -238,9 +242,9 @@ public class DeviceInformationScreen extends AScreen {
 
     public void compassUpdate() {
         if (Gdx.input.isPeripheralAvailable(Peripheral.Compass)) {
-            azmuthFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getAzimuth());
-            pitchFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getPitch());
-            rollFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getRoll());
+            azmuthFloatingText.text = String.format(java.util.Locale.US,"%.3f", Gdx.input.getAzimuth());
+            pitchFloatingText.text = String.format(java.util.Locale.US,"%.3f", Gdx.input.getPitch());
+            rollFloatingText.text = String.format(java.util.Locale.US,"%.3f", Gdx.input.getRoll());
         } else {
             azmuthFloatingText.text = "Not Available";
             pitchFloatingText.text = "Not Available";
@@ -256,9 +260,9 @@ public class DeviceInformationScreen extends AScreen {
 
     public void accelerometerUpdate() {
         if (Gdx.input.isPeripheralAvailable(Peripheral.Accelerometer)) {
-            accelerometerXFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getGyroscopeZ());
-            accelerometerYFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getGyroscopeY());
-            accelerometerZFloatingText.text = String.format(java.util.Locale.US,"%.2f", Gdx.input.getGyroscopeX());
+            accelerometerXFloatingText.text = String.format(java.util.Locale.US,"%.3f", Gdx.input.getAccelerometerX());
+            accelerometerYFloatingText.text = String.format(java.util.Locale.US,"%.3f", Gdx.input.getAccelerometerY());
+            accelerometerZFloatingText.text = String.format(java.util.Locale.US,"%.3f", Gdx.input.getAccelerometerZ());
         } else {
             accelerometerXFloatingText.text = "Not Available";
             accelerometerYFloatingText.text = "Not Available";
