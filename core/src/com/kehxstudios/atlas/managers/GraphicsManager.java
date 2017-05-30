@@ -104,6 +104,7 @@ public class GraphicsManager extends Manager {
     @Override
     protected void removeSettings() {
         textureAtlas.dispose();
+        gm.getAssetManager().unload(screenType.getAtlasPath());
         DebugTool.log("GraphicsManager_removeSettings: Complete");
     }
 

@@ -134,6 +134,12 @@ public class PongScreen extends AScreen {
         player2Physics.velocity.set(0,0);
     }
 
+    public void dispose() {
+        if (!disposed) {
+            super.dispose();
+        }
+    }
+
     @Override
     public void show() {
         super.show();

@@ -17,12 +17,21 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
-package com.kehxstudios.atlas.tools;
+package com.kehxstudios.atlas.actions;
+
+import com.kehxstudios.atlas.managers.EntityManager;
 
 /**
- * Created by ReidC on 2017-05-28.
+ * Created by ReidC on 2017-05-29.
  */
 
-public interface GPSTracker {
-    public String getLocation();
+public class EnableComponentAction extends Action {
+
+    public EntityManager entityManager;
+    public int componentId;
+    public boolean enableComponent;
+
+    public void trigger() {
+        entityManager.enableComponent(componentId, enableComponent);
+    }
 }

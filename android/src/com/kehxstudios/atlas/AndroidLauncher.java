@@ -26,7 +26,7 @@ public class AndroidLauncher extends AndroidApplication {
 		config.useCompass = true;
 		config.useGyroscope = true;
 
-		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
 		providers = locationManager.getProviders(true);
 
 		GPSTracker gpsTracker = new GPSTracker() {

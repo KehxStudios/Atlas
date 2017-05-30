@@ -19,6 +19,7 @@
 
 package com.kehxstudios.atlas.managers;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -42,6 +43,7 @@ public class GameManager extends Game {
 		return instance;
 	}
 
+	// All Atlas-made Managers master reference
 	private BuildManager buildManager;
 	private ScreenManager screenManager;
 	private EntityManager entityManager;
@@ -51,12 +53,18 @@ public class GameManager extends Game {
 	private PositionManager positionManager;
 	private SoundManager soundManager;
 
+	// AssetManager's master reference
 	private AssetManager assetManager;
 
+	// SpriteBatch that is passed around
 	private SpriteBatch batch;
-	private OrthographicCamera camera;
-	
+
+	// Current state of the game
 	private GameState gameState;
+
+	// Booleans to print debug/error log
+	public boolean showDebugLog = false;
+	public boolean showErrorLog = true;
 
 	// Used for Desktop window size, will later update for size options
 	public static final float D_WIDTH = 480, D_HEIGHT = 800;
@@ -73,8 +81,10 @@ public class GameManager extends Game {
 		// Set instance to the current one created
 		instance = this;
 
+		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+
 		// Setup Camera and Batch
-		camera = new OrthographicCamera();
+		OrthographicCamera camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
 		batch = new SpriteBatch();
@@ -119,6 +129,7 @@ public class GameManager extends Game {
 	public void resume() {
 		super.resume();
 		gameState = GameState.Running;
+		Texture.setAssetManager(assetManager);
 	}
 
 	@Override

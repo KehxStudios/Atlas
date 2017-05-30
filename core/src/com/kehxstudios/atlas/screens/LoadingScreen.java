@@ -60,10 +60,10 @@ public class LoadingScreen extends AScreen {
         camera = new OrthographicCamera();
         camera.position.set(width/2, height/2, 0);
         camera.setToOrtho(false, width, height);
-        hexSprite1 = new Sprite(new Texture(Gdx.files.internal("loading/hexagon_filled.png")));
-        hexSprite1.setCenter(width/4, height/2);
-        hexSprite2 = new Sprite(new Texture(Gdx.files.internal("loading/hexagon_filled.png")));
-        hexSprite2.setCenter(width/4*3, height/2);
+        hexSprite1 = new Sprite(new Texture(Gdx.files.internal("loading/hexagon_outline.png")));
+        hexSprite1.setCenter(width/2, height/2);
+        hexSprite2 = new Sprite(new Texture(Gdx.files.internal("loading/hexagon_outline.png")));
+        hexSprite2.setCenter(width/2, height/2);
         loadingFont = new BitmapFont();
         loadingFont.getData().setScale(loadingFontScale, loadingFontScale);
         loadingLayout = new GlyphLayout(loadingFont, loadingText);
@@ -83,7 +83,7 @@ public class LoadingScreen extends AScreen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
-        loadingFont.draw(batch, loadingLayout, width/4, height/4);
+        loadingFont.draw(batch, loadingLayout, width/2, height/4);
         
         hexSprite1.rotate(5f);
         hexSprite1.draw(batch);
@@ -96,7 +96,17 @@ public class LoadingScreen extends AScreen {
 
     public void startLoadingScreen(ScreenType type) {
         loadingType = type;
-        gm.getAssetManager().load(loadingType.getAtlasPath(), TextureAtlas.class);
+        if (!gm.getAssetManager().isLoaded(loadingType.getAtlasPath())) {
+            gm.getAssetManager().load(loadingType.getAtlasPath(), TextureAtlas.class);
+        } else {
+            screenManager.finishedLoadingScreen();
+        }
+    }
+
+    public void dispose() {
+        if (!disposed) {
+            super.dispose();
+        }
     }
 
     @Override

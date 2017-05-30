@@ -21,6 +21,7 @@ package com.kehxstudios.atlas.type;
 
 import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.actions.DestroyEntityAction;
+import com.kehxstudios.atlas.actions.EnableComponentAction;
 import com.kehxstudios.atlas.actions.HighScoreResetAction;
 import com.kehxstudios.atlas.actions.FollowAction;
 import com.kehxstudios.atlas.actions.LaunchScreenAction;
@@ -40,6 +41,7 @@ import java.util.HashMap;
 public enum ActionType {
 
     DESTROY_ENTITY("Destroy Entity", DestroyEntityAction.class),
+    ENABLE_COMPONENT("Enable Component", EnableComponentAction.class),
     HIGH_SCORE_RESET("High-Score Reset", HighScoreResetAction.class),
     FOLLOW("Follow", FollowAction.class),
     LAUNCH_SCREEN("Launch Screen", LaunchScreenAction.class),

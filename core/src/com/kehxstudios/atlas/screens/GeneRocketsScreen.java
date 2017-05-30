@@ -115,8 +115,9 @@ public class GeneRocketsScreen extends AScreen {
             buildManager.createGraphicsComponent(rocketEntity, 1, TextureType.GENE_ROCKETS_ROCKET);
             physicsComponents.put(rocketEntity.id, buildManager.createPhysicsComponent(rocketEntity,
                     new Vector2(100,100), new Vector2(100,100)));
-            //collisionComponents.put(rocketEntity.id, buildManager.createCollisionComponent(rocketEntity,
-                    //rocketWidth, rocketHeight, false, false, new Action()));
+            collisionComponents.put(rocketEntity.id, buildManager.createCollisionComponent(rocketEntity,
+                    rocketWidth, rocketHeight, false, false, buildManager.createEnableComponentAction(
+                            physicsComponents.get(rocketEntity.id).id, false)));
             geneRocketComponents.put(rocketEntity.id, buildManager.createGeneRocketComponent(
                     rocketEntity, randomGenes()));
         }
@@ -219,7 +220,13 @@ public class GeneRocketsScreen extends AScreen {
             }
         }
     }
-    
+
+    public void dispose() {
+        if (!disposed) {
+            super.dispose();
+        }
+    }
+
     @Override
     public void show() {
         super.show();

@@ -27,6 +27,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.actions.Action;
+import com.kehxstudios.atlas.actions.EnableComponentAction;
 import com.kehxstudios.atlas.actions.LaunchWebsiteAction;
 import com.kehxstudios.atlas.actions.ResetScreenAction;
 import com.kehxstudios.atlas.components.CameraComponent;
@@ -279,10 +280,19 @@ public class BuildManager extends Manager {
     
     public DestroyEntityAction createDestroyEntityAction(Entity entity) {
         DestroyEntityAction destroyEntity = new DestroyEntityAction();
-        destroyEntity.entityManager = entityManager;
         destroyEntity.type = ActionType.DESTROY_ENTITY;
+        destroyEntity.entityManager = entityManager;
         destroyEntity.entityId = entity.id;
         return destroyEntity;
+    }
+
+    public EnableComponentAction createEnableComponentAction(int componentId, boolean enable) {
+        EnableComponentAction enableComponent = new EnableComponentAction();
+        enableComponent.type = ActionType.ENABLE_COMPONENT;
+        enableComponent.entityManager = entityManager;
+        enableComponent.componentId = componentId;
+        enableComponent.enableComponent = enable;
+        return enableComponent;
     }
     
     public HighScoreResetAction createHighScoreResetAction(ScreenType screenType) {

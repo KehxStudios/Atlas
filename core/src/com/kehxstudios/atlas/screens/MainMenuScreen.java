@@ -98,6 +98,7 @@ public class MainMenuScreen extends AScreen {
         }
     }
 
+
     @Override
     public void show() {
         super.show();
@@ -125,6 +126,8 @@ public class MainMenuScreen extends AScreen {
 
     @Override
     public void dispose() {
-        super.dispose();
+        if (!disposed) {
+            super.dispose();
+        }
     }
 }

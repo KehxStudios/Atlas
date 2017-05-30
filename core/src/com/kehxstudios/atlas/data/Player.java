@@ -42,7 +42,7 @@ public class Player {
 
     // Changes the name of the player
     public void changeName(String newName) {
+        DebugTool.log(name + " changed names to " + newName);
         name = newName;
-        DebugTool.log("Players name changed to " + name);
     }
 }

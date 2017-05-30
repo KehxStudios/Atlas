@@ -252,6 +252,12 @@ public class FlappyBatScreen extends AScreen {
         }
     }
 
+    public void dispose() {
+        if (!disposed) {
+            super.dispose();
+        }
+    }
+
     @Override
     public void show() {
         super.show();

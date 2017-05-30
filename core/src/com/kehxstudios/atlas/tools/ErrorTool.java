@@ -20,6 +20,7 @@
 package com.kehxstudios.atlas.tools;
 
 import com.badlogic.gdx.Gdx;
+import com.kehxstudios.atlas.managers.GameManager;
 
 /**
  * Basic error reporting tool to log messages to console on any platform
@@ -51,6 +52,8 @@ public class ErrorTool {
     
     // Prints the title with message
     private static void print(String message) {
-        Gdx.app.error(title, message);
+        if (GameManager.getInstance().showErrorLog) {
+            Gdx.app.error(title, message);
+        }
     }
 }

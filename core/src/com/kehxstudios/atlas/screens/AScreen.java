@@ -62,6 +62,7 @@ public abstract class AScreen implements Screen {
     protected MusicComponent screenMusic;
 
     protected float screenTime;
+    protected boolean disposed;
     
     public AScreen(ScreenType type) {
         this.type = type;
@@ -77,6 +78,7 @@ public abstract class AScreen implements Screen {
         width = type.getWidth();
         height = type.getHeight();
         screenTime = 0f;
+        disposed = false;
     }
 
     protected void init() {
@@ -99,7 +101,10 @@ public abstract class AScreen implements Screen {
 
     @Override
     public void dispose() {
-        screenMusic.music.stop();
+        if (!disposed) {
+            screenMusic.music.stop();
+            disposed = true;
+        }
         DebugTool.log("SCREEN_DISPOSAL");
     }
     

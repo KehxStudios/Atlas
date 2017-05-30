@@ -276,7 +276,11 @@ public class DeviceInformationScreen extends AScreen {
                 accelerometerZFloatingText.text, accelerometerZFloatingText.color, 0, Align.left, true);
     }
 
-    public void dispose() { super.dispose(); }
+    public void dispose() {
+        if (!disposed) {
+            super.dispose();
+        }
+    }
 
     @Override
     public void show() { super.show(); }

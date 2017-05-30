@@ -205,6 +205,16 @@ public class EntityManager extends Manager {
         }
     }
 
+    public void enableComponent(int componentId, boolean enable) {
+        if (components.containsKey(componentId)) {
+            if (enable) {
+                components.get(componentId).enabled = true;
+            } else {
+                components.get(componentId).enabled = false;
+            }
+        }
+    }
+
     public void setEntityPosition(int entityId, float x, float y) {
         entities.get(entityId).position.set(x, y);
     }

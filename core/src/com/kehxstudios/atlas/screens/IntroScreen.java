@@ -59,17 +59,23 @@ public class IntroScreen extends AScreen {
         super.render(delta);
         if (!clickToContinue) {
             // If index is not on last path
-            if (!finalLogo && (screenTime >= 2f || screenTime > 1f && Gdx.input.isTouched())) {
+            if (!finalLogo && (screenTime >= 1f || screenTime > 0.5f && Gdx.input.isTouched())) {
                 entityManager.remove(devLogoGraphics);
                 devLogoGraphics = null;
                 buildManager.createGraphicsComponent(screenEntity, 1, TextureType.INTRO_GAME_LOGO);
                 finalLogo = true;
-            } else if (finalLogo && screenTime > 4f || screenTime > 2f && Gdx.input.isTouched()) {
+            } else if (finalLogo && screenTime > 2f || screenTime > 1f && Gdx.input.isTouched()) {
                 buildManager.createFloatingTextComponent(textEntity, 2, "", "Click to Continue", Color.BLUE);
                 buildManager.createClickableComponent(screenEntity, width, height, true, false,
                         buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
                 clickToContinue = true;
             }
+        }
+    }
+
+    public void dispose() {
+        if (!disposed) {
+            super.dispose();
         }
     }
 
