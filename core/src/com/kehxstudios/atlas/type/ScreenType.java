@@ -42,7 +42,7 @@ public enum ScreenType {
     GENE_ROCKETS("Gene Rockets", "atlas/geneRockets.atlas", 512, 910, GeneRocketsScreen.class),
     PONG("Pong", "atlas/pong.atlas", 512, 910, PongScreen.class),
     LOADING("Loading", "loading/loading.atlas", 512, 910, LoadingScreen.class),
-    DEVICE_INFORMATION("Device Information", "atlas/deviceInformation.atlas", 512, 910, DeviceInformationScreen.class),
+    DEVICE_INFORMATION("Device Information", "atlas/deviceInformation.atlas", 256, 455, DeviceInformationScreen.class),
     VOID("Void", "", 0, 0, AScreen.class);
 
     private String id, atlasPath;

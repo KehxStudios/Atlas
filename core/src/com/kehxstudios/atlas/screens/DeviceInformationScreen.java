@@ -29,6 +29,7 @@ import com.google.gwt.geolocation.client.Geolocation;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.BuildManager;
+import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.type.ScreenType;
 
@@ -79,48 +80,48 @@ public class DeviceInformationScreen extends AScreen {
         buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
                 buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
 
-        Entity orientationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 240);
-        orientationFloatingText = buildManager.createFloatingTextComponent(orientationEntity, 2,
+        Entity orientationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 100);
+        orientationFloatingText = buildManager.createFloatingTextComponent(orientationEntity, 1,
                 "Orientation: ", "", Color.BLUE);
-        Entity resolutionEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 210);
-        resolutionFloatingText = buildManager.createFloatingTextComponent(resolutionEntity, 2,
-                "Resolution: ", "", Color.BLUE);
+        Entity resolutionEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 85);
+        resolutionFloatingText = buildManager.createFloatingTextComponent(resolutionEntity, 1,
+                "Resolution: ", "", graphicsManager.COLOR_BLUE);
 
-        Entity azmuthEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 150);
-        azmuthFloatingText = buildManager.createFloatingTextComponent(azmuthEntity, 2,
+        Entity azmuthEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 65);
+        azmuthFloatingText = buildManager.createFloatingTextComponent(azmuthEntity, 1,
                 "Azmuth: ", "", Color.BLUE);
-        Entity pitchEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 120);
-        pitchFloatingText = buildManager.createFloatingTextComponent(pitchEntity, 2,
-                "Pitch: ", "", Color.BLUE);
-        Entity rollEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 90);
-        rollFloatingText = buildManager.createFloatingTextComponent(rollEntity, 2,
+        Entity pitchEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 50);
+        pitchFloatingText = buildManager.createFloatingTextComponent(pitchEntity, 1,
+                "Pitch: ", "", graphicsManager.COLOR_BLUE);
+        Entity rollEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 35);
+        rollFloatingText = buildManager.createFloatingTextComponent(rollEntity, 1,
                 "Roll: ", "", Color.BLUE);
 
-        Entity accelerometerXEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 30);
-        accelerometerXFloatingText = buildManager.createFloatingTextComponent(accelerometerXEntity, 2,
+        Entity accelerometerXEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 15);
+        accelerometerXFloatingText = buildManager.createFloatingTextComponent(accelerometerXEntity, 1,
                 "Accelerometer X: ", "", Color.BLUE);
         Entity accelerationYEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y);
-        accelerometerYFloatingText = buildManager.createFloatingTextComponent(accelerationYEntity, 2,
+        accelerometerYFloatingText = buildManager.createFloatingTextComponent(accelerationYEntity, 1,
                 "Accelerometer Y: ", "", Color.BLUE);
-        Entity accelerationZEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 30);
-        accelerometerZFloatingText = buildManager.createFloatingTextComponent(accelerationZEntity, 2,
+        Entity accelerationZEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 15);
+        accelerometerZFloatingText = buildManager.createFloatingTextComponent(accelerationZEntity, 1,
                 "Accelerometer Z: ", "", Color.BLUE);
 
-        Entity gyroscopeXEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 90);
-        gyroscopeXFloatingText = buildManager.createFloatingTextComponent(gyroscopeXEntity, 2,
-                "Gyroscope X: ", "", Color.BLUE);
-        Entity gyroscopeYEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 120);
-        gyroscopeYFloatingText  = buildManager.createFloatingTextComponent(gyroscopeYEntity, 2,
-                "Gyroscope Y: ", "", Color.BLUE);
-        Entity gyroscopeZEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 150);
-        gyroscopeZFloatingText  = buildManager.createFloatingTextComponent(gyroscopeZEntity, 2,
-                "Gyroscope Z: ", "", Color.BLUE);
+        Entity gyroscopeXEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 35);
+        gyroscopeXFloatingText = buildManager.createFloatingTextComponent(gyroscopeXEntity, 1,
+                "Gyroscope X: ", "", graphicsManager.COLOR_BLUE);
+        Entity gyroscopeYEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 50);
+        gyroscopeYFloatingText  = buildManager.createFloatingTextComponent(gyroscopeYEntity, 1,
+                "Gyroscope Y: ", "", graphicsManager.COLOR_BLUE);
+        Entity gyroscopeZEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 65);
+        gyroscopeZFloatingText  = buildManager.createFloatingTextComponent(gyroscopeZEntity, 1,
+                "Gyroscope Z: ", "", graphicsManager.COLOR_BLUE);
 
-        Entity networkIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 210);
-        networkIPFloatingText = buildManager.createFloatingTextComponent(networkIPEntity, 2,
+        Entity networkIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 85);
+        networkIPFloatingText = buildManager.createFloatingTextComponent(networkIPEntity, 1,
                 "Network IP: ", "", Color.BLUE);
-        Entity externalIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 240);
-        externalIPFloatingText = buildManager.createFloatingTextComponent(externalIPEntity, 2,
+        Entity externalIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 100);
+        externalIPFloatingText = buildManager.createFloatingTextComponent(externalIPEntity, 1,
                 "External IP: ", "", Color.BLUE);
 
         networkTick = 30f;

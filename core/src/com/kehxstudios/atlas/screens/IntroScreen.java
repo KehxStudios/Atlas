@@ -65,7 +65,8 @@ public class IntroScreen extends AScreen {
                 buildManager.createGraphicsComponent(screenEntity, 1, TextureType.INTRO_GAME_LOGO);
                 finalLogo = true;
             } else if (finalLogo && screenTime > 2f || screenTime > 1f && Gdx.input.isTouched()) {
-                buildManager.createFloatingTextComponent(textEntity, 2, "", "Click to Continue", Color.BLUE);
+                buildManager.createFloatingTextComponent(textEntity, 2, "|  ", "Click to Continue  |",
+                        graphicsManager.COLOR_BLUE);
                 buildManager.createClickableComponent(screenEntity, width, height, true, false,
                         buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
                 clickToContinue = true;

@@ -20,6 +20,7 @@
 package com.kehxstudios.atlas.managers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -48,6 +49,8 @@ public class GraphicsManager extends Manager {
 
     // Maximum number of layers for @graphicsComponents
     private int MAX_LAYERS = 5;
+
+    public Color COLOR_BLUE = new Color(0, 123/255f, 176/255f, 1);
 
     private HashMap<Integer,AnimationComponent> animationComponents;
     private ArrayList<HashMap<Integer,GraphicsComponent>> graphicsComponents;

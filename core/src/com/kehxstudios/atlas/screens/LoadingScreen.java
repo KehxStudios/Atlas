@@ -67,7 +67,7 @@ public class LoadingScreen extends AScreen {
         loadingFont = new BitmapFont();
         loadingFont.getData().setScale(loadingFontScale, loadingFontScale);
         loadingLayout = new GlyphLayout(loadingFont, loadingText);
-        loadingLayout.setText(loadingFont, loadingText, Color.BLUE, 0, Align.center, false);
+        loadingLayout.setText(loadingFont, loadingText, graphicsManager.COLOR_BLUE, 0, Align.center, false);
     }
 
     @Override
