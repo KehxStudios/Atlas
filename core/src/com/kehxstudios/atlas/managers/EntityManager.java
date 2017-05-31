@@ -40,6 +40,12 @@ import java.util.Set;
 
 public class EntityManager extends Manager {
 
+    private GraphicsManager graphicsManager;
+    private InputManager inputManager;
+    private PhysicsManager physicsManager;
+    private PositionManager positionManager;
+    private SoundManager soundManager;
+
     // HashMap for all created Entity's
     private HashMap<Integer, Entity> entities;
     // HashMap for all created Component's
@@ -60,7 +66,12 @@ public class EntityManager extends Manager {
     @Override
     protected void init() {
         DebugTool.log("EntityManager_init: Starting...");
-        super.init();
+        graphicsManager = gm.getGraphicsManager();
+        inputManager = gm.getInputManager();
+        physicsManager = gm.getPhysicsManager();
+        positionManager = gm.getPositionManager();
+        soundManager = gm.getSoundManager();
+
         entities = new HashMap<Integer, Entity>();
         components = new HashMap<Integer, Component>();
         markedEntities = new ArrayList<Integer>();

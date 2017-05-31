@@ -27,6 +27,7 @@ import com.kehxstudios.atlas.screens.LoadingScreen;
 import com.kehxstudios.atlas.screens.MainMenuScreen;
 import com.kehxstudios.atlas.screens.DeviceInformationScreen;
 import com.kehxstudios.atlas.screens.PongScreen;
+import com.kehxstudios.atlas.screens.SettingsScreen;
 
 import java.util.HashMap;
 
@@ -36,22 +37,24 @@ import java.util.HashMap;
 
 public enum ScreenType {
 
-    INTRO("Intro", "atlas/intro.atlas", 512, 910, IntroScreen.class),
-    MAIN_MENU("Main Menu", "atlas/mainMenu.atlas", 1440, 2560, MainMenuScreen.class),
-    FLAPPY_BAT("Flappy Bat", "atlas/flappyBird.atlas", 240, 400, FlappyBatScreen.class),
-    GENE_ROCKETS("Gene Rockets", "atlas/geneRockets.atlas", 512, 910, GeneRocketsScreen.class),
-    PONG("Pong", "atlas/pong.atlas", 512, 910, PongScreen.class),
-    LOADING("Loading", "loading/loading.atlas", 512, 910, LoadingScreen.class),
-    DEVICE_INFORMATION("Device Information", "atlas/deviceInformation.atlas", 256, 455, DeviceInformationScreen.class),
-    VOID("Void", "", 0, 0, AScreen.class);
+    DEVICE_INFORMATION("Device Information", "atlas/deviceInformation.atlas", "Space", 256, 455, DeviceInformationScreen.class),
+    FLAPPY_BAT("Flappy Bat", "atlas/flappyBird.atlas", "Future", 240, 400, FlappyBatScreen.class),
+    GENE_ROCKETS("Gene Rockets", "atlas/geneRockets.atlas", "Future", 512, 910, GeneRocketsScreen.class),
+    INTRO("Intro", "atlas/intro.atlas", "Forest", 512, 910, IntroScreen.class),
+    LOADING("Loading", "loading/loading.atlas", "Space", 512, 910, LoadingScreen.class),
+    MAIN_MENU("Main Menu", "atlas/mainMenu.atlas", "Forest", 1440, 2560, MainMenuScreen.class),
+    PONG("Pong", "atlas/pong.atlas", "Space", 512, 910, PongScreen.class),
+    SETTINGS("Settings", "atlas/settings.atlas", "Forest", 240, 400, SettingsScreen.class),
+    VOID("Void", "", "Void", 0, 0, AScreen.class);
 
-    private String id, atlasPath;
+    private String id, atlasPath, musicId;
     private float width, height;
     private Class loaderClass;
 
-    private ScreenType(String id, String atlasPath, float width, float height, Class loaderClass) {
+    private ScreenType(String id, String atlasPath, String musicId, float width, float height, Class loaderClass) {
         this.id = id;
         this.atlasPath = atlasPath;
+        this.musicId = musicId;
         this.width = width;
         this.height = height;
         this.loaderClass = loaderClass;
@@ -60,6 +63,8 @@ public enum ScreenType {
     public String getId() { return id; }
 
     public String getAtlasPath() { return atlasPath; }
+
+    public String getMusicId() { return musicId; }
 
     public float getWidth() { return width; }
 

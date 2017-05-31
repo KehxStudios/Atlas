@@ -53,7 +53,6 @@ public class PhysicsManager extends Manager {
     @Override
     protected void init() {
         DebugTool.log("PhysicsManager_init: Starting");
-        super.init();
         physicsComponents = new HashMap<Integer,PhysicsComponent>();
         staticCollisionComponents = new HashMap<Integer,CollisionComponent>();
         dynamicCollisionComponents = new HashMap<Integer,CollisionComponent>();

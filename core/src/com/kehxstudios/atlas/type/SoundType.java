@@ -27,16 +27,17 @@ import java.util.HashMap;
 
 public enum SoundType {
 
-    INTRO("Intro", "intro.mp3", "Intro", "sounds/intro/"),
-    
-    MAIN_MENU("MainMenu", "mainMenu.mp3", "Main Menu", "sounds/mainMenu/"),
-    
-    VOID("Void", "intro.mp3", "Intro", "sounds/intro/");
+    BUBBLE("Bubble", "bubble.wav", "sounds/"),
+    COIN("Coin", "coin.wav", "sounds/"),
+    SWING("Swing", "swing.wav", "sounds/"),
+    TICKING_CLOCK("Ticking Clock", "tickingClock.wav", "sounds/"),
 
-    private String id, fileName, filePath;
-    private float length;
+    VOID("Void", "error.mp3", "sounds/");
 
-    private SoundType(String id, String fileName, String screen, String filePath) {
+    private String id;
+    private String fileName, filePath;
+
+    private SoundType(String id, String fileName, String filePath) {
         this.id = id;
         this.fileName = fileName;
         this.filePath = filePath;
@@ -44,20 +45,14 @@ public enum SoundType {
 
     public String getId() { return id; }
 
-    public String getFileName() { return fileName; }
-    
-    public String getFilePath() { return filePath; }
-    
     public String getCompletePath() { return filePath + fileName; }
 
-    public static SoundType getTypeById(String id) { return soundTypes.get(id); }
-
-    private static HashMap<String, SoundType> soundTypes;
+    private static HashMap<String, SoundType> soundType;
 
     static {
-        soundTypes = new HashMap<String, SoundType>();
+        soundType = new HashMap<String, SoundType>();
         for (SoundType type : SoundType.values()) {
-            soundTypes.put(type.id, type);
+            soundType.put(type.id, type);
         }
     }
 }

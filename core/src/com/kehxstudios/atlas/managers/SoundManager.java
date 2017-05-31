@@ -42,6 +42,11 @@ import java.util.HashMap;
 
 public class SoundManager extends Manager {
 
+    private ScreenManager screenManager;
+
+    private float musicMasterVolume;
+    private float soundMasterVolume;
+
     // SUPPORTS WAV, MP3 and OGG AUDIO FORMATS
     private HashMap<Integer, SoundComponent> soundComponents;
     private HashMap<Integer, MusicComponent> musicComponents;
@@ -53,7 +58,10 @@ public class SoundManager extends Manager {
 
     protected void init() {
         DebugTool.log("SoundManager_init: Starting...");
-        super.init();
+        screenManager = gm.getScreenManager();
+
+        musicMasterVolume = gm.gameSettings.musicVolume;
+        soundMasterVolume = gm.gameSettings.soundVolume;
         soundComponents = new HashMap<Integer, SoundComponent>();
         musicComponents = new HashMap<Integer, MusicComponent>();
         DebugTool.log("SoundManager_init: Complete");
@@ -88,13 +96,13 @@ public class SoundManager extends Manager {
             if (!soundComponents.containsKey(sound.id)) {
                 add(sound);
             }
-            sound.sound.play(sound.volume);
+            sound.sound.play(sound.volume * soundMasterVolume);
         } else if (component.type == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
             if (!musicComponents.containsKey(music.id)) {
                 add(music);
             }
-            music.music.setVolume(music.volume);
+            music.music.setVolume(music.volume * musicMasterVolume);
             music.music.play();
         }
     }
@@ -140,8 +148,12 @@ public class SoundManager extends Manager {
         } else if (component.type == ComponentType.MUSIC) {
             MusicComponent music = (MusicComponent)component;
             if (musicComponents.containsKey(music.id)) {
-                music.music.stop();
-                music.music.dispose();
+                if (gm.gameSettings.loadingMusic) {
+                    screenManager.getLoadingScreen().setMusic(music.music);
+                } else {
+                    music.music.stop();
+                    music.music.dispose();
+                }
                 musicComponents.values().remove(music);
             }
         }

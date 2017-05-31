@@ -20,6 +20,7 @@
 package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -32,6 +33,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.tools.DebugTool;
+import com.kehxstudios.atlas.tools.ErrorTool;
+import com.kehxstudios.atlas.type.MusicType;
 import com.kehxstudios.atlas.type.ScreenType;
 
 import java.awt.Font;
@@ -48,6 +51,9 @@ public class LoadingScreen extends AScreen {
     private OrthographicCamera camera;
     private Sprite hexSprite1, hexSprite2;
 
+    private boolean loadingMusic;
+
+    private Music music;
     private BitmapFont loadingFont;
     private float loadingFontScale = 2f;
     private GlyphLayout loadingLayout;
@@ -68,11 +74,19 @@ public class LoadingScreen extends AScreen {
         loadingFont.getData().setScale(loadingFontScale, loadingFontScale);
         loadingLayout = new GlyphLayout(loadingFont, loadingText);
         loadingLayout.setText(loadingFont, loadingText, graphicsManager.COLOR_BLUE, 0, Align.center, false);
+
+        loadingMusic = gm.gameSettings.loadingMusic;
+        music = null;
     }
 
     @Override
     public void render(float delta) {
         if (gm.getAssetManager().update()) {
+            if (loadingMusic && music != null) {
+                ErrorTool.log("LoadingScreenError");
+                music.stop();
+                music.dispose();
+            }
             screenManager.finishedLoadingScreen();
             return;
         }
@@ -94,6 +108,10 @@ public class LoadingScreen extends AScreen {
         batch.end();
     }
 
+    public void setMusic(Music music) {
+        this.music = music;
+    }
+
     public void startLoadingScreen(ScreenType type) {
         loadingType = type;
         if (!gm.getAssetManager().isLoaded(loadingType.getAtlasPath())) {
@@ -112,6 +130,9 @@ public class LoadingScreen extends AScreen {
     @Override
     public void show() {
         super.show();
+        if (loadingMusic) {
+            music.play();
+        }
     }
 
     @Override
@@ -132,6 +153,9 @@ public class LoadingScreen extends AScreen {
     @Override
     public void hide() {
         super.hide();
+        if (loadingMusic && music.isPlaying()) {
+            music.stop();
+        }
     }
 
 }

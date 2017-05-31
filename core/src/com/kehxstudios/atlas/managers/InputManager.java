@@ -55,7 +55,6 @@ public class InputManager extends Manager {
     @Override
     protected void init() {
         DebugTool.log("InputManager_init: Starting");
-        super.init();
         clickableComponents = new HashMap<Integer,ClickableComponent>();
         clickedPosition = new Vector2(0,0);
         DebugTool.log("InputManager_init: Complete");

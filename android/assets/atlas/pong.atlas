@@ -1,20 +1,20 @@
 
-geneRockets.png
-size: 512,1024
+pong.png
+size: 256,64
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-rocket
+ball
   rotate: false
-  xy: 2, 68
-  size: 310, 724
-  orig: 310, 724
+  xy: 104, 2
+  size: 51, 51
+  orig: 51, 51
   offset: 0, 0
   index: -1
-target
+paddle
   rotate: false
-  xy: 2, 2
-  size: 64, 64
-  orig: 64, 64
+  xy: 2, 33
+  size: 100, 20
+  orig: 100, 20
   offset: 0, 0
   index: -1

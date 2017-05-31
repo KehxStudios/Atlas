@@ -72,7 +72,6 @@ public class GraphicsManager extends Manager {
     @Override
     protected void init() {
         DebugTool.log("GraphicsManager_init: Starting...");
-        super.init();
         textureAtlas = new TextureAtlas();
         animationComponents = new HashMap<Integer,AnimationComponent>();
         graphicsComponents = new ArrayList<HashMap<Integer,GraphicsComponent>>();
@@ -106,8 +105,11 @@ public class GraphicsManager extends Manager {
     // Called when unloading the current scree
     @Override
     protected void removeSettings() {
-        textureAtlas.dispose();
-        gm.getAssetManager().unload(screenType.getAtlasPath());
+        if (textureAtlas != null) {
+            textureAtlas.dispose();
+            textureAtlas = null;
+            gm.getAssetManager().unload(screenType.getAtlasPath());
+        }
         DebugTool.log("GraphicsManager_removeSettings: Complete");
     }
 

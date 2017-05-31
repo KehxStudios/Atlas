@@ -32,6 +32,7 @@ import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.managers.SoundManager;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.managers.BuildManager;
+import com.kehxstudios.atlas.tools.ErrorTool;
 import com.kehxstudios.atlas.type.MusicType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.GameManager;
@@ -65,6 +66,7 @@ public abstract class AScreen implements Screen {
     protected boolean disposed;
     
     public AScreen(ScreenType type) {
+        ErrorTool.log("Constructing AScreen" + type.getId());
         this.type = type;
         gm = GameManager.getInstance();
         buildManager = gm.getBuildManager();
@@ -79,6 +81,7 @@ public abstract class AScreen implements Screen {
         height = type.getHeight();
         screenTime = 0f;
         disposed = false;
+        ErrorTool.log("Constructing AScreen: Complete");
     }
 
     protected void init() {
@@ -86,7 +89,8 @@ public abstract class AScreen implements Screen {
 
         screenCamera = buildManager.createCameraComponent(screenEntity, width, height, false);
 
-        screenMusic = buildManager.createMusicComponent(screenEntity, MusicType.getTypeById(type.getId()), 0.2f);
+        screenMusic = buildManager.createMusicComponent(screenEntity, MusicType.
+                getTypeById(type.getMusicId()), 0.4f);
         screenMusic.music.play();
     }
 

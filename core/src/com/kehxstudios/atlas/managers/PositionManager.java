@@ -50,7 +50,6 @@ public class PositionManager extends Manager {
     @Override
     protected void init() {
         DebugTool.log("PositionManager_init: Starting");
-        super.init();
         positionHashMap = new HashMap<Integer, ArrayList<Component>>();
         DebugTool.log("PositionManager_init: Complete");
     }

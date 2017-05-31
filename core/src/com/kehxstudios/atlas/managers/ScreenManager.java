@@ -34,6 +34,15 @@ import com.kehxstudios.atlas.tools.ErrorTool;
 
 public class ScreenManager extends Manager {
 
+    private BuildManager buildManager;
+    private EntityManager entityManager;
+    private GraphicsManager graphicsManager;
+    private InputManager inputManager;
+    private PhysicsManager physicsManager;
+    private PositionManager positionManager;
+    private ScreenManager screenManager;
+    private SoundManager soundManager;
+
     private AScreen screen;
 
     // ScreenType for the next screen to be loaded
@@ -54,7 +63,15 @@ public class ScreenManager extends Manager {
     @Override
     protected void init() {
         DebugTool.log("ScreenManager_init: Starting...");
-        super.init();
+        buildManager = gm.getBuildManager();
+        entityManager = gm.getEntityManager();
+        graphicsManager = gm.getGraphicsManager();
+        inputManager = gm.getInputManager();
+        physicsManager = gm.getPhysicsManager();
+        positionManager = gm.getPositionManager();
+        screenManager = gm.getScreenManager();
+        soundManager = gm.getSoundManager();
+
         newScreenType = ScreenType.VOID;
         screenRequested = false;
         resetRequested = false;
@@ -124,9 +141,11 @@ public class ScreenManager extends Manager {
         } catch (Exception e) {
             ErrorTool.log("Failed to load " + newScreenType.getId() + " screen, demanding Intro screen");
             e.printStackTrace();
-            demandNewScreen(ScreenType.INTRO);
+            //demandNewScreen(ScreenType.INTRO);
         }
     }
+
+    public LoadingScreen getLoadingScreen() { return loadingScreen; }
 
     public void add(Component component) {
 

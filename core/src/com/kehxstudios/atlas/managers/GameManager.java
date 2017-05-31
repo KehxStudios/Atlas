@@ -27,9 +27,14 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.google.gwt.user.server.Util;
+import com.kehxstudios.atlas.data.GameSettings;
 import com.kehxstudios.atlas.screens.AScreen;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.GPSTracker;
+import com.kehxstudios.atlas.tools.UtilityTool;
 import com.kehxstudios.atlas.type.ScreenType;
 
 /**
@@ -62,6 +67,8 @@ public class GameManager extends Game {
 	// Current state of the game
 	private GameState gameState;
 
+	public GameSettings gameSettings;
+
 	// Booleans to print debug/error log
 	public boolean showDebugLog = false;
 	public boolean showErrorLog = true;
@@ -80,6 +87,10 @@ public class GameManager extends Game {
 	public void create () {
 		// Set instance to the current one created
 		instance = this;
+
+		gameSettings = new GameSettings();
+		gameSettings.musicVolume = 0.2f;
+		gameSettings.saveSettings();
 
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 

@@ -27,14 +27,11 @@ import java.util.HashMap;
 
 public enum MusicType {
 
-    INTRO("Intro", "intro.mp3", "music/"),
-    MAIN_MENU("Main Menu", "mainMenu.mp3", "music/"),
-    FLAPPY_BAT("Flappy Bat", "flappyBird.mp3", "music/"),
-    LOADING("Loading", "loading.mp3", "music/"),
-    GENE_ROCKETS("Gene Rockets", "geneRockets.mp3", "music/"),
-    DEVICE_INFORMATION("Device Information", "intro.mp3", "music/"),
+    FOREST("Forest", "forestAmbience.mp3", "music/"),
+    FUTURE("Future", "futureBeat.mp3", "music/"),
+    SPACE("Space", "lostInSpace.mp3", "music/"),
 
-    VOID("Void", "intro.mp3", "music/");
+    VOID("Void", "forestAmbience.mp3", "music/");
 
     private String id, fileName, filePath;
 
@@ -46,10 +43,6 @@ public enum MusicType {
 
     public String getId() { return id; }
 
-    public String getFileName() { return fileName; }
-    
-    public String getFilePath() { return filePath; }
-    
     public String getCompletePath() { return filePath + fileName; }
     
     public static MusicType getTypeById(String id) { return musicTypes.get(id); }

@@ -72,6 +72,14 @@ import java.util.HashMap;
 
 public class BuildManager extends Manager {
 
+    private EntityManager entityManager;
+    private GraphicsManager graphicsManager;
+    private InputManager inputManager;
+    private PhysicsManager physicsManager;
+    private PositionManager positionManager;
+    private ScreenManager screenManager;
+    private SoundManager soundManager;
+
     private int uniqueId;
 
     public BuildManager(GameManager gm) {
@@ -96,7 +104,14 @@ public class BuildManager extends Manager {
 
     @Override
     protected void init() {
-        super.init();
+        entityManager = gm.getEntityManager();
+        graphicsManager = gm.getGraphicsManager();
+        inputManager = gm.getInputManager();
+        physicsManager = gm.getPhysicsManager();
+        positionManager = gm.getPositionManager();
+        screenManager = gm.getScreenManager();
+        soundManager = gm.getSoundManager();
+
         uniqueId = 0;
     }
 

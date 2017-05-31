@@ -27,12 +27,15 @@ import com.kehxstudios.atlas.tools.DebugTool;
 
 public class Player {
 
+    private String id;
+
     // Name of the player
     private String name;
 
-    // Constructor only requires a string name
-    public Player(String name) {
-        this.name = name;
+    // Constructor only requires a string id
+    public Player(String id) {
+        this.id = id;
+
     }
 
     // Returns name of player
