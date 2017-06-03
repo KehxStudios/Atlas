@@ -1,3 +1,23 @@
+June 3, 2017 [ 0.0.8.060300 ]
+  > Overlooked changing log when doing commits since the start, will be adding to the log after every commit going forward
+  > Added extra two digits to end of version number for the update numbering per day
+  > Not logging previous updates from today as it's not a good use of time
+  > Arrows will be used for non-code related changes where dashes will be code related
+  > More changes will be done to the logging of changes in the coming days
+  > Project will be launched in pre-alpha stage by Sunday night, including Site/Facebook/Twitter updates
+  - Created ChangeFloatingTextAction class, including adding to ActionType and BuildManager
+  - Updated TextureType's reference from FlappyBat to FlappyBird, including changes in FlappyBirdScreen
+  - Updated FloatingTextComponent colors in MainMenuScreen, DeviceInformationScreen and FlappyBirdScreen
+  - Added Loading image instead of using text in LoadingScreen
+  - Readded fitness calculation in populating the mating pool in GeneRocketsScreen
+  - Added logoTimer in IntroScreen to allow better switching of logos that allow resetting to keep the screenTime constant
+  - Increased start distance for Walls in FlappyBird from 150 to 250
+  - Updated Paddle locations in PongScreen to correct location
+  - Added clicked location inside ClickableComponent, including setting of variable in InputManager
+  - Updated GameManager to split update and render methods with default of 30 updates per second
+  - Initial setup of GameSettings to allow returning to MainMenuScreen, more to be added later including the changing of Player and Volume settings
+
+
 May 17, 2017 [ 0.0.7.0517 ]
   > Started to preform changes to a more true Entity Component System (ECS).
   > Main ECS changes involve making the Managers have all the methods and the Entity/Components to contain only variables.
@@ -12,6 +32,7 @@ May 17, 2017 [ 0.0.7.0517 ]
   - Patched up from not having auto-complete earlier, still Screens left unfixed
   - Reworked all Actions including inside the Templates & Factory, some changes still needed
   - Created PositionManager that will help sync position among Components, not yet finished
+
 
 May 16, 2017 [ 0.0.7.0516 ]
   - Manager: Updated abstract methods, updated extended methods.
