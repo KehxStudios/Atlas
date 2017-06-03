@@ -37,10 +37,10 @@ public class PongScreen extends AScreen {
     
     private float ballWidth, ballHeight, ballSpeed;
 
-    Entity leftPlayerEntity, rightPlayerEntity, ballEntity;
-    PhysicsComponent leftPlayerPhysics, rightPlayerPhysics, ballPhysics;
+    Entity bottomPlayerEntity, topPlayerEntity, ballEntity;
+    PhysicsComponent bottomPlayerPhysics, topPlayerPhysics, ballPhysics;
 
-    private int leftPlayerScore, rightPlayerScore;
+    private int bottomPlayerScore, topPlayerScore;
     
     private Random random = new Random();
 
@@ -61,27 +61,28 @@ public class PongScreen extends AScreen {
         paddleSpeed = 5f;
         ballSpeed = 6f;
 
-        leftPlayerScore = 0;
-        rightPlayerScore = 0;
+        bottomPlayerScore = 0;
+        topPlayerScore = 0;
 
         Entity mainMenuLaunchEntity = buildManager.createEntity(50, height-50);
         buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
                 buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
         
-        leftPlayerEntity = buildManager.createEntity(paddleWidth, height/2);
-        buildManager.createGraphicsComponent(leftPlayerEntity, 1, TextureType.PONG_PADDLE);
-        leftPlayerPhysics = buildManager.createPhysicsComponent(leftPlayerEntity, new Vector2(0, paddleSpeed),
-                                                                new Vector2(0, paddleSpeed));
+        bottomPlayerEntity = buildManager.createEntity(width/2, paddleHeight);
+        buildManager.createGraphicsComponent(bottomPlayerEntity, 1, TextureType.PONG_PADDLE);
+        bottomPlayerPhysics = buildManager.createPhysicsComponent(bottomPlayerEntity, new Vector2(paddleSpeed, 0),
+                                                                new Vector2(paddleSpeed, 0));
                                                                 
-        rightPlayerEntity = buildManager.createEntity(width-paddleWidth, height/2);
-        buildManager.createGraphicsComponent(rightPlayerEntity, 1, TextureType.PONG_PADDLE);
-        leftPlayerPhysics = buildManager.createPhysicsComponent(rightPlayerEntity, new Vector2(0, paddleSpeed),
-                                                                new Vector2(0, paddleSpeed));
+        topPlayerEntity = buildManager.createEntity(width/2, height-paddleHeight);
+        buildManager.createGraphicsComponent(topPlayerEntity, 1, TextureType.PONG_PADDLE);
+        bottomPlayerPhysics = buildManager.createPhysicsComponent(topPlayerEntity, new Vector2(paddleSpeed, 0),
+                                                                new Vector2(paddleSpeed, 0));
                                                                 
         ballEntity = buildManager.createEntity(width/2, height/2);
         buildManager.createGraphicsComponent(ballEntity, 1, TextureType.PONG_BALL);
         ballPhysics = buildManager.createPhysicsComponent(ballEntity, new Vector2(ballSpeed, ballSpeed),
                                                           new Vector2(ballSpeed, ballSpeed));
+        ballPhysics.velocity.set(2f, 5f);
     }
 
     @Override
@@ -90,10 +91,10 @@ public class PongScreen extends AScreen {
         super.render(delta);
         
         if (ballEntity.position.x + ballWidth/2 > width) {
-            leftPlayerScore++;
+            bottomPlayerScore++;
             roundReset();
         } else if (ballEntity.position.x - ballWidth/2 < 0) {
-            rightPlayerScore++;
+            topPlayerScore++;
             roundReset();
         }
         
@@ -101,17 +102,17 @@ public class PongScreen extends AScreen {
             ballPhysics.velocity.y *= -1;
         }
         
-        if (leftPlayerEntity.position.y + paddleHeight/2 > height) {
-            positionManager.setPosition(leftPlayerEntity.id, new Vector2(paddleWidth, height- paddleHeight/2));
-        } else if (leftPlayerEntity.position.y - paddleHeight/2 < 0) {
-            positionManager.setPosition(leftPlayerEntity.id, new Vector2(paddleWidth, paddleHeight/2));
+        if (bottomPlayerEntity.position.x + paddleWidth/2 > width) {
+            positionManager.setPosition(bottomPlayerEntity.id, new Vector2(width - paddleWidth/2, paddleHeight));
+        } else if (bottomPlayerEntity.position.x - paddleWidth/2 < 0) {
+            positionManager.setPosition(bottomPlayerEntity.id, new Vector2(paddleWidth/2, paddleHeight));
         }
         
-        if (rightPlayerEntity.position.y + paddleHeight/2 > height) {
-            positionManager.setPosition(rightPlayerEntity.id, new Vector2(width-paddleWidth, height- paddleHeight/2));
-            rightPlayerEntity.position.y = height - paddleHeight/2;
-        } else if (rightPlayerEntity.position.y - paddleHeight/2 < 0) {
-            positionManager.setPosition(rightPlayerEntity.id, new Vector2(width-paddleWidth, paddleHeight/2));
+        if (topPlayerEntity.position.x + paddleWidth/2 > width) {
+            positionManager.setPosition(topPlayerEntity.id, new Vector2(width - paddleWidth/2, height-paddleHeight));
+            topPlayerEntity.position.x = height - paddleHeight/2;
+        } else if (topPlayerEntity.position.x - paddleWidth/2 < 0) {
+            positionManager.setPosition(topPlayerEntity.id, new Vector2(paddleWidth/2, height-paddleHeight));
         }
     }
     
@@ -122,13 +123,13 @@ public class PongScreen extends AScreen {
     private void gameReset() {
         roundReset();
         screenTime = 0f;
-        leftPlayerScore = 0;
-        rightPlayerScore = 0;
+        bottomPlayerScore = 0;
+        topPlayerScore = 0;
        
-        positionManager.setPosition(leftPlayerEntity.id, new Vector2(paddleWidth, height/2));
-        leftPlayerPhysics.velocity.set(0,0);
-        positionManager.setPosition(rightPlayerEntity.id, new Vector2(paddleWidth, height/2));
-        rightPlayerPhysics.velocity.set(0,0);
+        positionManager.setPosition(bottomPlayerEntity.id, new Vector2(width/2, paddleHeight));
+        bottomPlayerPhysics.velocity.set(0,0);
+        positionManager.setPosition(topPlayerEntity.id, new Vector2(width/2, height - paddleHeight));
+        topPlayerPhysics.velocity.set(0,0);
     }
 
     public void dispose() {

@@ -20,6 +20,7 @@
 package com.kehxstudios.atlas.components;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.InputManager;
@@ -34,5 +35,6 @@ public class ClickableComponent extends Component {
     public Rectangle bounds;
     public boolean singleTrigger;
     public boolean triggered;
+    public Vector2 clickedPosition;
     public Action action;
 }

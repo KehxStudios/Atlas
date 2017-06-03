@@ -19,6 +19,8 @@
 
 package com.kehxstudios.atlas.screens;
 
+import com.kehxstudios.atlas.data.GameSettings;
+import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.type.ScreenType;
 
 /**
@@ -26,6 +28,9 @@ import com.kehxstudios.atlas.type.ScreenType;
  */
 
 public class SettingsScreen extends AScreen {
+
+    private GameSettings gameSettings;
+
     public SettingsScreen() {
         super(ScreenType.SETTINGS);
         init();
@@ -33,6 +38,13 @@ public class SettingsScreen extends AScreen {
 
     protected void init() {
         super.init();
+
+        Entity mainMenuLaunchEntity = buildManager.createEntity(width/10, height/10);
+        buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
+
+        gameSettings = gm.gameSettings;
+
 
     }
 

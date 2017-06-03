@@ -20,6 +20,7 @@
 package com.kehxstudios.atlas.type;
 
 import com.kehxstudios.atlas.actions.Action;
+import com.kehxstudios.atlas.actions.ChangeFloatingTextAction;
 import com.kehxstudios.atlas.actions.DestroyEntityAction;
 import com.kehxstudios.atlas.actions.EnableComponentAction;
 import com.kehxstudios.atlas.actions.HighScoreResetAction;
@@ -40,6 +41,7 @@ import java.util.HashMap;
 
 public enum ActionType {
 
+    CHANGE_FLOATING_TEXT("Change Floating Text", ChangeFloatingTextAction.class),
     DESTROY_ENTITY("Destroy Entity", DestroyEntityAction.class),
     ENABLE_COMPONENT("Enable Component", EnableComponentAction.class),
     HIGH_SCORE_RESET("High-Score Reset", HighScoreResetAction.class),

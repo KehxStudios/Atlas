@@ -77,36 +77,36 @@ public class DeviceInformationScreen extends AScreen {
 
     protected void init() {
         super.init();
-        Entity mainMenuLaunchEntity = buildManager.createEntity(50, height-50);
+        Entity mainMenuLaunchEntity = buildManager.createEntity(width/10, height/10);
         buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
                 buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
 
         Entity orientationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 100);
         orientationFloatingText = buildManager.createFloatingTextComponent(orientationEntity, 1,
-                "Orientation: ", "", Color.BLUE);
+                "Orientation: ", "", graphicsManager.COLOR_BLUE);
         Entity resolutionEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 85);
         resolutionFloatingText = buildManager.createFloatingTextComponent(resolutionEntity, 1,
                 "Resolution: ", "", graphicsManager.COLOR_BLUE);
 
         Entity azmuthEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 65);
         azmuthFloatingText = buildManager.createFloatingTextComponent(azmuthEntity, 1,
-                "Azmuth: ", "", Color.BLUE);
+                "Azmuth: ", "", graphicsManager.COLOR_BLUE);
         Entity pitchEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 50);
         pitchFloatingText = buildManager.createFloatingTextComponent(pitchEntity, 1,
                 "Pitch: ", "", graphicsManager.COLOR_BLUE);
         Entity rollEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 35);
         rollFloatingText = buildManager.createFloatingTextComponent(rollEntity, 1,
-                "Roll: ", "", Color.BLUE);
+                "Roll: ", "", graphicsManager.COLOR_BLUE);
 
         Entity accelerometerXEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 15);
         accelerometerXFloatingText = buildManager.createFloatingTextComponent(accelerometerXEntity, 1,
-                "Accelerometer X: ", "", Color.BLUE);
+                "Accelerometer X: ", "", graphicsManager.COLOR_BLUE);
         Entity accelerationYEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y);
         accelerometerYFloatingText = buildManager.createFloatingTextComponent(accelerationYEntity, 1,
-                "Accelerometer Y: ", "", Color.BLUE);
+                "Accelerometer Y: ", "", graphicsManager.COLOR_BLUE);
         Entity accelerationZEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 15);
         accelerometerZFloatingText = buildManager.createFloatingTextComponent(accelerationZEntity, 1,
-                "Accelerometer Z: ", "", Color.BLUE);
+                "Accelerometer Z: ", "", graphicsManager.COLOR_BLUE);
 
         Entity gyroscopeXEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 35);
         gyroscopeXFloatingText = buildManager.createFloatingTextComponent(gyroscopeXEntity, 1,
@@ -120,10 +120,10 @@ public class DeviceInformationScreen extends AScreen {
 
         Entity networkIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 85);
         networkIPFloatingText = buildManager.createFloatingTextComponent(networkIPEntity, 1,
-                "Network IP: ", "", Color.BLUE);
+                "Network IP: ", "", graphicsManager.COLOR_BLUE);
         Entity externalIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 100);
         externalIPFloatingText = buildManager.createFloatingTextComponent(externalIPEntity, 1,
-                "External IP: ", "", Color.BLUE);
+                "External IP: ", "", graphicsManager.COLOR_BLUE);
 
         networkTick = 30f;
         sensorTick = .3f;

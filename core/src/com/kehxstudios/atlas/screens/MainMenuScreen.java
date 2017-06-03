@@ -61,7 +61,7 @@ public class MainMenuScreen extends AScreen {
 
         Entity pongEntity = buildManager.createEntity(width/4, height/6*3);
         buildManager.createGraphicsComponent(pongEntity, 1, TextureType.MAIN_MENU_BORDER);
-        buildManager.createFloatingTextComponent(pongEntity, 3, "", "Pong", Color.BLACK);
+        buildManager.createFloatingTextComponent(pongEntity, 3, "", "Pong", graphicsManager.COLOR_BLUE);
         buildManager.createClickableComponent(pongEntity, borderWidth, borderHeight, true, false,
                 buildManager.createLaunchScreenAction(ScreenType.PONG));
 
@@ -79,7 +79,8 @@ public class MainMenuScreen extends AScreen {
 
         Entity profileEntity = buildManager.createEntity(width/4*3, height/6*2);
         buildManager.createGraphicsComponent(profileEntity, 1, TextureType.MAIN_MENU_BORDER);
-        buildManager.createFloatingTextComponent(profileEntity, 3, gm.player.getName(), " - " + gm.player.getScore(), graphicsManager.COLOR_BLUE);
+        buildManager.createFloatingTextComponent(profileEntity, 3, gm.player.getName(), " - " +
+                gm.player.getScore(), graphicsManager.COLOR_BLUE);
         buildManager.createClickableComponent(profileEntity, borderWidth, borderHeight, true, false,
                 new Action());
 

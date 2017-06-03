@@ -72,12 +72,13 @@ public class GameManager extends Game {
 
 	public Player player;
 
+	private float UPS_TARGET = 30f;
+	private float UPS_TARGET_TIME = UPS_TARGET / 1000000000;
+	private float ups_time;
+
 	// Booleans to print debug/error log
 	public boolean showDebugLog = true;
 	public boolean showErrorLog = true;
-
-	// Used for Desktop window size, will later update for size options
-	public static final float D_WIDTH = 480, D_HEIGHT = 800;
 
 	public GPSTracker gpsTracker;
 	public GPSTracker getGpsTracker() { return gpsTracker; }
@@ -104,6 +105,8 @@ public class GameManager extends Game {
 
         setupManagers();
 		player = new Player();
+
+		ups_time = 0f;
 
 		// Demand a new Screen be started now
 		screenManager.demandNewScreen(ScreenType.INTRO);
@@ -150,24 +153,30 @@ public class GameManager extends Game {
 		// Get the current delta time to pass to Managers
 		float delta = Gdx.graphics.getDeltaTime();
 
-		if (delta <= 0 || gameState == GameState.Paused) {
+		if (delta <= 0 || gameState == GameState.Paused)
 			return;
-		}
+
 		if (gameState == GameState.Running) {
 			// render the Screen that is set allowing screen functions
 			super.render();
-			// tick InputManager to check for input changes
-			inputManager.tick(delta);
-			// tick PhysicsManager to change any locations by the means of physics
-			physicsManager.tick(delta);
-			// tick EntityManager to check if anything needs to be removed
-			entityManager.tick(delta);
-			// tick GraphicsManager to check if any animations require changing
-			graphicsManager.tick(delta);
-			// render everything inside of GraphicsManager
+
+			ups_time += delta;
+
+			if (ups_time >= UPS_TARGET_TIME) {
+				ups_time = 0f;
+				// tick InputManager to check for input changes
+				inputManager.tick(delta);
+				// tick PhysicsManager to change any locations by the means of physics
+				physicsManager.tick(delta);
+				// tick EntityManager to check if anything needs to be removed
+				entityManager.tick(delta);
+				// tick GraphicsManager to check if any animations require changing
+				graphicsManager.tick(delta);
+				// render everything inside of GraphicsManager
+				// tick ScreenManager to check if screen change is needed
+				screenManager.tick(delta);
+			}
 			graphicsManager.render(batch);
-			// tick ScreenManager to check if screen change is needed
-			screenManager.tick(delta);
 		} else if (gameState == GameState.Loading){
 			// render the Screen that is set allowing screen functions
 			super.render();

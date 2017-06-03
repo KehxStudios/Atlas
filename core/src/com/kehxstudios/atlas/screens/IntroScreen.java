@@ -35,6 +35,7 @@ public class IntroScreen extends AScreen {
 
     private boolean finalLogo;
     private boolean clickToContinue;
+    private float logoTimer;
 
     private Entity textEntity;
     private GraphicsComponent devLogoGraphics;
@@ -48,6 +49,7 @@ public class IntroScreen extends AScreen {
         super.init();
         finalLogo = false;
         clickToContinue = false;
+        logoTimer = 0f;
 
         devLogoGraphics = buildManager.createGraphicsComponent(screenEntity, 1, TextureType.INTRO_DEV_LOGO);
         textEntity = buildManager.createEntity(width/2, height/5);
@@ -58,13 +60,15 @@ public class IntroScreen extends AScreen {
         // increase screenTime in super method
         super.render(delta);
         if (!clickToContinue) {
+            logoTimer += delta;
             // If index is not on last path
-            if (!finalLogo && (screenTime >= 1f || screenTime > 0.5f && Gdx.input.isTouched())) {
+            if (!finalLogo && (logoTimer >= 1f || logoTimer > 0.5f && Gdx.input.isTouched())) {
                 entityManager.remove(devLogoGraphics);
                 devLogoGraphics = null;
                 buildManager.createGraphicsComponent(screenEntity, 1, TextureType.INTRO_GAME_LOGO);
                 finalLogo = true;
-            } else if (finalLogo && screenTime > 2f || screenTime > 1f && Gdx.input.isTouched()) {
+                logoTimer = 0f;
+            } else if (finalLogo && logoTimer > 1f || logoTimer > 0.5f && Gdx.input.isTouched()) {
                 buildManager.createFloatingTextComponent(textEntity, 2, "|  ", "Click to Continue  |",
                         graphicsManager.COLOR_BLUE);
                 buildManager.createClickableComponent(screenEntity, width, height, true, false,

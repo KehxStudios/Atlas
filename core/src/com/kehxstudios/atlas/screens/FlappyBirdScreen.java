@@ -50,7 +50,7 @@ public class FlappyBirdScreen extends AScreen {
     private static final int WALL_FLUCTUATION = 140;
     private static final int WALL_GAP = 100;
     private static final int WALL_Y_START = 510;
-    private static final int WALL_X_START = 150;
+    private static final int WALL_X_START = 250;
 
     private static final int GROUND_COUNT = 2;
     private static final int GROUND_Y_OFFSET = 20;
@@ -97,42 +97,42 @@ public class FlappyBirdScreen extends AScreen {
         lowScore = highScores.getLowScore();
         highScore = highScores.getHighScore();
 
-        buildManager.createGraphicsComponent(screenEntity, 0, TextureType.FLAPPY_BAT_BACKGROUND);
+        buildManager.createGraphicsComponent(screenEntity, 0, TextureType.FLAPPY_BIRD_BACKGROUND);
 
-        float batWidth = TextureType.FLAPPY_BAT_BAT.getWidth();
-        float batHeight = TextureType.FLAPPY_BAT_BAT.getHeight();
+        float batWidth = TextureType.FLAPPY_BIRD_BIRD.getWidth();
+        float batHeight = TextureType.FLAPPY_BIRD_BIRD.getHeight();
         batEntity = buildManager.createEntity(width/4, height/2);
-        buildManager.createGraphicsComponent(batEntity, 3, TextureType.FLAPPY_BAT_BAT);
+        buildManager.createGraphicsComponent(batEntity, 3, TextureType.FLAPPY_BIRD_BIRD);
         batPhysics = buildManager.createPhysicsComponent(batEntity, new Vector2(100, 300), new Vector2(100,300));
         buildManager.createCollisionComponent(batEntity, batWidth, batHeight, false, false,
                 buildManager.createResetScreenAction());
         buildManager.createClickableComponent(screenEntity, width, height, false, false,
                 buildManager.createPhysicsAction(batPhysics, new Vector2(0, BAT_Y_JUMP)));
 
-        float groundWidth = TextureType.FLAPPY_BAT_GROUND.getWidth();
-        float groundHeight = TextureType.FLAPPY_BAT_GROUND.getHeight();
+        float groundWidth = TextureType.FLAPPY_BIRD_GROUND.getWidth();
+        float groundHeight = TextureType.FLAPPY_BIRD_GROUND.getHeight();
         groundEntities = new ArrayList<Entity>();
         for (int i = 0; i < GROUND_COUNT; i++) {
             Entity groundEntity = buildManager.createEntity(i * GROUND_WIDTH, GROUND_Y_OFFSET);
-            buildManager.createGraphicsComponent(groundEntity, 2, TextureType.FLAPPY_BAT_GROUND);
+            buildManager.createGraphicsComponent(groundEntity, 2, TextureType.FLAPPY_BIRD_GROUND);
             buildManager.createCollisionComponent(groundEntity, groundWidth, groundHeight, true, false,
                     buildManager.createResetScreenAction());
             groundEntities.add(groundEntity);
         }
 
-        float wallWidth = TextureType.FLAPPY_BAT_WALL.getWidth();
-        float wallHeight = TextureType.FLAPPY_BAT_WALL.getHeight();
+        float wallWidth = TextureType.FLAPPY_BIRD_WALL.getWidth();
+        float wallHeight = TextureType.FLAPPY_BIRD_WALL.getHeight();
         wallEntities = new ArrayList<Entity>();
         for (int i = 0; i < WALL_COUNT; i++) {
             float topWallX = WALL_X_START + i * WALL_SPACING;
             float topWallY = wallRandomY();
             Entity topWallEntity = buildManager.createEntity(topWallX, topWallY);
-            buildManager.createGraphicsComponent(topWallEntity, 1, TextureType.FLAPPY_BAT_WALL);
+            buildManager.createGraphicsComponent(topWallEntity, 1, TextureType.FLAPPY_BIRD_WALL);
             buildManager.createCollisionComponent(topWallEntity, wallWidth, wallHeight, true, false, new Action());
             wallEntities.add(topWallEntity);
 
             Entity bottomWallEntity = buildManager.createEntity(topWallX, topWallY - WALL_GAP - WALL_HEIGHT);
-            buildManager.createGraphicsComponent(bottomWallEntity, 1, TextureType.FLAPPY_BAT_WALL);
+            buildManager.createGraphicsComponent(bottomWallEntity, 1, TextureType.FLAPPY_BIRD_WALL);
             buildManager.createCollisionComponent(bottomWallEntity, wallWidth, wallHeight, true, false, new Action());
             wallEntities.add(bottomWallEntity);
         }
@@ -196,12 +196,12 @@ public class FlappyBirdScreen extends AScreen {
             lowScore = highScores.getLowScore();
             lowScoreText.text = lowScore+"";
             lowScoreText.layout.setText(lowScoreText.font, lowScoreText.label + lowScoreText.text,
-                    Color.BLACK, 0, Align.left, true);
+                    lowScoreText.color, 0, Align.left, true);
             if (highScore != highScores.getHighScore()) {
                 highScore = highScores.getHighScore();
                 highScoreText.text = highScore+"";
                 highScoreText.layout.setText(highScoreText.font, highScoreText.label + highScoreText.text,
-                    Color.BLACK, 0, Align.left, true);
+                        highScoreText.color, 0, Align.left, true);
             }
             gm.player.addScore(score/100);
         }

@@ -165,7 +165,7 @@ public class GeneRocketsScreen extends AScreen {
         DebugTool.log("Populate Mating Pool");
         geneMatingPool.clear();
         for (GeneRocketComponent geneRocket : geneRocketComponents.values()) {
-            int matingScore = 5; //(int)(geneRocket.fitness / 100);
+            int matingScore = (int)(geneRocket.fitness / 100);
             for (int j = 0; j < matingScore; j++) {
                 geneMatingPool.add(geneRocket.entityId);
             }

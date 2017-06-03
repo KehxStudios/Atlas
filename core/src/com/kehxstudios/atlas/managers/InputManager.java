@@ -76,6 +76,7 @@ public class InputManager extends Manager {
                 if (clickable.enabled) {
                     if (x > clickable.bounds.x && x < clickable.bounds.x + clickable.bounds.width &&
                             y > clickable.bounds.y && y < clickable.bounds.y + clickable.bounds.height) {
+                        clickable.clickedPosition.set(x,y);
                         clickable.action.trigger();
                     }
                 }

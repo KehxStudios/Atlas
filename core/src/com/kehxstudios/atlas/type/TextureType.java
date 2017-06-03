@@ -33,10 +33,10 @@ public enum TextureType {
     MAIN_MENU_BACKGROUND("MainMenuBackground", "background", 1440, 2560),
     MAIN_MENU_BORDER("MainMenuBorder", "menuBorder", 625, 435),
 
-    FLAPPY_BAT_BACKGROUND("FlappyBatBackground", "background", 288, 512),
-    FLAPPY_BAT_BAT("FlappyBatBat", "bat", 34, 24),
-    FLAPPY_BAT_WALL("FlappyBatWall",  "wall", 52, 320),
-    FLAPPY_BAT_GROUND("FlappyBatGround", "ground", 366, 112),
+    FLAPPY_BIRD_BACKGROUND("FlappyBirdBackground", "background", 288, 512),
+    FLAPPY_BIRD_BIRD("FlappyBirdBird", "bird", 34, 24),
+    FLAPPY_BIRD_WALL("FlappyBirdWall",  "wall", 52, 320),
+    FLAPPY_BIRD_GROUND("FlappyBirdGround", "ground", 366, 112),
     
     PONG_BACKGROUND("PongBackground", "background", 512, 910),
     PONG_PADDLE("PongPaddle", "paddle", 10, 50),

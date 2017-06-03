@@ -28,6 +28,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.actions.Action;
+import com.kehxstudios.atlas.actions.ChangeFloatingTextAction;
 import com.kehxstudios.atlas.actions.EnableComponentAction;
 import com.kehxstudios.atlas.actions.LaunchWebsiteAction;
 import com.kehxstudios.atlas.actions.ResetScreenAction;
@@ -228,6 +229,7 @@ public class BuildManager extends Manager {
         clickable.bounds.setCenter(entity.position);
         clickable.singleTrigger = singleTrigger;
         clickable.triggered = triggered;
+        clickable.clickedPosition = new Vector2(0,0);
         clickable.action = action;
         entityManager.add(clickable);
         inputManager.add(clickable);
@@ -372,5 +374,18 @@ public class BuildManager extends Manager {
         resetScreen.screenManager = screenManager;
         return resetScreen;
     }
+
+    public ChangeFloatingTextAction createChangeFloatingTextAction(FloatingTextComponent floatingTextComponent,
+                String[] changeTextArray, boolean changeLabelOverride, boolean loopTextArray) {
+        ChangeFloatingTextAction changeFloatingText = new ChangeFloatingTextAction();
+        changeFloatingText.type = ActionType.CHANGE_FLOATING_TEXT;
+        changeFloatingText.floatingTextComponent = floatingTextComponent;
+        changeFloatingText.changeTextArray = changeTextArray;
+        changeFloatingText.changeTextIndex = 0;
+        changeFloatingText.changeLabelOverride = changeLabelOverride;
+        changeFloatingText.loopTextArray = loopTextArray;
+        return changeFloatingText;
+    }
+
 
 }
