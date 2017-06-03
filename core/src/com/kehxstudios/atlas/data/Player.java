@@ -19,7 +19,10 @@
 
 package com.kehxstudios.atlas.data;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.kehxstudios.atlas.tools.DebugTool;
+import com.kehxstudios.atlas.tools.ErrorTool;
 
 /**
  * Holds the players data through the entire app, will be set at main menu in the future
@@ -27,15 +30,16 @@ import com.kehxstudios.atlas.tools.DebugTool;
 
 public class Player {
 
-    private String id;
+    private static String preferenceName = "Players";
+    private static Preferences preferences;
 
     // Name of the player
     private String name;
+    private int score;
 
-    // Constructor only requires a string id
-    public Player(String id) {
-        this.id = id;
-
+    public Player(){
+        preferences = Gdx.app.getPreferences(preferenceName);
+        changePlayer(preferences.getString("lastPlayer", "Default"));
     }
 
     // Returns name of player
@@ -45,7 +49,89 @@ public class Player {
 
     // Changes the name of the player
     public void changeName(String newName) {
+        if (name == newName)
+            return;
         DebugTool.log(name + " changed names to " + newName);
-        name = newName;
+        String currentPlayers = preferences.getString("allPlayers", "");
+        if (currentPlayers.contains(newName)) {
+            ErrorTool.log("Change Name, name already used");
+        } else {
+            if (currentPlayers.contains(name)) {
+                currentPlayers.replace(name, newName);
+                preferences.putString("allPlayers", currentPlayers);
+                removePlayer(name);
+                name = newName;
+                savePlayer();
+            } else {
+                ErrorTool.log("Change Name, cannot find previous name, creating new Player");
+                newPlayer(newName);
+            }
+        }
+    }
+
+    public void changePlayer(String player) {
+        if (player != null && player != "") {
+            if (savedPlayer(player)) {
+                loadPlayer(player);
+            } else {
+                newPlayer(player);
+            }
+            preferences.putString("lastPlayer", name);
+            preferences.flush();
+        } else {
+            ErrorTool.log("Changing Player, invalid name");
+        }
+    }
+
+    private void newPlayer(String player) {
+        addToAllPlayers(player);
+        loadPlayer(player);
+        savePlayer();
+    }
+
+    private void loadPlayer(String player) {
+        name = player;
+        score = preferences.getInteger(player + "_score", 0);
+    }
+
+    public void savePlayer() {
+        preferences.putInteger(name + "_score", score);
+        preferences.flush();
+    }
+
+    private void removePlayer(String player) {
+        preferences.remove(player + "_score");
+        preferences.flush();
+    }
+
+    public String[] getAllPlayers() {
+        return preferences.getString("allPlayers", "").split(",");
+    }
+    private void addToAllPlayers(String player) {
+        String currentPlayers = preferences.getString("allPlayers", "");
+        if (currentPlayers != "") {
+            currentPlayers += ",";
+        }
+        currentPlayers += player;
+        preferences.putString("allPlayers", currentPlayers);
+        preferences.flush();
+    }
+    private boolean savedPlayer(String player) {
+        for (String savedPlayers : getAllPlayers()) {
+            if (savedPlayers == player) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getScore() { return score; }
+    public void addScore(int value) {
+        score += value;
+        savePlayer();
+    }
+    public void setScore(int score) {
+        this.score = score;
+        savePlayer();
     }
 }

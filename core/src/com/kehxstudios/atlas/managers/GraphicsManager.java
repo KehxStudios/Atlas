@@ -72,7 +72,7 @@ public class GraphicsManager extends Manager {
     @Override
     protected void init() {
         DebugTool.log("GraphicsManager_init: Starting...");
-        textureAtlas = new TextureAtlas();
+        textureAtlas = null;
         animationComponents = new HashMap<Integer,AnimationComponent>();
         graphicsComponents = new ArrayList<HashMap<Integer,GraphicsComponent>>();
         for (int i = 0; i < MAX_LAYERS; i++) {
@@ -130,8 +130,7 @@ public class GraphicsManager extends Manager {
             }
             for (GraphicsComponent graphics : hashMap.values()) {
                 if (graphics.enabled) {
-                    batch.draw(graphics.texture, graphics.bounds.x, graphics.bounds.y,
-                            graphics.bounds.width, graphics.bounds.height);
+                    graphics.sprite.draw(batch);
                 }
             }
         }

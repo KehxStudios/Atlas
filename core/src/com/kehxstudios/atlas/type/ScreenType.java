@@ -20,7 +20,7 @@
 package com.kehxstudios.atlas.type;
 
 import com.kehxstudios.atlas.screens.AScreen;
-import com.kehxstudios.atlas.screens.FlappyBatScreen;
+import com.kehxstudios.atlas.screens.FlappyBirdScreen;
 import com.kehxstudios.atlas.screens.GeneRocketsScreen;
 import com.kehxstudios.atlas.screens.IntroScreen;
 import com.kehxstudios.atlas.screens.LoadingScreen;
@@ -38,7 +38,7 @@ import java.util.HashMap;
 public enum ScreenType {
 
     DEVICE_INFORMATION("Device Information", "atlas/deviceInformation.atlas", "Space", 256, 455, DeviceInformationScreen.class),
-    FLAPPY_BAT("Flappy Bat", "atlas/flappyBird.atlas", "Future", 240, 400, FlappyBatScreen.class),
+    FLAPPY_BIRD("Flappy Bird", "atlas/flappyBird.atlas", "Future", 240, 400, FlappyBirdScreen.class),
     GENE_ROCKETS("Gene Rockets", "atlas/geneRockets.atlas", "Future", 512, 910, GeneRocketsScreen.class),
     INTRO("Intro", "atlas/intro.atlas", "Forest", 512, 910, IntroScreen.class),
     LOADING("Loading", "loading/loading.atlas", "Space", 512, 910, LoadingScreen.class),

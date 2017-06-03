@@ -28,24 +28,23 @@ import com.badlogic.gdx.Preferences;
 
 public class GameSettings {
 
-    public String lastPlayerId;
+    private String preferenceName = "GameSettings";
+    private Preferences preferences;
     public float musicVolume;
     public float soundVolume;
     public boolean loadingMusic;
 
     public GameSettings() {
-        Preferences preferences = Gdx.app.getPreferences("GameSettings");
-        lastPlayerId = preferences.getString("lastPlayerId", null);
+        preferences = Gdx.app.getPreferences(preferenceName);
         musicVolume = preferences.getFloat("musicVolume", 0.5f);
         soundVolume = preferences.getFloat("soundVolume", 0.8f);
-        loadingMusic = preferences.getBoolean("loadingMusic", false);
+        loadingMusic = preferences.getBoolean("loadingMusic", true);
     }
 
     public void saveSettings() {
-        Preferences preferences = Gdx.app.getPreferences("GameSettings");
-        preferences.putString("lastPlayerId", lastPlayerId);
         preferences.putFloat("musicVolume", musicVolume);
         preferences.putFloat("soundVolume", soundVolume);
         preferences.putBoolean("loadingMusic", loadingMusic);
+        preferences.flush();
     }
 }

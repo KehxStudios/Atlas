@@ -91,7 +91,7 @@ public class PositionManager extends Manager {
             gm.getEntityManager().setEntityPosition(entityId, position.x, position.y);
             for (Component component : positionHashMap.get(entityId)) {
                 if (component.type == ComponentType.GRAPHICS) {
-                    ((GraphicsComponent)component).bounds.setCenter(position);
+                    ((GraphicsComponent)component).sprite.setCenter(position.x, position.y);
                 } else if (component.type == ComponentType.CAMERA) {
                     CameraComponent camera = (CameraComponent)component;
                     camera.camera.position.set(new Vector3(position.x, position.y, 0));
@@ -108,14 +108,16 @@ public class PositionManager extends Manager {
             }
         }
     }
+
     public void movePosition(int entityId, float x, float y) {
         if (positionHashMap.containsKey(entityId)) {
             gm.getEntityManager().moveEntityPosition(entityId, x, y);
             for (Component component : positionHashMap.get(entityId)) {
                 if (component.type == ComponentType.GRAPHICS) {
                     GraphicsComponent graphics = ((GraphicsComponent)component);
-                    graphics.bounds.x += x;
-                    graphics.bounds.y += y;
+                    if (graphics.rotate)
+                        graphics.sprite.setRotation(new Vector2(x * 100, y*100).angle() +-90);
+                    graphics.sprite.translate(x, y);
                 } else if (component.type == ComponentType.CAMERA) {
                     CameraComponent camera = (CameraComponent)component;
                     camera.camera.position.add(new Vector3(x, y, 0));

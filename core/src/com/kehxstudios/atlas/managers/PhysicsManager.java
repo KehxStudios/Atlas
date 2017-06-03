@@ -81,7 +81,7 @@ public class PhysicsManager extends Manager {
                     if (staticCollisionComponents.size() > 0) {
                         for (CollisionComponent staticCollision : staticCollisionComponents.values()) {
                             if (staticCollision.enabled && collision.bounds.overlaps(staticCollision.bounds)) {
-                                DebugTool.log("Static Collision");
+                                //DebugTool.log("Static Collision");
                                 collision.action.trigger();
                                 staticCollision.action.trigger();
 
@@ -91,7 +91,7 @@ public class PhysicsManager extends Manager {
                     for (CollisionComponent dynamicCollision : dynamicCollisionComponents.values()) {
                         if (collision != dynamicCollision &&  dynamicCollision.enabled &&
                                 collision.bounds.overlaps(dynamicCollision.bounds)) {
-                            DebugTool.log("Dynamic Collision");
+                            //DebugTool.log("Dynamic Collision");
                             collision.action.trigger();
                         }
                     }

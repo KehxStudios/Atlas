@@ -31,6 +31,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gwt.user.server.Util;
 import com.kehxstudios.atlas.data.GameSettings;
+import com.kehxstudios.atlas.data.Player;
 import com.kehxstudios.atlas.screens.AScreen;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.GPSTracker;
@@ -69,8 +70,10 @@ public class GameManager extends Game {
 
 	public GameSettings gameSettings;
 
+	public Player player;
+
 	// Booleans to print debug/error log
-	public boolean showDebugLog = false;
+	public boolean showDebugLog = true;
 	public boolean showErrorLog = true;
 
 	// Used for Desktop window size, will later update for size options
@@ -89,8 +92,6 @@ public class GameManager extends Game {
 		instance = this;
 
 		gameSettings = new GameSettings();
-		gameSettings.musicVolume = 0.2f;
-		gameSettings.saveSettings();
 
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
@@ -102,6 +103,7 @@ public class GameManager extends Game {
 		batch.setProjectionMatrix(camera.combined);
 
         setupManagers();
+		player = new Player();
 
 		// Demand a new Screen be started now
 		screenManager.demandNewScreen(ScreenType.INTRO);

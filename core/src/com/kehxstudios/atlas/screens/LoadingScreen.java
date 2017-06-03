@@ -130,9 +130,6 @@ public class LoadingScreen extends AScreen {
     @Override
     public void show() {
         super.show();
-        if (loadingMusic) {
-            music.play();
-        }
     }
 
     @Override
@@ -153,7 +150,7 @@ public class LoadingScreen extends AScreen {
     @Override
     public void hide() {
         super.hide();
-        if (loadingMusic && music.isPlaying()) {
+        if (music != null && loadingMusic && music.isPlaying()) {
             music.stop();
         }
     }

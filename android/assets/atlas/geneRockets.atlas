@@ -1,20 +1,20 @@
 
 geneRockets.png
-size: 512,1024
+size: 128,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 rocket
   rotate: false
-  xy: 2, 68
-  size: 310, 724
-  orig: 310, 724
+  xy: 2, 104
+  size: 100, 200
+  orig: 100, 200
   offset: 0, 0
   index: -1
 target
   rotate: false
   xy: 2, 2
-  size: 64, 64
-  orig: 64, 64
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1

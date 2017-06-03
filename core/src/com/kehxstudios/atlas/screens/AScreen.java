@@ -66,7 +66,6 @@ public abstract class AScreen implements Screen {
     protected boolean disposed;
     
     public AScreen(ScreenType type) {
-        ErrorTool.log("Constructing AScreen" + type.getId());
         this.type = type;
         gm = GameManager.getInstance();
         buildManager = gm.getBuildManager();
@@ -81,7 +80,6 @@ public abstract class AScreen implements Screen {
         height = type.getHeight();
         screenTime = 0f;
         disposed = false;
-        ErrorTool.log("Constructing AScreen: Complete");
     }
 
     protected void init() {

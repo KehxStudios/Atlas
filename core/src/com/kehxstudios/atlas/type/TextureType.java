@@ -43,8 +43,8 @@ public enum TextureType {
     PONG_BALL("PongBall", "ball", 10, 10),
 
     GENE_ROCKETS_BACKGROUND("GeneRocketBackground", "background", 512, 910),
-    GENE_ROCKETS_ROCKET("GeneRocketRocket", "rocket", 10, 50),
-    GENE_ROCKETS_TARGET("GeneRocketTarget", "target", 10, 10),
+    GENE_ROCKETS_ROCKET("GeneRocketRocket", "rocket", 21, 50),
+    GENE_ROCKETS_TARGET("GeneRocketTarget", "target", 100, 100),
 
     LOADING_BACKGROUND("LoadingBackground", "background", 512, 910),
     LOADING_GAME_LOGO("LoadingGameLogo", "gameLogo", 512, 512),

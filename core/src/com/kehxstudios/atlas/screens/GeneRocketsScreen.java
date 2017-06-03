@@ -19,13 +19,18 @@
 
 package com.kehxstudios.atlas.screens;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.components.CollisionComponent;
+import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.GeneRocketComponent;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.managers.BuildManager;
+import com.kehxstudios.atlas.managers.PositionManager;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.type.ComponentType;
 import com.kehxstudios.atlas.type.ScreenType;
@@ -42,9 +47,9 @@ import java.util.Random;
 public class GeneRocketsScreen extends AScreen {
 
     private int generationNumber;
-    private float timePerGeneration = 400f;
+    private float timePerGeneration;
     private float currentGenerationTime;
-    private int rocketPopulationSize = 50;
+    private int rocketPopulationSize;
     
     private HashMap<Integer, Entity> rocketPopulation;
     private HashMap<Integer, GeneRocketComponent> geneRocketComponents;
@@ -54,8 +59,12 @@ public class GeneRocketsScreen extends AScreen {
 
     private int numOfGenes;
     private int activeGeneNumber;
+    private float maxGeneValue;
+    private float geneMutationRate;
     private ArrayList<GeneRocketComponent> newRocketGenes;
     private ArrayList<Integer> geneMatingPool;
+
+    private FloatingTextComponent currentGenerationFloatingText;
 
     private Random random = new Random();
 
@@ -66,11 +75,10 @@ public class GeneRocketsScreen extends AScreen {
 
     public void reset() {
         super.reset();
-
         generationNumber = 0;
         currentGenerationTime = 0f;
         activeGeneNumber = 0;
-        destroyGeneRocketComponents();
+        geneMutationRate = 0.05f;
     }
 
     protected void init() {
@@ -90,12 +98,17 @@ public class GeneRocketsScreen extends AScreen {
         buildManager.createCollisionComponent(targetEntity, targetWidth, targetHeight, true, false, new Action());
 
         newRocketGenes = new ArrayList<GeneRocketComponent>();
-
-        numOfGenes = (int)Math.ceil(timePerGeneration);
+        rocketPopulationSize = 25;
+        timePerGeneration = 5f;
+        maxGeneValue = 100f;
+        numOfGenes = (int)(timePerGeneration * 10);
         currentGenerationTime = 0f;
         activeGeneNumber = -1;
-        generationNumber = -1;
+        generationNumber = 0;
 
+        Entity floatingTextEntity = buildManager.createEntity(width/2, height - 50);
+        currentGenerationFloatingText = buildManager.createFloatingTextComponent(floatingTextEntity,
+                2f, "Current Generation: ", generationNumber+"", graphicsManager.COLOR_BLUE);
 
         generateRandomRockets();
     }
@@ -112,37 +125,47 @@ public class GeneRocketsScreen extends AScreen {
         for (int i = 0; i < rocketPopulationSize; i++) {
             Entity rocketEntity = buildManager.createEntity(width/2, height/5);
             rocketPopulation.put(rocketEntity.id, rocketEntity);
-            buildManager.createGraphicsComponent(rocketEntity, 1, TextureType.GENE_ROCKETS_ROCKET);
+            buildManager.createGraphicsComponent(rocketEntity, 1, TextureType.GENE_ROCKETS_ROCKET).rotate = true;
             physicsComponents.put(rocketEntity.id, buildManager.createPhysicsComponent(rocketEntity,
                     new Vector2(100,100), new Vector2(100,100)));
             collisionComponents.put(rocketEntity.id, buildManager.createCollisionComponent(rocketEntity,
-                    rocketWidth, rocketHeight, false, false, buildManager.createEnableComponentAction(
-                            physicsComponents.get(rocketEntity.id).id, false)));
+                    rocketWidth, rocketHeight, false, false, new Action()));
             geneRocketComponents.put(rocketEntity.id, buildManager.createGeneRocketComponent(
                     rocketEntity, randomGenes()));
         }
-        generationNumber++;
     }
 
     private ArrayList<Vector2> randomGenes() {
         ArrayList<Vector2> genes = new ArrayList<Vector2>();
+        Vector2 gene = null;
         for (int i = 0; i < numOfGenes; i++) {
-            genes.add(new Vector2(random.nextFloat()*200-100, random.nextFloat()*200-100));
+            if (gene == null)
+                gene = newGene();
+            else
+                gene = getRelativeGene(gene);
+            DebugTool.log(gene.toString() + " - " + (random.nextFloat()*maxGeneValue*2-maxGeneValue+"") + " - " + (maxGeneValue+""));
+            genes.add(i, gene);
         }
         return genes;
     }
 
-    private void destroyGeneRocketComponents() {
-        for (GeneRocketComponent geneRocketComponent : geneRocketComponents.values()) {
-            entityManager.markComponentForRemoval(geneRocketComponent.id);
-        }
-        entityManager.tick(0);
-        geneRocketComponents.clear();
+    private Vector2 newGene() {
+        return new Vector2(random.nextFloat()*maxGeneValue*2-maxGeneValue,
+                random.nextFloat()*maxGeneValue*2-maxGeneValue);
+    }
+
+    private Vector2 getRelativeGene(Vector2 relative) {
+        Vector2 gene = new Vector2(random.nextFloat()*maxGeneValue/2+relative.x-maxGeneValue/4,
+                random.nextFloat()*maxGeneValue/2+relative.y-maxGeneValue/4);
+        gene.clamp(-maxGeneValue, maxGeneValue);
+        return gene;
     }
 
     private void populateMatingPool() {
+        DebugTool.log("Populate Mating Pool");
+        geneMatingPool.clear();
         for (GeneRocketComponent geneRocket : geneRocketComponents.values()) {
-            int matingScore = (int)(geneRocket.fitness / 100);
+            int matingScore = 5; //(int)(geneRocket.fitness / 100);
             for (int j = 0; j < matingScore; j++) {
                 geneMatingPool.add(geneRocket.entityId);
             }
@@ -150,22 +173,26 @@ public class GeneRocketsScreen extends AScreen {
     }
 
     private void populateNewRockets() {
+        DebugTool.log("Populate New Rockets");
         for (Entity geneRocket : rocketPopulation.values()) {
             int parentA = geneMatingPool.get(random.nextInt(geneMatingPool.size()));
             int parentB = geneMatingPool.get(random.nextInt(geneMatingPool.size()));
             while (parentA == parentB) {
                 parentB = geneMatingPool.get(random.nextInt(geneMatingPool.size()));
             }
-            ArrayList<Vector2> genes = new ArrayList<Vector2>(numOfGenes);
+            ArrayList<Vector2> genes = new ArrayList<Vector2>();
             for (int j = 0; j < numOfGenes; j++) {
-                if (random.nextBoolean()) {
-                    genes.set(j, geneRocketComponents.get(parentA).genes.get(j));
+                if (random.nextFloat() < geneMutationRate) {
+                    genes.add(j, newGene());
+                } else if (random.nextBoolean()) {
+                    genes.add(j, geneRocketComponents.get(parentA).genes.get(j));
                 } else {
-                    genes.set(j, geneRocketComponents.get(parentB).genes.get(j));
+                    genes.add(j, geneRocketComponents.get(parentB).genes.get(j));
                 }
             }
             newRocketGenes.add(buildManager.createGeneRocketComponent(geneRocket, genes));
             physicsComponents.get(geneRocket.id).velocity = new Vector2(0,0);
+            positionManager.setPosition(geneRocket.id, new Vector2(width/2, height/5));
             geneRocket.position.set(width/2, height/5);
         }
         geneRocketComponents.clear();
@@ -176,17 +203,24 @@ public class GeneRocketsScreen extends AScreen {
     }
     
     private void nextGeneration() {
+        DebugTool.log("Starting next generation");
         measureRocketsFitness();
         populateMatingPool();
-        destroyGeneRocketComponents();
         populateNewRockets();
 
         generationNumber++;
         currentGenerationTime = 0f;
         activeGeneNumber = -1;
+
+        currentGenerationFloatingText.text = generationNumber+"";
+
+        currentGenerationFloatingText.layout.setText(currentGenerationFloatingText.font,
+                currentGenerationFloatingText.label + currentGenerationFloatingText.text,
+                currentGenerationFloatingText.color, 0, Align.left, true);
     }
 
     private void measureRocketsFitness() {
+        DebugTool.log("Measuring Rocket Fitness");
         for (Entity geneRocket : rocketPopulation.values()) {
             float distance = (float)(Math.pow((geneRocket.position.x-targetEntity.position.x), 2)
                     + Math.pow((geneRocket.position.y-targetEntity.position.y), 2));
@@ -211,7 +245,7 @@ public class GeneRocketsScreen extends AScreen {
             nextGeneration();
         }
 
-        if (Math.floor(timePerGeneration) > activeGeneNumber) {
+        if (currentGenerationTime * 10 >= activeGeneNumber) {
             activeGeneNumber++;
             if (activeGeneNumber >= numOfGenes)
                 return;

@@ -31,6 +31,7 @@ import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.BuildManager;
 import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.tools.DebugTool;
+import com.kehxstudios.atlas.tools.ErrorTool;
 import com.kehxstudios.atlas.type.ScreenType;
 
 import java.io.BufferedReader;
@@ -199,7 +200,7 @@ public class DeviceInformationScreen extends AScreen {
             networkUpdate();
             networkTick = 0;
             if (Gdx.app.getType() == Application.ApplicationType.Android) {
-                //DebugTool.log(gm.getGpsTracker().getLocation());
+                ErrorTool.log(gm.getGpsTracker().getLocation());
             }
         }
     }

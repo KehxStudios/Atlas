@@ -26,16 +26,20 @@ public class AndroidLauncher extends AndroidApplication {
 		config.useCompass = true;
 		config.useGyroscope = true;
 
-		locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-		providers = locationManager.getProviders(true);
+		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
 		GPSTracker gpsTracker = new GPSTracker() {
 			@Override
 			public String getLocation() {
-				if (checkCallingPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-					return locationManager.getLastKnownLocation(providers.get(0)).toString();
+				if (checkCallingPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+					List<String> providers = locationManager.getAllProviders();
+					if (providers.size() > 0) {
+						return locationManager.getLastKnownLocation(providers.get(0)).toString();
+					} else {
+						return "Location Error - providers list is at 0";
+					}
 				}
-				return null;
+				return "Location Error - Cannot pass permissions... " + (Manifest.permission.ACCESS_FINE_LOCATION == PackageManager.PERMISSION_GRANTED + "");
 			}
 		};
 		initialize(new GameManager(gpsTracker), config);

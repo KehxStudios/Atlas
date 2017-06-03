@@ -20,6 +20,7 @@
 package com.kehxstudios.atlas.screens;
 
 import com.badlogic.gdx.graphics.Color;
+import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.managers.BuildManager;
 import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.type.TextureType;
@@ -50,7 +51,7 @@ public class MainMenuScreen extends AScreen {
         buildManager.createGraphicsComponent(flappyBirdEntity, 1, TextureType.MAIN_MENU_BORDER);
         buildManager.createFloatingTextComponent(flappyBirdEntity, 3, "", "Flappy Bird", graphicsManager.COLOR_BLUE);
         buildManager.createClickableComponent(flappyBirdEntity, borderWidth, borderHeight, true, false,
-                buildManager.createLaunchScreenAction(ScreenType.FLAPPY_BAT));
+                buildManager.createLaunchScreenAction(ScreenType.FLAPPY_BIRD));
 
         Entity geneRocketsEntity = buildManager.createEntity(width/4, height/6*4);
         buildManager.createGraphicsComponent(geneRocketsEntity, 1, TextureType.MAIN_MENU_BORDER);
@@ -76,6 +77,12 @@ public class MainMenuScreen extends AScreen {
         buildManager.createClickableComponent(highScoreResetEntity, borderWidth, borderHeight, true, false,
                 buildManager.createLaunchScreenAction(ScreenType.INTRO));
 
+        Entity profileEntity = buildManager.createEntity(width/4*3, height/6*2);
+        buildManager.createGraphicsComponent(profileEntity, 1, TextureType.MAIN_MENU_BORDER);
+        buildManager.createFloatingTextComponent(profileEntity, 3, gm.player.getName(), " - " + gm.player.getScore(), graphicsManager.COLOR_BLUE);
+        buildManager.createClickableComponent(profileEntity, borderWidth, borderHeight, true, false,
+                new Action());
+
         Entity websiteEntity = buildManager.createEntity(width/4, height/6);
         buildManager.createGraphicsComponent(websiteEntity, 1, TextureType.MAIN_MENU_BORDER);
         buildManager.createFloatingTextComponent(websiteEntity, 3, "", "Website", graphicsManager.COLOR_BLUE);
@@ -94,7 +101,7 @@ public class MainMenuScreen extends AScreen {
     public void render(float delta) {
         super.render(delta);
         
-        if (screenTime >= 180f) {
+        if (screenTime >= 60f) {
             screenManager.requestNewScreen(ScreenType.INTRO);
         }
     }

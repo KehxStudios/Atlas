@@ -41,7 +41,7 @@ import java.util.Random;
  * The Game of Flappy Bat
  */
 
-public class FlappyBatScreen extends AScreen {
+public class FlappyBirdScreen extends AScreen {
 
     private static final int WALL_SPACING = 160;
     private static final int WALL_COUNT = 3;
@@ -54,7 +54,7 @@ public class FlappyBatScreen extends AScreen {
 
     private static final int GROUND_COUNT = 2;
     private static final int GROUND_Y_OFFSET = 20;
-    private static final int GROUND_WIDTH = 366;
+    private static final int GROUND_WIDTH = 336;
     
     private static final float BAT_X_MOVEMENT = 100;
     private static final float BAT_Y_JUMP = 300;
@@ -76,8 +76,8 @@ public class FlappyBatScreen extends AScreen {
 
     private Random random = new Random();
 
-    public FlappyBatScreen() {
-        super(ScreenType.FLAPPY_BAT);
+    public FlappyBirdScreen() {
+        super(ScreenType.FLAPPY_BIRD);
         init();
     }
 
@@ -91,7 +91,7 @@ public class FlappyBatScreen extends AScreen {
         batStartX = width/4;
         batCurrentX = batStartX;
 
-        highScores = new HighScores(ScreenType.FLAPPY_BAT);
+        highScores = new HighScores(ScreenType.FLAPPY_BIRD);
         score = 0;
 
         lowScore = highScores.getLowScore();
@@ -192,7 +192,7 @@ public class FlappyBatScreen extends AScreen {
             Gdx.input.vibrate(50);
         }
         if (score > lowScore) {
-            highScores.addToHighScores("Test",score);
+            highScores.addToHighScores(gm.player.getName(),score);
             lowScore = highScores.getLowScore();
             lowScoreText.text = lowScore+"";
             lowScoreText.layout.setText(lowScoreText.font, lowScoreText.label + lowScoreText.text,
@@ -203,6 +203,7 @@ public class FlappyBatScreen extends AScreen {
                 highScoreText.layout.setText(highScoreText.font, highScoreText.label + highScoreText.text,
                     Color.BLACK, 0, Align.left, true);
             }
+            gm.player.addScore(score/100);
         }
         positionManager.setPosition(batEntity.id, new Vector2(width/4, height/2));
         positionManager.setPosition(screenEntity.id, new Vector2(batEntity.position.x + 80, height/2));
