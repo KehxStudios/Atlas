@@ -19,6 +19,7 @@
 
 package com.kehxstudios.atlas.screens;
 
+import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.type.ScreenType;
@@ -115,7 +116,7 @@ public class PongScreen extends AScreen {
     }
     
     private void roundReset() {
-        positionManager.setPosition(ballEntity.id, width/2, height/2);
+        positionManager.setPosition(ballEntity.id, new Vector2(width/2, height/2));
     }
     
     private void gameReset() {
@@ -124,10 +125,10 @@ public class PongScreen extends AScreen {
         leftPlayerScore = 0;
         rightPlayerScore = 0;
        
-        positionManager.setPosition(leftPlayerEntity.id, paddleWidth, height/2);
-        leftPlayerEntity.velocity.set(0,0);
-        positionManager.setPosition(rightPlayerEntity.id, paddleWidth, height/2);
-        rightPlayerEntity.velocity.set(0,0);
+        positionManager.setPosition(leftPlayerEntity.id, new Vector2(paddleWidth, height/2));
+        leftPlayerPhysics.velocity.set(0,0);
+        positionManager.setPosition(rightPlayerEntity.id, new Vector2(paddleWidth, height/2));
+        rightPlayerPhysics.velocity.set(0,0);
     }
 
     public void dispose() {
