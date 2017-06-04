@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.actions.ChangeFloatingTextAction;
 import com.kehxstudios.atlas.actions.EnableComponentAction;
+import com.kehxstudios.atlas.actions.FollowAction;
 import com.kehxstudios.atlas.actions.LaunchWebsiteAction;
 import com.kehxstudios.atlas.actions.ResetScreenAction;
 import com.kehxstudios.atlas.components.CameraComponent;
@@ -387,5 +388,13 @@ public class BuildManager extends Manager {
         return changeFloatingText;
     }
 
+    public FollowAction createFollowAction(PhysicsComponent physicsComponent, boolean horizontalAllowed,
+                                           boolean verticalAllowed) {
+        FollowAction follow = new FollowAction();
+        follow.physicsComponent = physicsComponent;
+        follow.horizontalAllowed = horizontalAllowed;
+        follow.verticalAllowed = verticalAllowed;
+        return null;
+    }
 
 }

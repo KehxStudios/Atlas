@@ -143,7 +143,6 @@ public class GeneRocketsScreen extends AScreen {
                 gene = newGene();
             else
                 gene = getRelativeGene(gene);
-            DebugTool.log(gene.toString() + " - " + (random.nextFloat()*maxGeneValue*2-maxGeneValue+"") + " - " + (maxGeneValue+""));
             genes.add(i, gene);
         }
         return genes;
@@ -165,7 +164,7 @@ public class GeneRocketsScreen extends AScreen {
         DebugTool.log("Populate Mating Pool");
         geneMatingPool.clear();
         for (GeneRocketComponent geneRocket : geneRocketComponents.values()) {
-            int matingScore = (int)(geneRocket.fitness / 100);
+            int matingScore = (int)(geneRocket.fitness);
             for (int j = 0; j < matingScore; j++) {
                 geneMatingPool.add(geneRocket.entityId);
             }
@@ -174,6 +173,7 @@ public class GeneRocketsScreen extends AScreen {
 
     private void populateNewRockets() {
         DebugTool.log("Populate New Rockets");
+        DebugTool.log("geneMatingPool size: "+geneMatingPool.size());
         for (Entity geneRocket : rocketPopulation.values()) {
             int parentA = geneMatingPool.get(random.nextInt(geneMatingPool.size()));
             int parentB = geneMatingPool.get(random.nextInt(geneMatingPool.size()));
@@ -224,12 +224,15 @@ public class GeneRocketsScreen extends AScreen {
         for (Entity geneRocket : rocketPopulation.values()) {
             float distance = (float)(Math.pow((geneRocket.position.x-targetEntity.position.x), 2)
                     + Math.pow((geneRocket.position.y-targetEntity.position.y), 2));
-            float fitness = 500f - distance;
+            float fitness = distance / 100000;
             CollisionComponent rocketCollision = collisionComponents.get(geneRocket.id);
             if (rocketCollision.collided && distance != 0f) {
                 fitness -= 100f;
                 rocketCollision.collided = false;
             }
+            if (fitness < 1)
+                fitness = 1;
+            DebugTool.log("fitness: " + fitness);
             geneRocketComponents.get(geneRocket.id).fitness = fitness;
         }
     }

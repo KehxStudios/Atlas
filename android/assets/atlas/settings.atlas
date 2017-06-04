@@ -1,27 +1,48 @@
 
 settings.png
-size: 2048,1024
+size: 2048,4096
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-high
+background
   rotate: false
-  xy: 2, 2
+  xy: 0, 537
+  size: 1440, 2560
+  orig: 1440, 2560
+  offset: 0, 0
+  index: -1
+danger
+  rotate: false
+  xy: 1440, 2509
+  size: 102, 76
+  orig: 102, 76
+  offset: 0, 0
+  index: -1
+fresh
+  rotate: false
+  xy: 1440, 2585
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
-low
+menuBorder
   rotate: false
-  xy: 516, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 0, 102
+  size: 625, 435
+  orig: 625, 435
   offset: 0, 0
   index: -1
-mute
+new
   rotate: false
-  xy: 1030, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 0, 0
+  size: 102, 102
+  orig: 102, 102
+  offset: 0, 0
+  index: -1
+working
+  rotate: false
+  xy: 625, 435
+  size: 102, 102
+  orig: 102, 102
   offset: 0, 0
   index: -1

@@ -19,9 +19,11 @@
 
 package com.kehxstudios.atlas.screens;
 
+import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.data.GameSettings;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.type.ScreenType;
+import com.kehxstudios.atlas.type.TextureType;
 
 /**
  * Created by ReidC on 2017-05-30.
@@ -39,13 +41,21 @@ public class SettingsScreen extends AScreen {
     protected void init() {
         super.init();
 
-        Entity mainMenuLaunchEntity = buildManager.createEntity(width/10, height/10);
+        Entity mainMenuLaunchEntity = buildManager.createEntity(width/10, height/10*9);
         buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
                 buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
 
         gameSettings = gm.gameSettings;
 
+        float borderWidth = TextureType.MAIN_MENU_BORDER.getWidth();
+        float borderHeight = TextureType.MAIN_MENU_BORDER.getHeight();
 
+        Entity profileEntity = buildManager.createEntity(width/2, height/2);
+        buildManager.createGraphicsComponent(profileEntity, 1, TextureType.MAIN_MENU_BORDER);
+        buildManager.createFloatingTextComponent(profileEntity, 3, gm.player.getName(), " - " +
+                gm.player.getScore(), graphicsManager.COLOR_BLUE);
+        buildManager.createClickableComponent(profileEntity, borderWidth, borderHeight, true, false,
+                new Action());
     }
 
 

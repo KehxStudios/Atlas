@@ -44,8 +44,7 @@ public enum ScreenType {
     LOADING("Loading", "loading/loading.atlas", "Space", 512, 910, LoadingScreen.class),
     MAIN_MENU("Main Menu", "atlas/mainMenu.atlas", "Forest", 1440, 2560, MainMenuScreen.class),
     PONG("Pong", "atlas/pong.atlas", "Space", 512, 910, PongScreen.class),
-    SETTINGS("Settings", "atlas/settings.atlas", "Forest", 240, 400, SettingsScreen.class),
-    VOID("Void", "", "Void", 0, 0, AScreen.class);
+    SETTINGS("Settings", "atlas/settings.atlas", "Forest", 720, 1280, SettingsScreen.class);
 
     private String id, atlasPath, musicId;
     private float width, height;

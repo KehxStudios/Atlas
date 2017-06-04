@@ -49,7 +49,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 /**
- * Shows information from phone sensors
+ * Shows information from device
  */
 
 public class DeviceInformationScreen extends AScreen {
@@ -77,7 +77,7 @@ public class DeviceInformationScreen extends AScreen {
 
     protected void init() {
         super.init();
-        Entity mainMenuLaunchEntity = buildManager.createEntity(width/10, height/10);
+        Entity mainMenuLaunchEntity = buildManager.createEntity(width/10, height/10*9);
         buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
                 buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
 
@@ -145,8 +145,8 @@ public class DeviceInformationScreen extends AScreen {
             for(String ip : addresses) { DebugTool.log("IP: ",ip); }
         } catch (SocketException e) {
             e.printStackTrace();
-            networkIPFloatingText.text = "Not Connected";
-            externalIPFloatingText.text = "Not Connected";
+            networkIPFloatingText.text = "Error";
+            externalIPFloatingText.text = "Error";
             networkIPFloatingText.layout.setText(networkIPFloatingText.font, networkIPFloatingText.label +
                     networkIPFloatingText.text, networkIPFloatingText.color, 0, Align.left, true);
             externalIPFloatingText.layout.setText(externalIPFloatingText.font, externalIPFloatingText.label +
@@ -154,8 +154,10 @@ public class DeviceInformationScreen extends AScreen {
             return;
         }
 
-        if (addresses.size() > 1) {
-            networkIPFloatingText.text = addresses.get(1);
+        addresses.remove("127.0.0.1");
+
+        if (addresses.size() > 0) {
+            networkIPFloatingText.text = addresses.get(0);
         } else {
             networkIPFloatingText.text = "Not Connected";
             externalIPFloatingText.text = "Not Connected";
@@ -174,7 +176,7 @@ public class DeviceInformationScreen extends AScreen {
             externalIPFloatingText.text = externalIP;
         } catch(IOException e) {
             e.printStackTrace();
-            externalIPFloatingText.text = "Not Connected";
+            externalIPFloatingText.text = "Error";
         }
         networkIPFloatingText.layout.setText(networkIPFloatingText.font, networkIPFloatingText.label +
                 networkIPFloatingText.text, networkIPFloatingText.color, 0, Align.left, true);

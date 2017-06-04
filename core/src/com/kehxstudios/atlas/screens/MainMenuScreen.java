@@ -27,7 +27,6 @@ import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.type.ScreenType;
 
-
 /**
  * The main menu to select the Game or Project
  */
@@ -53,36 +52,36 @@ public class MainMenuScreen extends AScreen {
         buildManager.createClickableComponent(flappyBirdEntity, borderWidth, borderHeight, true, false,
                 buildManager.createLaunchScreenAction(ScreenType.FLAPPY_BIRD));
 
-        Entity geneRocketsEntity = buildManager.createEntity(width/4, height/6*4);
-        buildManager.createGraphicsComponent(geneRocketsEntity, 1, TextureType.MAIN_MENU_BORDER);
-        buildManager.createFloatingTextComponent(geneRocketsEntity, 3, "", "Gene Rockets", graphicsManager.COLOR_BLUE);
-        buildManager.createClickableComponent(geneRocketsEntity, borderWidth, borderHeight, true, false,
-                buildManager.createLaunchScreenAction(ScreenType.GENE_ROCKETS));
-
-        Entity pongEntity = buildManager.createEntity(width/4, height/6*3);
-        buildManager.createGraphicsComponent(pongEntity, 1, TextureType.MAIN_MENU_BORDER);
-        buildManager.createFloatingTextComponent(pongEntity, 3, "", "Pong", graphicsManager.COLOR_BLUE);
-        buildManager.createClickableComponent(pongEntity, borderWidth, borderHeight, true, false,
-                buildManager.createLaunchScreenAction(ScreenType.PONG));
-
         Entity deviceInformationEntity = buildManager.createEntity(width/4*3, height/6*5);
         buildManager.createGraphicsComponent(deviceInformationEntity, 1, TextureType.MAIN_MENU_BORDER);
         buildManager.createFloatingTextComponent(deviceInformationEntity, 3, "", "Device Information", graphicsManager.COLOR_BLUE);
         buildManager.createClickableComponent(deviceInformationEntity, borderWidth, borderHeight, true, false,
                 buildManager.createLaunchScreenAction(ScreenType.DEVICE_INFORMATION));
 
-        Entity highScoreResetEntity = buildManager.createEntity(width/4*3, height/6*4);
-        buildManager.createGraphicsComponent(highScoreResetEntity, 1, TextureType.MAIN_MENU_BORDER);
-        buildManager.createFloatingTextComponent(highScoreResetEntity, 3, "", "Reset", graphicsManager.COLOR_BLUE);
-        buildManager.createClickableComponent(highScoreResetEntity, borderWidth, borderHeight, true, false,
+        Entity geneRocketsEntity = buildManager.createEntity(width/4, height/6*4);
+        buildManager.createGraphicsComponent(geneRocketsEntity, 1, TextureType.MAIN_MENU_BORDER);
+        buildManager.createFloatingTextComponent(geneRocketsEntity, 3, "", "Gene Rockets", graphicsManager.COLOR_BLUE);
+        buildManager.createClickableComponent(geneRocketsEntity, borderWidth, borderHeight, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.GENE_ROCKETS));
+
+        Entity pongEntity = buildManager.createEntity(width/4*3, height/6*4);
+        buildManager.createGraphicsComponent(pongEntity, 1, TextureType.MAIN_MENU_BORDER);
+        buildManager.createFloatingTextComponent(pongEntity, 3, "", "Pong", graphicsManager.COLOR_BLUE);
+        buildManager.createClickableComponent(pongEntity, borderWidth, borderHeight, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.PONG));
+
+        Entity settingsEntity = buildManager.createEntity(width/4, height/6*2);
+        buildManager.createGraphicsComponent(settingsEntity, 1, TextureType.MAIN_MENU_BORDER);
+        buildManager.createFloatingTextComponent(settingsEntity, 3, "", "Settings", graphicsManager.COLOR_BLUE);
+        buildManager.createClickableComponent(settingsEntity, borderWidth, borderHeight, true, false,
+                buildManager.createLaunchScreenAction(ScreenType.SETTINGS));
+
+        Entity resetEntity = buildManager.createEntity(width/4*3, height/6*2);
+        buildManager.createGraphicsComponent(resetEntity, 1, TextureType.MAIN_MENU_BORDER);
+        buildManager.createFloatingTextComponent(resetEntity, 3, "", "Reset", graphicsManager.COLOR_BLUE);
+        buildManager.createClickableComponent(resetEntity, borderWidth, borderHeight, true, false,
                 buildManager.createLaunchScreenAction(ScreenType.INTRO));
 
-        Entity profileEntity = buildManager.createEntity(width/4*3, height/6*2);
-        buildManager.createGraphicsComponent(profileEntity, 1, TextureType.MAIN_MENU_BORDER);
-        buildManager.createFloatingTextComponent(profileEntity, 3, gm.player.getName(), " - " +
-                gm.player.getScore(), graphicsManager.COLOR_BLUE);
-        buildManager.createClickableComponent(profileEntity, borderWidth, borderHeight, true, false,
-                new Action());
 
         Entity websiteEntity = buildManager.createEntity(width/4, height/6);
         buildManager.createGraphicsComponent(websiteEntity, 1, TextureType.MAIN_MENU_BORDER);

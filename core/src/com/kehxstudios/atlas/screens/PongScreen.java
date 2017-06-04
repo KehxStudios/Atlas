@@ -58,8 +58,8 @@ public class PongScreen extends AScreen {
         ballWidth = TextureType.PONG_BALL.getWidth();
         ballHeight = TextureType.PONG_BALL.getHeight();
 
-        paddleSpeed = 5f;
-        ballSpeed = 6f;
+        paddleSpeed = 20f;
+        ballSpeed = 25f;
 
         bottomPlayerScore = 0;
         topPlayerScore = 0;
@@ -82,23 +82,25 @@ public class PongScreen extends AScreen {
         buildManager.createGraphicsComponent(ballEntity, 1, TextureType.PONG_BALL);
         ballPhysics = buildManager.createPhysicsComponent(ballEntity, new Vector2(ballSpeed, ballSpeed),
                                                           new Vector2(ballSpeed, ballSpeed));
-        ballPhysics.velocity.set(2f, 5f);
+        ballPhysics.velocity.set(25f, 15f);
     }
 
     @Override
     public void render(float delta) {
         // increase screenTime in super method
         super.render(delta);
+
+        ballPhysics.velocity.set(10f, 5f);
         
-        if (ballEntity.position.x + ballWidth/2 > width) {
+        if (ballEntity.position.x + ballHeight/2 > height) {
             bottomPlayerScore++;
             roundReset();
-        } else if (ballEntity.position.x - ballWidth/2 < 0) {
+        } else if (ballEntity.position.x - ballHeight/2 < 0) {
             topPlayerScore++;
             roundReset();
         }
         
-        if (ballEntity.position.y + ballHeight/2 > height || ballEntity.position.y - ballHeight/2 < 0) {
+        if (ballEntity.position.x + ballWidth/2 > width || ballEntity.position.x - ballWidth/2 < 0) {
             ballPhysics.velocity.y *= -1;
         }
         

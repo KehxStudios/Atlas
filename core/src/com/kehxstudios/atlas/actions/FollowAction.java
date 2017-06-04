@@ -19,7 +19,10 @@
 
 package com.kehxstudios.atlas.actions;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.kehxstudios.atlas.components.ClickableComponent;
+import com.kehxstudios.atlas.components.PhysicsComponent;
 import com.kehxstudios.atlas.managers.InputManager;
 import com.kehxstudios.atlas.type.ActionType;
 
@@ -29,18 +32,22 @@ import com.kehxstudios.atlas.type.ActionType;
 
 public class FollowAction extends Action {
 
-    public InputManager inputManager;
-    public Vector2 position;
+    public ClickableComponent clickableComponent;
+    public PhysicsComponent physicsComponent;
     public boolean verticalAllowed, horizontalAllowed;
 
     public void trigger() {
-        Vector2 clicked = inputManager.getClickedPosition();
+        Vector2 clickablePosition = new Vector2(0,0);
+        clickablePosition = clickableComponent.bounds.getCenter(clickablePosition);
+        Vector2 clickedPosition = new Vector2(clickableComponent.clickedPosition);
+        Vector2 distance = clickedPosition.sub(clickablePosition);
+
         if (verticalAllowed && horizontalAllowed) {
-            position.set(clicked.x, clicked.y);
+            physicsComponent.velocity.set(distance);
         } else if (verticalAllowed) {
-            position.x = clicked.x;
+            physicsComponent.velocity.y = distance.y;
         } else if (horizontalAllowed) {
-            position.y = clicked.y;
+            physicsComponent.velocity.x = distance.x;
         }
     }
 }

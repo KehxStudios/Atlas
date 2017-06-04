@@ -27,7 +27,7 @@ import com.kehxstudios.atlas.type.ComponentType;
  * Abstract class used by all Components
  */
 
-public class Component {
+public abstract class Component {
     
     public int id;
     public int entityId;
