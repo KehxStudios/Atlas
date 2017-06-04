@@ -1,3 +1,15 @@
+June 4, 2017 [ 0.0.8.06041 ]
+  - Added .ttf fonts in regular and bold
+  - Added large/small regular/bold fonts in BuildManager, changed FloatingTextComponent build method to use new font with new parameters and removed Scale variable
+  - Updated all build calls for FloatingTextComponent to use new parameters
+  - Readded VOID ScreenType for now until references are changed
+  - Changed LoadingScreen to use new font instead of "Loading" image
+  - Updated LoadingScreen's hex image
+  - Updated GeneRocket's screen size to default 1280x720
+  - Updated GeneRocket's fitness method, now able to get to target but more changes needed
+  - Added pause/resume methods in SoundManager, linked from GameManager's pause/resume methods
+  - Added missing super.pause() inside GameManager.pause()
+  
 June 4, 2017 [ 0.0.8.06040 ]
   > Target resolution for most screens will be 1280x720 or lower going forward
   > Found new font that will be added in later
