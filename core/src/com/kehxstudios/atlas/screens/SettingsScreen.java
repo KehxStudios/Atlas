@@ -52,7 +52,7 @@ public class SettingsScreen extends AScreen {
 
         Entity profileEntity = buildManager.createEntity(width/2, height/2);
         buildManager.createGraphicsComponent(profileEntity, 1, TextureType.MAIN_MENU_BORDER);
-        buildManager.createFloatingTextComponent(profileEntity, 3, gm.player.getName(), " - " +
+        buildManager.createFloatingTextComponent(profileEntity, false, true, gm.player.getName(), " - " +
                 gm.player.getScore(), graphicsManager.COLOR_BLUE);
         buildManager.createClickableComponent(profileEntity, borderWidth, borderHeight, true, false,
                 new Action());

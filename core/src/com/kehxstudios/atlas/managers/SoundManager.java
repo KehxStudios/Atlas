@@ -89,7 +89,19 @@ public class SoundManager extends Manager {
     protected void removeSettings() {
         DebugTool.log("SoundManager_loadScreenSettings: Complete");
     }
-    
+
+    public void pauseMusic() {
+        for (MusicComponent music : musicComponents.values()) {
+            music.music.pause();
+        }
+    }
+
+    public void resumeMusic() {
+        for (MusicComponent music : musicComponents.values()) {
+            music.music.play();
+        }
+    }
+
     public void play(Component component) {
         if (component.type == ComponentType.SOUND) {
             SoundComponent sound = (SoundComponent)component;

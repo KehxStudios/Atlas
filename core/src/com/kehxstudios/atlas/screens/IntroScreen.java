@@ -69,7 +69,7 @@ public class IntroScreen extends AScreen {
                 finalLogo = true;
                 logoTimer = 0f;
             } else if (finalLogo && logoTimer > 1f || logoTimer > 0.5f && Gdx.input.isTouched()) {
-                buildManager.createFloatingTextComponent(textEntity, 2, "|  ", "Click to Continue  |",
+                buildManager.createFloatingTextComponent(textEntity, true, true, "|  ", "Click to Continue  |",
                         graphicsManager.COLOR_BLUE);
                 buildManager.createClickableComponent(screenEntity, width, height, true, false,
                         buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));

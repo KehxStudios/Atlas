@@ -138,17 +138,17 @@ public class FlappyBirdScreen extends AScreen {
         }
 
         Entity scoreEntity = buildManager.createEntity(0, 54);
-        scoreText = buildManager.createFloatingTextComponent(scoreEntity, 1, "Score: ", "",Color.BLACK);
+        scoreText = buildManager.createFloatingTextComponent(scoreEntity, false, true, "Score: ", "",Color.BLACK);
 
         Entity lowScoreEntity = buildManager.createEntity(0, 36);
-        lowScoreText = buildManager.createFloatingTextComponent(lowScoreEntity, 1, "Low-Score: ", "", Color.BLACK);
+        lowScoreText = buildManager.createFloatingTextComponent(lowScoreEntity, false, true, "Low-Score: ", "", Color.BLACK);
         lowScore = highScores.getLowScore();
         lowScoreText.text = lowScore+"";
         lowScoreText.layout.setText(lowScoreText.font, lowScoreText.label + lowScoreText.text,
                 Color.BLACK, 0, Align.left, true);
 
         Entity highScoreEntity = buildManager.createEntity(0, 18);
-        highScoreText = buildManager.createFloatingTextComponent(highScoreEntity, 1, "High-Score: ", "", Color.BLACK);
+        highScoreText = buildManager.createFloatingTextComponent(highScoreEntity, false, true, "High-Score: ", "", Color.BLACK);
         highScore = highScores.getHighScore();
         highScoreText.text = highScore+"";
         highScoreText.layout.setText(highScoreText.font, highScoreText.label + highScoreText.text,

@@ -39,12 +39,13 @@ public enum ScreenType {
 
     DEVICE_INFORMATION("Device Information", "atlas/deviceInformation.atlas", "Space", 256, 455, DeviceInformationScreen.class),
     FLAPPY_BIRD("Flappy Bird", "atlas/flappyBird.atlas", "Future", 240, 400, FlappyBirdScreen.class),
-    GENE_ROCKETS("Gene Rockets", "atlas/geneRockets.atlas", "Future", 512, 910, GeneRocketsScreen.class),
+    GENE_ROCKETS("Gene Rockets", "atlas/geneRockets.atlas", "Future", 720, 1280, GeneRocketsScreen.class),
     INTRO("Intro", "atlas/intro.atlas", "Forest", 512, 910, IntroScreen.class),
     LOADING("Loading", "loading/loading.atlas", "Space", 512, 910, LoadingScreen.class),
     MAIN_MENU("Main Menu", "atlas/mainMenu.atlas", "Forest", 1440, 2560, MainMenuScreen.class),
     PONG("Pong", "atlas/pong.atlas", "Space", 512, 910, PongScreen.class),
-    SETTINGS("Settings", "atlas/settings.atlas", "Forest", 720, 1280, SettingsScreen.class);
+    SETTINGS("Settings", "atlas/settings.atlas", "Forest", 720, 1280, SettingsScreen.class),
+    VOID("Void", "atlas/intro.atlas", "Space", 0, 0, AScreen.class);
 
     private String id, atlasPath, musicId;
     private float width, height;

@@ -30,7 +30,9 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
+import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.managers.ScreenManager;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.ErrorTool;
@@ -50,7 +52,8 @@ public class LoadingScreen extends AScreen {
     private SpriteBatch batch;
     private OrthographicCamera camera;
 
-    private Sprite hexSprite, loadingTextSprite;
+    private Sprite hexSprite;
+    private FloatingTextComponent loadingFloatingText;
 
     private boolean loadingMusic;
     private Music music;
@@ -63,14 +66,27 @@ public class LoadingScreen extends AScreen {
         camera.position.set(width/2, height/2, 0);
         camera.setToOrtho(false, width, height);
 
-        hexSprite = new Sprite(new Texture(Gdx.files.internal("loading/hexagon_outline.png")));
-        hexSprite.setCenter(width/2, height/2);
-
-        loadingTextSprite = new Sprite(new Texture(Gdx.files.internal("loading/loading_text.png")));
-        loadingTextSprite.setCenter(width/2, height/4);
+        createLoadingHexagonSprite();
+        createLoadingFloatingText();
 
         loadingMusic = gm.gameSettings.loadingMusic;
         music = null;
+    }
+
+    private void createLoadingHexagonSprite() {
+        hexSprite = new Sprite(new Texture(Gdx.files.internal("loading/hex.png")));
+        hexSprite.setCenter(width/2, height/2);
+    }
+
+    private void createLoadingFloatingText() {
+        loadingFloatingText = new FloatingTextComponent();
+        loadingFloatingText.position = new Vector2(width/2, height/4);
+        loadingFloatingText.font = buildManager.boldLargeFont;
+        loadingFloatingText.text = "Loading...";
+        loadingFloatingText.color = graphicsManager.COLOR_BLUE;
+        loadingFloatingText.layout = new GlyphLayout(loadingFloatingText.font, loadingFloatingText.text);
+        loadingFloatingText.layout.setText(loadingFloatingText.font, loadingFloatingText.text,
+                loadingFloatingText.color, 0, Align.left, false);
     }
 
     @Override
@@ -94,8 +110,9 @@ public class LoadingScreen extends AScreen {
         batch.begin();
 
         hexSprite.draw(batch);
-
-        loadingTextSprite.draw(batch);
+        loadingFloatingText.font.draw(batch,  loadingFloatingText.layout, loadingFloatingText.position.x
+                - loadingFloatingText.layout.width/2, loadingFloatingText.position.y
+                - loadingFloatingText.layout.height/2);
 
         batch.end();
     }

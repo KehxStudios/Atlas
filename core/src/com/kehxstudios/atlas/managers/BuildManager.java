@@ -19,11 +19,14 @@
 
 package com.kehxstudios.atlas.managers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
@@ -40,9 +43,6 @@ import com.kehxstudios.atlas.components.GeneRocketComponent;
 import com.kehxstudios.atlas.components.MusicComponent;
 import com.kehxstudios.atlas.components.SoundComponent;
 import com.kehxstudios.atlas.data.HighScores;
-import com.kehxstudios.atlas.managers.GameManager;
-import com.kehxstudios.atlas.managers.PositionManager;
-import com.kehxstudios.atlas.managers.SoundManager;
 import com.kehxstudios.atlas.type.ActionType;
 import com.kehxstudios.atlas.actions.DestroyEntityAction;
 import com.kehxstudios.atlas.actions.HighScoreResetAction;
@@ -60,10 +60,6 @@ import com.kehxstudios.atlas.type.MusicType;
 import com.kehxstudios.atlas.type.SoundType;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
-import com.kehxstudios.atlas.managers.EntityManager;
-import com.kehxstudios.atlas.managers.GraphicsManager;
-import com.kehxstudios.atlas.managers.InputManager;
-import com.kehxstudios.atlas.managers.PhysicsManager;
 import com.kehxstudios.atlas.type.ScreenType;
 
 import java.util.ArrayList;
@@ -82,6 +78,9 @@ public class BuildManager extends Manager {
     private PositionManager positionManager;
     private ScreenManager screenManager;
     private SoundManager soundManager;
+
+    public BitmapFont regularSmallFont, regularLargeFont;
+    public BitmapFont boldSmallFont, boldLargeFont;
 
     private int uniqueId;
 
@@ -116,6 +115,20 @@ public class BuildManager extends Manager {
         soundManager = gm.getSoundManager();
 
         uniqueId = 0;
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/TruenoRg.ttf"));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        parameter.size = 14;
+        regularSmallFont = generator.generateFont(parameter);
+        parameter.size = 30;
+        regularLargeFont = generator.generateFont(parameter);
+        generator.dispose();
+
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/TruenoBd.ttf"));
+        boldLargeFont = generator.generateFont(parameter);
+        parameter.size = 14;
+        boldSmallFont = generator.generateFont(parameter);
+        generator.dispose();
     }
 
     @Override
@@ -175,17 +188,27 @@ public class BuildManager extends Manager {
         return physics;
     }
 
-    public FloatingTextComponent createFloatingTextComponent(Entity entity, float scale, String label,
-                                                                    String text, Color color) {
+    public FloatingTextComponent createFloatingTextComponent(Entity entity, boolean large, boolean
+            bold, String label, String text, Color color) {
         FloatingTextComponent floatingText = new FloatingTextComponent();
         floatingText.entityId = entity.id;
         floatingText.id = getUniqueId();
         floatingText.type = ComponentType.FLOATING_TEXT;
         floatingText.enabled = true;
         floatingText.position = new Vector2(entity.position);
-        floatingText.font = new BitmapFont();
-        floatingText.scale = scale;
-        floatingText.font.getData().setScale(scale, scale);
+        if (large) {
+            if (bold) {
+                floatingText.font = boldLargeFont;
+            } else {
+                floatingText.font = regularLargeFont;
+            }
+        } else {
+            if (bold) {
+                floatingText.font = boldSmallFont;
+            } else {
+                floatingText.font = regularSmallFont;
+            }
+        }
         floatingText.label = label;
         floatingText.text = text;
         floatingText.color = color;

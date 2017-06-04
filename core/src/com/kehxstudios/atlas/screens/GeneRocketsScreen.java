@@ -98,8 +98,8 @@ public class GeneRocketsScreen extends AScreen {
         buildManager.createCollisionComponent(targetEntity, targetWidth, targetHeight, true, false, new Action());
 
         newRocketGenes = new ArrayList<GeneRocketComponent>();
-        rocketPopulationSize = 25;
-        timePerGeneration = 5f;
+        rocketPopulationSize = 10;
+        timePerGeneration = 10f;
         maxGeneValue = 100f;
         numOfGenes = (int)(timePerGeneration * 10);
         currentGenerationTime = 0f;
@@ -108,7 +108,7 @@ public class GeneRocketsScreen extends AScreen {
 
         Entity floatingTextEntity = buildManager.createEntity(width/2, height - 50);
         currentGenerationFloatingText = buildManager.createFloatingTextComponent(floatingTextEntity,
-                2f, "Current Generation: ", generationNumber+"", graphicsManager.COLOR_BLUE);
+                true, true, "Current Generation: ", generationNumber+"", graphicsManager.COLOR_BLUE);
 
         generateRandomRockets();
     }
@@ -224,7 +224,8 @@ public class GeneRocketsScreen extends AScreen {
         for (Entity geneRocket : rocketPopulation.values()) {
             float distance = (float)(Math.pow((geneRocket.position.x-targetEntity.position.x), 2)
                     + Math.pow((geneRocket.position.y-targetEntity.position.y), 2));
-            float fitness = distance / 100000;
+            distance /= 10000;
+            float fitness = (200 - distance)/10;
             CollisionComponent rocketCollision = collisionComponents.get(geneRocket.id);
             if (rocketCollision.collided && distance != 0f) {
                 fitness -= 100f;
@@ -232,7 +233,7 @@ public class GeneRocketsScreen extends AScreen {
             }
             if (fitness < 1)
                 fitness = 1;
-            DebugTool.log("fitness: " + fitness);
+            DebugTool.log("fitness: " + fitness +" , distance: " + distance);
             geneRocketComponents.get(geneRocket.id).fitness = fitness;
         }
     }

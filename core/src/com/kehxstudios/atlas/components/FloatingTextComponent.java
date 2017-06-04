@@ -37,6 +37,5 @@ public class FloatingTextComponent extends Component{
     public Vector2 position;
     public String label;
     public String text;
-    public float scale;
     public Color color;
 }

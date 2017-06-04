@@ -137,13 +137,17 @@ public class GameManager extends Game {
 
 	@Override
 	public void pause() {
+		super.pause();
 		DebugTool.log("GAME_PAUSE");
+		soundManager.pauseMusic();
 		gameState = GameState.Paused;
 	}
 
 	@Override
 	public void resume() {
 		super.resume();
+		DebugTool.log("GAME_RESUME");
+		soundManager.resumeMusic();
 		gameState = GameState.Running;
 		Texture.setAssetManager(assetManager);
 	}
