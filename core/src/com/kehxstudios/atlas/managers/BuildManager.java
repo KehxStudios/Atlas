@@ -224,8 +224,8 @@ public class BuildManager extends Manager {
     }
 
     public CollisionComponent createCollisionComponent(Entity entity, float width, float height,
-                                                              boolean staticPosition, boolean collided,
-                                                              Action action) {
+                                                       boolean staticPosition, boolean dynamicCollision,
+                                                       boolean collided, Action action) {
         CollisionComponent collision = new CollisionComponent();
         collision.entityId = entity.id;
         collision.id = getUniqueId();
@@ -234,6 +234,7 @@ public class BuildManager extends Manager {
         collision.bounds = new Rectangle(0, 0, width, height);
         collision.bounds.setCenter(entity.position);
         collision.staticPosition = staticPosition;
+        collision.dynamicCollision = dynamicCollision;
         collision.collided = collided;
         collision.action = action;
         entityManager.add(collision);

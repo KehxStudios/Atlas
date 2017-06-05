@@ -30,5 +30,5 @@ public class CollisionComponent extends Component {
 
     public Rectangle bounds;
     public Action action;
-    public boolean staticPosition, collided;
+    public boolean staticPosition, dynamicCollision, collided;
 }

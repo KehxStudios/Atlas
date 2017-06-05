@@ -64,6 +64,7 @@ public class FlappyBirdScreen extends AScreen {
     private Entity batEntity;
     private ArrayList<Entity> groundEntities;
     private ArrayList<Entity> wallEntities;
+    private ArrayList<Entity> backgroundEntities;
 
     private PhysicsComponent batPhysics;
     private float batStartX, batCurrentX;
@@ -104,7 +105,7 @@ public class FlappyBirdScreen extends AScreen {
         batEntity = buildManager.createEntity(width/4, height/2);
         buildManager.createGraphicsComponent(batEntity, 3, TextureType.FLAPPY_BIRD_BIRD);
         batPhysics = buildManager.createPhysicsComponent(batEntity, new Vector2(100, 300), new Vector2(100,300));
-        buildManager.createCollisionComponent(batEntity, batWidth, batHeight, false, false,
+        buildManager.createCollisionComponent(batEntity, batWidth, batHeight, false, false, false,
                 buildManager.createResetScreenAction());
         buildManager.createClickableComponent(screenEntity, width, height, false, false,
                 buildManager.createPhysicsAction(batPhysics, new Vector2(0, BAT_Y_JUMP)));
@@ -116,7 +117,7 @@ public class FlappyBirdScreen extends AScreen {
             Entity groundEntity = buildManager.createEntity(i * GROUND_WIDTH, GROUND_Y_OFFSET);
             buildManager.createGraphicsComponent(groundEntity, 2, TextureType.FLAPPY_BIRD_GROUND);
             buildManager.createCollisionComponent(groundEntity, groundWidth, groundHeight, true, false,
-                    buildManager.createResetScreenAction());
+                    false, buildManager.createResetScreenAction());
             groundEntities.add(groundEntity);
         }
 
@@ -128,14 +129,27 @@ public class FlappyBirdScreen extends AScreen {
             float topWallY = wallRandomY();
             Entity topWallEntity = buildManager.createEntity(topWallX, topWallY);
             buildManager.createGraphicsComponent(topWallEntity, 1, TextureType.FLAPPY_BIRD_WALL);
-            buildManager.createCollisionComponent(topWallEntity, wallWidth, wallHeight, true, false, new Action());
+            buildManager.createCollisionComponent(topWallEntity, wallWidth, wallHeight, true, false,
+                    false, new Action());
             wallEntities.add(topWallEntity);
 
             Entity bottomWallEntity = buildManager.createEntity(topWallX, topWallY - WALL_GAP - WALL_HEIGHT);
             buildManager.createGraphicsComponent(bottomWallEntity, 1, TextureType.FLAPPY_BIRD_WALL);
-            buildManager.createCollisionComponent(bottomWallEntity, wallWidth, wallHeight, true, false, new Action());
+            buildManager.createCollisionComponent(bottomWallEntity, wallWidth, wallHeight, true,
+                    false, false, new Action());
             wallEntities.add(bottomWallEntity);
         }
+        /*
+        float backgroundWidth = TextureType.FLAPPY_BIRD_BACKGROUND.getWidth();
+
+        Entity backgroundEntity1 = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y);
+        buildManager.createGraphicsComponent(backgroundEntity1, 0, TextureType.FLAPPY_BIRD_BACKGROUND);
+        backgroundEntities.add(backgroundEntity1);
+
+        Entity backgroundEntity2 = buildManager.createEntity(backgroundEntity1.position.x + backgroundWidth,
+                backgroundEntity1.position.y);
+        backgroundEntities.add(backgroundEntity2);
+        */
 
         Entity scoreEntity = buildManager.createEntity(0, 54);
         scoreText = buildManager.createFloatingTextComponent(scoreEntity, false, true, "Score: ", "",Color.BLACK);

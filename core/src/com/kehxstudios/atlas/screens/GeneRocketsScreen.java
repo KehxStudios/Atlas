@@ -95,7 +95,7 @@ public class GeneRocketsScreen extends AScreen {
 
         targetEntity = buildManager.createEntity(width/2, height/5*4);
         buildManager.createGraphicsComponent(targetEntity, 2, TextureType.GENE_ROCKETS_TARGET);
-        buildManager.createCollisionComponent(targetEntity, targetWidth, targetHeight, true, false, new Action());
+        buildManager.createCollisionComponent(targetEntity, targetWidth, targetHeight, true, false, false, new Action());
 
         newRocketGenes = new ArrayList<GeneRocketComponent>();
         rocketPopulationSize = 10;
@@ -129,7 +129,7 @@ public class GeneRocketsScreen extends AScreen {
             physicsComponents.put(rocketEntity.id, buildManager.createPhysicsComponent(rocketEntity,
                     new Vector2(100,100), new Vector2(100,100)));
             collisionComponents.put(rocketEntity.id, buildManager.createCollisionComponent(rocketEntity,
-                    rocketWidth, rocketHeight, false, false, new Action()));
+                    rocketWidth, rocketHeight, false, false, false, new Action()));
             geneRocketComponents.put(rocketEntity.id, buildManager.createGeneRocketComponent(
                     rocketEntity, randomGenes()));
         }

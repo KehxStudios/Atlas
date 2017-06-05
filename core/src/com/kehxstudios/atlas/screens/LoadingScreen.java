@@ -91,7 +91,7 @@ public class LoadingScreen extends AScreen {
 
     @Override
     public void render(float delta) {
-        if (gm.getAssetManager().update()) {
+        if (gm.getAssetManager().update() && Gdx.input.isTouched()) {
             if (loadingMusic && music != null) {
                 ErrorTool.log("LoadingScreenError");
                 music.stop();
