@@ -1,3 +1,13 @@
+June 4, 2017 [ 0.0.8.06042 ]
+  - Added dynamicCollision boolean to CollisionComponent to flag if dynamic should be checked against dynamic during collision, still needs to be added to PhysicsManager
+  - Unified back button (Main Menu) ClickableComponent on each screen at 50,50 with 100,100 dimensions
+  - Updated DeviceInformation timer ticks to allow one render before grabing stats to avoid the networkUpdate causing lag on screen start
+  - Reduced decimal spaces on DeviceInformation values
+  - Increased value spacing on DeviceInformation
+  - Added requirement of being touched to end LoadingScreen for testing purposes
+  - Added new border image for Main Menu that will be added into the texture atlas tomorrow
+  - Added background Entities to FlappyBird that will help animate the background soon
+  
 June 4, 2017 [ 0.0.8.06041 ]
   - Added .ttf fonts in regular and bold
   - Added large/small regular/bold fonts in BuildManager, changed FloatingTextComponent build method to use new font with new parameters and removed Scale variable
