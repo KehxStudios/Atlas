@@ -78,7 +78,7 @@ public class GeneRocketsScreen extends AScreen {
         generationNumber = 0;
         currentGenerationTime = 0f;
         activeGeneNumber = 0;
-        geneMutationRate = 0.05f;
+        geneMutationRate = 0.04f;
     }
 
     protected void init() {
@@ -98,10 +98,10 @@ public class GeneRocketsScreen extends AScreen {
         buildManager.createCollisionComponent(targetEntity, targetWidth, targetHeight, true, false, false, new Action());
 
         newRocketGenes = new ArrayList<GeneRocketComponent>();
-        rocketPopulationSize = 10;
+        rocketPopulationSize = 30;
         timePerGeneration = 10f;
         maxGeneValue = 100f;
-        numOfGenes = (int)(timePerGeneration * 10);
+        numOfGenes = (int)(timePerGeneration * 4);
         currentGenerationTime = 0f;
         activeGeneNumber = -1;
         generationNumber = 0;
@@ -222,13 +222,12 @@ public class GeneRocketsScreen extends AScreen {
     private void measureRocketsFitness() {
         DebugTool.log("Measuring Rocket Fitness");
         for (Entity geneRocket : rocketPopulation.values()) {
-            float distance = (float)(Math.pow((geneRocket.position.x-targetEntity.position.x), 2)
-                    + Math.pow((geneRocket.position.y-targetEntity.position.y), 2));
-            distance /= 10000;
+            float distance = geneRocket.position.dst(targetEntity.position);
+            distance /= 10;
             float fitness = (200 - distance)/10;
             CollisionComponent rocketCollision = collisionComponents.get(geneRocket.id);
             if (rocketCollision.collided && distance != 0f) {
-                fitness -= 100f;
+                fitness /= 2;
                 rocketCollision.collided = false;
             }
             if (fitness < 1)
@@ -249,7 +248,7 @@ public class GeneRocketsScreen extends AScreen {
             nextGeneration();
         }
 
-        if (currentGenerationTime * 10 >= activeGeneNumber) {
+        if (numOfGenes >= activeGeneNumber) {
             activeGeneNumber++;
             if (activeGeneNumber >= numOfGenes)
                 return;
