@@ -2,6 +2,9 @@ June 8, 2017 [ 0.0.8.06080 ]
   > Updated jar and apk will be posted on website later today
   - Updated GeneRocket's distance and fitness calculations  along with decrease the genes changes per second and increased  population size
 
+June 8, 2017 [ 0.0.8.06081 ]
+  - Removed LoadingScreen's required touch to jump to next screen
+
 June 4, 2017 [ 0.0.8.06042 ]
   - Added dynamicCollision boolean to CollisionComponent to flag if dynamic should be checked against dynamic during collision, still needs to be added to PhysicsManager
   - Unified back button (Main Menu) ClickableComponent on each screen at 50,50 with 100,100 dimensions
