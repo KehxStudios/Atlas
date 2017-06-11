@@ -58,6 +58,7 @@ public class GraphicsManager extends Manager {
     
     // TextureAtlas to load textures to and from
     private TextureAtlas textureAtlas;
+    private TextureAtlas iconAtlas;
     
     // Camera for rendering
     private CameraComponent cameraComponent;
@@ -108,7 +109,6 @@ public class GraphicsManager extends Manager {
         if (textureAtlas != null) {
             textureAtlas.dispose();
             textureAtlas = null;
-            gm.getAssetManager().unload(screenType.getAtlasPath());
         }
         DebugTool.log("GraphicsManager_removeSettings: Complete");
     }
@@ -138,7 +138,7 @@ public class GraphicsManager extends Manager {
             if (floatingText.enabled) {
                 floatingText.font.draw(batch, floatingText.layout,
                         floatingText.position.x - floatingText.layout.width / 2,
-                        floatingText.position.y - floatingText.layout.height / 2);
+                        floatingText.position.y + floatingText.layout.height / 2);
             }
         }
         batch.end();
@@ -148,6 +148,16 @@ public class GraphicsManager extends Manager {
     private void loadTextureAtlas() {
         textureAtlas = gm.getAssetManager().get(screenType.getAtlasPath());
         DebugTool.log("GraphicsManager_loadTextureAtlas: Complete");
+    }
+
+    public void loadIconAtlas() {
+        iconAtlas = gm.getAssetManager().get("atlas/icons.atlas");
+    }
+
+    public void startLoadingIconAtlas() {
+        if (!gm.getAssetManager().isLoaded("atlas/icons.atlas")) {
+            gm.getAssetManager().load("atlas/icons.atlas", TextureAtlas.class);
+        }
     }
     
     // Called to dispose of any resources
@@ -230,6 +240,10 @@ public class GraphicsManager extends Manager {
 
     // Called to get the texture from the @textureAtlas
     public TextureRegion getTexture(TextureType textureType) {
-        return textureAtlas.findRegion(textureType.getFileName());
+        TextureRegion textureRegion = textureAtlas.findRegion(textureType.getFileName());
+        if (textureRegion == null) {
+            textureRegion = iconAtlas.findRegion(textureType.getFileName());
+        }
+        return textureRegion;
     }
 }

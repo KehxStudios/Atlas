@@ -41,21 +41,19 @@ public class SettingsScreen extends AScreen {
     protected void init() {
         super.init();
 
-        Entity mainMenuLaunchEntity = buildManager.createEntity(50, height-50);
-        buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
-                buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
+        buildManager.createGraphicsComponent(screenEntity, 0, TextureType.SETTINGS_BACKGROUND);
 
-        gameSettings = gm.gameSettings;
-
-        float borderWidth = TextureType.MAIN_MENU_BORDER.getWidth();
-        float borderHeight = TextureType.MAIN_MENU_BORDER.getHeight();
+        float buttonWidth = TextureType.SETTINGS_BUTTON.getWidth();
+        float buttonHeight = TextureType.SETTINGS_BUTTON.getHeight();
 
         Entity profileEntity = buildManager.createEntity(width/2, height/2);
-        buildManager.createGraphicsComponent(profileEntity, 1, TextureType.MAIN_MENU_BORDER);
+        buildManager.createGraphicsComponent(profileEntity, 1, TextureType.SETTINGS_BUTTON);
         buildManager.createFloatingTextComponent(profileEntity, false, true, gm.player.getName(), " - " +
                 gm.player.getScore(), graphicsManager.COLOR_BLUE);
-        buildManager.createClickableComponent(profileEntity, borderWidth, borderHeight, true, false,
+        buildManager.createClickableComponent(profileEntity, buttonWidth, buttonHeight, true, false,
                 new Action());
+
+        gameSettings = gm.gameSettings;
     }
 
 

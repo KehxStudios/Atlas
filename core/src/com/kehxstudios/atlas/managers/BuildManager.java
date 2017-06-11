@@ -36,6 +36,7 @@ import com.kehxstudios.atlas.actions.EnableComponentAction;
 import com.kehxstudios.atlas.actions.FollowAction;
 import com.kehxstudios.atlas.actions.LaunchWebsiteAction;
 import com.kehxstudios.atlas.actions.ResetScreenAction;
+import com.kehxstudios.atlas.actions.SoundAction;
 import com.kehxstudios.atlas.components.CameraComponent;
 import com.kehxstudios.atlas.components.CollisionComponent;
 import com.kehxstudios.atlas.components.Component;
@@ -345,10 +346,10 @@ public class BuildManager extends Manager {
         return highScoreReset;
     }
     
-    public MultiAction createMultiAction() {
+    public MultiAction createMultiAction(ArrayList<Action> actions) {
         MultiAction multi = new MultiAction();
         multi.type = ActionType.MULTI;
-        // Add array or hashmap
+        multi.actions = actions;
         return multi;
     }
     
@@ -358,6 +359,14 @@ public class BuildManager extends Manager {
         physics.triggerValue = triggerValue;
         physics.physicsComponent = physicsComponent;
         return physics;
+    }
+
+    public SoundAction createSoundAction(SoundComponent soundComponent) {
+        SoundAction sound = new SoundAction();
+        sound.type = ActionType.SOUND;
+        sound.soundManager = soundManager;
+        sound.soundComponent = soundComponent;
+        return sound;
     }
     
     public RepositionAction createRepositionAction(int entityId, Vector2 triggerValue, boolean teleport) {

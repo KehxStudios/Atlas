@@ -19,6 +19,7 @@
 
 package com.kehxstudios.atlas.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -65,6 +66,7 @@ public class GeneRocketsScreen extends AScreen {
     private ArrayList<Integer> geneMatingPool;
 
     private FloatingTextComponent currentGenerationFloatingText;
+    private FloatingTextComponent currentGenerationTimeFloatingText;
 
     private Random random = new Random();
 
@@ -83,10 +85,6 @@ public class GeneRocketsScreen extends AScreen {
 
     protected void init() {
         super.init();
-
-        Entity mainMenuLaunchEntity = buildManager.createEntity(50, height-50);
-        buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
-                buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
 
         geneMatingPool = new ArrayList<Integer>();
 
@@ -109,6 +107,12 @@ public class GeneRocketsScreen extends AScreen {
         Entity floatingTextEntity = buildManager.createEntity(width/2, height - 50);
         currentGenerationFloatingText = buildManager.createFloatingTextComponent(floatingTextEntity,
                 true, true, "Current Generation: ", generationNumber+"", graphicsManager.COLOR_BLUE);
+
+        Entity floatingTextTimeEntity = buildManager.createEntity(width/2, height-100);
+        currentGenerationTimeFloatingText = buildManager.createFloatingTextComponent(floatingTextTimeEntity,
+                true, true, "Generation Time: ", String.format(java.util.Locale.US,"%.1f",
+                        currentGenerationTime) + " / " + timePerGeneration,
+                graphicsManager.COLOR_BLUE);
 
         generateRandomRockets();
     }
@@ -248,7 +252,7 @@ public class GeneRocketsScreen extends AScreen {
             nextGeneration();
         }
 
-        if (numOfGenes >= activeGeneNumber) {
+        if (currentGenerationTime*4 >= activeGeneNumber) {
             activeGeneNumber++;
             if (activeGeneNumber >= numOfGenes)
                 return;
@@ -256,6 +260,13 @@ public class GeneRocketsScreen extends AScreen {
                 physics.velocity.set(geneRocketComponents.get(physics.entityId).genes.get(activeGeneNumber));
             }
         }
+
+        currentGenerationTimeFloatingText.text = String.format(java.util.Locale.US,"%.1f",
+                currentGenerationTime) + " / " + timePerGeneration;
+
+        currentGenerationTimeFloatingText.layout.setText(currentGenerationTimeFloatingText.font,
+                currentGenerationTimeFloatingText.label + currentGenerationTimeFloatingText.text,
+                currentGenerationTimeFloatingText.color, 0, Align.left, true);
     }
 
     public void dispose() {

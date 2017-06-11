@@ -22,6 +22,7 @@ package com.kehxstudios.atlas.screens;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Vector2;
 import com.kehxstudios.atlas.components.CameraComponent;
+import com.kehxstudios.atlas.components.GraphicsComponent;
 import com.kehxstudios.atlas.components.MusicComponent;
 import com.kehxstudios.atlas.managers.EntityManager;
 import com.kehxstudios.atlas.managers.GraphicsManager;
@@ -37,6 +38,7 @@ import com.kehxstudios.atlas.type.MusicType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.managers.GameManager;
 import com.kehxstudios.atlas.type.ScreenType;
+import com.kehxstudios.atlas.type.TextureType;
 
 /**
  * Abstract class used by all Screens
@@ -90,6 +92,13 @@ public abstract class AScreen implements Screen {
         screenMusic = buildManager.createMusicComponent(screenEntity, MusicType.
                 getTypeById(type.getMusicId()), 0.4f);
         screenMusic.music.play();
+
+        if (type != ScreenType.INTRO && type != ScreenType.MAIN_MENU && type != ScreenType.LOADING) {
+            Entity backEntity = buildManager.createEntity(64, height-64);
+            buildManager.createGraphicsComponent(backEntity, 3, TextureType.ICONS_BACK);
+            buildManager.createClickableComponent(backEntity, 128, 128, true, false,
+                    buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
+        }
     }
 
     public void reset() {

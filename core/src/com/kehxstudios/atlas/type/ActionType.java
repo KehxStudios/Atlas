@@ -32,6 +32,7 @@ import com.kehxstudios.atlas.actions.PhysicsAction;
 import com.kehxstudios.atlas.actions.RepositionAction;
 import com.kehxstudios.atlas.actions.ResetScreenAction;
 import com.kehxstudios.atlas.actions.ScoreAction;
+import com.kehxstudios.atlas.actions.SoundAction;
 
 import java.util.HashMap;
 
@@ -52,6 +53,7 @@ public enum ActionType {
     PHYSICS("Physics", PhysicsAction.class),
     REPOSITION("Reposition", RepositionAction.class),
     SCORE("Score", ScoreAction.class),
+    SOUND("Sound", SoundAction.class),
     RESET_SCREEN("Reset Screen", ResetScreenAction.class),
     VOID("Void", Action.class);
 

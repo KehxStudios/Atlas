@@ -33,6 +33,7 @@ import com.kehxstudios.atlas.managers.GraphicsManager;
 import com.kehxstudios.atlas.tools.DebugTool;
 import com.kehxstudios.atlas.tools.ErrorTool;
 import com.kehxstudios.atlas.type.ScreenType;
+import com.kehxstudios.atlas.type.TextureType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -77,56 +78,62 @@ public class DeviceInformationScreen extends AScreen {
 
     protected void init() {
         super.init();
-        Entity mainMenuLaunchEntity = buildManager.createEntity(50, height-50);
-        buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
-                buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
 
-        Entity orientationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 160);
-        orientationFloatingText = buildManager.createFloatingTextComponent(orientationEntity, false, true,
+        Entity orientationEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 320);
+        orientationFloatingText = buildManager.createFloatingTextComponent(orientationEntity, true, true,
                 "Orientation: ", "", graphicsManager.COLOR_BLUE);
-        Entity resolutionEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 140);
-        resolutionFloatingText = buildManager.createFloatingTextComponent(resolutionEntity, false, true,
+        Entity resolutionEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 280);
+        resolutionFloatingText = buildManager.createFloatingTextComponent(resolutionEntity, true, true,
                 "Resolution: ", "", graphicsManager.COLOR_BLUE);
 
-        Entity azmuthEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 100);
-        azmuthFloatingText = buildManager.createFloatingTextComponent(azmuthEntity, false, true,
+        Entity azmuthEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 200);
+        azmuthFloatingText = buildManager.createFloatingTextComponent(azmuthEntity, true, true,
                 "Azmuth: ", "", graphicsManager.COLOR_BLUE);
-        Entity pitchEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 80);
-        pitchFloatingText = buildManager.createFloatingTextComponent(pitchEntity, false, true,
+        Entity pitchEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 160);
+        pitchFloatingText = buildManager.createFloatingTextComponent(pitchEntity, true, true,
                 "Pitch: ", "", graphicsManager.COLOR_BLUE);
-        Entity rollEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 60);
-        rollFloatingText = buildManager.createFloatingTextComponent(rollEntity, false, true,
+        Entity rollEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 120);
+        rollFloatingText = buildManager.createFloatingTextComponent(rollEntity, true, true,
                 "Roll: ", "", graphicsManager.COLOR_BLUE);
 
-        Entity accelerometerXEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 20);
-        accelerometerXFloatingText = buildManager.createFloatingTextComponent(accelerometerXEntity, false, true,
+        Entity accelerometerXEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y + 40);
+        accelerometerXFloatingText = buildManager.createFloatingTextComponent(accelerometerXEntity, true, true,
                 "Accelerometer X: ", "", graphicsManager.COLOR_BLUE);
         Entity accelerationYEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y);
-        accelerometerYFloatingText = buildManager.createFloatingTextComponent(accelerationYEntity, false, true,
+        accelerometerYFloatingText = buildManager.createFloatingTextComponent(accelerationYEntity, true, true,
                 "Accelerometer Y: ", "", graphicsManager.COLOR_BLUE);
-        Entity accelerationZEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 20);
-        accelerometerZFloatingText = buildManager.createFloatingTextComponent(accelerationZEntity, false, true,
+        Entity accelerationZEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 40);
+        accelerometerZFloatingText = buildManager.createFloatingTextComponent(accelerationZEntity, true, true,
                 "Accelerometer Z: ", "", graphicsManager.COLOR_BLUE);
 
-        Entity gyroscopeXEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 60);
-        gyroscopeXFloatingText = buildManager.createFloatingTextComponent(gyroscopeXEntity, false, true,
+        Entity gyroscopeXEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 120);
+        gyroscopeXFloatingText = buildManager.createFloatingTextComponent(gyroscopeXEntity, true, true,
                 "Gyroscope X: ", "", graphicsManager.COLOR_BLUE);
-        Entity gyroscopeYEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 80);
-        gyroscopeYFloatingText  = buildManager.createFloatingTextComponent(gyroscopeYEntity, false, true,
+        Entity gyroscopeYEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 160);
+        gyroscopeYFloatingText  = buildManager.createFloatingTextComponent(gyroscopeYEntity, true, true,
                 "Gyroscope Y: ", "", graphicsManager.COLOR_BLUE);
-        Entity gyroscopeZEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 100);
-        gyroscopeZFloatingText  = buildManager.createFloatingTextComponent(gyroscopeZEntity, false, true,
+        Entity gyroscopeZEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 200);
+        gyroscopeZFloatingText  = buildManager.createFloatingTextComponent(gyroscopeZEntity, true, true,
                 "Gyroscope Z: ", "", graphicsManager.COLOR_BLUE);
 
-        Entity networkIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 140);
-        networkIPFloatingText = buildManager.createFloatingTextComponent(networkIPEntity, false, true,
+        Entity networkIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 280);
+        networkIPFloatingText = buildManager.createFloatingTextComponent(networkIPEntity, true, true,
                 "Network IP: ", "", graphicsManager.COLOR_BLUE);
-        Entity externalIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 160);
-        externalIPFloatingText = buildManager.createFloatingTextComponent(externalIPEntity, false, true,
+        Entity externalIPEntity = buildManager.createEntity(screenEntity.position.x, screenEntity.position.y - 320);
+        externalIPFloatingText = buildManager.createFloatingTextComponent(externalIPEntity, true, true,
                 "External IP: ", "", graphicsManager.COLOR_BLUE);
 
+        Entity platformEntity = buildManager.createEntity(width/2, height - 128);
+        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+            buildManager.createGraphicsComponent(platformEntity, 1, TextureType.PLATFORM_WINDOWS_COMPUTER);
+        } else if (Gdx.app.getType() == Application.ApplicationType.Android) {
+            buildManager.createGraphicsComponent(platformEntity, 1, TextureType.PLATFORM_ANDROID_PHONE);
+        } else if (Gdx.app.getType() == Application.ApplicationType.iOS) {
+            buildManager.createGraphicsComponent(platformEntity, 1, TextureType.PLATFORM_APPLE_PHONE);
+        }
+
         networkTick = 29.3f;
-        sensorTick = 0f;
+        sensorTick = .3f;
         displayUpdate();
     }
 
@@ -201,9 +208,6 @@ public class DeviceInformationScreen extends AScreen {
         if (networkTick > 30f) {
             networkUpdate();
             networkTick = 0;
-            if (Gdx.app.getType() == Application.ApplicationType.Android) {
-                ErrorTool.log(gm.getGpsTracker().getLocation());
-            }
         }
     }
 

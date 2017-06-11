@@ -52,8 +52,8 @@ public class PongScreen extends AScreen {
     protected void init() {
         super.init();
 
-        paddleWidth = TextureType.PONG_PADDLE.getWidth();
-        paddleHeight = TextureType.PONG_PADDLE.getHeight();
+        paddleWidth = TextureType.PONG_PADDLE_BLUE.getWidth();
+        paddleHeight = TextureType.PONG_PADDLE_BLUE.getHeight();
 
         ballWidth = TextureType.PONG_BALL.getWidth();
         ballHeight = TextureType.PONG_BALL.getHeight();
@@ -64,17 +64,13 @@ public class PongScreen extends AScreen {
         bottomPlayerScore = 0;
         topPlayerScore = 0;
 
-        Entity mainMenuLaunchEntity = buildManager.createEntity(50, height-50);
-        buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
-                buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
-        
         bottomPlayerEntity = buildManager.createEntity(width/2, paddleHeight);
-        buildManager.createGraphicsComponent(bottomPlayerEntity, 1, TextureType.PONG_PADDLE);
+        buildManager.createGraphicsComponent(bottomPlayerEntity, 1, TextureType.PONG_PADDLE_RED);
         bottomPlayerPhysics = buildManager.createPhysicsComponent(bottomPlayerEntity, new Vector2(paddleSpeed, 0),
                                                                 new Vector2(paddleSpeed, 0));
                                                                 
         topPlayerEntity = buildManager.createEntity(width/2, height-paddleHeight);
-        buildManager.createGraphicsComponent(topPlayerEntity, 1, TextureType.PONG_PADDLE);
+        buildManager.createGraphicsComponent(topPlayerEntity, 1, TextureType.PONG_PADDLE_BLUE);
         bottomPlayerPhysics = buildManager.createPhysicsComponent(topPlayerEntity, new Vector2(paddleSpeed, 0),
                                                                 new Vector2(paddleSpeed, 0));
                                                                 

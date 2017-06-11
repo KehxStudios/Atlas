@@ -58,6 +58,8 @@ public class LoadingScreen extends AScreen {
     private boolean loadingMusic;
     private Music music;
 
+    private boolean initialLoad;
+
     public LoadingScreen() {
         super(ScreenType.LOADING);
         loadingType = ScreenType.VOID;
@@ -71,6 +73,10 @@ public class LoadingScreen extends AScreen {
 
         loadingMusic = gm.gameSettings.loadingMusic;
         music = null;
+
+        graphicsManager.startLoadingIconAtlas();
+
+        initialLoad = true;
     }
 
     private void createLoadingHexagonSprite() {
@@ -93,9 +99,12 @@ public class LoadingScreen extends AScreen {
     public void render(float delta) {
         if (gm.getAssetManager().update()) {
             if (loadingMusic && music != null) {
-                ErrorTool.log("LoadingScreenError");
                 music.stop();
                 music.dispose();
+            }
+            if (initialLoad) {
+                graphicsManager.loadIconAtlas();
+                initialLoad = false;
             }
             screenManager.finishedLoadingScreen();
             return;
@@ -122,6 +131,8 @@ public class LoadingScreen extends AScreen {
     }
 
     public void startLoadingScreen(ScreenType type) {
+        if (loadingType != ScreenType.VOID)
+            gm.getAssetManager().unload(loadingType.getAtlasPath());
         loadingType = type;
         if (!gm.getAssetManager().isLoaded(loadingType.getAtlasPath())) {
             gm.getAssetManager().load(loadingType.getAtlasPath(), TextureAtlas.class);

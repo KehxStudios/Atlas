@@ -1,110 +1,83 @@
 
 platforms.png
-size: 2048,2048
+size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 android
   rotate: false
-  xy: 2, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 0, 128
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1
 android_phone
   rotate: false
-  xy: 2, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 0, 0
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1
 apple
   rotate: false
-  xy: 516, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 128, 128
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1
 apple_computer
   rotate: false
-  xy: 2, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 128, 0
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1
 apple_phone
   rotate: false
-  xy: 516, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 256, 128
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1
-chrome
+desktop
   rotate: false
-  xy: 1030, 1030
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-explorer
-  rotate: false
-  xy: 516, 2
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-firefox
-  rotate: false
-  xy: 1030, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 256, 0
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1
 linux
   rotate: false
-  xy: 1030, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 384, 128
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1
-
-platforms2.png
-size: 2048,2048
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
 linux_computer
   rotate: false
-  xy: 2, 1030
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-safari
-  rotate: false
-  xy: 2, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 384, 0
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1
 windows
   rotate: false
-  xy: 516, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 512, 128
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1
 windows_computer
   rotate: false
-  xy: 2, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 512, 0
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1
 windows_phone
   rotate: false
-  xy: 516, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 640, 128
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1

@@ -27,9 +27,11 @@ import com.badlogic.gdx.utils.Align;
 import com.kehxstudios.atlas.actions.Action;
 import com.kehxstudios.atlas.components.FloatingTextComponent;
 import com.kehxstudios.atlas.components.PhysicsComponent;
+import com.kehxstudios.atlas.components.SoundComponent;
 import com.kehxstudios.atlas.data.HighScores;
 import com.kehxstudios.atlas.managers.BuildManager;
 import com.kehxstudios.atlas.tools.DebugTool;
+import com.kehxstudios.atlas.type.SoundType;
 import com.kehxstudios.atlas.type.TextureType;
 import com.kehxstudios.atlas.entities.Entity;
 import com.kehxstudios.atlas.type.ScreenType;
@@ -85,10 +87,6 @@ public class FlappyBirdScreen extends AScreen {
     protected void init() {
         super.init();
 
-        Entity mainMenuLaunchEntity = buildManager.createEntity(50, height-50);
-        buildManager.createClickableComponent(mainMenuLaunchEntity, 100, 100, true, false,
-                buildManager.createLaunchScreenAction(ScreenType.MAIN_MENU));
-
         batStartX = width/4;
         batCurrentX = batStartX;
 
@@ -107,8 +105,12 @@ public class FlappyBirdScreen extends AScreen {
         batPhysics = buildManager.createPhysicsComponent(batEntity, new Vector2(100, 300), new Vector2(100,300));
         buildManager.createCollisionComponent(batEntity, batWidth, batHeight, false, false, false,
                 buildManager.createResetScreenAction());
+        SoundComponent soundComponent = buildManager.createSoundComponent(batEntity, SoundType.SWING, 0.5f);
+        ArrayList<Action> actions = new ArrayList<Action>();
+        actions.add(buildManager.createPhysicsAction(batPhysics, new Vector2(0, BAT_Y_JUMP)));
+        actions.add(buildManager.createSoundAction(soundComponent));
         buildManager.createClickableComponent(screenEntity, width, height, false, false,
-                buildManager.createPhysicsAction(batPhysics, new Vector2(0, BAT_Y_JUMP)));
+                buildManager.createMultiAction(actions));
 
         float groundWidth = TextureType.FLAPPY_BIRD_GROUND.getWidth();
         float groundHeight = TextureType.FLAPPY_BIRD_GROUND.getHeight();
@@ -151,17 +153,17 @@ public class FlappyBirdScreen extends AScreen {
         backgroundEntities.add(backgroundEntity2);
         */
 
-        Entity scoreEntity = buildManager.createEntity(0, 54);
+        Entity scoreEntity = buildManager.createEntity(0, 68);
         scoreText = buildManager.createFloatingTextComponent(scoreEntity, false, true, "Score: ", "",Color.BLACK);
 
-        Entity lowScoreEntity = buildManager.createEntity(0, 36);
+        Entity lowScoreEntity = buildManager.createEntity(0, 40);
         lowScoreText = buildManager.createFloatingTextComponent(lowScoreEntity, false, true, "Low-Score: ", "", Color.BLACK);
         lowScore = highScores.getLowScore();
         lowScoreText.text = lowScore+"";
         lowScoreText.layout.setText(lowScoreText.font, lowScoreText.label + lowScoreText.text,
                 Color.BLACK, 0, Align.left, true);
 
-        Entity highScoreEntity = buildManager.createEntity(0, 18);
+        Entity highScoreEntity = buildManager.createEntity(0, 12);
         highScoreText = buildManager.createFloatingTextComponent(highScoreEntity, false, true, "High-Score: ", "", Color.BLACK);
         highScore = highScores.getHighScore();
         highScoreText.text = highScore+"";

@@ -1,3 +1,24 @@
+June 10, 2017 [ 0.0.8.06100 ]
+  > Busy next week expanding knowledge of different programming languages along with advanced tutorials
+  > May start second repository filled with completed tutorials built for Android only
+  > New version 0.0.8 is now live on KehxStudios.com, Pong / GeneRockets still under construction
+  - Removed HTML module
+  - Moved the clickable to return to MainMenu inside AScreen, disabled on selected screens
+  - Increased DeviceInformationScreen size, resized text and location
+  - Added platform image to DeviceInformationScreen
+  - Added TextureAtlas for icons, loading added in GraphicsManager, triggered by first load in LoadingScreen
+  - Removed GPSTracker along with references in Launchers
+  - Created SoundAction to trigger the SoundComponent, created constructor in BuildManager
+  - Edited MultiAction constructor in BuildManager
+  - Added Swing sound to FlappyBirdScreen clickable action using MultiAction
+  - Changed border image in MainMenuScreen to new button image and updated layout
+  - Changed SettingsScreen to use MainMenuScreen atlas for now
+  - Moved unloading of assets inside LoadingScreen
+  - Updated screen size for all AScreens to 1280x720 with the exception of FlappyBirdScreen
+  - Corrected GeneRocketsScreen timing of changing genes
+  - Added currentGenerationTime as FloatingTextComponent on GeneRocketsScreen
+
+
 June 8, 2017 [ 0.0.8.06080 ]
   > Updated jar and apk will be posted on website later today
   - Updated GeneRocket's distance and fitness calculations  along with decrease the genes changes per second and increased  population size
